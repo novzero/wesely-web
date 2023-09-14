@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import com.wesely.service.MemberService;
+import com.wesely.vo.CommVO;
 import com.wesely.vo.MemberVO;
 
 @Controller
@@ -168,12 +169,12 @@ public class MemberController {
 	public String updatePasswordOk() {
 		return "/member/updatePasswordOk";
 	}
-	
+
 	// 회원약관 동의 폼
-		@GetMapping(value = "/agreement")
-		public String agreement() {
-			return "/member/agreement";
-		}
+	@GetMapping(value = "/agreement")
+	public String agreement() {
+		return "/member/agreement";
+	}
 
 	@Autowired
 	private JavaMailSender javaMailSender;
@@ -203,6 +204,13 @@ public class MemberController {
 
 		model.addAttribute("vo", dbVO);
 		return "/member/viewPassword";
+	}
+
+	// 커뮤니티 목록보기
+	@RequestMapping(value = { "/", "/list" })
+	public String getList(@ModelAttribute CommVO cv, Model model) {
+
+		return "comm/community";
 	}
 
 }
