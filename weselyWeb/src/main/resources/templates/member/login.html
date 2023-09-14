@@ -25,10 +25,6 @@
 			margin-top: 50px;
 		}
 
-		.userid {
-			background-image: url("/src/main/resources/static/images/id_icon.png");
-		}
-
 		#loginform label {
 			display: block;
 			font-size: 12px;
@@ -132,16 +128,16 @@
 			<div id="inputform">
 				<div>
 					<label for="userid">아이디</label>
-					<input type="text" class="userid" name="userid" th:value="${userid}" />
+					<input type="text" id="userid" name="userid" th:value="${userid}" required tabindex="1"/>
 				</div>
 				<div>
 					<label for="password">비밀번호</label>
-					<input type="password" class="password" name="password" />
+					<input type="password" id="password" name="password" required tabindex="2"/>
 				</div>
 				<div>
 					<a href="/member/findUserId">아이디를 잊으셨나요?</a><br />
 					<a href="/member/findPassword">비밀번호를 잊으셨나요?</a>
-					<button type="submit" value="로그인" class="loginBtn">로그인</button> <br />
+					<input type="submit" value="로그인" class="loginBtn" tabindex="3"/>
 				</div>
 			</div>
 

@@ -69,12 +69,6 @@
 			padding: 5px;
 		}
 
-		#joinform i {
-			position: absolute;
-			left: 75%;
-			top: 27px;
-			color: orange;
-		}
 	</style>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
@@ -155,8 +149,8 @@
 		$(function () {
 
 			// 문서를 모두 읽은 다음에 실행되라
-			$("#password1").keyup(function () {
-				var pw = $("#password1").val();
+			$("#password").keyup(function () {
+				var pw = $("#password").val();
 				if (pw != null && pw.length >= 6) {
 					var reg = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 					if (!reg.test(pw)) {
@@ -169,11 +163,11 @@
 				}
 			});
 
-			$("#password2").keyup(function () {
-				var pw = $("#password1").val();
-				var pw2 = $("#password2").val();
-				if (pw2 != null && pw2.length >= 6) {
-					if (pw2 != pw) {
+			$("#password1").keyup(function () {
+				var pw = $("#password").val();
+				var pw1 = $("#password1").val();
+				if (pw1 != null && pw1.length >= 6) {
+					if (pw1 != pw) {
 						$("#message2").css('color', 'red').html("비밀번호가 일치하지 않습니다.");
 					} else {
 						$("#message2").css('color', 'green').html("비밀번호가 일치합니다.");
@@ -310,14 +304,14 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="password1">비밀번호<span id="message1" style="float: right;"></span></label>
-						<input type="password" id="password1" name="password1" required />
+						<label for="password">비밀번호<span id="message1" style="float: right;"></span></label>
+						<input type="password" id="password" name="password" required />
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<label for="password2">비밀번호확인<span id="message2" style="float: right;"></label>
-						<input type="password" id="password2" name="password2" required />
+						<label for="password1">비밀번호확인<span id="message2" style="float: right;"></label>
+						<input type="password" id="password1" name="password1" required />
 					</td>
 				</tr>
 				<tr>
