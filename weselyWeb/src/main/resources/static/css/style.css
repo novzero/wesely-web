@@ -1,0 +1,111 @@
+a:link {
+	text-decoration: none;
+	color: black;
+}
+
+a:active {
+	text-decoration: none;
+	color: green;
+}
+
+a:hover {
+	text-decoration: none;
+	color: #4D54A5;
+	font-weight: bold;
+}
+
+a:visited {
+	text-decoration: none;
+	color: black;
+}
+
+
+/* nav 바 css */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  width: 100%;
+}
+
+.header {
+  width: 100%;
+  height: 60px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 30px;
+  border-bottom: 1px solid #cdcdcd;
+}
+
+.logo {
+  width: 100px;
+  height: fit-content;
+  margin-right: auto;
+
+  cursor: pointer;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+}
+
+.bar {
+  font-size: 15px;
+  padding: 15px;
+}
+
+.bar a {
+  margin-right: 20px;
+  text-decoration: none;
+
+  color: #494b7c;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: fit-content;
+  height: 20%;
+
+  border-radius: 20px;
+  background-color: #ececec;
+  padding: 16px;
+}
+
+.login a {
+  /* 가상요소 쓰기 위한 포지션설정 */
+  position: relative;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: 800;
+  color: #959595;
+  font-size: 16px;
+}
+
+.login a::after {
+  position: absolute;
+  content: "|";
+  font-weight: 800;
+  padding-left: 8px;
+}
+/* 로그인 nav의 a태그의 마지막요소에 마진적용제거 */
+.login a:first-child {
+  margin-left: 0;
+}
+/* 가상요소after의 마지막요소 없애기 */
+.login a:last-child::after {
+  content: none;
+  padding: 0;
+}
