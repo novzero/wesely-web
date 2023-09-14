@@ -21,7 +21,7 @@ public class CommunityServiceImpl implements CommunityDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
-//
+
 	@Override
 	public List<CommunityVO> selectList(HashMap<String, Integer> map) {
 		// TODO Auto-generated method stub
