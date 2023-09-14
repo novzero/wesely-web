@@ -1,5 +1,5 @@
 // 미세먼지 
-$.getJSON('http://api.openweathermap.org/data/2.5/air_pollution?lat=36.3504&lon=127.3845&appid=aa1d55a2e7e667baebd92b3946d66932&units=metric', function (mi) {
+$.getJSON('http://api.openweathermap.org/data/2.5/air_pollution?lat=35.8695&lon=128.6061&appid=aa1d55a2e7e667baebd92b3946d66932&units=metric', function (mi) {
   let pm10 = mi.list[0].components.pm10;
 
   let great = '../images/great.png';
@@ -29,12 +29,14 @@ $.getJSON('http://api.openweathermap.org/data/2.5/air_pollution?lat=36.3504&lon=
 });
 // 날씨
 $.getJSON(
-  "https://api.openweathermap.org/data/2.5/weather?lat=36.3504&lon=127.3845&appid=aa1d55a2e7e667baebd92b3946d66932&units=metric",
+  "https://api.openweathermap.org/data/2.5/weather?lat=35.8695&lon=128.6061&appid=aa1d55a2e7e667baebd92b3946d66932&units=metric",
   function (result) {
     let temp = Math.round(result.main.temp);
     let weather = result.weather[0].main;
     let weather1 = result.weather[0].description;
-    $(".wt").append(temp);
+    $(".wt").text(temp);
+
+    currentTemp = temp;
 
     // 비오는날
     //Drizzle = 이슬비 , Thunderstorm = 뇌우
@@ -105,7 +107,7 @@ $.getJSON(
       document.querySelector('.window img').animate(keyFrames, options);
 
       //화창한날
-    } else if (weather === Clear) {
+    } else if (weather === "Clear") {
       $('.inAct img').attr('src', '/images/teni.png');
       $('.inAct').append('<img class="ball" src="/images/ball.png">');
       $('.window').attr('style', 'display: none;');
@@ -137,6 +139,47 @@ $.getJSON(
       }
       document.querySelector('.window img').animate(keyFrames, options);
     }
+    
+    function formatDate(date) {
+      let d = new Date(date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
+
+      if (month.length < 2) 
+          month = '0' + month;
+      if (day.length < 2) 
+          day = '0' + day;
+
+      return [year, month, day].join('-');
+   }
+
+   let now = new Date();
+   now.setDate(now.getDate() - 1); // 하루 전으로 시간을 설정
+
+   let yesterdayStr = formatDate(now);
+
+   let locationName = "Daejeon"; // 원하는 위치명 입력
+   let apiKey ="2399NSNUHN9TFXYSWNKYFCAWG"; // 발급받은 API 키 입력
+
+     // 어제의 온도 가져오기
+     fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${locationName}/${yesterdayStr}?key=${apiKey}&include=obs`)
+       .then(response => response.json())
+       .then(data => {
+         yesterdayTemp = Math.round((data.days[0].temp - 32) * 5 / 9); // 화씨에서 섭씨로 변환
+         let diff = currentTemp - yesterdayTemp; // 현재온도와 어제온도 차이 계산
+
+         if(currentTemp >yesterdayTemp){
+           document.querySelector('.YesWeather').innerHTML =
+             "어제 평균온도보다"+ diff +"°C 높아요";
+         } else if(currentTemp <yesterdayTemp){
+           document.querySelector('.YesWeather').innerHTML =
+             "어제 평균온도보다 "+ Math.abs(diff) +"°C 낮아요";
+         };
+         
+       })
+       .catch(error => console.error('Error:', error));
+
   });
 
 

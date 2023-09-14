@@ -73,36 +73,15 @@
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 
-		$(function checkEmail() {
+		$(function () {
 			// 이메일 중복확인
 			// keyup 이벤트 지정
-			$("#userid").keyup(function checkEmail() {
-				// 현재 값 읽기
-				let value = $(this).val();
-				// 입력한 이메일이 4글자 이상일때 중복처리
-				if (value != null && value.length >= 4) {
-					// Ajax로 아이디 중복을 호출하여 처리를 한다.
-					axios.get('/api/count/' + value)
-						.then(function (response) {
-							// 성공 핸들링
-							console.log(JSON.stringify(response));
-							// alert("성공 : " + response.data)
-							if (response.data == 0) {
-								$("#message").css('color', 'blue').html('사용가능한 아이디 입니다.');
-							} else {
-								$("#message").css('color', 'red').html('사용 불가능한 아이디 입니다.');
-							}
-						})
-						.catch(function (error) {
-							// 에러 핸들링
-							console.log(error);
-							alert("에러발생 : " + error)
-						})
-						.finally(function () {
-							// 항상 실행되는 영역
-						});
-				} else {
-					$("#message").css('color', 'black').html(""); // 4자 미만이면 메세지 삭제
+			$("#email").keyup(function() {
+				let email = $(this).val();
+				if(email != null && email.length >=3){
+					
+				}else{
+					$("emailmsg").html("");
 				}
 			});
 
@@ -281,7 +260,7 @@
 				<tr>
 					<td>
 						<label for="username">이름</label>
-						<input type="text" id="username" name="username" required />
+						<input type="text" id="username" name="username" required/>
 					</td>
 				</tr>
 				<tr>
@@ -292,8 +271,8 @@
 				</tr>
 				<tr>
 					<td>
-						<label for="email">이메일</label>
-						<input type="email" id="email" name="email" required size="40" />
+						<label for="email">이메일<span id="emailmsg" style="float: right;"></span></label>
+						<input type="text" id="email" name="email" size="40" required/>
 					</td>
 				</tr>
 				<tr>
@@ -305,13 +284,13 @@
 				<tr>
 					<td>
 						<label for="password">비밀번호<span id="message1" style="float: right;"></span></label>
-						<input type="password" id="password" name="password" required />
+						<input type="password" id="password" name="password" required/>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<label for="password1">비밀번호확인<span id="message2" style="float: right;"></label>
-						<input type="password" id="password1" name="password1" required />
+						<input type="password" id="password1" name="password1" required/>
 					</td>
 				</tr>
 				<tr>
