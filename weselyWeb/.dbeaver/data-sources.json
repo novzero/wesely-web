@@ -43,6 +43,26 @@
 					"oracle.logon-as": "sysdba"
 				}
 			}
+		},
+		"oracle_thin-18a966500ac-5c62654bb45b60f0": {
+			"provider": "oracle",
+			"driver": "oracle_thin",
+			"name": "localhost(bootuser)",
+			"save-password": true,
+			"configuration": {
+				"host": "localhost",
+				"port": "1521",
+				"database": "XE",
+				"url": "jdbc:oracle:thin:@//localhost:1521/XE",
+				"configurationType": "MANUAL",
+				"home": "C:\\oraclexe\\app\\oracle\\product\\11.2.0\\server",
+				"type": "dev",
+				"provider-properties": {
+					"@dbeaver-connection-type@": "BASIC",
+					"@dbeaver-sid-service@": "SERVICE"
+				},
+				"auth-model": "oracle_native"
+			}
 		}
 	},
 	"connection-types": {

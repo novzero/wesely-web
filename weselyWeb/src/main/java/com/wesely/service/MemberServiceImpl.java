@@ -1,183 +1,94 @@
-package com.wesely.service;
-
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wesely.dao.MemberDAO;
 import com.wesely.vo.MemberVO;
+
 import lombok.extern.slf4j.Slf4j;
 
-@Service("memberService")
 @Slf4j
+@Transactional
+@Service("memberService")
 public class MemberServiceImpl implements MemberService{
+	
 	@Autowired
-	private MemberDAO memberDAO;
-
+	MemberDAO memberDAO;
+	
+	@Autowired
+	MailService mailService;
+	
 	@Override
-	public MemberVO login(MemberVO vo) {
-		log.info("login({}) 호출", vo);
-		MemberVO memberVO = null;
-		try {
-			// 1. 넘어온 아니디가 존재하는지 판단
-			MemberVO mvo = memberDAO.selectByUserId(vo.getUserid());
-			if(mvo!=null) { // 지정 아이디의 회원이 있다면
-				if(mvo.getPassword().equals(vo.getPassword())) {
-					memberVO = mvo;
-				}else {
-					// 아이디는 있는데 비번이 틀리다.
-				}
-			}else {
-				// 아이디가 없다
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		log.info("login({}) 리턴", vo, memberVO);
-		return memberVO;
-	}
-
-	@Override
-	public int getByUserIdCount(String userid) {
-		log.info("getByUserIdCount({}) 호출", userid);
-		int count = 0;
-		try {
-			count = memberDAO.selectByUserIdCount(userid);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		log.info("getByUserIdCount({}) 리턴 : {}", userid, count);
-		return count;
-	}
-
-	@Override
-	public MemberVO getById(int id) {
-		log.info("getById({}) 호출", id);
-		MemberVO memberVO = null;
+	public void insert(MemberVO memberVO) {
+		log.info("{}의 insert호출 : {}", this.getClass().getName(), memberVO);
 		
-		try {
-			memberVO = memberDAO.selectById(id);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		log.info("getById({}) 리턴 : {}", id, memberVO);
-		return memberVO;
 	}
 
 	@Override
-	public MemberVO getByUserId(String userid) {
-		log.info("getByUserId({}) 호출", userid);
-		MemberVO memberVO = null;
+	public void update(MemberVO memberVO) {
+		log.info("{}의 update호출 : {}", this.getClass().getName(), memberVO);
 		
-		try {
-			memberVO = memberDAO.selectByUserId(userid);
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		log.info("getByUserId({}) 리턴 : {}", userid, memberVO);
-		return memberVO;
 	}
 
 	@Override
-	public List<MemberVO> getList() {
-		log.info("getList() 호출");
+	public void delete(MemberVO memberVO) {
+		log.info("{}의 delete호출 : {}", this.getClass().getName(), memberVO);
+		
+	}
+
+	@Override
+	public void login(MemberVO memberVO) {
+		log.info("{}의 login호출 : {}", this.getClass().getName(), memberVO);
+		
+	}
+
+	@Override
+	public void logout() {
+		log.info("{}의 logout호출", this.getClass().getName());
+		
+	}
+
+	@Override
+	public List<MemberVO> selectList() {
 		List<MemberVO> list = null;
+		log.info("{}의 selectList 호출", this.getClass().getName());
 		
-		try {
-			list = memberDAO.selectByList();
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		log.info("getList() 리턴 : " + list);
+		log.info("{}의 selectList 리턴 : {}", this.getClass().getName(), list);
 		return list;
 	}
 
 	@Override
-	public boolean insert(MemberVO VO) {
-		log.info("insert({}) 호출", VO);
-		boolean result = false;
+	public void emailCheck(String uuid, String userid) {
+		log.info("{}의 emailCheck 호출 : {}", this.getClass().getName(), userid + "," + uuid);
 		
-		try {
-			if(VO!=null) {
-				memberDAO.insert(VO);
-				result = true;
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		log.info("insert({}) 리턴 : {}", VO, result);
-		return result;
 	}
 
 	@Override
-	public boolean update(MemberVO VO) {
-		// TODO Auto-generated method stub
-		return false;
+	public int idCheck(String userid) {
+		log.info("{}의 idCheck 호출 : {}", this.getClass().getName(), userid);
+		int count = memberDAO.selectCountByUserid(userid);
+		log.info("{}의 idCheck 리턴 : {}", this.getClass().getName(), count);
+		return count;
 	}
 
 	@Override
-	public boolean delete(MemberVO VO) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public MemberVO findUserId(MemberVO VO) {
-		log.info("findUserId({}) 호출", VO);
-		MemberVO memberVO = null;
+	public MemberVO findPassword(MemberVO memberVO) {
+		log.info("{}의 findPassword 호출 : {}", this.getClass().getName(), memberVO);
+		MemberVO memberVO2 = null;
 		
-		try {
-			// 전화번호로 찾기
-			MemberVO dbVO = memberDAO.selectByPhone(VO.getPhone());
-			if(dbVO!=null) { // 전화번호가 있고
-				// 이름도 같으면
-				if(dbVO.getUsername().equals(VO.getUsername())) {
-					memberVO = dbVO; 
-				}
-			}
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		log.info("findUserId({}) 리턴 : {}", VO, memberVO);
-		return memberVO;
+		log.info("{}의 findPassword 리턴 : {}", this.getClass().getName(), memberVO2);
+		return memberVO2;
 	}
 
 	@Override
-	public MemberVO findPassword(MemberVO VO) {
-		log.info("findPassword({}) 호출", VO);
-		MemberVO memberVO = null;
+	public MemberVO findUserId(MemberVO memberVO) {
+		log.info("{}의 findUserId 호출 : {}", this.getClass().getName(), memberVO);
+		MemberVO memberVO2 = null;
 		
-		try {
-			// 아이디로 찾기
-			MemberVO dbVO = memberDAO.selectByUserId(VO.getUserid());
-			if(dbVO!=null) { // 아이디가 있고
-				// 이메일도 같으면
-				if(dbVO.getEmail().equals(VO.getEmail())) {
-					
-					// 임시 비밀 번호를 만들고
-					String newPassword = MakePassword.makePassword(10);
-					// DB에 비밀번호를 임시 비번으로 변경하고
-					HashMap<String, String> map = new HashMap<>();
-					map.put("userid", dbVO.getUserid());
-					map.put("password", newPassword);
-					memberDAO.updatePassword(map);
-					// 임시비밀번호를 넣어서
-					dbVO.setPassword(newPassword);
-					memberVO = dbVO; 
-				}
-			}
-			
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		log.info("findPassword({}) 리턴 : {}", VO, memberVO);
-		return memberVO;
+		log.info("{}의 findUserId 리턴 : {}", this.getClass().getName(), memberVO2);
+		return memberVO2;
 	}
-	
-	
+
 }
