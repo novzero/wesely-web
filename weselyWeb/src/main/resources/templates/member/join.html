@@ -87,57 +87,47 @@
 		});
 
 
+		// 아이디 중복확인 : Ajax로 처리
 		$(function () {
-			// 아이디 중복확인
-			// keyup 이벤트 지정
 			$("#userid").keyup(function () {
 				// 현재 값 읽기
-				let value = $(this).val();
-				// 입력한 아이디가 4글자 이상일때 중복처리
+				var value = $(this).val();
+				// 입력한 아이디가 4글자 이상일때 검사
 				if (value != null && value.length >= 4) {
-					// Ajax로 아이디 중복을 호출하여 처리를 한다.
-					axios.get('/api/count/' + value)
-						.then(function (response) {
-							// 성공 핸들링
-							console.log(JSON.stringify(response));
-							// alert("성공 : " + response.data)
-							if (response.data == 0) {
-								$("#message").css('color', 'green').html('사용가능한 아이디 입니다.');
+					$.ajax('idCheck', {
+						type: "GET",
+						data: {
+							"userid": value
+						},
+						success: function (data) {
+							if (data * 1 >= 1) {
+								$("#idMessage").html("사용이 불가능한 아이디입니다.").css('color', 'red');
 							} else {
-								$("#message").css('color', 'red').html('사용 불가능한 아이디 입니다.');
+								$("#idMessage").html("사용가능한 아이디입니다.").css('color', 'green');
 							}
-						})
-						.catch(function (error) {
-							// 에러 핸들링
-							console.log(error);
-							alert("에러발생 : " + error)
-						})
-						.finally(function () {
-							// 항상 실행되는 영역
-						});
+						},
+						error: function () {
+							alert("에러!!!");
+						}
+					});
 				} else {
-					$("#message").html(""); // 4자 미만이면 메세지 삭제
+					$("#idMessage").html(""); // 4자 미만이면 검사 생략
 				}
 			});
-
-		});
-
-
-		// 비밀번호 유효성검사
-		$(function () {
-
-			// 문서를 모두 읽은 다음에 실행되라
+			
+			
+			// 비밀번호 유효성검사
 			$("#password").keyup(function () {
 				var pw = $("#password").val();
 				if (pw != null && pw.length >= 6) {
 					var reg = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 					if (!reg.test(pw)) {
-						$("#message1").css('color', 'red').html("영문, 숫자, 특수기호를 모두 포함해야 합니다.");
+						$("#pwMessage").css('color', 'red').html("영문, 숫자, 특수기호를 모두 포함해야 합니다.");
 					} else {
-						$("#message1").css('color', 'green').html("적합한 비밀번호입니다.");
+						$("#pwMessage").css('color', 'green').html("적합한 비밀번호입니다.");
 					}
 				} else {
-					$("#message1").html(""); // 6자 미만이면 메세지 삭제
+					$("#pwMessage").html(""); // 6자 미만이면 메세지 삭제
 				}
 			});
 
@@ -146,31 +136,70 @@
 				var pw1 = $("#password1").val();
 				if (pw1 != null && pw1.length >= 6) {
 					if (pw1 != pw) {
-						$("#message2").css('color', 'red').html("비밀번호가 일치하지 않습니다.");
+						$("#pw1Message").css('color', 'red').html("비밀번호가 일치하지 않습니다.");
 					} else {
-						$("#message2").css('color', 'green').html("비밀번호가 일치합니다.");
+						$("#pw1Message").css('color', 'green').html("비밀번호가 일치합니다.");
 					}
 				} else {
-					$("#message2").html(""); // 6자 미만이면 메세지 삭제
+					$("#pw1Message").html(""); // 6자 미만이면 메세지 삭제
 				}
 			});
 			
-			$("#nickname").keyup(function(){
+			
+			// 별명 검사
+			$("#nickname").keyup(function () {
 				var nName = $("#nickname").val();
 				var reg = /^[가-힣]{2,8}$/;
-				if(!reg.test(nName)){
+				if (!reg.test(nName)) {
 					$("#message3").css('color', 'red').html("별명은 한글 2~8자로 입력해주세요.");
-				} else{
-					$("#message3").css('color', 'green').html("사용 가능한 별명입니다.");
+				} else {
+					$("#message3").css('color', 'green').html("사용가능한 별명입니다.");
 				}
 
 			});
-
 		});
+
 
 
 		// 폼체크
 		function formCheck() {
+			var value = $("#userid").val();
+			if (value == null || value.trim().length == 0) {
+				alert("아이디는 반드시 입력해야 합니다.");
+				$("#userid").val("");
+				$("#userid").focus();
+				return false;
+			}
+			
+			if (value.indexOf(" ") > 0) {
+				alert("아이디에는 공백을 포함할 수 없습니다.");
+				$("#userid").val("");
+				$("#userid").focus();
+				return false;
+			}
+			
+			if ($("#idMessage").css('color') != 'rgb(0, 0, 255)') {
+				alert('사용불가능한 아이디 입니다.');
+				$("#userid").val("");
+				$("#userid").focus();
+				return false;
+			};
+			
+			value = $("#password").val();
+			if (value == null || value.trim().length == 0) {
+				alert("비밀번호는 반드시 입력해야 합니다.");
+				$("#password").val("");
+				$("#password").focus();
+				return false;
+			}
+			value = $("#password1").val();
+			if (value == null || value.trim().length == 0) {
+				alert("비밀번호 확인 반드시 입력해야 합니다.");
+				$("#password1").val("");
+				$("#password1").focus();
+				return false;
+			}
+			
 			value = $("#username").val();
 			if (value == null || value.trim().length == 0) {
 				alert("사용자 이름은 반드시 입력해야 합니다.");
@@ -178,13 +207,7 @@
 				$("#username").focus();
 				return false;
 			}
-			value = $("#phone").val();
-			if (value == null || value.trim().length == 0) {
-				alert("전화번호는 반드시 입력해야 합니다.");
-				$("#phone").val("");
-				$("#phone").focus();
-				return false;
-			}
+			
 			value = $("#email").val();
 			if (value == null || value.trim().length == 0) {
 				alert("이메일 주소는 반드시 입력해야 합니다.");
@@ -198,33 +221,16 @@
 				$("#email").focus();
 				return false;
 			}
+			
+			value = $("#phone").val();
+			if (value == null || value.trim().length == 0) {
+				alert("전화번호는 반드시 입력해야 합니다.");
+				$("#phone").val("");
+				$("#phone").focus();
+				return false;
+			}
 
-			let value = $("#userid").val();
-			if (value == null || value.trim().length == 0) {
-				alert("아이디는 반드시 입력해야 합니다.");
-				$("#userid").val("");
-				$("#userid").focus();
-				return false;
-			}
-			if (value.indexOf(" ") > 0) {
-				alert("아이디에는 공백을 포함할 수 없습니다.");
-				$("#userid").val("");
-				$("#userid").focus();
-				return false;
-			}
-			value = $("#password").val();
-			if (value == null || value.trim().length == 0) {
-				alert("비밀번호는 반드시 입력해야 합니다.");
-				$("#password").val("");
-				$("#password").focus();
-				return false;
-			}
-			if ($("#message").css('color') != 'rgb(0, 0, 255)') {
-				alert('아이디 중복확인을 다시하세요!!!');
-				$("#userid").val("");
-				$("#userid").focus();
-				return false;
-			};
+			
 
 			return true;
 		}
@@ -243,19 +249,19 @@
 	<div class="wrapper">
 		<div class="header">
 			<div class="logo">
-				<a href="">
+				<a href="/">
 					<img src="/images/weLogo.png" alt="Logo" />
 				</a>
 			</div>
 			<nav class="bar">
-				<a href="#"><strong>운동시설검색</strong></a>
-				<a href="#1"><strong>커뮤니티</strong></a>
-				<a href="#2"><strong>고객센터</strong></a>
+				<a href="/community/"><strong>운동시설검색</strong></a>
+				<a href="/community/"><strong>커뮤니티</strong></a>
+				<a href="/community/"><strong>고객센터</strong></a>
 			</nav>
 			<nav class="login">
 				<a href="/member/login"><strong>로그인</strong></a>
-				<!-- <a href="/member/join"><strong>회원가입</strong></a> -->
-				<a href="#5"><strong>비즈니스 계정</strong></a>
+				<!--<a href="/member/join"><strong>회원가입</strong></a>-->
+				<a href="/community/"><strong>비즈니스 계정</strong></a>
 			</nav>
 		</div>
 	</div>
@@ -271,20 +277,20 @@
 
 				<tr>
 					<td>
-						<label for="userid">아이디 <span id="message" style="float: right;"></span></label>
+						<label for="userid">아이디 <span id="idMessage" style="float: right;"></span></label>
 						<input type="text" id="userid" name="userid" required />
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<label for="password">비밀번호<span id="message1" style="float: right;"></span></label>
+						<label for="password">비밀번호<span id="pwMessage" style="float: right;"></span></label>
 						<input type="password" id="password" name="password" required />
 						<i class="bi bi-eye"></i>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<label for="password1">비밀번호확인<span id="message2" style="float: right;"></label>
+						<label for="password1">비밀번호확인<span id="pw1Message" style="float: right;"></label>
 						<input type="password" id="password1" name="password1" required />
 					</td>
 				</tr>

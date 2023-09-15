@@ -44,6 +44,4 @@ public class MemberApiController {
 		return memberService.login(vo);
 	}
 	
-	
-	
 }

@@ -5,32 +5,35 @@ import java.util.List;
 import com.wesely.vo.MemberVO;
 
 public interface MemberService {
+
+	// 회원가입
+	void insert(MemberVO memberVO);
+	
+	// 회원 정보 수정
+	void update(MemberVO memberVO);
+	
+	// 회원 탈퇴
+	void delete(MemberVO memberVO);
+	
 	// 로그인
-	MemberVO login(MemberVO vo);
+	void login(MemberVO memberVO);
 	
-	// 아이디 중복확인
-	int getByUserIdCount(String userid);
+	// 로그아웃
+	void logout();
 	
-	// 1개 얻기
-	MemberVO getById(int id);
-	MemberVO getByUserId(String userid);
+	// 회원 목록 보기
+	List<MemberVO> selectList();
 	
-	// 모두 얻기
-	List<MemberVO> getList();
+	// 이메일 인증
+	void emailCheck(String uuid, String userid);
 	
-	// 저장
-	boolean insert(MemberVO VO);
-	
-	// 수정
-	boolean update(MemberVO VO);
-	
-	// 삭제
-	boolean delete(MemberVO VO);
+	//아이디 중복검사
+	int idCheck(String userid);
 	
 	// 아이디 찾기
-	MemberVO findUserId(MemberVO VO);
+	MemberVO findUserId(MemberVO memberVO);
 	
 	// 비밀번호 찾기
-	MemberVO findPassword(MemberVO VO);
+	MemberVO findPassword(MemberVO memberVO);
 	
 }
