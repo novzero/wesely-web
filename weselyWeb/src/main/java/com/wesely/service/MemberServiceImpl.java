@@ -21,7 +21,7 @@ public class MemberServiceImpl implements MemberService{
 		log.info("login({}) 호출", vo);
 		MemberVO memberVO = null;
 		try {
-			// 1. 넘어온 아니디가 존재하는지 판단
+			// 1. 넘어온 아이디가 존재하는지 판단
 			MemberVO mvo = memberDAO.selectByUserId(vo.getUserid());
 			if(mvo!=null) { // 지정 아이디의 회원이 있다면
 				if(mvo.getPassword().equals(vo.getPassword())) {

@@ -50,7 +50,7 @@ public class MemberController {
 	// 로그인 처리하기
 	@GetMapping(value = "/loginOk")
 	public String loginOk(Model model) {
-		return "redirect:/";
+		return "redirect:/index";
 	}
 
 	@PostMapping(value = "/loginOk")
@@ -78,7 +78,7 @@ public class MemberController {
 				return "redirect:/member/login";
 			}
 		}
-		return "redirect:/";
+		return "redirect:/index";
 	}
 
 	// 로그 아웃 처리

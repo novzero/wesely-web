@@ -68,7 +68,6 @@
 		td {
 			padding: 5px;
 		}
-
 	</style>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
@@ -76,11 +75,11 @@
 		$(function () {
 			// 이메일 중복확인
 			// keyup 이벤트 지정
-			$("#email").keyup(function() {
+			$("#email").keyup(function () {
 				let email = $(this).val();
-				if(email != null && email.length >=3){
-					
-				}else{
+				if (email != null && email.length >= 3) {
+
+				} else {
 					$("emailmsg").html("");
 				}
 			});
@@ -250,6 +249,8 @@
 		</div>
 	</div>
 
+
+
 	<div id="joinform">
 		<form action="/member/agreement" method="post" onsubmit="return formCheck()">
 			<table class="inputform">
@@ -260,7 +261,7 @@
 				<tr>
 					<td>
 						<label for="username">이름</label>
-						<input type="text" id="username" name="username" required/>
+						<input type="text" id="username" name="username" required />
 					</td>
 				</tr>
 				<tr>
@@ -272,7 +273,7 @@
 				<tr>
 					<td>
 						<label for="email">이메일<span id="emailmsg" style="float: right;"></span></label>
-						<input type="text" id="email" name="email" size="40" required/>
+						<input type="text" id="email" name="email" size="40" required />
 					</td>
 				</tr>
 				<tr>
@@ -284,13 +285,14 @@
 				<tr>
 					<td>
 						<label for="password">비밀번호<span id="message1" style="float: right;"></span></label>
-						<input type="password" id="password" name="password" required/>
+						<input type="password" id="password" name="password" required />
+						<i class="bi bi-eye"></i>
 					</td>
 				</tr>
 				<tr>
 					<td>
 						<label for="password1">비밀번호확인<span id="message2" style="float: right;"></label>
-						<input type="password" id="password1" name="password1" required/>
+						<input type="password" id="password1" name="password1" required />
 					</td>
 				</tr>
 				<tr>
