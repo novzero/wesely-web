@@ -154,6 +154,17 @@
 					$("#message2").html(""); // 6자 미만이면 메세지 삭제
 				}
 			});
+			
+			$("#nickname").keyup(function(){
+				var nName = $("#nickname").val();
+				var reg = /^[가-힣]{2,8}$/;
+				if(!reg.test(nName)){
+					$("#message3").css('color', 'red').html("별명은 한글 2~8자로 입력해주세요.");
+				} else{
+					$("#message3").css('color', 'green').html("사용 가능한 별명입니다.");
+				}
+
+			});
 
 		});
 
@@ -260,24 +271,6 @@
 
 				<tr>
 					<td>
-						<label for="username">이름</label>
-						<input type="text" id="username" name="username" required />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="phone">전화번호</label>
-						<input type="text" id="phone" name="phone" required />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="email">이메일<span id="emailmsg" style="float: right;"></span></label>
-						<input type="text" id="email" name="email" size="40" required />
-					</td>
-				</tr>
-				<tr>
-					<td>
 						<label for="userid">아이디 <span id="message" style="float: right;"></span></label>
 						<input type="text" id="userid" name="userid" required />
 					</td>
@@ -293,6 +286,30 @@
 					<td>
 						<label for="password1">비밀번호확인<span id="message2" style="float: right;"></label>
 						<input type="password" id="password1" name="password1" required />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="nickname">별명 <span id="message3" style="float: right;"></span></label>
+						<input type="text" id="nickname" name="nickname" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="username">이름</label>
+						<input type="text" id="username" name="username" required />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="phone">전화번호</label>
+						<input type="text" id="phone" name="phone" required />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="email">이메일<span id="emailmsg" style="float: right;"></span></label>
+						<input type="text" id="email" name="email" size="40" required />
 					</td>
 				</tr>
 				<tr>
