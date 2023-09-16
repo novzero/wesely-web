@@ -5,7 +5,7 @@ import com.wesely.vo.CommunityVO;
 
 public interface CommunityService {
 	// 목록보기
-	
+	// 커밋좀 제발
 	// 1개얻어 조회수증가
 	CommunityVO selectById(int id, int mode);
 
