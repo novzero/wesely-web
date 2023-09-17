@@ -115,23 +115,50 @@ public class CommunityServiceImpl implements CommunityService {
 		log.info("view 리턴 : {}", communityVO);
 		return communityVO;
 	}
-
+	// 댓글저장
 	@Override
 	public boolean commentInsert(CommentVO commentVO) {
-		// TODO Auto-generated method stub
-		return false;
+		log.info("commentInsert 호출 : {}", commentVO);
+		boolean result =false;
+		
+		if(commentVO!=null) {
+			commentDAO.insert(commentVO);
+			result = true;
+		}
+		log.info("commentInsert 리턴 : {}", result);
+		return result;
 	}
-
+	// 댓글수정
 	@Override
 	public boolean commentUpdate(CommentVO commentVO) {
-		// TODO Auto-generated method stub
-		return false;
+		log.info("commentUpdate 호출 : {}", commentVO);
+		boolean result = false;
+		
+		if(commentVO!=null) {
+			CommentVO dbVO = commentDAO.selectById(commentVO.getId());
+			if(dbVO!=null && dbVO.getPassword().equals(commentVO.getPassword())) {
+				commentDAO.update(dbVO);
+				result = true;
+			}
+		}
+		log.info("commentUpdate 리턴 : {}", commentVO);
+		return result;
 	}
-
+	// 댓글 삭제
 	@Override
 	public boolean commentDelete(CommentVO commentVO) {
-		// TODO Auto-generated method stub
-		return false;
+		log.info("commentDelete 호출 : {}", commentVO);
+		boolean result = false;
+		
+		if(commentVO!=null) {
+			CommentVO dbVO = commentDAO.selectById(commentVO.getId());
+			if(dbVO!= null && dbVO.getPassword().equals(commentVO.getPassword())) {
+				commentDAO.delete(commentVO.getId());
+				result = true;
+			}
+		}
+		log.info("commentDelete 리턴 : {}", commentVO);
+		return result;
 	}
 
 }
