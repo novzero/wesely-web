@@ -1,0 +1,343 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+li {
+  list-style: none;
+}
+
+.wrapper {
+  width: 100%;
+}
+
+.header {
+  width: 100%;
+  height: 60px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 30px;
+  border-bottom: 1px solid #cdcdcd;
+}
+
+.logo {
+  width: 100px;
+  height: fit-content;
+  margin-right: auto;
+
+  cursor: pointer;
+}
+
+.logo img {
+  width: 100%;
+  height: 100%;
+}
+
+.bar {
+  font-size: 15px;
+  padding: 15px;
+}
+
+.bar a {
+  margin-right: 20px;
+  text-decoration: none;
+
+  color: #494b7c;
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: fit-content;
+  height: 20%;
+
+  border-radius: 20px;
+  background-color: #ececec;
+  padding: 16px;
+}
+
+.login a {
+  /* 가상요소 쓰기 위한 포지션설정 */
+  position: relative;
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: 800;
+  color: #959595;
+  font-size: 16px;
+}
+
+.login a::after {
+  position: absolute;
+  content: "|";
+  font-weight: 800;
+  padding-left: 8px;
+}
+/* 로그인 nav의 a태그의 마지막요소에 마진적용제거 */
+.login a:first-child {
+  margin-left: 0;
+}
+/* 가상요소after의 마지막요소 없애기 */
+.login a:last-child::after {
+  content: none;
+  padding: 0;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 400px;
+  padding-bottom: 40px;
+
+  width: 100%;
+}
+
+.slide {
+  width: 100%;
+  height: 320px;
+}
+.slideList {
+  height: 100%;
+}
+
+.slideItem {
+  height: 100%;
+}
+
+.slideImg {
+  width: 100%;
+  height: 100%;
+}
+
+.storeContent {
+  position: relative;
+  width: 100%;
+}
+
+.storeTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0 30px 0;
+}
+
+/* 인덱스 볼 있는곳 밀어넣기 */
+.storeInfo {
+  padding-left: 15px;
+}
+
+.liBox {
+  position: relative;
+  border: 1px solid red;
+}
+
+.space {
+  margin-left: 20px;
+}
+
+.indexBall {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.indexBall.flex {
+  display: flex;
+}
+
+.indexBall::before {
+  content: "";
+
+  position: absolute;
+  top: 10px;
+  left: -16px;
+  transform: translateY(-50%);
+
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #f0c648;
+}
+
+.mapImg {
+  position: absolute;
+  top: 80px;
+  right: 0;
+}
+
+.line {
+  width: 100%;
+  height: 1.4px;
+  margin: 30px 0 20px 0;
+  background-color: #494b7c;
+}
+
+.storeReview {
+}
+
+.storeReviewTitleBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 20px;
+}
+
+.storeReviewTitleBox button {
+  border: none;
+  background-color: #494b7c;
+  color: #fff;
+
+  width: 130px;
+  padding: 10px;
+  border-radius: 8px;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+.reviewBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+
+  width: 100%;
+
+  margin-top: 20px;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.userInfo img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.reviewContent {
+  display: flex;
+  flex-direction: column;
+  margin: 8px 0 0 30px;
+  font-size: 14px;
+  color: #686868;
+}
+
+.star {
+  margin-bottom: 14px;
+}
+
+.bottomBtn {
+  margin-top: 20px;
+}
+
+.bottomBtn button {
+  width: 34px;
+  height: 34px;
+
+  background-color: #fff;
+  color: #494b7c;
+  border-radius: 50%;
+  border: 1px solid #494b7c;
+
+  cursor: pointer;
+}
+
+.addReviewModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 2;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 500px;
+  height: 500px;
+
+  color: #686868;
+  background-color: #fff;
+  padding: 35px;
+  border-radius: 25px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+
+  margin: 10px 0;
+}
+
+.stars i {
+  color: #cdcdcd;
+  font-size: 35px;
+  cursor: pointer;
+}
+
+.reviewTextBox {
+  width: 100%;
+  height: 50%;
+  font-size: 14px;
+  resize: none;
+  outline: none;
+  padding: 14px;
+  border: 1px solid #686868;
+}
+
+.modalBtn {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.modalBtn button {
+  width: 48%;
+  padding: 12px 0;
+
+  color: #4b4eba;
+  background-color: #fff;
+  border: 1px solid #4b4eba;
+  border-radius: 8px;
+  cursor: pointer;
+
+  transition: all ease-out 250ms;
+}
+
+.modalBtn button:hover {
+  background-color: #4b4eba;
+  color: #fff;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 0;
+
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.1);
+}
