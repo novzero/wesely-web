@@ -66,10 +66,19 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public int idCheck(String userid) {
 		log.info("{}의 idCheck 호출 : {}", this.getClass().getName(), userid);
-		int count = memberDAO.selectCountByUserid(userid);
-		log.info("{}의 idCheck 리턴 : {}", this.getClass().getName(), count);
-		return count;
+		int idcount = memberDAO.selectCountByUserid(userid);
+		log.info("{}의 idCheck 리턴 : {}", this.getClass().getName(), idcount);
+		return idcount;
 	}
+	
+	@Override
+	public int nicknameCheck(String nickname) {
+		log.info("{}의 nicknameCheck 호출 : {}", this.getClass().getName(), nickname);
+		int nickcount = memberDAO.selectCountByNickname(nickname);
+		log.info("{}의 nicknameCheck 리턴 : {}", this.getClass().getName(), nickcount);
+		return nickcount;
+	}
+
 
 	@Override
 	public MemberVO findPassword(MemberVO memberVO) {

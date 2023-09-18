@@ -51,6 +51,11 @@
 		select count(*) from wmember where userid=#{userid}
 	</select>
 	
+	<!-- 동일한 별명 개수세기 : 아이디 중복 확인 -->
+	<select id="selectCountByNickname" parameterType="string" resultType="int">
+		select count(*) from wmember where nickname=#{nickname}
+	</select>
+	
 	
 	<!-- 아이디로 찾기 -->
 	<select id="selectByUserid" parameterType="string" resultType="MemberVO">
