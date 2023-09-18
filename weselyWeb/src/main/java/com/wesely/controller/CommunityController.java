@@ -1,5 +1,8 @@
 package com.wesely.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,13 +10,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.wesely.service.CommunityService;
 import com.wesely.vo.CommVO;
 import com.wesely.vo.CommentVO;
+import com.wesely.vo.CommunityImgVO;
 import com.wesely.vo.CommunityVO;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -46,7 +53,16 @@ public class CommunityController {
 	}
 	
 	@PostMapping(value = "/insertOk")
-	public String insertOkPost(@ModelAttribute CommVO cv, @ModelAttribute CommunityVO vo) {
+	public String insertOkPost(
+			@ModelAttribute CommVO cv,
+			@ModelAttribute CommunityVO vo,
+			@RequestParam MultipartFile[] uploadFile,
+			HttpServletRequest request,Model model) {
+		
+		if(uploadFile != null && uploadFile.length > 0) {
+			List<CommunityImgVO> list = new ArrayList<>();
+			
+		}
 		
 		return "redirect:/comm/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
 	}

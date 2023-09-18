@@ -2929,3 +2929,523 @@ Error starting ApplicationContext. To display the condition evaluation report re
 [23-09-17 19:44:27] INFO  o.s.b.d.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\CUBE-USER\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.9.0.0\ojdbc8-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/CUBE-USER/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.9.0.0/oraclepki.jar
 [23-09-17 19:44:27] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
 [23-09-17 19:44:27] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[23-09-18 15:27:18] INFO  com.wesely.WeselyWebApplication - Starting WeselyWebApplication using Java 17.0.7 with PID 1732 (C:\Users\admin\git\wesely-web\weselyWeb\target\classes started by admin in C:\Users\admin\git\wesely-web\weselyWeb)
+[23-09-18 15:27:18] INFO  com.wesely.WeselyWebApplication - The following 1 profile is active: "local"
+[23-09-18 15:27:18] INFO  o.s.b.d.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\admin\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.9.0.0\ojdbc8-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/admin/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.9.0.0/oraclepki.jar
+[23-09-18 15:27:18] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[23-09-18 15:27:18] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[23-09-18 15:27:18] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+[23-09-18 15:27:18] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 JDBC repository interfaces.
+[23-09-18 15:27:19] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
+[23-09-18 15:27:19] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+[23-09-18 15:27:19] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[23-09-18 15:27:19] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.12]
+[23-09-18 15:27:19] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[23-09-18 15:27:19] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1180 ms
+[23-09-18 15:27:19] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+[23-09-18 15:27:19] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[23-09-18 15:27:59] INFO  com.wesely.WeselyWebApplication - Starting WeselyWebApplication using Java 17.0.7 with PID 2884 (C:\Users\admin\git\wesely-web\weselyWeb\target\classes started by admin in C:\Users\admin\git\wesely-web\weselyWeb)
+[23-09-18 15:27:59] INFO  com.wesely.WeselyWebApplication - The following 1 profile is active: "local"
+[23-09-18 15:27:59] INFO  o.s.b.d.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\admin\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.9.0.0\ojdbc8-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/admin/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.9.0.0/oraclepki.jar
+[23-09-18 15:27:59] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[23-09-18 15:27:59] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[23-09-18 15:28:00] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+[23-09-18 15:28:00] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 JDBC repository interfaces.
+[23-09-18 15:28:00] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
+[23-09-18 15:28:00] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+[23-09-18 15:28:00] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[23-09-18 15:28:00] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.12]
+[23-09-18 15:28:00] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[23-09-18 15:28:00] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1140 ms
+[23-09-18 15:28:00] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+[23-09-18 15:28:00] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[23-09-18 15:29:20] INFO  com.wesely.WeselyWebApplication - Starting WeselyWebApplication using Java 17.0.7 with PID 256 (C:\Users\admin\git\wesely-web\weselyWeb\target\classes started by admin in C:\Users\admin\git\wesely-web\weselyWeb)
+[23-09-18 15:29:20] INFO  com.wesely.WeselyWebApplication - The following 1 profile is active: "local"
+[23-09-18 15:29:20] INFO  o.s.b.d.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\admin\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.9.0.0\ojdbc8-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/admin/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.9.0.0/oraclepki.jar
+[23-09-18 15:29:20] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[23-09-18 15:29:20] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[23-09-18 15:29:21] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+[23-09-18 15:29:21] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 JDBC repository interfaces.
+[23-09-18 15:29:21] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
+[23-09-18 15:29:21] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+[23-09-18 15:29:21] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[23-09-18 15:29:21] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.12]
+[23-09-18 15:29:21] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[23-09-18 15:29:21] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1096 ms
+[23-09-18 15:29:21] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+[23-09-18 15:29:21] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+[23-09-18 15:30:46] INFO  com.wesely.WeselyWebApplication - Starting WeselyWebApplication using Java 17.0.7 with PID 6272 (C:\Users\admin\git\wesely-web\weselyWeb\target\classes started by admin in C:\Users\admin\git\wesely-web\weselyWeb)
+[23-09-18 15:30:46] INFO  com.wesely.WeselyWebApplication - The following 1 profile is active: "local"
+[23-09-18 15:30:46] INFO  o.s.b.d.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\admin\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.9.0.0\ojdbc8-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/admin/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.9.0.0/oraclepki.jar
+[23-09-18 15:30:46] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[23-09-18 15:30:46] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[23-09-18 15:30:47] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+[23-09-18 15:30:47] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 JDBC repository interfaces.
+[23-09-18 15:30:47] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
+[23-09-18 15:30:47] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+[23-09-18 15:30:47] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[23-09-18 15:30:47] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.12]
+[23-09-18 15:30:47] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[23-09-18 15:30:47] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1143 ms
+[23-09-18 15:30:48] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+[23-09-18 15:30:48] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 1. Connection opened. {executed in 166ms} 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 1. Connection.new Connection returned 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 1. Connection.getNetworkTimeout() returned 0
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 1. Connection.isReadOnly() returned false
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 1. Connection.getAutoCommit() returned true
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 1. Connection.isValid(1) returned true
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 1. Connection.getTransactionIsolation() returned 2
+[23-09-18 15:30:48] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@1910b0f4
+[23-09-18 15:30:48] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 1. Connection.getMetaData() returned oracle.jdbc.driver.OracleDatabaseMetaData@1f7db78d
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 1. Connection.clearWarnings() returned 
+[23-09-18 15:30:48] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 2. Connection opened. {executed in 14ms} 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 2. Connection.new Connection returned 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 2. Connection.isReadOnly() returned false
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 2. Connection.getAutoCommit() returned true
+[23-09-18 15:30:48] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+[23-09-18 15:30:48] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
+[23-09-18 15:30:48] INFO  com.wesely.WeselyWebApplication - Started WeselyWebApplication in 2.622 seconds (process running for 3.401)
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 3. Connection opened. {executed in 12ms} 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 3. Connection.new Connection returned 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 3. Connection.isReadOnly() returned false
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 3. Connection.getAutoCommit() returned true
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 4. Connection opened. {executed in 12ms} 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 4. Connection.new Connection returned 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 4. Connection.isReadOnly() returned false
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 4. Connection.getAutoCommit() returned true
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 5. Connection opened. {executed in 12ms} 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 5. Connection.new Connection returned 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 5. Connection.isReadOnly() returned false
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 5. Connection.getAutoCommit() returned true
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 6. Connection opened. {executed in 27ms} 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 6. Connection.new Connection returned 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 6. Connection.isReadOnly() returned false
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 6. Connection.getAutoCommit() returned true
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 7. Connection opened. {executed in 17ms} 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 7. Connection.new Connection returned 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 7. Connection.isReadOnly() returned false
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 7. Connection.getAutoCommit() returned true
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 8. Connection opened. {executed in 17ms} 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 8. Connection.new Connection returned 
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 8. Connection.isReadOnly() returned false
+[23-09-18 15:30:48] INFO  log4jdbc.log4j2 - 8. Connection.getAutoCommit() returned true
+[23-09-18 15:30:49] INFO  log4jdbc.log4j2 - 9. Connection opened. {executed in 17ms} 
+[23-09-18 15:30:49] INFO  log4jdbc.log4j2 - 9. Connection.new Connection returned 
+[23-09-18 15:30:49] INFO  log4jdbc.log4j2 - 9. Connection.isReadOnly() returned false
+[23-09-18 15:30:49] INFO  log4jdbc.log4j2 - 9. Connection.getAutoCommit() returned true
+[23-09-18 15:30:49] INFO  log4jdbc.log4j2 - 10. Connection opened. {executed in 18ms} 
+[23-09-18 15:30:49] INFO  log4jdbc.log4j2 - 10. Connection.new Connection returned 
+[23-09-18 15:30:49] INFO  log4jdbc.log4j2 - 10. Connection.isReadOnly() returned false
+[23-09-18 15:30:49] INFO  log4jdbc.log4j2 - 10. Connection.getAutoCommit() returned true
+[23-09-18 15:31:06] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[23-09-18 15:31:06] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[23-09-18 15:31:06] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+[23-09-18 15:41:37] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+[23-09-18 15:41:37] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-9090"]
+[23-09-18 15:41:37] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+[23-09-18 15:41:37] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+[23-09-18 15:41:37] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-9090"]
+[23-09-18 15:41:37] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 1. Connection closed. {executed in 1ms} 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 1. Connection.close() returned 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 2. Connection closed. {executed in 1ms} 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 2. Connection.close() returned 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 3. Connection closed. {executed in 1ms} 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 3. Connection.close() returned 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 4. Connection closed. {executed in 0ms} 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 4. Connection.close() returned 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 5. Connection closed. {executed in 1ms} 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 5. Connection.close() returned 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 6. Connection closed. {executed in 1ms} 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 6. Connection.close() returned 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 7. Connection closed. {executed in 0ms} 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 7. Connection.close() returned 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 8. Connection closed. {executed in 1ms} 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 8. Connection.close() returned 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 9. Connection closed. {executed in 0ms} 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 9. Connection.close() returned 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 10. Connection closed. {executed in 0ms} 
+[23-09-18 15:41:37] INFO  log4jdbc.log4j2 - 10. Connection.close() returned 
+[23-09-18 15:41:37] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[23-09-18 15:43:22] INFO  com.wesely.WeselyWebApplication - Starting WeselyWebApplication using Java 17.0.7 with PID 10584 (C:\Users\admin\git\wesely-web\weselyWeb\target\classes started by admin in C:\Users\admin\git\wesely-web\weselyWeb)
+[23-09-18 15:43:22] INFO  com.wesely.WeselyWebApplication - The following 1 profile is active: "local"
+[23-09-18 15:43:22] INFO  o.s.b.d.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\admin\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.9.0.0\ojdbc8-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/admin/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.9.0.0/oraclepki.jar
+[23-09-18 15:43:22] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[23-09-18 15:43:22] INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[23-09-18 15:43:23] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+[23-09-18 15:43:23] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 JDBC repository interfaces.
+[23-09-18 15:43:23] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
+[23-09-18 15:43:23] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+[23-09-18 15:43:23] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[23-09-18 15:43:23] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.12]
+[23-09-18 15:43:24] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[23-09-18 15:43:24] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1090 ms
+[23-09-18 15:43:24] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+[23-09-18 15:43:24] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+[23-09-18 15:43:24] INFO  log4jdbc.log4j2 - 1. Connection opened. {executed in 170ms} 
+[23-09-18 15:43:24] INFO  log4jdbc.log4j2 - 1. Connection.new Connection returned 
+[23-09-18 15:43:24] INFO  log4jdbc.log4j2 - 1. Connection.getNetworkTimeout() returned 0
+[23-09-18 15:43:24] INFO  log4jdbc.log4j2 - 1. Connection.isReadOnly() returned false
+[23-09-18 15:43:24] INFO  log4jdbc.log4j2 - 1. Connection.getAutoCommit() returned true
+[23-09-18 15:43:24] INFO  log4jdbc.log4j2 - 1. Connection.isValid(1) returned true
+[23-09-18 15:43:24] INFO  log4jdbc.log4j2 - 1. Connection.getTransactionIsolation() returned 2
+[23-09-18 15:43:24] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@1910b0f4
+[23-09-18 15:43:24] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+[23-09-18 15:43:24] INFO  log4jdbc.log4j2 - 1. Connection.getMetaData() returned oracle.jdbc.driver.OracleDatabaseMetaData@1f7db78d
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 1. Connection.clearWarnings() returned 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 2. Connection opened. {executed in 12ms} 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 2. Connection.new Connection returned 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 2. Connection.isReadOnly() returned false
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 2. Connection.getAutoCommit() returned true
+[23-09-18 15:43:25] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 3. Connection opened. {executed in 12ms} 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 3. Connection.new Connection returned 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 3. Connection.isReadOnly() returned false
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 3. Connection.getAutoCommit() returned true
+[23-09-18 15:43:25] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+[23-09-18 15:43:25] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 4. Connection opened. {executed in 15ms} 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 4. Connection.new Connection returned 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 4. Connection.isReadOnly() returned false
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 4. Connection.getAutoCommit() returned true
+[23-09-18 15:43:25] INFO  com.wesely.WeselyWebApplication - Started WeselyWebApplication in 2.572 seconds (process running for 3.339)
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 5. Connection opened. {executed in 12ms} 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 5. Connection.new Connection returned 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 5. Connection.isReadOnly() returned false
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 5. Connection.getAutoCommit() returned true
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 6. Connection opened. {executed in 11ms} 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 6. Connection.new Connection returned 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 6. Connection.isReadOnly() returned false
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 6. Connection.getAutoCommit() returned true
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 7. Connection opened. {executed in 11ms} 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 7. Connection.new Connection returned 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 7. Connection.isReadOnly() returned false
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 7. Connection.getAutoCommit() returned true
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 8. Connection opened. {executed in 12ms} 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 8. Connection.new Connection returned 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 8. Connection.isReadOnly() returned false
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 8. Connection.getAutoCommit() returned true
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 9. Connection opened. {executed in 12ms} 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 9. Connection.new Connection returned 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 9. Connection.isReadOnly() returned false
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 9. Connection.getAutoCommit() returned true
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 10. Connection opened. {executed in 11ms} 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 10. Connection.new Connection returned 
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 10. Connection.isReadOnly() returned false
+[23-09-18 15:43:25] INFO  log4jdbc.log4j2 - 10. Connection.getAutoCommit() returned true
+[23-09-18 15:43:29] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+[23-09-18 15:43:29] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+[23-09-18 15:43:29] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+[23-09-18 15:52:07] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+[23-09-18 15:52:07] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-9090"]
+[23-09-18 15:52:07] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+[23-09-18 15:52:07] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Destroying Spring FrameworkServlet 'dispatcherServlet'
+[23-09-18 15:52:07] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-9090"]
+[23-09-18 15:52:07] INFO  o.a.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-9090"]
+[23-09-18 15:52:07] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 1. Connection closed. {executed in 1ms} 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 1. Connection.close() returned 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 2. Connection closed. {executed in 0ms} 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 2. Connection.close() returned 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 3. Connection closed. {executed in 0ms} 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 3. Connection.close() returned 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 4. Connection closed. {executed in 1ms} 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 4. Connection.close() returned 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 5. Connection closed. {executed in 0ms} 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 5. Connection.close() returned 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 6. Connection closed. {executed in 0ms} 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 6. Connection.close() returned 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 7. Connection closed. {executed in 0ms} 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 7. Connection.close() returned 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 8. Connection closed. {executed in 1ms} 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 8. Connection.close() returned 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 9. Connection closed. {executed in 1ms} 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 9. Connection.close() returned 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 10. Connection closed. {executed in 0ms} 
+[23-09-18 15:52:07] INFO  log4jdbc.log4j2 - 10. Connection.close() returned 
+[23-09-18 15:52:07] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+[23-09-18 15:52:07] INFO  o.s.b.d.r.RestartApplicationListener - Restart enabled irrespective of application packaging due to System property 'spring.devtools.restart.enabled' being set to true
+[23-09-18 15:52:07] INFO  com.wesely.WeselyWebApplication - Starting WeselyWebApplication using Java 17.0.7 with PID 10584 (C:\Users\admin\git\wesely-web\weselyWeb\target\classes started by admin in C:\Users\admin\git\wesely-web\weselyWeb)
+[23-09-18 15:52:07] INFO  com.wesely.WeselyWebApplication - The following 1 profile is active: "local"
+[23-09-18 15:52:07] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+[23-09-18 15:52:07] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2 ms. Found 0 JDBC repository interfaces.
+[23-09-18 15:52:07] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
+[23-09-18 15:52:07] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+[23-09-18 15:52:07] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[23-09-18 15:52:07] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.12]
+[23-09-18 15:52:08] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[23-09-18 15:52:08] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 275 ms
+[23-09-18 15:52:08] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+[23-09-18 15:52:08] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 11. Connection opened. {executed in 13ms} 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 11. Connection.new Connection returned 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 11. Connection.getNetworkTimeout() returned 0
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 11. Connection.isReadOnly() returned false
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 11. Connection.getAutoCommit() returned true
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 11. Connection.isValid(1) returned true
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 11. Connection.getTransactionIsolation() returned 2
+[23-09-18 15:52:08] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@2cc23d69
+[23-09-18 15:52:08] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 11. Connection.getMetaData() returned oracle.jdbc.driver.OracleDatabaseMetaData@2c740079
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 11. Connection.clearWarnings() returned 
+[23-09-18 15:52:08] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+[23-09-18 15:52:08] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+[23-09-18 15:52:08] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
+[23-09-18 15:52:08] INFO  com.wesely.WeselyWebApplication - Started WeselyWebApplication in 0.519 seconds (process running for 526.39)
+[23-09-18 15:52:08] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 12. Connection opened. {executed in 10ms} 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 12. Connection.new Connection returned 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 12. Connection.isReadOnly() returned false
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 12. Connection.getAutoCommit() returned true
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 13. Connection opened. {executed in 10ms} 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 13. Connection.new Connection returned 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 13. Connection.isReadOnly() returned false
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 13. Connection.getAutoCommit() returned true
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 14. Connection opened. {executed in 10ms} 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 14. Connection.new Connection returned 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 14. Connection.isReadOnly() returned false
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 14. Connection.getAutoCommit() returned true
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 15. Connection opened. {executed in 11ms} 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 15. Connection.new Connection returned 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 15. Connection.isReadOnly() returned false
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 15. Connection.getAutoCommit() returned true
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 16. Connection opened. {executed in 12ms} 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 16. Connection.new Connection returned 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 16. Connection.isReadOnly() returned false
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 16. Connection.getAutoCommit() returned true
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 17. Connection opened. {executed in 10ms} 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 17. Connection.new Connection returned 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 17. Connection.isReadOnly() returned false
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 17. Connection.getAutoCommit() returned true
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 18. Connection opened. {executed in 11ms} 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 18. Connection.new Connection returned 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 18. Connection.isReadOnly() returned false
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 18. Connection.getAutoCommit() returned true
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 19. Connection opened. {executed in 10ms} 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 19. Connection.new Connection returned 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 19. Connection.isReadOnly() returned false
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 19. Connection.getAutoCommit() returned true
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 20. Connection opened. {executed in 11ms} 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 20. Connection.new Connection returned 
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 20. Connection.isReadOnly() returned false
+[23-09-18 15:52:08] INFO  log4jdbc.log4j2 - 20. Connection.getAutoCommit() returned true
+[23-09-18 16:08:00] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+[23-09-18 16:08:00] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-9090"]
+[23-09-18 16:08:00] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+[23-09-18 16:08:00] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-9090"]
+[23-09-18 16:08:00] INFO  o.a.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-9090"]
+[23-09-18 16:08:00] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 11. Connection closed. {executed in 1ms} 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 11. Connection.close() returned 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 12. Connection closed. {executed in 0ms} 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 12. Connection.close() returned 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 13. Connection closed. {executed in 0ms} 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 13. Connection.close() returned 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 14. Connection closed. {executed in 0ms} 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 14. Connection.close() returned 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 15. Connection closed. {executed in 0ms} 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 15. Connection.close() returned 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 16. Connection closed. {executed in 0ms} 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 16. Connection.close() returned 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 17. Connection closed. {executed in 1ms} 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 17. Connection.close() returned 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 18. Connection closed. {executed in 0ms} 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 18. Connection.close() returned 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 19. Connection closed. {executed in 1ms} 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 19. Connection.close() returned 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 20. Connection closed. {executed in 0ms} 
+[23-09-18 16:08:00] INFO  log4jdbc.log4j2 - 20. Connection.close() returned 
+[23-09-18 16:08:00] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+[23-09-18 16:08:00] INFO  o.s.b.d.r.RestartApplicationListener - Restart enabled irrespective of application packaging due to System property 'spring.devtools.restart.enabled' being set to true
+[23-09-18 16:08:00] INFO  com.wesely.WeselyWebApplication - Starting WeselyWebApplication using Java 17.0.7 with PID 10584 (C:\Users\admin\git\wesely-web\weselyWeb\target\classes started by admin in C:\Users\admin\git\wesely-web\weselyWeb)
+[23-09-18 16:08:00] INFO  com.wesely.WeselyWebApplication - The following 1 profile is active: "local"
+[23-09-18 16:08:00] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+[23-09-18 16:08:00] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 2 ms. Found 0 JDBC repository interfaces.
+[23-09-18 16:08:00] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
+[23-09-18 16:08:00] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+[23-09-18 16:08:00] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[23-09-18 16:08:00] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.12]
+[23-09-18 16:08:00] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[23-09-18 16:08:00] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 264 ms
+[23-09-18 16:08:01] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+[23-09-18 16:08:01] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 21. Connection opened. {executed in 13ms} 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 21. Connection.new Connection returned 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 21. Connection.getNetworkTimeout() returned 0
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 21. Connection.isReadOnly() returned false
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 21. Connection.getAutoCommit() returned true
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 21. Connection.isValid(1) returned true
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 21. Connection.getTransactionIsolation() returned 2
+[23-09-18 16:08:01] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@2b7fb70f
+[23-09-18 16:08:01] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 21. Connection.getMetaData() returned oracle.jdbc.driver.OracleDatabaseMetaData@3393b62e
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 21. Connection.clearWarnings() returned 
+[23-09-18 16:08:01] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+[23-09-18 16:08:01] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+[23-09-18 16:08:01] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
+[23-09-18 16:08:01] INFO  com.wesely.WeselyWebApplication - Started WeselyWebApplication in 0.526 seconds (process running for 1479.276)
+[23-09-18 16:08:01] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 22. Connection opened. {executed in 44ms} 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 22. Connection.new Connection returned 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 22. Connection.isReadOnly() returned false
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 22. Connection.getAutoCommit() returned true
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 23. Connection opened. {executed in 37ms} 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 23. Connection.new Connection returned 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 23. Connection.isReadOnly() returned false
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 23. Connection.getAutoCommit() returned true
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 24. Connection opened. {executed in 16ms} 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 24. Connection.new Connection returned 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 24. Connection.isReadOnly() returned false
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 24. Connection.getAutoCommit() returned true
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 25. Connection opened. {executed in 11ms} 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 25. Connection.new Connection returned 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 25. Connection.isReadOnly() returned false
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 25. Connection.getAutoCommit() returned true
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 26. Connection opened. {executed in 10ms} 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 26. Connection.new Connection returned 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 26. Connection.isReadOnly() returned false
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 26. Connection.getAutoCommit() returned true
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 27. Connection opened. {executed in 11ms} 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 27. Connection.new Connection returned 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 27. Connection.isReadOnly() returned false
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 27. Connection.getAutoCommit() returned true
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 28. Connection opened. {executed in 11ms} 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 28. Connection.new Connection returned 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 28. Connection.isReadOnly() returned false
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 28. Connection.getAutoCommit() returned true
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 29. Connection opened. {executed in 10ms} 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 29. Connection.new Connection returned 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 29. Connection.isReadOnly() returned false
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 29. Connection.getAutoCommit() returned true
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 30. Connection opened. {executed in 11ms} 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 30. Connection.new Connection returned 
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 30. Connection.isReadOnly() returned false
+[23-09-18 16:08:01] INFO  log4jdbc.log4j2 - 30. Connection.getAutoCommit() returned true
+[23-09-18 16:08:33] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+[23-09-18 16:08:33] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-9090"]
+[23-09-18 16:08:33] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+[23-09-18 16:08:33] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-9090"]
+[23-09-18 16:08:33] INFO  o.a.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-9090"]
+[23-09-18 16:08:33] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 21. Connection closed. {executed in 1ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 21. Connection.close() returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 22. Connection closed. {executed in 1ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 22. Connection.close() returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 23. Connection closed. {executed in 1ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 23. Connection.close() returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 24. Connection closed. {executed in 1ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 24. Connection.close() returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 25. Connection closed. {executed in 1ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 25. Connection.close() returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 26. Connection closed. {executed in 1ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 26. Connection.close() returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 27. Connection closed. {executed in 1ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 27. Connection.close() returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 28. Connection closed. {executed in 2ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 28. Connection.close() returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 29. Connection closed. {executed in 2ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 29. Connection.close() returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 30. Connection closed. {executed in 2ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 30. Connection.close() returned 
+[23-09-18 16:08:33] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+[23-09-18 16:08:33] INFO  o.s.b.d.r.RestartApplicationListener - Restart enabled irrespective of application packaging due to System property 'spring.devtools.restart.enabled' being set to true
+[23-09-18 16:08:33] INFO  com.wesely.WeselyWebApplication - Starting WeselyWebApplication using Java 17.0.7 with PID 10584 (C:\Users\admin\git\wesely-web\weselyWeb\target\classes started by admin in C:\Users\admin\git\wesely-web\weselyWeb)
+[23-09-18 16:08:33] INFO  com.wesely.WeselyWebApplication - The following 1 profile is active: "local"
+[23-09-18 16:08:33] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JDBC repositories in DEFAULT mode.
+[23-09-18 16:08:33] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JDBC repository interfaces.
+[23-09-18 16:08:33] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 9090 (http)
+[23-09-18 16:08:33] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-9090"]
+[23-09-18 16:08:33] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+[23-09-18 16:08:33] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.12]
+[23-09-18 16:08:33] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+[23-09-18 16:08:33] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 225 ms
+[23-09-18 16:08:33] INFO  o.s.b.a.w.s.WelcomePageHandlerMapping - Adding welcome page template: index
+[23-09-18 16:08:33] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 31. Connection opened. {executed in 12ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 31. Connection.new Connection returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 31. Connection.getNetworkTimeout() returned 0
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 31. Connection.isReadOnly() returned false
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 31. Connection.getAutoCommit() returned true
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 31. Connection.isValid(1) returned true
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 31. Connection.getTransactionIsolation() returned 2
+[23-09-18 16:08:33] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-4 - Added connection net.sf.log4jdbc.sql.jdbcapi.ConnectionSpy@489b1db5
+[23-09-18 16:08:33] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 31. Connection.getMetaData() returned oracle.jdbc.driver.OracleDatabaseMetaData@16aaf874
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 31. Connection.clearWarnings() returned 
+[23-09-18 16:08:33] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+[23-09-18 16:08:33] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-9090"]
+[23-09-18 16:08:33] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 9090 (http) with context path ''
+[23-09-18 16:08:33] INFO  com.wesely.WeselyWebApplication - Started WeselyWebApplication in 0.445 seconds (process running for 1511.82)
+[23-09-18 16:08:33] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 32. Connection opened. {executed in 11ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 32. Connection.new Connection returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 32. Connection.isReadOnly() returned false
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 32. Connection.getAutoCommit() returned true
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 33. Connection opened. {executed in 10ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 33. Connection.new Connection returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 33. Connection.isReadOnly() returned false
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 33. Connection.getAutoCommit() returned true
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 34. Connection opened. {executed in 10ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 34. Connection.new Connection returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 34. Connection.isReadOnly() returned false
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 34. Connection.getAutoCommit() returned true
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 35. Connection opened. {executed in 24ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 35. Connection.new Connection returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 35. Connection.isReadOnly() returned false
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 35. Connection.getAutoCommit() returned true
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 36. Connection opened. {executed in 12ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 36. Connection.new Connection returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 36. Connection.isReadOnly() returned false
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 36. Connection.getAutoCommit() returned true
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 37. Connection opened. {executed in 13ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 37. Connection.new Connection returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 37. Connection.isReadOnly() returned false
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 37. Connection.getAutoCommit() returned true
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 38. Connection opened. {executed in 14ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 38. Connection.new Connection returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 38. Connection.isReadOnly() returned false
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 38. Connection.getAutoCommit() returned true
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 39. Connection opened. {executed in 13ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 39. Connection.new Connection returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 39. Connection.isReadOnly() returned false
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 39. Connection.getAutoCommit() returned true
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 40. Connection opened. {executed in 13ms} 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 40. Connection.new Connection returned 
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 40. Connection.isReadOnly() returned false
+[23-09-18 16:08:33] INFO  log4jdbc.log4j2 - 40. Connection.getAutoCommit() returned true
+[23-09-18 16:08:36] INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+[23-09-18 16:08:36] INFO  o.a.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-9090"]
+[23-09-18 16:08:36] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+[23-09-18 16:08:36] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-9090"]
+[23-09-18 16:08:36] INFO  o.a.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-9090"]
+[23-09-18 16:08:36] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown initiated...
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 31. Connection closed. {executed in 0ms} 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 31. Connection.close() returned 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 32. Connection closed. {executed in 0ms} 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 32. Connection.close() returned 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 33. Connection closed. {executed in 0ms} 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 33. Connection.close() returned 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 34. Connection closed. {executed in 1ms} 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 34. Connection.close() returned 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 35. Connection closed. {executed in 0ms} 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 35. Connection.close() returned 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 36. Connection closed. {executed in 1ms} 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 36. Connection.close() returned 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 37. Connection closed. {executed in 0ms} 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 37. Connection.close() returned 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 38. Connection closed. {executed in 0ms} 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 38. Connection.close() returned 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 39. Connection closed. {executed in 0ms} 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 39. Connection.close() returned 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 40. Connection closed. {executed in 1ms} 
+[23-09-18 16:08:36] INFO  log4jdbc.log4j2 - 40. Connection.close() returned 
+[23-09-18 16:08:36] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Shutdown completed.
