@@ -1,18 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>게시글등록</title>
-	
+	<link rel="stylesheet" href="/webjars/bootstrap/5.3.0/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/css/font.css">
 	<link rel="stylesheet" href="/css/header.css">
 	<link rel="stylesheet" href="/css/comm/createPost.css">
 	<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 	<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+	<script src="/webjars/bootstrap/5.3.0/dist/js/bootstrap.min.js"></script>
 </head>
-
+<script>
+	function formCheck(){
+			let value = $("#addText").val(); // 내용 얻고
+			if(value==null || value.trim().length==0){ // 없거나 빈칸들로만  입력되었다면
+				alert('내용은 반드시 입력해야 합니다.'); // 경고
+				 $("#addText").val(""); // 입력값 삭제
+				 $("#addText").focus(); // 커서 위치
+				 return false;   // 전송 취소
+			}
+			return true;
+		}
+</script>
 
 <body>
 	<div class="wrapper">
@@ -47,11 +59,10 @@
 					<img src="/images/Profile.png">
 					<p>haemssssss</p>
 				</div>
-
-
+			<form action="/community/insert" onsubmit="return formCheck()" method="post" enctype="multipart/form-data">
 				<div class="addImgWrapper">
 					<label class="addImgItem" for="inputFile1">
-						<input type="file" id="inputFile1" class="inputFile">
+						<input type="file" id="inputFile1" class="inputFile" name="uploadFile">
 						<ion-icon name="add-outline" class="addIcon"></ion-icon>
 						<div>
 							사진추가
@@ -87,12 +98,13 @@
 					</label>
 				</div>
 
-				<textarea class="addText"></textarea>
+				<textarea id="addText" class="addText"></textarea>
 
 				<div class="btnWrapper">
-					<button class="btnCancle" type="button" th:onclick="location.href='/community/'">취소</button>
-					<button class="btnAdd" type="button" th:onclick="location.href='/community/insertOk'">등록</button>
+					<input class="btnCancle" type="button" value="취소" th:onclick="location.href='/community/'"></input>
+					<input class="btnAdd" type="submit" value="등록"></input>
 				</div>
+			</form>
 			</div>
 		</main>
 	</div>
