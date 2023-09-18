@@ -121,6 +121,7 @@
 	</div>
 
 
+
 	<div id="loginform">
 		<img src="/images/wesely_logo.png" alt="wesely로고" width="50px">
 		<form action="/member/loginOk" method="post" onsubmit="return formCheck()">
@@ -141,13 +142,14 @@
 				
 				<!-- 아이디/비밀번호 찾기 링크 보이기 & 전송 폼  -->
 				<div>
+					<input type="submit" value="로그인" class="loginBtn" tabindex="3" />
 					<a href="/member/findUserId">아이디를 잊으셨나요?</a><br />
 					<a href="/member/findPassword">비밀번호를 잊으셨나요?</a>
-					<input type="submit" value="로그인" class="loginBtn" tabindex="3" />
 				</div>
 			</div>
 
 		</form>
+		<p th:text="${loginMessage}" style="color: red"></p>
 	</div>
 </body>
 
