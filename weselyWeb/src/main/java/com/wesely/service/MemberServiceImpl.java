@@ -1,3 +1,5 @@
+package com.wesely.service;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +15,14 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional
 @Service("memberService")
 public class MemberServiceImpl implements MemberService{
-	
 	@Autowired
 	MemberDAO memberDAO;
-	
-	@Autowired
-	MailService mailService;
 	
 	@Override
 	public void insert(MemberVO memberVO) {
 		log.info("{}의 insert호출 : {}", this.getClass().getName(), memberVO);
 		
+		memberDAO.insert(memberVO);
 	}
 
 	@Override
