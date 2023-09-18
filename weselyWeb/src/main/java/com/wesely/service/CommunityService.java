@@ -2,10 +2,12 @@ package com.wesely.service;
 
 import com.wesely.vo.CommentVO;
 import com.wesely.vo.CommunityVO;
+import com.wesely.vo.Paging;
 
 public interface CommunityService {
 	// 목록보기
-	// 커밋좀 제발
+	Paging<CommentVO> selectList(int currentPage, int sizeOfPage,int sizeOfBlock);
+	
 	// 1개얻어 조회수증가
 	CommunityVO selectById(int id, int mode);
 
