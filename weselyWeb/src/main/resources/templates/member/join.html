@@ -128,7 +128,7 @@
 			// 비밀번호 유효성검사
 			$("#password").keyup(function () {
 				var pw = $("#password").val();
-				if (pw != null && pw.length >= 6) {
+				if (pw != null && pw.length >= 4) {
 					var reg = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 					if (!reg.test(pw)) {
 						$("#pwMessage").css('color', 'red').html("영문, 숫자, 특수기호를 모두 포함해야 합니다.");
@@ -136,7 +136,7 @@
 						$("#pwMessage").css('color', 'green').html("적합한 비밀번호입니다.");
 					}
 				} else {
-					$("#pwMessage").html(""); // 6자 미만이면 메세지 삭제
+					$("#pwMessage").html(""); // 4자 미만이면 메세지 삭제
 				}
 			});
 
@@ -209,7 +209,7 @@
 			}
 			value = $("#password1").val();
 			if (value == null || value.trim().length == 0) {
-				alert("비밀번호 확인 반드시 입력해야 합니다.");
+				alert("비밀번호 확인은 반드시 입력해야 합니다.");
 				$("#password1").val("");
 				$("#password1").focus();
 				return false;

@@ -21,7 +21,6 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public void insert(MemberVO memberVO) {
 		log.info("{}의 insert호출 : {}", this.getClass().getName(), memberVO);
-		
 		memberDAO.insert(memberVO);
 	}
 

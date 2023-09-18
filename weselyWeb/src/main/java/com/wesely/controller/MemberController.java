@@ -1,7 +1,5 @@
 package com.wesely.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.log;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -39,6 +37,22 @@ public class MemberController {
 		return "/member/join";
 	}
 
+	// 회원 가입 처리
+	@GetMapping("/joinOk")
+	public String joinOkGet() {
+		return "redirect:/";
+	}
+
+	@PostMapping("/joinOk")
+	public String joinOkPost(@ModelAttribute MemberVO memberVO) {
+		log.info("joinOkPost({})호출", memberVO);
+		if (memberVO != null) {
+			// 서비스를 호출하여 저장을 수행한다.
+			memberService.insert(memberVO);
+		}
+		return "redirect:/member/login";
+	}
+
 	// 아이디 중복확인
 	@RequestMapping(value = "/idCheck", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
@@ -49,9 +63,6 @@ public class MemberController {
 		return count + "";
 	}
 
-
-	
-	
 	// 로그인 폼 처리하기
 	@GetMapping(value = "/login")
 	public String login(HttpServletRequest request, Model model) {
@@ -73,13 +84,21 @@ public class MemberController {
 		return "/member/login";
 	}
 
-	// 로그인 처리하기
-	@GetMapping(value = "/loginOk")
-	public String loginOk(Model model) {
-		return "redirect:/index";
-	}
-
-
+	/*
+	 * // 로그인 처리하기
+	 * 
+	 * @RequestMapping(value = "/loginOk", method = RequestMethod.POST) public
+	 * String login(MemberVO vo) { System.out.println("vo = " + vo); return "index";
+	 * }
+	 * 
+	 * @RequestMapping(value = "/loginOk", method = RequestMethod.POST) public
+	 * String login(MemberVO vo, Model model) { System.out.println("vo = " + vo);
+	 * MemberVO memberVO = MemberService.loginUser(vo.getUserId(),
+	 * vo.getPassword()); //일치하는 아이디,비번이 없는 경우. if (memberVO == null) {
+	 * model.addAttribute("loginMessage", "아이디 혹은 비밀번호가 일치하지 않습니다!"); return
+	 * "index"; } model.addAttribute("userName", memberVO.getUserName()); return
+	 * "main"; }
+	 */
 
 	// 로그 아웃 처리
 	@GetMapping(value = "/logout")
@@ -87,21 +106,6 @@ public class MemberController {
 		// 세션에 저장된 회원 정보를 지워버린다.
 		session.removeAttribute("mvo");
 		return "redirect:/";
-	}
-
-	// 회원 가입 처리
-	@GetMapping("/joinOk")
-	public String joinOkGet() {
-		return "redirect:/";
-	}
-
-	@PostMapping("/joinOk")
-	public String joinOkPost(@ModelAttribute MemberVO memberVO) {
-		if (memberVO != null) {
-			// 서비스를 호출하여 저장을 수행한다.
-			memberService.insert(memberVO);
-		}
-		return "redirect:/member/login";
 	}
 
 	// 아이디 찾기 폼
@@ -161,12 +165,6 @@ public class MemberController {
 	@GetMapping(value = "/updatePasswordOk")
 	public String updatePasswordOk() {
 		return "/member/updatePasswordOk";
-	}
-
-	// 회원약관 동의 폼
-	@GetMapping(value = "/agreement")
-	public String agreement() {
-		return "/member/agreement";
 	}
 
 	@Autowired

@@ -5,7 +5,6 @@ import java.util.List;
 import com.wesely.vo.MemberVO;
 
 public interface MemberService {
-
 	// 회원가입
 	void insert(MemberVO memberVO);
 	
@@ -36,4 +35,5 @@ public interface MemberService {
 	// 비밀번호 찾기
 	MemberVO findPassword(MemberVO memberVO);
 	
+
 }
