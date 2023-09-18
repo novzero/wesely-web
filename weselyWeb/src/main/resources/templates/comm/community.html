@@ -5,12 +5,15 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>커뮤니티</title>
+	
+	<link rel="stylesheet" href="/css/font.css">
+	<link rel="stylesheet" href="/css/header.css">
 	<link rel="stylesheet" href="/css/commu.css">
 </head>
 
 <body>
 	<div class="wrapper">
-		<div class="header">
+		<header>
 			<div class="logo">
 				<a href="/">
 					<img src="/images/weLogo.png" alt="Logo" />
@@ -26,7 +29,7 @@
 				<a href="/member/join"><strong>회원가입</strong></a>
 				<a href="/"><strong>비즈니스 계정</strong></a>
 			</nav>
-		</div>
+		</header>
 
 		<!-- 👇 여기부터 커뮤니티 목록보기 -->
 		<main>
@@ -42,7 +45,7 @@
 						<img src="/images/ic.png" alt="마커아이콘" />
 						<p>대전광역시 중구 대흥동</p>
 					</div>
-					<button class="btnAddPost">
+					<button class="btnAddPost" th:onclick="location.href='/community/insert'">
 						포스트 작성
 					</button>
 				</div>
@@ -151,8 +154,6 @@
 						id quo in!
 					</p>
 				</div>
-
-
 			</div>
 		</main>
 	</div>

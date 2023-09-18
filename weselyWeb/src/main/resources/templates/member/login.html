@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <!-- Thymeleaf를 사용하겠다. -->
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8">
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>로그인 페이지</title>
-	<link rel="stylesheet" href="/webjars/bootstrap/5.3.0/dist/css/bootstrap.min.css">
+
 	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
-	<script src="/webjars/bootstrap/5.3.0/dist/js/bootstrap.min.js"></script>
 	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
+	<link rel="stylesheet" href="/css/font.css" />
+	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/style.css">
-	<style type="text/css">
+	<style>
 		#loginform {
 			width: 300px;
 			margin-right: auto;
@@ -101,55 +103,56 @@
 <body>
 
 	<div class="wrapper">
-		<div class="header">
+		<header>
 			<div class="logo">
 				<a href="/">
 					<img src="/images/weLogo.png" alt="Logo" />
 				</a>
 			</div>
 			<nav class="bar">
-                <a href="/store/"><strong>운동시설검색</strong></a>
-                <a href="/community/"><strong>커뮤니티</strong></a>
-                <a href="/"><strong>고객센터</strong></a>
-            </nav>
-            <nav class="login">
-                <a href="/member/login"><strong>로그인</strong></a>
-                <a href="/member/join"><strong>회원가입</strong></a>
-                <a href="/"><strong>비즈니스 계정</strong></a>
-            </nav>
+				<a href="/store/"><strong>운동시설검색</strong></a>
+				<a href="/community/"><strong>커뮤니티</strong></a>
+				<a href="/"><strong>고객센터</strong></a>
+			</nav>
+			<nav class="login">
+				<a href="/member/login"><strong>로그인</strong></a>
+				<a href="/member/join"><strong>회원가입</strong></a>
+				<a href="/"><strong>비즈니스 계정</strong></a>
+			</nav>
+		</header>
+
+
+
+
+		<div id="loginform">
+			<img src="/images/wesely_logo.png" alt="wesely로고" width="50px">
+			<form action="/member/loginOk" method="post" onsubmit="return formCheck()">
+
+				<div id="inputform">
+					<!-- 아이디 입력 폼 -->
+					<div>
+						<label for="userid">아이디</label>
+						<input type="text" id="userid" name="userid" th:value="${userid}" required tabindex="1" />
+					</div>
+					<!-- 비밀번호 입력 폼 -->
+					<div>
+						<label for="password">비밀번호</label>
+						<input type="password" id="password" name="password" required tabindex="2" />
+					</div>
+
+					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
+					<!-- 아이디/비밀번호 찾기 링크 보이기 & 전송 폼  -->
+					<div>
+						<input type="submit" value="로그인" class="loginBtn" tabindex="3" />
+						<a href="/member/findUserId">아이디를 잊으셨나요?</a><br />
+						<a href="/member/findPassword">비밀번호를 잊으셨나요?</a>
+					</div>
+				</div>
+
+			</form>
+			<p th:text="${loginMessage}" style="color: red"></p>
 		</div>
-	</div>
-
-
-
-	<div id="loginform">
-		<img src="/images/wesely_logo.png" alt="wesely로고" width="50px">
-		<form action="/member/loginOk" method="post" onsubmit="return formCheck()">
-
-			<div id="inputform">
-				<!-- 아이디 입력 폼 -->
-				<div>
-					<label for="userid">아이디</label>
-					<input type="text" id="userid" name="userid" th:value="${userid}" required tabindex="1" />
-				</div>
-				<!-- 비밀번호 입력 폼 -->
-				<div>
-					<label for="password">비밀번호</label>
-					<input type="password" id="password" name="password" required tabindex="2" />
-				</div>
-				
-				<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-				
-				<!-- 아이디/비밀번호 찾기 링크 보이기 & 전송 폼  -->
-				<div>
-					<input type="submit" value="로그인" class="loginBtn" tabindex="3" />
-					<a href="/member/findUserId">아이디를 잊으셨나요?</a><br />
-					<a href="/member/findPassword">비밀번호를 잊으셨나요?</a>
-				</div>
-			</div>
-
-		</form>
-		<p th:text="${loginMessage}" style="color: red"></p>
 	</div>
 </body>
 
