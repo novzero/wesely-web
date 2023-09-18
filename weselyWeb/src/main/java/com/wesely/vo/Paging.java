@@ -6,7 +6,6 @@ public class Paging<T> {
 
 	private List<T> list;
 
-	
 	private int totalCount;
 	private int currentPage;
 	private int sizeOfPage;
