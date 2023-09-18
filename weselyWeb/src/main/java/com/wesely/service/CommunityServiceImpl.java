@@ -161,20 +161,26 @@ public class CommunityServiceImpl implements CommunityService {
 		log.info("commentDelete 리턴 : {}", commentVO);
 		return result;
 	}
+//	// 목록보기
+//	@Override
+//	public Paging<CommentVO> selectList(int currentPage, int sizeOfPage, int sizeOfBlock) {
+//		log.info("selectList 호출 : {},{},{}", currentPage,sizeOfPage,sizeOfBlock);
+//		Paging<CommentVO> paging= null;
+//		try {
+//			// 1. 전체 개수를 구한다.
+//			int totalCount = communityDAO.selectCount();
+//			// 2. 페이지 계산을 한다.
+//			paging
+//			// 3. 1페이지 분량의 글목록을 가져온다.
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 
 	@Override
 	public Paging<CommentVO> selectList(int currentPage, int sizeOfPage, int sizeOfBlock) {
-		log.info("selectList 호출 : {},{},{}", currentPage,sizeOfPage,sizeOfBlock);
-		List<CommentVO> paging= null;
-		try {
-			// 1. 전체 개수를 구한다.
-			int totalCount = communityDAO.selectCount();
-			// 2. 페이지 계산을 한다.
-			
-			// 3. 1페이지 분량의 글목록을 가져온다.
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// TODO Auto-generated method stub
 		return null;
 	}
 
