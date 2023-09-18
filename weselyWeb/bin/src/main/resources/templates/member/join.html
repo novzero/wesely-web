@@ -9,6 +9,7 @@
 	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
 	<script src="/webjars/bootstrap/5.3.0/dist/js/bootstrap.min.js"></script>
 	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/member.js"></script>
 	<link rel="stylesheet" href="/css/style.css">
 	<style type="text/css">
 		#joinform {
@@ -68,47 +69,19 @@
 		td {
 			padding: 5px;
 		}
-
-		#joinform i {
-			position: absolute;
-			left: 75%;
-			top: 27px;
-			color: orange;
-		}
 	</style>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 
-		$(function checkEmail() {
+		$(function () {
 			// 이메일 중복확인
 			// keyup 이벤트 지정
-			$("#userid").keyup(function checkEmail() {
-				// 현재 값 읽기
-				let value = $(this).val();
-				// 입력한 이메일이 4글자 이상일때 중복처리
-				if (value != null && value.length >= 4) {
-					// Ajax로 아이디 중복을 호출하여 처리를 한다.
-					axios.get('/api/count/' + value)
-						.then(function (response) {
-							// 성공 핸들링
-							console.log(JSON.stringify(response));
-							// alert("성공 : " + response.data)
-							if (response.data == 0) {
-								$("#message").css('color', 'blue').html('사용가능한 아이디 입니다.');
-							} else {
-								$("#message").css('color', 'red').html('사용 불가능한 아이디 입니다.');
-							}
-						})
-						.catch(function (error) {
-							// 에러 핸들링
-							console.log(error);
-							alert("에러발생 : " + error)
-						})
-						.finally(function () {
-							// 항상 실행되는 영역
-						});
+			$("#email").keyup(function () {
+				let email = $(this).val();
+				if (email != null && email.length >= 3) {
+
 				} else {
-					$("#message").css('color', 'black').html(""); // 4자 미만이면 메세지 삭제
+					$("emailmsg").html("");
 				}
 			});
 
@@ -116,119 +89,117 @@
 
 
 		$(function () {
-			// 아이디 중복확인
-			// keyup 이벤트 지정
+
+			// 아이디 중복확인 : Ajax로 처리
 			$("#userid").keyup(function () {
-				// 현재 값 읽기
-				let value = $(this).val();
-				// 입력한 아이디가 4글자 이상일때 중복처리
-				if (value != null && value.length >= 4) {
-					// Ajax로 아이디 중복을 호출하여 처리를 한다.
-					axios.get('/api/count/' + value)
-						.then(function (response) {
-							// 성공 핸들링
-							console.log(JSON.stringify(response));
-							// alert("성공 : " + response.data)
-							if (response.data == 0) {
-								$("#message").css('color', 'green').html('사용가능한 아이디 입니다.');
-							} else {
-								$("#message").css('color', 'red').html('사용 불가능한 아이디 입니다.');
-							}
-						})
-						.catch(function (error) {
-							// 에러 핸들링
-							console.log(error);
-							alert("에러발생 : " + error)
-						})
-						.finally(function () {
-							// 항상 실행되는 영역
-						});
-				} else {
-					$("#message").html(""); // 4자 미만이면 메세지 삭제
+				var value = $(this).val();
+				// alert(value);
+				// 아이디가 4글자 이하면 검사 생략
+				if (value.length <= 4) {
+					$("#idMessage").html("").css('color', 'black');
+					return false;
 				}
+				if (value.includes(" ")) {
+					alert("아이디에는 공백을 포함할 수 없습니다.");
+					$(this).val("");
+					$(this).focus();
+					return false;
+				}
+				// 여기까지오면 3자이상에 공백이 없다는 것이다.
+				$.ajax('idCheck', {
+					type: "GET",
+					data: {
+						"userid": value
+					},
+					success: function (data) {
+						if (data * 1 >= 1) {
+							$("#idMessage").html("사용이 불가능한 아이디입니다.").css('color', 'red');
+						} else {
+							$("#idMessage").html("사용가능한 아이디입니다.").css('color', 'green');
+						}
+					},
+					error: function () {
+						alert("에러!!!");
+					}
+				});
 			});
 
-		});
 
-
-		// 비밀번호 유효성검사
-		$(function () {
-
-			// 문서를 모두 읽은 다음에 실행되라
-			$("#password1").keyup(function () {
-				var pw = $("#password1").val();
+			// 비밀번호 유효성검사
+			$("#password").keyup(function () {
+				var pw = $("#password").val();
 				if (pw != null && pw.length >= 6) {
 					var reg = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 					if (!reg.test(pw)) {
-						$("#message1").css('color', 'red').html("영문, 숫자, 특수기호를 모두 포함해야 합니다.");
+						$("#pwMessage").css('color', 'red').html("영문, 숫자, 특수기호를 모두 포함해야 합니다.");
 					} else {
-						$("#message1").css('color', 'green').html("적합한 비밀번호입니다.");
+						$("#pwMessage").css('color', 'green').html("적합한 비밀번호입니다.");
 					}
 				} else {
-					$("#message1").html(""); // 6자 미만이면 메세지 삭제
+					$("#pwMessage").html(""); // 6자 미만이면 메세지 삭제
 				}
 			});
 
-			$("#password2").keyup(function () {
-				var pw = $("#password1").val();
-				var pw2 = $("#password2").val();
-				if (pw2 != null && pw2.length >= 6) {
-					if (pw2 != pw) {
-						$("#message2").css('color', 'red').html("비밀번호가 일치하지 않습니다.");
+			$("#password1").keyup(function () {
+				var pw = $("#password").val();
+				var pw1 = $("#password1").val();
+				if (pw1 != null && pw1.length >= 1) {
+					if (pw1 != pw) {
+						$("#pw1Message").css('color', 'red').html("비밀번호가 일치하지 않습니다.");
 					} else {
-						$("#message2").css('color', 'green').html("비밀번호가 일치합니다.");
+						$("#pw1Message").css('color', 'green').html("비밀번호가 일치합니다.");
 					}
 				} else {
-					$("#message2").html(""); // 6자 미만이면 메세지 삭제
+					$("#pw1Message").html(""); // 1자 미만이면 메세지 삭제
 				}
 			});
 
+
+			// 별명 검사
+			$("#nickname").keyup(function () {
+				var nName = $("#nickname").val();
+				var reg = /^[가-힣]{2,8}$/;
+				if (!reg.test(nName)) {
+					$("#nickmessage").css('color', 'red').html("별명은 2~8자(한글)만 가능합니다.");
+				} else {
+					$("#nickmessage").css('color', 'green').html("사용가능한 별명입니다.");
+				}
+
+			});
+			
+			// 이메일검사
+			$('#email').on('change',function(){
+    		var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    		  if ($('#email').val().match(regExp) != null) {
+				  $("#emailmsg").html("");
+    		  }
+    		  else {
+				  $("#emailmsg").css('color', 'red').html("이메일 형식에 맞지않습니다.");
+    			  $('#email').focus();
+    			  return;
+    		  }
+    	})
 		});
+
 
 
 		// 폼체크
 		function formCheck() {
-			value = $("#username").val();
-			if (value == null || value.trim().length == 0) {
-				alert("사용자 이름은 반드시 입력해야 합니다.");
-				$("#username").val("");
-				$("#username").focus();
-				return false;
-			}
-			value = $("#phone").val();
-			if (value == null || value.trim().length == 0) {
-				alert("전화번호는 반드시 입력해야 합니다.");
-				$("#phone").val("");
-				$("#phone").focus();
-				return false;
-			}
-			value = $("#email").val();
-			if (value == null || value.trim().length == 0) {
-				alert("이메일 주소는 반드시 입력해야 합니다.");
-				$("#email").val("");
-				$("#email").focus();
-				return false;
-			}
-			if (CheckEmail(value)) {
-				alert("이메일 주소 형식이 틀립니다.");
-				$("#email").val("");
-				$("#email").focus();
-				return false;
-			}
-
-			let value = $("#userid").val();
+			var value = $("#userid").val();
 			if (value == null || value.trim().length == 0) {
 				alert("아이디는 반드시 입력해야 합니다.");
 				$("#userid").val("");
 				$("#userid").focus();
 				return false;
-			}
-			if (value.indexOf(" ") > 0) {
-				alert("아이디에는 공백을 포함할 수 없습니다.");
+			} s
+
+			if ($("#idMessage").css('color') != 'rgb(0, 0, 255)') {
+				alert('사용불가능한 아이디 입니다.');
 				$("#userid").val("");
 				$("#userid").focus();
 				return false;
-			}
+			};
+
 			value = $("#password").val();
 			if (value == null || value.trim().length == 0) {
 				alert("비밀번호는 반드시 입력해야 합니다.");
@@ -236,22 +207,46 @@
 				$("#password").focus();
 				return false;
 			}
-			if ($("#message").css('color') != 'rgb(0, 0, 255)') {
-				alert('아이디 중복확인을 다시하세요!!!');
-				$("#userid").val("");
-				$("#userid").focus();
+			value = $("#password1").val();
+			if (value == null || value.trim().length == 0) {
+				alert("비밀번호 확인 반드시 입력해야 합니다.");
+				$("#password1").val("");
+				$("#password1").focus();
 				return false;
-			};
+			}
+			//dd
+			value = $("#username").val();
+			if (value == null || value.trim().length == 0) {
+				alert("사용자 이름은 반드시 입력해야 합니다.");
+				$("#username").val("");
+				$("#username").focus();
+				return false;
+			}
 
-			return true;
+			value = $("#email").val();
+			if (value == null || value.trim().length == 0) {
+				alert("이메일 주소는 반드시 입력해야 합니다.");
+				$("#email").val("");
+				$("#email").focus();
+				return false;
+			}
+			if (!CheckEmail(value)) {
+				alert("이메일 주소 형식이 틀립니다.");
+				$("#email").val("");
+				$("#email").focus();
+				return false;
+			}
+
+			value = $("#phone").val();
+			if (value == null || value.trim().length == 0) {
+				alert("전화번호는 반드시 입력해야 합니다.");
+				$("#phone").val("");
+				$("#phone").focus();
+				return false;
+			}
+
 		}
 
-
-		// 이메일이 잘못되었는지 확인하는 함수 
-		function CheckEmail(str) {
-			let regex = new RegExp("([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$");
-			return !regex.test(str);
-		}
 	</script>
 </head>
 
@@ -260,30 +255,50 @@
 	<div class="wrapper">
 		<div class="header">
 			<div class="logo">
-				<a href="">
+				<a href="/">
 					<img src="/images/weLogo.png" alt="Logo" />
 				</a>
 			</div>
 			<nav class="bar">
-				<a href="#"><strong>운동시설검색</strong></a>
-				<a href="#1"><strong>커뮤니티</strong></a>
-				<a href="#2"><strong>고객센터</strong></a>
+				<a href="/store/"><strong>운동시설검색</strong></a>
+				<a href="/community/"><strong>커뮤니티</strong></a>
+				<a href="/"><strong>고객센터</strong></a>
 			</nav>
 			<nav class="login">
 				<a href="/member/login"><strong>로그인</strong></a>
-				<!-- <a href="/member/join"><strong>회원가입</strong></a> -->
-				<a href="#5"><strong>비즈니스 계정</strong></a>
+				<a href="/member/join"><strong>회원가입</strong></a>
+				<a href="/"><strong>비즈니스 계정</strong></a>
 			</nav>
 		</div>
 	</div>
 
+
+
 	<div id="joinform">
-		<form action="/member/agreement" method="post" onsubmit="return formCheck()">
+		<form action="/member/joinOk" method="post" onsubmit="return formCheck()">
 			<table class="inputform">
 				<tr>
 					<td class="title"><img src="/images/wesely_logo.png" alt="wesely로고" width="50px"></td>
 				</tr>
 
+				<tr>
+					<td>
+						<label for="userid">아이디 <span id="idMessage" style="float: right;"></span></label>
+						<input type="text" id="userid" name="userid" required />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="password">비밀번호<span id="pwMessage" style="float: right;"></span></label>
+						<input type="password" id="password" name="password" required />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="password1">비밀번호확인<span id="pw1Message" style="float: right;"></label>
+						<input type="password" id="password1" name="password1" required />
+					</td>
+				</tr>
 				<tr>
 					<td>
 						<label for="username">이름</label>
@@ -292,37 +307,38 @@
 				</tr>
 				<tr>
 					<td>
+						<label for="nickname">별명<span id="nickmessage" style="float: right;"></span></label>
+						<input type="text" id="nickname" name="nickname" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="role">계정 유형</label>
+						<select name="role"
+							style="width:100%; height: 35px; border: 2px solid gainsboro; border-radius: 7px; text-align: center;"
+							required />
+						<option value="1">일반 계정</option>
+						<option value="2">비즈니스 계정</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label for="email">이메일<span id="emailmsg" style="float: right;"></span></label>
+						<input type="text" id="email" name="email" size="40" required />
+					</td>
+				</tr>
+				<tr>
+					<td>
 						<label for="phone">전화번호</label>
 						<input type="text" id="phone" name="phone" required />
 					</td>
 				</tr>
+
+				<!-- 전송 입력폼 -->
 				<tr>
 					<td>
-						<label for="email">이메일</label>
-						<input type="email" id="email" name="email" required size="40" />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="userid">아이디 <span id="message" style="float: right;"></span></label>
-						<input type="text" id="userid" name="userid" required />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="password1">비밀번호<span id="message1" style="float: right;"></span></label>
-						<input type="password" id="password1" name="password1" required />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="password2">비밀번호확인<span id="message2" style="float: right;"></label>
-						<input type="password" id="password2" name="password2" required />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<input type="submit" value="약관 동의하고 회원가입" class="joinBtn" />
+						<input type="submit" value="회원가입" class="joinBtn" />
 					</td>
 				</tr>
 			</table>

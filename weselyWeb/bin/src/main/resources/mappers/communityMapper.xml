@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wesely.dao.CommunityDAO">
+<!-- 1. 전체 개수 얻기  -->
+	<select id="selectCount" resultType="int">
+		select count(*) from community
+	</select>
+   <!-- 2. 1개 얻기  -->
+   	<select id="selectById"  parameterType="int" resultType="CommunityVO">
+   		select * from community where id=#{id}
+   	</select>
+   <!-- 3. 1페이지 얻기  -->
+   <select id="selectList" parameterType="hashmap" resultType="CommunityVO">
+	 select 
+	 	Q.*
+	 from	
+	   	(select
+	   		rownum rnum, R.*
+	   		from	
+	   			(select * from community order by id desc) R 
+	   		where
+	   			<![CDATA[
+	   				rownum <= #{endNo}
+	   			]]>
+	   		) Q
+	   where
+	   			<![CDATA[
+	   				rownum >= #{startNo}
+	   			]]>
+   </select>
+   <!-- 4. 저장하기  -->
+   <insert id="insert" parameterType="CommunityVO" >
+   		insert into community values 
+   		(community_id_seq.nextval, #{userid},#{nickname},#{password},#{contents},#{subject},sysdate,0)
+   </insert>
+   <!-- 5. 수정하기  -->
+   <update id="update" parameterType="CommunityVO">
+   		update community set subject=#{subject}, contents=#{contents}, regdate=sysdate, ip=#{ip} where id=#{id}
+   </update>
+   <!-- 6. 삭제하기  -->
+   <delete id="delete"  parameterType="CommunityVO">
+   		delete  from community where id=#{id}
+   </delete>
+   <!-- 7. 조회수 증가하기  -->
+   <update id="updateReadCount" parameterType="int">
+   		update community set readCount = readCount+1 where id=#{id}
+   </update>
