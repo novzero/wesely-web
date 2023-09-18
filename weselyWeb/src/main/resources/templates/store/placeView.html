@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org" />
+	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>운동시설상세보기</title>
 	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="/css/font.css" />
+	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/store/placeView.css" />
 </head>
 
 <body>
-	
+
 	<div class="wrapper">
-		<div class="header">
+		<header>
 			<div class="logo">
 				<a href="/">
 					<img src="/images/weLogo.png" alt="Logo" />
@@ -29,7 +30,7 @@
 				<a href="/member/join"><strong>회원가입</strong></a>
 				<a href="/"><strong>비즈니스 계정</strong></a>
 			</nav>
-		</div>
+		</header>
 
 		<!-- 👇여기부터 시설상세페이지 -->
 		<main>
@@ -78,7 +79,7 @@
 							<p>일 07:00 - 23:00</p>
 							<p>월 07:00 - 23:00</p>
 							<p>화 07:00 - 23:00</p>
-							</d>
+						</div>
 					</li>
 
 					<li class="indexBall flex">전화번호
@@ -101,7 +102,7 @@
 			<section class="storeReview">
 				<div class="storeReviewTitleBox">
 					<h3>방문자 리뷰</h3>
-					<button>리뷰작성하기</button>
+					<button class="btnAddReview">리뷰작성하기</button>
 				</div>
 
 				<div class="reviewBox">
@@ -182,14 +183,31 @@
 			</div>
 			<textarea class="reviewTextBox"></textarea>
 			<div class="modalBtn">
-				<button class="">취소</button>
-				<button class="">등록</button>
+				<button class="btnCanclePost" >취소</button>
+				<button class="" th:onclick="location.href='/store/insert'">등록</button>
 			</div>
 		</section>
 		<div class="overlay"></div>
 	</div>
+	
 	<!-- Scripts -->
-	<script src="./test2.js"></script>
+	<script>
+		const btnAdd = document.querySelector('.btnAddReview');
+		const modal = document.querySelector('.addReviewModal');
+		const overlay = document.querySelector('.overlay');
+
+		const btnCanclePost = document.querySelector('.btnCanclePost');
+
+		btnAdd.addEventListener('click', function () {
+			modal.classList.add('on');
+			overlay.classList.add('on');
+		});
+
+		btnCanclePost.addEventListener('click', function () {
+			modal.classList.remove('on');
+			overlay.classList.remove('on');
+		});
+	</script>
 </body>
 
 </html>
