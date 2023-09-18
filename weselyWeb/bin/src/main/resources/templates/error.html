@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!-- Thymeleaf를 사용하겠다. -->
+<html lang="ko" xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>에러발생!!!</title>
+<link rel="stylesheet" href="/webjars/bootstrap/5.3.0/dist/css/bootstrap.min.css">
+<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
+<script src="/webjars/bootstrap/5.3.0/dist/js/bootstrap.min.js"></script>
+<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
+<style type="text/css">
+#info {
+	width: 90%;
+	padding: 10px;
+	margin: auto;
+	margin-bottom: 10px;
+	font-size: 18pt;
+	border-radius: 20px;
+}
+
+.backBtn {
+			width: 400px;
+			height: 40px;
+			border-radius: 7px;
+			border: 1px solid #4D54A5;
+			color: #4D54A5;
+			font-weight: bold;
+			background-color: rgb(255, 255, 255);
+			margin-top: 10px;
+		}
+		
+</style>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+	<div id="info">
+		<img src="/images/weLogo.png" alt="Logo" style="width: 300px;"/>
+		<h2>죄송합니다! 에러입니다!</h2>
+		<input type="button" value="돌아가기" class="backBtn" onclick="javascript:history.back();" />
+	</div>
+	
+</body>
+</html>
