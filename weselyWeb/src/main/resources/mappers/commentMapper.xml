@@ -20,7 +20,7 @@
 			(comm_id_seq.nextval, #{ref},#{name},#{password},#{content},sysdate,0)
 	</insert>
 	<!-- 4. 댓글 수정 -->
-	<update id="update" parameterType="BCommentVO">
+	<update id="update" parameterType="CommentVO">
 		update 
 			comm
 		set
