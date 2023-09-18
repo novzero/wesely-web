@@ -1,5 +1,8 @@
 package com.wesely.vo;
 
+import lombok.Data;
+
+@Data
 public class CommunityImgVO {
 	private int id;  // 키필드
 	private int ref; // 원본글 번호
