@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.wesely.dao.CommentDAO;
 import com.wesely.dao.CommunityDAO;
 import com.wesely.vo.CommentVO;
+import com.wesely.vo.CommunityImgVO;
 import com.wesely.vo.CommunityVO;
 import com.wesely.vo.Paging;
 
@@ -52,7 +53,8 @@ public class CommunityServiceImpl implements CommunityService {
 		boolean result = false;
 		if (communityVO != null) {
 			// 비번,제목,내용이 있다면
-
+			communityDAO.insert(communityVO);
+			
 			if (communityVO.getNickname() != null && communityVO.getNickname().trim().length() > 0) {
 				communityDAO.insert(communityVO);
 				result = true;
@@ -161,22 +163,6 @@ public class CommunityServiceImpl implements CommunityService {
 		log.info("commentDelete 리턴 : {}", commentVO);
 		return result;
 	}
-//	// 목록보기
-//	@Override
-//	public Paging<CommentVO> selectList(int currentPage, int sizeOfPage, int sizeOfBlock) {
-//		log.info("selectList 호출 : {},{},{}", currentPage,sizeOfPage,sizeOfBlock);
-//		Paging<CommentVO> paging= null;
-//		try {
-//			// 1. 전체 개수를 구한다.
-//			int totalCount = communityDAO.selectCount();
-//			// 2. 페이지 계산을 한다.
-//			paging
-//			// 3. 1페이지 분량의 글목록을 가져온다.
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
 
 	@Override
 	public Paging<CommentVO> selectList(int currentPage, int sizeOfPage, int sizeOfBlock) {
