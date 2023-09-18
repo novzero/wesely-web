@@ -41,3 +41,5 @@
 		select * from comm where id=#{id}
 	</select>
 	<!-- 8. 좋아요 수 증가-->
+	
+</mapper>
