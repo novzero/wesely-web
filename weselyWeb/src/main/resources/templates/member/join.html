@@ -74,38 +74,17 @@
 	<script>
 
 		$(function () {
-			// 이메일 중복확인
-			// keyup 이벤트 지정
-			$("#email").keyup(function () {
-				let email = $(this).val();
-				if (email != null && email.length >= 3) {
-
-				} else {
-					$("emailmsg").html("");
-				}
-			});
-
-		});
-
-
-		$(function () {
-
 			// 아이디 중복확인 : Ajax로 처리
 			$("#userid").keyup(function () {
 				var value = $(this).val();
 				// alert(value);
 				// 아이디가 4글자 이하면 검사 생략
-				if (value.length <= 4) {
-					$("#idMessage").html("").css('color', 'black');
-					return false;
-				}
-				if (value.includes(" ")) {
-					alert("아이디에는 공백을 포함할 수 없습니다.");
-					$(this).val("");
+				if (value.length <= 4 || value.includes(" ")) {
+					$("#idMessage").html("아이디는 5글자 이상이며, 공백을 포함할 수 없습니다.").css('color', 'red');
 					$(this).focus();
 					return false;
 				}
-				// 여기까지오면 3자이상에 공백이 없다는 것이다.
+				// 여기까지오면 4자이상에 공백이 없다는 것이다.
 				$.ajax('idCheck', {
 					type: "GET",
 					data: {
@@ -113,7 +92,7 @@
 					},
 					success: function (data) {
 						if (data * 1 >= 1) {
-							$("#idMessage").html("사용이 불가능한 아이디입니다.").css('color', 'red');
+							$("#idMessage").html("이미 존재하는 아이디입니다.").css('color', 'red');
 						} else {
 							$("#idMessage").html("사용가능한 아이디입니다.").css('color', 'green');
 						}
@@ -128,18 +107,14 @@
 			// 비밀번호 유효성검사
 			$("#password").keyup(function () {
 				var pw = $("#password").val();
-				if (pw != null && pw.length >= 4) {
-					var reg = /^(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
-					if (!reg.test(pw)) {
-						$("#pwMessage").css('color', 'red').html("영문, 숫자, 특수기호를 모두 포함해야 합니다.");
-					} else {
-						$("#pwMessage").css('color', 'green').html("적합한 비밀번호입니다.");
-					}
+				var reg = /^(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
+				if (!reg.test(pw)) {
+					$("#pwMessage").css('color', 'red').html("비밀번호는 8자 이상이며, 영문/숫자를 모두 포함해야합니다.");
 				} else {
-					$("#pwMessage").html(""); // 4자 미만이면 메세지 삭제
+					$("#pwMessage").css('color', 'green').html("적합한 비밀번호입니다.");
 				}
 			});
-
+			// 비밀번호 확인 검사
 			$("#password1").keyup(function () {
 				var pw = $("#password").val();
 				var pw1 = $("#password1").val();
@@ -157,30 +132,44 @@
 
 			// 별명 검사
 			$("#nickname").keyup(function () {
-				var nName = $("#nickname").val();
+				var value = $(this).val();
 				var reg = /^[가-힣]{2,8}$/;
-				if (!reg.test(nName)) {
+				if (!reg.test(value)) {
 					$("#nickmessage").css('color', 'red').html("별명은 2~8자(한글)만 가능합니다.");
-				} else {
-					$("#nickmessage").css('color', 'green').html("사용가능한 별명입니다.");
+					$(this).focus();
+				} else {					
+					$.ajax('nicknameCheck', {
+						type: "GET",
+						data: {
+							"nickname": value
+						},
+						success: function (data) {
+							if (data * 1 >= 1) {
+								$("#nickmessage").html("이미 존재하는 별명입니다.").css('color', 'red');
+							} else {
+								$("#nickmessage").html("사용가능한 별명입니다.").css('color', 'green');
+							}
+						},
+						error: function () {
+							alert("에러!!!");
+						}
+					});
 				}
-
 			});
-			
-			// 이메일검사
-			$('#email').on('change',function(){
-    		var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-    		  if ($('#email').val().match(regExp) != null) {
-				  $("#emailmsg").html("");
-    		  }
-    		  else {
-				  $("#emailmsg").css('color', 'red').html("이메일 형식에 맞지않습니다.");
-    			  $('#email').focus();
-    			  return;
-    		  }
-    	})
-		});
 
+
+			// 이메일검사
+			$('#email').on('change', function () {
+				var email = $("#email").val();
+				var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+				if (!regExp.test(email)) {
+					$("#emailmsg").css('color', 'red').html("이메일 형식에 맞지않습니다.");
+				} else {
+					$("#emailmsg").css('color', 'green').html("사용가능한 이메일입니다.");
+				}
+			});
+
+		});
 
 
 		// 폼체크
@@ -191,10 +180,9 @@
 				$("#userid").val("");
 				$("#userid").focus();
 				return false;
-			} s
-
-			if ($("#idMessage").css('color') != 'rgb(0, 0, 255)') {
-				alert('사용불가능한 아이디 입니다.');
+			}
+			if ($("#idMessage").css('color') != 'rgb(0, 128, 0)') {
+				alert("아이디를 확인해주세요.");
 				$("#userid").val("");
 				$("#userid").focus();
 				return false;
@@ -207,6 +195,13 @@
 				$("#password").focus();
 				return false;
 			}
+			if ($("#pwMessage").css('color') != 'rgb(0, 128, 0)') {
+				alert('비밀번호를 확인해주세요.');
+				$("#password").val("");
+				$("#password").focus();
+				return false;
+			};
+
 			value = $("#password1").val();
 			if (value == null || value.trim().length == 0) {
 				alert("비밀번호 확인은 반드시 입력해야 합니다.");
@@ -214,7 +209,14 @@
 				$("#password1").focus();
 				return false;
 			}
-			//dd
+			if ($("#pw1Message").css('color') != 'rgb(0, 128, 0)') {
+				alert('사용불가능한 비밀번호 입니다.');
+				$("#password1").val("");
+				$("#password1").focus();
+				return false;
+			};
+
+
 			value = $("#username").val();
 			if (value == null || value.trim().length == 0) {
 				alert("사용자 이름은 반드시 입력해야 합니다.");
@@ -230,12 +232,12 @@
 				$("#email").focus();
 				return false;
 			}
-			if (!CheckEmail(value)) {
-				alert("이메일 주소 형식이 틀립니다.");
+			if ($("#emailMsg").css('color') != 'rgb(0, 128, 0)') {
+				alert('이메일 주소를 다시 확인해주세요.');
 				$("#email").val("");
 				$("#email").focus();
 				return false;
-			}
+			};
 
 			value = $("#phone").val();
 			if (value == null || value.trim().length == 0) {
@@ -283,19 +285,19 @@
 
 				<tr>
 					<td>
-						<label for="userid">아이디 <span id="idMessage" style="float: right;"></span></label>
+						<label for="userid">아이디<br/><span id="idMessage"></span></label>
 						<input type="text" id="userid" name="userid" required />
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<label for="password">비밀번호<span id="pwMessage" style="float: right;"></span></label>
+						<label for="password">비밀번호<br /><span id="pwMessage"></span></label>
 						<input type="password" id="password" name="password" required />
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<label for="password1">비밀번호확인<span id="pw1Message" style="float: right;"></label>
+						<label for="password1">비밀번호 확인<span id="pw1Message" style="float: right;"></label>
 						<input type="password" id="password1" name="password1" required />
 					</td>
 				</tr>
