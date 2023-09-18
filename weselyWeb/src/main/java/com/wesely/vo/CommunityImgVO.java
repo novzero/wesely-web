@@ -7,4 +7,3 @@ public class CommunityImgVO {
 	private String fileName; // 원본이름
 	private String contentType; // 파일 종류
 }
-

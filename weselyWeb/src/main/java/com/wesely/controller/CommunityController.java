@@ -27,7 +27,8 @@ public class CommunityController {
 	// 커뮤니티 목록보기
 	@RequestMapping(value = { "/", "/list" })
 	public String getList(@ModelAttribute CommVO cv, Model model) {
-
+		model.addAttribute("cv",cv);
+		model.addAttribute("pv",communityService.selectList(cv.getP(),cv.getS(),cv.getB()));
 		return "/comm/community";
 	}
 
@@ -35,8 +36,19 @@ public class CommunityController {
 	// 입력폼
 	@GetMapping(value = "/insert")
 	public String insert(@ModelAttribute CommVO cv, Model model) {
-		
+		model.addAttribute("cv",cv);
 		return "comm/createPost";
+	}
+	// 저장완료
+	@GetMapping(value = "/insertOk")
+	public String insertOkGet() {
+		return "redirect:/comm/list";
+	}
+	
+	@PostMapping(value = "/insertOk")
+	public String insertOkPost(@ModelAttribute CommVO cv, @ModelAttribute CommunityVO vo) {
+		
+		return "redirect:/comm/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
 	}
 	
 	// 커뮤니티 상세보기
