@@ -25,4 +25,11 @@ public class StoreController {
 
 			return "/store/placeView";
 		}
+		
+		// 운동시설 검색하기
+				@GetMapping(value = "/search")
+				public String search(@ModelAttribute CommVO cv, Model model) {
+
+					return "/store/placeSearch";
+				}
 }
