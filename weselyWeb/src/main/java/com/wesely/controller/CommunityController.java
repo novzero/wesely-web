@@ -64,7 +64,7 @@ public class CommunityController {
 	public String insertOkPost(
 			@ModelAttribute CommVO cv,
 			@ModelAttribute CommunityVO vo,
-			@RequestParam MultipartFile[] uploadFile,
+			@RequestParam("uploadFile") MultipartFile[] uploadFile,
 			HttpServletRequest request,Model model) throws IOException {
 		
 		// 내용은 받았지만 파일은 받지 않았다.
@@ -98,7 +98,7 @@ public class CommunityController {
 		}
 		return "redirect:/comm/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
 	}
-	
+	// 서버경로
 	private String getFilePath() throws IOException{
 		String filePath = resourceLoader.getResource("/").getURI().toString() + "upload/";
 		filePath = filePath.substring(6);
@@ -111,7 +111,12 @@ public class CommunityController {
 	// 커뮤니티 상세보기
 	@GetMapping(value = "/view")
 	public String view(@ModelAttribute CommVO cv, Model model) {
-
+		CommunityVO vo = communityService.selectById(cv.getId(), cv.getMode());
+		if(vo == null) {
+			return "redirect:/comm/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
+		}
+		model.addAttribute("community",vo);
+		model.addAttribute("cv",cv);
 		return "/comm/viewPost";
 	}
 	
