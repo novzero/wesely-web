@@ -38,7 +38,7 @@ CREATE TABLE community(
 	);
 SELECT * FROM COMMUNITY;
 
--- 커뮤니티 댓글 테이블 --
+-- 커뮤니티 댓글 테이블 
 CREATE SEQUENCE comm_id_seq;
 CREATE TABLE COMM(
 	id NUMBER PRIMARY KEY,  -- 키필드
@@ -50,3 +50,14 @@ CREATE TABLE COMM(
 	);
 
 SELECT * FROM comm;
+
+-- 이미지 파일 테이블
+CREATE SEQUENCE communityImg_id_seq;
+CREATE TABLE communityImg(
+	id NUMBER PRIMARY KEY,  -- 키필드
+	ref NUMBER NOT NULL, -- 원본글 번호
+	uuid varchar2(200) NOT NULL, -- 중복처리위한 키
+	fileName varchar2(200) NOT NULL, -- 원본 파일명
+	contentType varchar2(200) NOT NULL -- 파일 종류
+);
+SELECT * FROM communityImg;

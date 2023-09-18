@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wesely.dao.CommunityImgDAO">
+
+<!-- 1. 지정 ref의 모든 파일목록 얻기 -->
+	<select id="selectByRef" parameterType="int" resultType="CommunityImgVO">
+		select * from CommunityImg where ref=#{ref}
+	</select>
+	
+	<!-- 2. 저장 -->
+	<insert id="insert" parameterType="CommunityImgVO">
+		insert into 
+			CommunityImg
+		values
+			(CommunityImg_id_seq.nextval, Community_id_seq.currval,#{uuid},#{fileName},#{contentType})
+	</insert>
+	<insert id="insert2" parameterType="CommunityImgVO">
+		insert into 
+			CommunityImg
+		values
+			(CommunityImg_id_seq.nextval, #{ref},#{uuid},#{fileName},#{contentType})
+	</insert>
+	<!-- 3. 지정 ref의 모든 파일 지우기 -->
+	<delete id="deleteByRef" parameterType="int">
+		delete from CommunityImg where ref=#{ref}
+	</delete>
+	<!-- 4. 지정 id의 파일 지우기 -->
+	<delete id="deleteById" parameterType="int">
+		delete from CommunityImg where id=#{id}
+	</delete>
+	<!-- 5. 1개 얻기 -->
+	<select id="selectById" parameterType="int" resultType="CommunityImgVO">
+		select * from CommunityImg where id=#{id}
+	</select>
+</mapper>

@@ -47,3 +47,5 @@
    <update id="updateReadCount" parameterType="int">
    		update community set readCount = readCount+1 where id=#{id}
    </update>
+   
+ </mapper>
