@@ -32,6 +32,12 @@ public interface MemberDAO {
 	// <!-- 동일한 아이디의 개수 얻기 : 아이디 중복 확인 -->
 	int selectCountByUserid(String userid);
 	
+	// <!-- 동일한 별명의 개수 얻기 : 별명 중복 확인 -->
+	int selectCountByNickname(String nickname);
+	
+	// <!-- 동일한 이메일의 개수 얻기 : 이메일 중복 확인 -->
+	int selectCountByEmail(String email);
+	
 	// <!-- 이름으로 찾기 -->
 	List<MemberVO> selectByUsername(String username);
 	

@@ -29,6 +29,9 @@ public interface MemberService {
 	//아이디 중복검사
 	int idCheck(String userid);
 	
+	//별명 중복검사
+	int nicknameCheck(String nickname);
+	
 	// 아이디 찾기
 	MemberVO findUserId(MemberVO memberVO);
 	
