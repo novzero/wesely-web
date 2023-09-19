@@ -6,7 +6,7 @@ import com.wesely.vo.Paging;
 
 public interface CommunityService {
 	// 목록보기
-	Paging<CommentVO> selectList(int currentPage, int sizeOfPage,int sizeOfBlock);
+	Paging<CommunityVO> selectList(int currentPage, int sizeOfPage,int sizeOfBlock);
 	
 	// 1개얻어 조회수증가
 	CommunityVO selectById(int id, int mode);

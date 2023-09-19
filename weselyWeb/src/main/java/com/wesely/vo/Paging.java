@@ -2,6 +2,9 @@ package com.wesely.vo;
 
 import java.util.List;
 
+import lombok.ToString;
+
+@ToString
 public class Paging<T> {
 
 	private List<T> list;

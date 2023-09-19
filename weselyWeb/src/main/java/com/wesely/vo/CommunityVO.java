@@ -25,7 +25,6 @@ public class CommunityVO {
 	private String nickname; // 닉네임
 	private String password; // 비번
 	private String contents; //내용
-	private String subject; // 제목
 	private Date regDate; // 작성날짜
 	private int readCount; // 조회수
 	private int commentCount; // 댓글 개수 - 목록보기

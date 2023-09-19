@@ -43,8 +43,8 @@ public class CommunityController {
 	@RequestMapping(value = { "/", "/list" })
 	public String getList(@ModelAttribute CommVO cv, Model model) {
 		model.addAttribute("cv",cv);
-		model.addAttribute("pv",communityService.selectList(cv.getP(),cv.getS(),cv.getB()));
-		return "/comm/community";
+		model.addAttribute("pv", communityService.selectList(cv.getP(), cv.getS(), cv.getB()));
+		return "/community/list";
 	}
 
 	// 커뮤니티 저장하기
@@ -52,12 +52,12 @@ public class CommunityController {
 	@GetMapping(value = "/insert")
 	public String insert(@ModelAttribute CommVO cv, Model model) {
 		model.addAttribute("cv",cv);
-		return "comm/createPost";
+		return "/community/createPost";
 	}
 	// 저장완료
 	@GetMapping(value = "/insertOk")
 	public String insertOkGet() {
-		return "redirect:/comm/list";
+		return "redirect:/community/list";
 	}
 	// 저장 포스트
 	@PostMapping(value = "/insertOk")
@@ -66,7 +66,7 @@ public class CommunityController {
 			@ModelAttribute CommunityVO vo,
 			@RequestParam("uploadFile") MultipartFile[] uploadFile,
 			HttpServletRequest request,Model model) throws IOException {
-		
+		log.info("컨트롤러 ?: {}{}{}", cv, vo, uploadFile);
 		// 내용은 받았지만 파일은 받지 않았다.
 		// 첨부파일 처리를 여기서 해준다.
 		List<CommunityImgVO> list = new ArrayList<>();
@@ -96,11 +96,11 @@ public class CommunityController {
 		}else {
 			log.info("저장 실패");
 		}
-		return "redirect:/comm/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
+		return "redirect:/community/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
 	}
 	// 서버경로
 	private String getFilePath() throws IOException{
-		String filePath = resourceLoader.getResource("/").getURI().toString() + "upload/";
+		String filePath = resourceLoader.getResource("/").getURI().toString() + "static/images/upload/";
 		filePath = filePath.substring(6);
 		File f = new File(filePath); // 파일 객체 생성
 		if (!f.exists())
@@ -113,11 +113,11 @@ public class CommunityController {
 	public String view(@ModelAttribute CommVO cv, Model model) {
 		CommunityVO vo = communityService.selectById(cv.getId(), cv.getMode());
 		if(vo == null) {
-			return "redirect:/comm/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
+			return "redirect:/community/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
 		}
 		model.addAttribute("community",vo);
 		model.addAttribute("cv",cv);
-		return "/comm/viewPost";
+		return "community/viewPost";
 	}
 	
 	// 댓글저장
