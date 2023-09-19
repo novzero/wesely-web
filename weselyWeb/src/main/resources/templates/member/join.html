@@ -129,7 +129,7 @@
 				}
 			});
 
-
+/*
 			// 별명 검사
 			$("#nickname").keyup(function () {
 				var value = $(this).val();
@@ -137,26 +137,32 @@
 				if (!reg.test(value)) {
 					$("#nickmessage").css('color', 'red').html("별명은 2~8자(한글)만 가능합니다.");
 					$(this).focus();
-				} else {					
-					$.ajax('nicknameCheck', {
-						type: "GET",
-						data: {
-							"nickname": value
-						},
-						success: function (data) {
-							if (data * 1 >= 1) {
-								$("#nickmessage").html("이미 존재하는 별명입니다.").css('color', 'red');
-							} else {
-								$("#nickmessage").html("사용가능한 별명입니다.").css('color', 'green');
-							}
-						},
-						error: function () {
-							alert("에러!!!");
-						}
-					});
+					return false;
 				}
+				
+				$.ajax(
+					//'nicknameCheck', 
+					{
+					url:`${path}/users/duplicated/1?str=${str}`,
+					type: "GET",
+					data: {
+						"nickname": value
+					},
+					success: function (data) {
+						if (data * 1 >= 1) {
+							$("#nickmessage").html("이미 존재하는 별명입니다.").css('color', 'red');
+						} else {
+							$("#nickmessage").html("사용가능한 별명입니다.").css('color', 'green');
+						}
+					},
+					error: function () {
+						alert("에러!!!");
+					}
+				});
+
 			});
 
+				*/
 
 			// 이메일검사
 			$('#email').on('change', function () {
@@ -223,7 +229,7 @@
 				$("#username").val("");
 				$("#username").focus();
 				return false;
-			}
+			};
 
 			value = $("#email").val();
 			if (value == null || value.trim().length == 0) {
@@ -231,7 +237,7 @@
 				$("#email").val("");
 				$("#email").focus();
 				return false;
-			}
+			};
 			if ($("#emailMsg").css('color') != 'rgb(0, 128, 0)') {
 				alert('이메일 주소를 다시 확인해주세요.');
 				$("#email").val("");
@@ -245,7 +251,7 @@
 				$("#phone").val("");
 				$("#phone").focus();
 				return false;
-			}
+			};
 
 		}
 
@@ -285,7 +291,7 @@
 
 				<tr>
 					<td>
-						<label for="userid">아이디<br/><span id="idMessage"></span></label>
+						<label for="userid">아이디<br /><span id="idMessage"></span></label>
 						<input type="text" id="userid" name="userid" required />
 					</td>
 				</tr>
