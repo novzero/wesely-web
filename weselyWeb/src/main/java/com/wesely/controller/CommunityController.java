@@ -64,7 +64,7 @@ public class CommunityController {
 	public String insertOkPost(
 			@ModelAttribute CommVO cv,
 			@ModelAttribute CommunityVO vo,
-			@RequestParam("uploadFile") MultipartFile[] uploadFile,
+			@RequestParam MultipartFile[] uploadFile,
 			HttpServletRequest request,Model model) throws IOException {
 		log.info("컨트롤러 ?: {}{}{}", cv, vo, uploadFile);
 		// 내용은 받았지만 파일은 받지 않았다.
