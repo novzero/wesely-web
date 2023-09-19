@@ -37,7 +37,7 @@
    </insert>
    <!-- 5. 수정하기  -->
    <update id="update" parameterType="CommunityVO">
-   		update community set contents=#{contents}, regdate=sysdate, ip=#{ip} where id=#{id}
+   		update community set contents=#{contents}, regdate=sysdate where id=#{id}
    </update>
    <!-- 6. 삭제하기  -->
    <delete id="delete"  parameterType="CommunityVO">
