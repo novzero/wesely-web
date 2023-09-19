@@ -1,19 +1,30 @@
 package com.wesely.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.wesely.service.CommunityService;
 import com.wesely.vo.CommVO;
 import com.wesely.vo.CommentVO;
+import com.wesely.vo.CommunityImgVO;
 import com.wesely.vo.CommunityVO;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -23,6 +34,10 @@ public class CommunityController {
 
 	@Autowired
 	private CommunityService communityService;
+	
+	// 서버의 리소스를 접근하기위한 객체. 부트가 자동으로 로드해줍니다.
+	@Autowired
+	ResourceLoader resourceLoader;
 	
 	// 커뮤니티 목록보기
 	@RequestMapping(value = { "/", "/list" })
@@ -44,17 +59,64 @@ public class CommunityController {
 	public String insertOkGet() {
 		return "redirect:/comm/list";
 	}
-	
+	// 저장 포스트
 	@PostMapping(value = "/insertOk")
-	public String insertOkPost(@ModelAttribute CommVO cv, @ModelAttribute CommunityVO vo) {
+	public String insertOkPost(
+			@ModelAttribute CommVO cv,
+			@ModelAttribute CommunityVO vo,
+			@RequestParam("uploadFile") MultipartFile[] uploadFile,
+			HttpServletRequest request,Model model) throws IOException {
 		
+		// 내용은 받았지만 파일은 받지 않았다.
+		// 첨부파일 처리를 여기서 해준다.
+		List<CommunityImgVO> list = new ArrayList<>();
+		if(uploadFile != null && uploadFile.length > 0) { // 파일이 존재하면
+			String filePath = getFilePath(); // 파일 저장 경로
+			log.info("서버 절대 경로 : " + filePath);
+			for (MultipartFile file : uploadFile) { // 반복한다.
+				if (!file.isEmpty()) { // 파일이 있다면
+					String uuid = UUID.randomUUID().toString();
+					String fileName = file.getOriginalFilename();
+					String contentType = file.getContentType();
+
+					File newFile = new File(filePath + uuid + "_" + fileName);
+					file.transferTo(newFile);
+
+					CommunityImgVO communityImgVO = new CommunityImgVO();
+					communityImgVO.setUuid(uuid);
+					communityImgVO.setFileName(fileName);
+					communityImgVO.setContentType(contentType);
+					list.add(communityImgVO);
+				}
+			}
+		vo.setImgList(list);
+	}
+		if (communityService.insert(vo)) {
+			log.info("저장 성공");
+		}else {
+			log.info("저장 실패");
+		}
 		return "redirect:/comm/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
+	}
+	// 서버경로
+	private String getFilePath() throws IOException{
+		String filePath = resourceLoader.getResource("/").getURI().toString() + "upload/";
+		filePath = filePath.substring(6);
+		File f = new File(filePath); // 파일 객체 생성
+		if (!f.exists())
+			f.mkdirs(); // 파일(폴더)이 존재하지 않으면 폴더를 생성한다.
+		return filePath;
 	}
 	
 	// 커뮤니티 상세보기
 	@GetMapping(value = "/view")
 	public String view(@ModelAttribute CommVO cv, Model model) {
-
+		CommunityVO vo = communityService.selectById(cv.getId(), cv.getMode());
+		if(vo == null) {
+			return "redirect:/comm/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
+		}
+		model.addAttribute("community",vo);
+		model.addAttribute("cv",cv);
 		return "/comm/viewPost";
 	}
 	

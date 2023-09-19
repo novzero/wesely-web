@@ -2,131 +2,339 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Main</title>
-    <link rel="stylesheet" href="/css/main.css" />
-    <!-- j 쿼리 -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Main</title>
+	<link rel="stylesheet" href="css/font.css" />
+	<link rel="stylesheet" href="css/header.css" />
+	<link rel="stylesheet" href="css/main.css" />
+	<!-- 제이쿼리 -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<!-- 아이콘 -->
+	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
 
 </head>
 
-
 <body>
-    <div class="wrapper">
-        <div class="header">
-            <div class="logo">
-                <a href="/">
-                    <img src="/images/weLogo.png" alt="Logo" />
-                </a>
-            </div>  
-            <nav class="bar">
-                <a href="/store/"><strong>운동시설검색</strong></a>
-                <a href="/community/"><strong>커뮤니티</strong></a>
-                <a href="/"><strong>고객센터</strong></a>
-            </nav>
-            <nav class="login">
-                <a href="/member/login"><strong>로그인</strong></a>
-                <a href="/member/join"><strong>회원가입</strong></a>
-                <a href="/"><strong>비즈니스 계정</strong></a>
-            </nav>
-        </div>
+	<div class="wrapper">
 
-    <main>
-        <div class="body1">
-            <div class="weather">
-                <div class="wt1">
-                    <img src="/images/ic.png" class="icLogo" alt="" />
-                    <b>
-                        <P class="wt"></P>
-                        <p class="ho">°C</p><br />
-                        <p class="YesWeather"></p>
-                    </b>
-                    <!-- 자바스크립트로 내용 들어옴-->
-                    <img src="" id="weatherImage" alt="" />
-                    <b>
-                        <p class="mise">미세먼지 </p>
-                    </b>
-                </div>
-                <!-- 자바스크립트로 내용 들어옴-->
-                <div class="window"></div>
-                <div class="inAct">
-                    <img src="/images/inAct.png" alt="" />
-                </div>
-            </div>
-            <!-- 자바스크립트로 내용 들어옴-->
-            <div class="sm">
-                <div class="sm1"></div>
-            </div>
+		<header>
+			<div class="logo">
+				<a href="/">
+					<img src="/images/weLogo.png" alt="Logo" />
+				</a>
+			</div>
+			<nav class="bar">
+				<a href="/store/"><strong>운동시설검색</strong></a>
+				<a href="/community/"><strong>커뮤니티</strong></a>
+				<a href="/"><strong>고객센터</strong></a>
+			</nav>
+			<nav class="login">
+				<a href="/member/login"><strong>로그인</strong></a>
+				<a href="/member/join"><strong>회원가입</strong></a>
+				<a href="/"><strong>비즈니스 계정</strong></a>
+			</nav>
+		</header>
 
-        </div>
-        <div class="body2">
-            <div class="sm2">
-                <h1>지금 우리동네의</h1>
-                <h1>핫한 운동시설은</h1>
-                <h4>사용자들의 후기를 확인해 보세요!</h4>
-                <br /><br />
+		<main>
+			<section class="weatherCard">
+				<div class="weatherList">
+					<div class="weatherItemTop">
+						<img class="iconLocation" src="/images/ic.png" alt="위치마커" />
 
-                <div class="botton">
-                    <img class="RBtn" src="images/RBtn.png" alt="" />
-                    <img class="LBtn" src="images/LBtn.png" alt="" />
-                </div>
-            </div>
+						<!-- js 현재위치, 현재 기온, 어제의 평균기온과 비교한 텍스트 -->
+						<div class="weatherText">
+							<p class="currentLocation">대전광역시 중구</p>
+							<span class="temp"></span><span> °C</span>
+							<p class="compareTempText"></p>
 
-            <div class="slideShow">
-                <div class="slide">
-                    <div class="jong">
-                        <a>
-                            <img src="/images/panda-bear-gd69cd903a_1280.jpg" height="200px" />
-                        </a>
-                    </div>
 
-                    <div class="jong">
-                        <a>
-                            <img src="/images/panda-bear-gd69cd903a_1280.jpg" />
-                        </a>
-                    </div>
+							<!-- js 미세먼지농도에 따른 표정아이콘 이미지경로변경-->
+							<div class="dustBox">
+								<img src="" id="weatherImage" alt="미세먼지 표정아이콘" />
+								<p class="dust">미세먼지 </p>
+							</div>
+						</div>
+					</div>
 
-                    <div class="jong">
-                        <a>
-                            <img src="/images/panda-bear-gd69cd903a_1280.jpg" />
-                        </a>
-                    </div>
+					<!-- 날씨에 따른 배경이미지, 사람이미지 변경 -->
+					<div class="window"></div>
+					<div class="inAct">
+						<img src="/images/inAct.png" alt="운동하는사람" />
+					</div>
+				</div>
 
-                    <div class="jong">
-                        <a>
-                            <img src="/images/panda-bear-gd69cd903a_1280.jpg" />
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-    <footer>
-        <div class="foot">
-            <div class="sm3">
-                <h1>🔥오늘의 운동 완료! 오.운.완🔥</h1>
-                <h4>우리 동네 사람들의 커뮤니티</h4>
-            </div>
-            <div class="community">
-                <div class="c"></div>
-                <div class="c"></div>
-                <div class="c"></div>
-                <div class="c"></div>
-                <div class="c"></div>
-                <div class="c"></div>
-            </div>
-            <div class="more">
-            
-                <div class="bye">더보러가기</div>
-            </div>
-        </div>
-    </footer>
-        <script type="text/javascript" src="/js/main.js"></script>
-        <script>
+				<!-- 날씨에 따른 인트로 문구 변경 -->
+				<div class="weatherItemBottom">
+					<div class="introText"></div>
+				</div>
+			</section>
 
-        </script>
+			<section class="storeCard">
+				<div class="storeTextBox">
+					<div>
+						<p>지금 우리동네의</p>
+						<p>핫한 운동시설은</p>
+						<h3>사용자들의 후기를 확인해 보세요!</h3>
+					</div>
+
+					<div class="buttonBox">
+						<button class="btnLeft">
+							<img src="images/RBtn.png" alt="좌측화살표" />
+						</button>
+
+						<button class="btnRight">
+							<img src="images/LBtn.png" alt="우측화살표" />
+						</button>
+					</div>
+
+				</div>
+
+				<div class="slideShow">
+					<ul class="slide__list">
+						<li class="slide__item on">
+							<a>
+								<img class="slide__image" src="/images/exmainStore.png" />
+							</a>
+							<div class="slideBoxText on">
+								<h2>나다운핏짐</h2>
+								<div class="slideBoxTextSub">
+									<p>평점 <span>4.7</span></p>
+									<p>중구 대흥동</p>
+								</div>
+							</div>
+						</li>
+
+						<li class="slide__item">
+							<img class="slide__image" src="/images/exmainStore.png" />
+						</li>
+
+						<li class="slide__item">
+							<img class="slide__image" src="/images/exmainStore.png" />
+						</li>
+
+						<li class="slide__item">
+							<img class="slide__image" src="/images/exmainStore.png" />
+						</li>
+					</ul>
+				</div>
+			</section>
+
+			<section class="communityCard">
+				<div class="communityCardBox">
+					<div class="communityTitle">
+						<h2>🔥오늘의 운동 완료! 오.운.완🔥</h2>
+						<h3>우리 동네 사람들의 커뮤니티</h3>
+					</div>
+
+					<div class="communityList">
+						<div class="communityItem">
+							<div class="commItemBox">
+								<img src="/images/exComm.png" alt="커뮤니티카드사진">
+								<div class="commTextArea">
+									<p class="commContent">
+										Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus repudiandae,
+										obcaecati dolor
+										repellendus ipsum, voluptates labore acc
+										text ellipsis를 설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고
+										적어둔다.text ellipsis를
+										설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text
+										ellipsis를 설정하기 위해 찾아본적이 정말
+										여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text ellipsis를 설정하기 위해 찾아본적이
+										정말 여러번인데 이제는 그만 찾아보고
+										척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.
+									</p>
+
+									<div class="commUserNameBox">
+										<sapn class="userName">Xxxzzz</sapn><span> 님</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="communityItem">
+							<div class="commItemBox">
+								<img src="/images/exComm.png" alt="커뮤니티카드사진">
+								<div class="commTextArea">
+									<p class="commContent">
+										Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus repudiandae,
+										obcaecati dolor
+										repellendus ipsum, voluptates labore acc
+										text ellipsis를 설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고
+										적어둔다.text ellipsis를
+										설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text
+										ellipsis를 설정하기 위해 찾아본적이 정말
+										여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text ellipsis를 설정하기 위해 찾아본적이
+										정말 여러번인데 이제는 그만 찾아보고
+										척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.
+									</p>
+
+									<div class="commUserNameBox">
+										<sapn class="userName">Xxxzzz</sapn><span> 님</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="communityItem">
+							<div class="commItemBox">
+								<img src="/images/exComm.png" alt="커뮤니티카드사진">
+								<div class="commTextArea">
+									<p class="commContent">
+										Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus repudiandae,
+										obcaecati dolor
+										repellendus ipsum, voluptates labore acc
+										text ellipsis를 설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고
+										적어둔다.text ellipsis를
+										설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text
+										ellipsis를 설정하기 위해 찾아본적이 정말
+										여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text ellipsis를 설정하기 위해 찾아본적이
+										정말 여러번인데 이제는 그만 찾아보고
+										척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.
+									</p>
+
+									<div class="commUserNameBox">
+										<sapn class="userName">Xxxzzz</sapn><span> 님</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="communityItem">
+							<div class="commItemBox">
+								<img src="/images/exComm.png" alt="커뮤니티카드사진">
+								<div class="commTextArea">
+									<p class="commContent">
+										Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus repudiandae,
+										obcaecati dolor
+										repellendus ipsum, voluptates labore acc
+										text ellipsis를 설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고
+										적어둔다.text ellipsis를
+										설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text
+										ellipsis를 설정하기 위해 찾아본적이 정말
+										여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text ellipsis를 설정하기 위해 찾아본적이
+										정말 여러번인데 이제는 그만 찾아보고
+										척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.
+									</p>
+
+									<div class="commUserNameBox">
+										<sapn class="userName">Xxxzzz</sapn><span> 님</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="communityItem">
+							<div class="commItemBox">
+								<img src="/images/exComm.png" alt="커뮤니티카드사진">
+								<div class="commTextArea">
+									<p class="commContent">
+										Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus repudiandae,
+										obcaecati dolor
+										repellendus ipsum, voluptates labore acc
+										text ellipsis를 설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고
+										적어둔다.text ellipsis를
+										설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text
+										ellipsis를 설정하기 위해 찾아본적이 정말
+										여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text ellipsis를 설정하기 위해 찾아본적이
+										정말 여러번인데 이제는 그만 찾아보고
+										척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.
+									</p>
+
+									<div class="commUserNameBox">
+										<sapn class="userName">Xxxzzz</sapn><span> 님</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="communityItem">
+							<div class="commItemBox">
+								<img src="/images/exComm.png" alt="커뮤니티카드사진">
+								<div class="commTextArea">
+									<p class="commContent">
+										Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus repudiandae,
+										obcaecati dolor
+										repellendus ipsum, voluptates labore acc
+										text ellipsis를 설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고
+										적어둔다.text ellipsis를
+										설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text
+										ellipsis를 설정하기 위해 찾아본적이 정말
+										여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text ellipsis를 설정하기 위해 찾아본적이
+										정말 여러번인데 이제는 그만 찾아보고
+										척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.
+									</p>
+
+									<div class="commUserNameBox">
+										<sapn class="userName">Xxxzzz</sapn><span> 님</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<button class="btnMoreView">더보러가기</button>
+			</section>
+		</main>
+
+		<footer>
+			<div class="btnSns">
+				<i class="fa-brands fa-instagram"></i>
+				<i class="fa-brands fa-facebook"></i>
+				<i class="fa-solid fa-comments"></i>
+			</div>
+
+			<div class="line"></div>
+
+			<div class="footerLayout">
+				<div class="footerLeft">
+					<ul class="footerLeftMain">
+						<li class="footerLeftMainItem">
+							<a href="">
+								회사소개
+							</a>
+						</li>
+						<li class="footerLeftMainItem">
+							<a href="">
+								인재채용
+							</a>
+						</li>
+						<li class="footerLeftMainItem">
+							<a href="">
+								제휴제안
+							</a>
+						</li>
+						<li class="footerLeftMainItem">
+							<a href="">
+								이용약관
+							</a>
+						</li>
+						<li class="footerLeftMainItem">
+							<a href="">
+								개인정보처리방침
+							</a>
+						</li>
+					</ul>
+
+					<div class="footerMainSubItem">
+						<div>
+							<span>대표 : 가나다</span>
+							<p>사업자등록번호 : 123-45-67890</p>
+						</div>
+						<p>사업장소재지 : 대전광역시 중구 대흥동 123번길 12 대흥타워1, 456층</p>
+					</div>
+				</div>
+
+				<div class="footerRight">
+					<p class="footerCall">고객센터 1234-4567</p>
+					<p>운영시간 평일 : 11:00 ~ 18:00 (토,일,공휴일 휴무)</p>
+					<p>점심시간 평일 : 13:00 ~ 14:00</p>
+				</div>
+			</div>
+		</footer>
+	</div>
+	<script src="js/main.js"></script>
+
 </body>
 
 </html>

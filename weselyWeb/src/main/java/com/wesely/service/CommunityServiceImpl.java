@@ -1,5 +1,6 @@
 package com.wesely.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.wesely.dao.CommentDAO;
 import com.wesely.dao.CommunityDAO;
+import com.wesely.dao.CommunityImgDAO;
 import com.wesely.vo.CommentVO;
+import com.wesely.vo.CommunityImgVO;
 import com.wesely.vo.CommunityVO;
 import com.wesely.vo.Paging;
 
@@ -22,6 +25,9 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Autowired
 	private CommentDAO commentDAO;
+	
+	@Autowired
+	private CommunityImgDAO communityImgDAO;
 
 	// 1개 얻어 조회수 증가
 	@Override
@@ -51,11 +57,14 @@ public class CommunityServiceImpl implements CommunityService {
 		// 이름이 있다면
 		boolean result = false;
 		if (communityVO != null) {
-			// 비번,제목,내용이 있다면
-
-			if (communityVO.getNickname() != null && communityVO.getNickname().trim().length() > 0) {
+			if(communityVO.getNickname()!= null && communityVO.getNickname().trim().length()>0) {				
+				
+			}
+			// 이미지 저장
+			for(CommunityImgVO vo : communityVO.getImgList()) {
+				communityImgDAO.insert(vo);
+				// 글 저장
 				communityDAO.insert(communityVO);
-				result = true;
 			}
 		}
 		// -----------------------------------------------------------------------------
@@ -65,8 +74,8 @@ public class CommunityServiceImpl implements CommunityService {
 
 	// 커뮤니티 글 수정
 	@Override
-	public boolean update(CommunityVO communityVO) {
-		log.info("update 호출:{}", communityVO);
+	public boolean update(CommunityVO communityVO, String delList,String filePath) {
+		log.info("update({},{},{}) 호출:", communityVO,delList,filePath);
 		boolean result = false;
 		// 글 존재하고 비번같으면 수정
 		if (communityVO != null) {
@@ -74,6 +83,27 @@ public class CommunityServiceImpl implements CommunityService {
 			if (dbVO != null && dbVO.getPassword().equals(communityVO.getPassword())) {
 				communityDAO.update(communityVO);
 				result = true;
+			}
+			for(CommunityImgVO vo: communityVO.getImgList()) {
+				communityImgDAO.insert2(vo);
+			}
+			// 삭제 파일을 삭제한다.
+			if(delList!=null && delList.length()>0) {
+				String[] delFile = delList.trim().split(" ");
+				if(delFile!=null && delFile.length>0) {
+					for(String s : delFile) {
+						// 파일 삭제
+						// 서버 저장된 파일삭제
+						CommunityImgVO communityImgVO = communityImgDAO.selectById(Integer.parseInt(s));
+						String fileName = communityImgVO.getUuid()+"_"+communityImgVO.getFileName();
+						File file = new File(filePath,fileName);
+						if(file.exists()){ // 파일이 존재하면
+							file.delete();
+						}
+						communityImgDAO.deleteById(Integer.parseInt(s));
+					}
+					result =true;
+				}
 			}
 		}
 		log.info("update 리턴: {}", result);
@@ -164,17 +194,7 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Override
 	public Paging<CommentVO> selectList(int currentPage, int sizeOfPage, int sizeOfBlock) {
-		log.info("selectList 호출 : {},{},{}", currentPage,sizeOfPage,sizeOfBlock);
-		List<CommentVO> paging= null;
-		try {
-			// 1. 전체 개수를 구한다.
-			int totalCount = communityDAO.selectCount();
-			// 2. 페이지 계산을 한다.
-			
-			// 3. 1페이지 분량의 글목록을 가져온다.
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		// TODO Auto-generated method stub
 		return null;
 	}
 

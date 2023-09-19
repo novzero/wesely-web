@@ -1,228 +1,195 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-.wrapper {
-    width: 100%;
-    /* padding: 0 400px; */
-}
-
-.header {
-    width: 100%;
-    height: 60px;
-
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    padding: 0 30px;
-    border-bottom: 1px solid #cdcdcd;
-}
-
-.logo {
-    width: 100px;
-    height: fit-content;
-    margin-right: auto;
-
-    cursor: pointer;
-}
-
-.logo img {
-    width: 100%;
-    height: 100%;
-}
-
-.bar {
-    font-size: 15px;
-
-    padding: 15px;
-}
-
-.bar a {
-    margin-right: 20px;
-    text-decoration: none;
-
-    color: #494b7c;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    width: 300px;
-    height: 20%;
-
-    border-radius: 20px;
-    background-color: #ececec;
-    padding: 16px;
-}
-
-.login a {
-    /* 가상요소 쓰기 위한 포지션설정 */
-    position: relative;
-    text-decoration: none;
-    margin-left: 20px;
-    font-weight: 800;
-    color: #959595;
-    font-size: 16px;
-}
-
-.login a::after {
-    position: absolute;
-    content: "|";
-    font-weight: 800;
-    padding-left: 8px;
-}
-
-/* 로그인 nav의 a태그의 마지막요소에 마진적용제거 */
-.login a:first-child {
-    margin-left: 0;
-}
-
-/* 가상요소after의 마지막요소 없애기 */
-.login a:last-child::after {
-    content: none;
-    padding: 0;
-}
-
-.titleBox {
-    margin: auto;
-    width: 60%;
-    margin-bottom: 30px;
-}
-
-.flexBox {
-    margin-top: 30px;
-    display: flex;
-    align-items: center;
-}
-
-.margin{
-    margin-left: 20px;
-}
-
-.title {
-    margin-top: 30px;
-    text-align: center;
-    color: #676767;
-}
-
 main {
-    width: 100%;
-    padding: 0 650px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  width: 100%;
+  padding: 0 650px;
+}
+
+.mainIconBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 100%;
+  padding: 24px 400px;
+}
+
+.currentPlace {
+  display: flex;
+  align-items: center;
+
+  font-size: 14px;
+  color: #676767;
+}
+
+.currentPlace img {
+  width: 24px;
+  margin-right: 20px;
+}
+
+.postBox {
+  /* border: 1px solid red; */
 }
 
 .userInfo {
-    display: flex;
-    margin-right: auto;
-    margin-bottom: 30px;
-    align-items: center;
-    /* border: 1px solid red; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: fit-content;
 }
 
-.img1 {
-    width: 480px;
-    height: 650px;
-    border-radius: 1em;
-    margin-bottom: 30px;
+.userInfo img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 
-.font {
-    font-weight: 550;
-    font-size: 18px;
-    color: #676767;
+.postContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin: 30px 0 16px 0;
 }
 
-.font1 {
-    margin-bottom: 10px;
-    color: #676767;
+.postContent img {
+  width: 480px;
+  height: 650px;
+  border-radius: 1em;
+  margin-bottom: 30px;
 }
 
-.Comments {
-    margin: 30px 0px 0px;
-    width: 100%;
+.postText {
+  font-size: 16px;
+  color: #676767;
 }
 
-.flexBox1 {
-    margin: 0px 0px 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.totalLike {
+  margin-bottom: 10px;
+  color: #676767;
 }
 
-.buttonYo{
-    border: none;
-    background-color: transparent
+.commentsBox {
+  margin: 20px 0px;
+  width: 100%;
 }
 
-.font2 {
-    color: #A1A1A1;
-    font-size: 13px;
+.btnList {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.talk {
-    margin-top: 20px;
-    margin-bottom: 100px;
+.btnList button {
+  width: 32px;
+  height: 30px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 }
 
-.Ttalk {
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    /* justify-content: space-between; */
+.btnList i {
+  font-size: 32px;
+  line-height: 32px;
+  /* border: 1px solid red; */
 }
 
-.margin2 {
-    margin-left: 10px;
-    margin-right: 10px;
-    font-weight: 550;
+.moreComments {
+  color: #a1a1a1;
+  font-size: 14px;
+  cursor: pointer;
 }
 
-.TTtalk{
-    width: 100%;
+.totalComments {
+  margin-top: 10px;
 }
 
-.textbtn{
-    display: flex;
-    align-items: center;
+.commentList {
+  margin-bottom: 20px;
 }
 
-.textBox {
-    height: 28px;
-    width: 100%;
-    margin-top: 20px;
-    border-bottom: 0px 1px #676767;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    background-color: transparent;
-    resize: none;
-    padding: 0px 0px 0px 15px
+.commentItem {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+
+  margin: 14px 0;
 }
 
-.textBox:focus {
-    outline: none;
+.commentLine {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+
+  width: 96%;
 }
 
-.btn {
-    height: 38px;
-    width: 15%;
-    border: 1px solid #4D54A5;
-    border-radius: 0.6em;
-    background-color: transparent;
-    color: #4D54A5;
+.commentText {
+  margin-left: 16px;
 }
 
-.btn:hover {
-    background-color: #cdcdcd;
+.btnCommentLike {
+  text-align: center;
+  width: 28px;
+  height: 24px;
+
+  margin-top: 4px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.btnCommentLike i {
+  font-size: 32px;
+  line-height: 32px;
+  /* width: 100%;
+  height: 100%; */
+}
+
+.addCommentBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.commentForm {
+  width: 80%;
+  height: auto;
+  overflow: hidden;
+
+  resize: none;
+  outline: none;
+
+  border: none;
+  border-bottom: 1px solid #676767;
+  background-color: transparent;
+
+  padding-left: 10px;
+  font-size: 14px;
+}
+
+.btnAddPost {
+  width: 16%;
+  height: 38px;
+
+  font-size: 14px;
+  color: #4d54a5;
+
+  border: 1px solid #4d54a5;
+  border-radius: 8px;
+  background-color: #fff;
+
+  cursor: pointer;
+}
+
+.btnAddPost:hover {
+  background-color: #4d54a5;
+  color: #fff;
 }

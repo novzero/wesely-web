@@ -1,18 +1,33 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Document</title>
-	<link rel="stylesheet" href="/css/createPost.css">
+	<title>게시글등록</title>
+	
+	<link rel="stylesheet" href="/css/font.css">
+	<link rel="stylesheet" href="/css/header.css">
+	<link rel="stylesheet" href="/css/comm/createPost.css">
 	<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 	<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
 </head>
+<script>
+	function formCheck(){
+			let value = $("#addText").val(); // 내용 얻고
+			if(value==null || value.trim().length==0){ // 없거나 빈칸들로만  입력되었다면
+				alert('내용은 반드시 입력해야 합니다.'); // 경고
+				 $("#addText").val(""); // 입력값 삭제
+				 $("#addText").focus(); // 커서 위치
+				 return false;   // 전송 취소
+			}
+			return true;
+		}
+</script>
 
 <body>
 	<div class="wrapper">
-		<div class="header">
+		<header>
 			<div class="logo">
 				<a href="/">
 					<img src="/images/weLogo.png" alt="Logo" />
@@ -28,62 +43,70 @@
 				<a href="/member/join"><strong>회원가입</strong></a>
 				<a href="/"><strong>비즈니스 계정</strong></a>
 			</nav>
-		</div>
-
-
-		<div class="titleBox">
-			<div class="flexBox">
-				<img src="/images/Location.png">
-				<p>대전광역시 중구 대흥동</p>
-			</div>
-			<h1 class="title">게시글 등록</h1>
-			<hr>
-		</div>
+		</header>
 
 		<main>
-			<div class="box">
+			<div class="mainTitle">
+				<div class="mainTextBox">
+					<h2>게시글 등록</h2>
+				</div>
+				<div class="line"></div>
+			</div>
+
+			<div class="addPostWrapper">
 				<div class="userInfo">
 					<img src="/images/Profile.png">
 					<p>haemssssss</p>
 				</div>
-				<div class="center">
-					<div class="aing">
-						<div class="Additional">
-							<ion-icon name="add-outline" style="font-size: 30pt; color: #686868;"></ion-icon>
-							<div>
-								사진추가
-							</div>
+			<form action="/community/insert" onsubmit="return formCheck()" method="post" enctype="multipart/form-data">
+				<div class="addImgWrapper">
+					<label class="addImgItem" for="inputFile1">
+						<input type="file" id="inputFile1" class="inputFile" name="uploadFile">
+						<ion-icon name="add-outline" class="addIcon"></ion-icon>
+						<div>
+							사진추가
 						</div>
-						<div class="Additional">
-							<ion-icon name="add-outline" style="font-size: 30pt; color: #686868;"></ion-icon>
-							<div>
-								사진추가
-							</div>
+						</input>
+					</label>
+
+					<label class="addImgItem" for="inputFile2">
+						<input type="file" id="inputFile2" class="inputFile">
+						<ion-icon name="add-outline" class="addIcon"></ion-icon>
+						<div>
+							사진추가
 						</div>
-						<div class="Additional">
-							<ion-icon name="add-outline" style="font-size: 30pt; color: #686868;"></ion-icon>
-							<div>
-								사진추가
-							</div>
+						</input>
+					</label>
+
+					<label class="addImgItem" for="inputFile3">
+						<input type="file" id="inputFile3" class="inputFile">
+						<ion-icon name="add-outline" class="addIcon"></ion-icon>
+						<div>
+							사진추가
 						</div>
-						<div class="Additional">
-							<ion-icon name="add-outline" style="font-size: 30pt; color: #686868;"></ion-icon>
-							<div>
-								사진추가
-							</div>
+						</input>
+					</label>
+
+					<label class="addImgItem" for="inputFile4">
+						<input type="file" id="inputFile4" class="inputFile">
+						<ion-icon name="add-outline" class="addIcon"></ion-icon>
+						<div>
+							사진추가
 						</div>
-					</div>
-					<textarea class="room"></textarea>
-					<div class="button">
-						<button class="buttonOne" type="button">취소</button>
-						<button class="buttonOne" type="button">등록</button>
-					</div>
+						</input>
+					</label>
 				</div>
+
+				<textarea id="addText" class="addText"></textarea>
+
+				<div class="btnWrapper">
+					<input class="btnCancle" type="button" value="취소" th:onclick="location.href='/community/'"></input>
+					<input class="btnAdd" type="submit" value="등록"></input>
+				</div>
+			</form>
 			</div>
 		</main>
 	</div>
-
-
 </body>
 
 </html>
