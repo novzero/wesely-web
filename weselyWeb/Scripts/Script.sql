@@ -32,11 +32,14 @@ CREATE TABLE community(
 	nickname varchar2(100) NOT NULL, -- 작성자
 	password varchar2(100) NOT NULL, -- 비번
 	contents varchar2(300) NOT NULL, -- 글 내용
-	subject varchar2(100) NOT NULL, -- 글 제목
 	regDate timestamp DEFAULT sysdate , -- 작성일
 	readCount NUMBER DEFAULT 0 -- 조회수 증가
 	);
 SELECT * FROM COMMUNITY;
+INSERT INTO community (id, userid,nickname,password,contents,regDate) values(1,'asdf','테스트계정','123456aaaa!','야이건테스트야', SYSDATE );
+INSERT INTO community (id, userid,nickname,password,contents,regDate) values(2,'qweqweqwe','테스트계정2','123456bbbb!','야이건테스트야2', SYSDATE );
+INSERT INTO community (id, userid,nickname,password,contents,regDate) values(3,'asdf12345','테스트계정3','123456cccc!','야이건테스트야3', SYSDATE );
+INSERT INTO community (id, userid,nickname,password,contents,regDate) values(4,'irekiek','테스트계정4','123456dddd!','야이건테스트야4', SYSDATE );
 
 -- 커뮤니티 댓글 테이블 
 CREATE SEQUENCE comm_id_seq;
@@ -61,3 +64,8 @@ CREATE TABLE communityImg(
 	contentType varchar2(200) NOT NULL -- 파일 종류
 );
 SELECT * FROM communityImg;
+
+SELECT community_id_seq.nextval,community_id_seq.currval  FROM dual;
+insert into CommunityImg values (CommunityImg_id_seq.nextval, Community_id_seq.currval,'e2ff4d1b-b89d-423e-9f11-197573a4c515','1.png','image/png');
+
+SELECT * FROM CommunityImg;
