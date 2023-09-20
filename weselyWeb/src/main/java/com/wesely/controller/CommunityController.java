@@ -23,6 +23,7 @@ import com.wesely.vo.CommVO;
 import com.wesely.vo.CommentVO;
 import com.wesely.vo.CommunityImgVO;
 import com.wesely.vo.CommunityVO;
+import com.wesely.vo.Paging;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,7 @@ public class CommunityController {
 	// 커뮤니티 목록보기
 	@RequestMapping(value = { "/", "/list" })
 	public String getList(@ModelAttribute CommVO cv, Model model) {
+		Paging<CommunityVO> paging = communityService.selectList(cv.getP(), cv.getS(), cv.getB());
 		model.addAttribute("cv",cv);
 		model.addAttribute("pv", communityService.selectList(cv.getP(), cv.getS(), cv.getB()));
 		return "/community/list";
@@ -70,18 +72,21 @@ public class CommunityController {
 		// 내용은 받았지만 파일은 받지 않았다.
 		// 첨부파일 처리를 여기서 해준다.
 		List<CommunityImgVO> list = new ArrayList<>();
-		if(uploadFile != null && uploadFile.length > 0) { // 파일이 존재하면
-			String filePath = getFilePath(); // 파일 저장 경로
+		// 파일이 존재하면
+		if(uploadFile != null && uploadFile.length > 0) { 
+			// 파일 저장 경로
+			String filePath = getFilePath(); 
 			log.info("서버 절대 경로 : " + filePath);
-			for (MultipartFile file : uploadFile) { // 반복한다.
-				if (!file.isEmpty()) { // 파일이 있다면
+			for (MultipartFile file : uploadFile) {
+				 // 파일이 있다면
+				if (!file.isEmpty()) {
+					// 랜덤으로 절대 경로 설정
 					String uuid = UUID.randomUUID().toString();
 					String fileName = file.getOriginalFilename();
 					String contentType = file.getContentType();
-
+					// 파일 중복제거를 위한 키 _ 파일 이름
 					File newFile = new File(filePath + uuid + "_" + fileName);
 					file.transferTo(newFile);
-
 					CommunityImgVO communityImgVO = new CommunityImgVO();
 					communityImgVO.setUuid(uuid);
 					communityImgVO.setFileName(fileName);
@@ -98,6 +103,27 @@ public class CommunityController {
 		}
 		return "redirect:/community/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
 	}
+	// 수정 폼
+	@GetMapping(value = "/update")
+	public String updateForm(@ModelAttribute CommVO cv, Model model) {
+		CommunityVO vo = communityService.selectById(cv.getId(), cv.getMode());
+		// 글이 없으면 리스트페이지로
+		if (vo == null) {
+			return "redirect:/community/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
+		}
+		// 존재하면 상세보기로
+		model.addAttribute("community",vo);
+		model.addAttribute("cv",cv);
+		return "community/update";
+	}
+	// 수정하기 완료
+	@GetMapping(value = "/updateOk")
+	public String updateOkGet() {
+		return "redirect:/community/list";
+	}
+	
+	@PostMapping(value = "/updateOk")
+	
 	// 서버경로
 	private String getFilePath() throws IOException{
 		String filePath = resourceLoader.getResource("/").getURI().toString() + "static/images/upload/";

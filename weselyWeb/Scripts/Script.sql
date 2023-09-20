@@ -34,19 +34,19 @@ CREATE TABLE community(
 	regDate timestamp DEFAULT sysdate , -- 작성일
 	readCount NUMBER DEFAULT 0 -- 조회수 증가
 	);
+DROP TABLE COMMUNITY;
 SELECT * FROM COMMUNITY;
 DELETE FROM community WHERE userid = 'wesely';
 -- 커뮤니티 댓글 테이블 
 CREATE SEQUENCE comm_id_seq;
 CREATE TABLE COMM(
 	id NUMBER PRIMARY KEY,  -- 키필드
-	REF NUMBER NOT NULL, -- 원본글 번호
-	name varchar2(100) NOT NULL, -- 작성자
+	REF NUMBER NOT NULL, -- 원본글 번호 
 	content varchar2(2000) NOT NULL, -- 내용
 	regdate timestamp DEFAULT sysdate -- 작성일
 	);
 SELECT * FROM comm;
-
+DROP TABLE comm;
 -- 이미지 파일 테이블
 CREATE SEQUENCE communityImg_id_seq;
 CREATE TABLE communityImg(
