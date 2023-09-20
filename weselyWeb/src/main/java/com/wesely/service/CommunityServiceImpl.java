@@ -55,7 +55,7 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public boolean insert(CommunityVO communityVO) {
 		log.info("insert 호출 :{}", communityVO);
-		// 이름이 있다면
+		// 이름이 있고 같다면
 		boolean result = false;
 		if (communityVO != null) {
 			if(communityVO.getNickname()!= null && communityVO.getNickname().trim().length()>0) {				
@@ -193,7 +193,8 @@ public class CommunityServiceImpl implements CommunityService {
 		log.info("commentDelete 리턴 : {}", commentVO);
 		return result;
 	}
-
+	
+	// 목록보여주기
 	@Override
 	public Paging<CommunityVO> selectList(int currentPage, int sizeOfPage, int sizeOfBlock) {
 		int toatalCount = communityDAO.selectCount();

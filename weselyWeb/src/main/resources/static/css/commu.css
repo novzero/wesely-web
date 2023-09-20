@@ -132,4 +132,5 @@ main {
 	word-break: break-all;
 	/*단어 단위로 끊어서 줄바꿈 한다 .*/
 	text-overflow: ellipsis;
+	
 }
