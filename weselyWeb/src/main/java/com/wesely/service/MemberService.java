@@ -15,7 +15,7 @@ public interface MemberService {
 	void delete(MemberVO memberVO);
 	
 	// 로그인
-	void login(MemberVO memberVO);
+	MemberVO login(MemberVO memberVO);
 	
 	// 로그아웃
 	void logout();

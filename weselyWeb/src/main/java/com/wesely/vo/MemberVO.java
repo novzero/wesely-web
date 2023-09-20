@@ -19,4 +19,5 @@ public class MemberVO {
 	private String 	nickname;
 	private String 	email;
 	private String 	phone;
+	private boolean saveID;
 }

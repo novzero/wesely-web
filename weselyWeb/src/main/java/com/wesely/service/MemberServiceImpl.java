@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.wesely.dao.MemberDAO;
 import com.wesely.vo.MemberVO;
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -37,11 +36,28 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void login(MemberVO memberVO) {
-		log.info("{}의 login호출 : {}", this.getClass().getName(), memberVO);
-		
+	public MemberVO login(MemberVO vo) {
+		log.info("{}의 login호출 : {}", this.getClass().getName(), vo);
+		MemberVO memberVO = null;
+		try {
+			// 1. 넘어온 아이디가 존재하는지 판단
+			MemberVO mvo = memberDAO.selectByUserid(vo.getUserid());
+			if(mvo!=null) { // 지정 아이디의 회원이 있다면
+				if(mvo.getPassword().equals(vo.getPassword())) {
+					memberVO = mvo;
+				}else {
+				}
+			}else {
+				// 아이디가 없다
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		log.info("login({}) 리턴", vo, memberVO);
+		return memberVO;
 	}
 
+	
 	@Override
 	public void logout() {
 		log.info("{}의 logout호출", this.getClass().getName());

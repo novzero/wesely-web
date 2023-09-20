@@ -81,18 +81,24 @@
 				$("#userid").focus();
 				return false;
 			}
-
 			if (value.indexOf(" ") > 0) {
 				alert("아이디에는 공백을 포함할 수 없습니다.");
 				$("#userid").val("");
 				$("#userid").focus();
 				return false;
 			}
+			
 			value = $("#password").val();
 			if (!value || value.trim().length == 0) {
 				alert("사용자 비밀번호는 반드시 입력해야 합니다.");
 				$("#password").val("");
 				$("#password").focus();
+				return false;
+			}
+			if (value.indexOf(" ") > 0) {
+				alert("비밀번호에는 공백을 포함할 수 없습니다.");
+				$("#userid").val("");
+				$("#userid").focus();
 				return false;
 			}
 			return true;

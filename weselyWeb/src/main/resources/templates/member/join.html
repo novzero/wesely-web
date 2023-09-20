@@ -133,7 +133,7 @@
 				}
 			});
 
-/*
+
 			// 별명 검사
 			$("#nickname").keyup(function () {
 				var value = $(this).val();
@@ -144,39 +144,36 @@
 					return false;
 
 				}
-				
-				$.ajax(
-					//'nicknameCheck', 
-					{
-					url:`${path}/users/duplicated/1?str=${str}`,
-					type: "GET",
-					data: {
-						"nickname": value
-					},
-					success: function (data) {
-						if (data * 1 >= 1) {
-							$("#nickmessage").html("이미 존재하는 별명입니다.").css('color', 'red');
-						} else {
-							$("#nickmessage").html("사용가능한 별명입니다.").css('color', 'green');
+
+				$.ajax('nicknameCheck', {
+						type: "GET",
+						data: {
+							"nickname": value
+						},
+						success: function (data) {
+							if (data * 1 >= 1) {
+								$("#nickmessage").html("이미 존재하는 별명입니다.").css('color', 'red');
+							} else {
+								$("#nickmessage").html("사용가능한 별명입니다.").css('color', 'green');
+							}
+						},
+						error: function () {
+							alert("에러!!!");
 						}
-					},
-					error: function () {
-						alert("에러!!!");
-					}
-				});
+					});
 
 			});
 
-*/
+
 
 			// 이메일검사
 			$('#email').on('change', function () {
 				var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 				if ($('#email').val().match(regExp) != null) {
-					$("#emailmsg").html("");
+					$("#emailMsg").html("");
 				}
 				else {
-					$("#emailmsg").css('color', 'red').html("이메일 형식에 맞지않습니다.");
+					$("#emailMsg").css('color', 'red').html("이메일 형식에 맞지않습니다.");
 					$('#email').focus();
 					return;
 				}
@@ -369,8 +366,6 @@
 				</table>
 			</form>
 
-
-
 			<label>
 				회원가입과 동시에 <img src="/images/weLogo.png" style="width: 50px;"> 의
 				<span style="color: #4D54A5; font-weight: bold;"> 개인정보 수집 및 처리</span> 에 동의한 것으로 간주합니다.
@@ -378,144 +373,6 @@
 
 		</div>
 
-
-
-
-<<<<<<< HEAD
-				<tr>
-					<td>
-						<label for="userid">아이디<br /><span id="idMessage"></span></label>
-						<input type="text" id="userid" name="userid" required />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="password">비밀번호<br /><span id="pwMessage"></span></label>
-						<input type="password" id="password" name="password" required />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="password1">비밀번호 확인<span id="pw1Message" style="float: right;"></label>
-						<input type="password" id="password1" name="password1" required />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="username">이름</label>
-						<input type="text" id="username" name="username" required />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="nickname">별명<span id="nickmessage" style="float: right;"></span></label>
-						<input type="text" id="nickname" name="nickname" />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="role">계정 유형</label>
-						<select name="role"
-							style="width:100%; height: 35px; border: 2px solid gainsboro; border-radius: 7px; text-align: center;"
-							required />
-						<option value="1">일반 계정</option>
-						<option value="2">비즈니스 계정</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="email">이메일<span id="emailmsg" style="float: right;"></span></label>
-						<input type="text" id="email" name="email" size="40" required />
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<label for="phone">전화번호</label>
-						<input type="text" id="phone" name="phone" required />
-					</td>
-				</tr>
-=======
->>>>>>> branch 'main' of https://github.com/novzero/wesely-web.git
-
-		<div id="joinform">
-			<form action="/member/joinOk" method="post" onsubmit="return formCheck()">
-				<table class="inputform">
-					<tr>
-						<td class="title"><img src="/images/wesely_logo.png" alt="wesely로고" width="50px"></td>
-					</tr>
-
-					<tr>
-						<td>
-							<label for="userid">아이디<br /><span id="idMessage"></span></label>
-							<input type="text" id="userid" name="userid" required />
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="password">비밀번호<br /><span id="pwMessage"></span></label>
-							<input type="password" id="password" name="password" required />
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="password1">비밀번호 확인<span id="pw1Message" style="float: right;"></label>
-							<input type="password" id="password1" name="password1" required />
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="username">이름</label>
-							<input type="text" id="username" name="username" required />
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="nickname">별명<span id="nickmessage" style="float: right;"></span></label>
-							<input type="text" id="nickname" name="nickname" />
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="role">계정 유형</label>
-							<select name="role"
-								style="width:100%; height: 35px; border: 2px solid gainsboro; border-radius: 7px; text-align: center;"
-								required />
-							<option value="1">일반 계정</option>
-							<option value="2">비즈니스 계정</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="email">이메일<span id="emailmsg" style="float: right;"></span></label>
-							<input type="text" id="email" name="email" size="40" required />
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="phone">전화번호</label>
-							<input type="text" id="phone" name="phone" required />
-						</td>
-					</tr>
-
-					<!-- 전송 입력폼 -->
-					<tr>
-						<td>
-							<input type="submit" value="회원가입" class="joinBtn" />
-						</td>
-					</tr>
-				</table>
-			</form>
-
-
-
-			<label>
-				회원가입과 동시에 <img src="/images/weLogo.png" style="width: 50px;"> 의
-				<span style="color: #4D54A5; font-weight: bold;"> 개인정보 수집 및 처리</span> 에 동의한 것으로 간주합니다.
-			</label>
-
-		</div>
 	</div>
 </body>
 
