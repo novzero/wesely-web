@@ -1,5 +1,7 @@
 package com.wesely.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import com.wesely.vo.CommunityImgVO;
@@ -38,7 +40,7 @@ import com.wesely.vo.CommunityVO;
 
 @Mapper
 public interface CommunityImgDAO {
-	CommunityImgVO selectByRef(int ref);
+	List<CommunityImgVO> selectByRef(int ref);
 	// 저장
 	void insert(CommunityImgVO communityImgVO);
 	// 수정

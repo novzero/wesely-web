@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>커뮤니티</title>
+
+	<link rel="stylesheet" href="/css/font.css">
+	<link rel="stylesheet" href="/css/header.css">
+	<link rel="stylesheet" href="/css/commu.css">
+</head>
+
+
+<body>
+	<div class="wrapper">
+		<header>
+			<div class="logo">
+				<a href="/">
+					<img src="/images/weLogo.png" alt="Logo" />
+				</a>
+			</div>
+			<nav class="bar">
+				<a href="/store/"><strong>운동시설검색</strong></a>
+				<a href="/community/"><strong>커뮤니티</strong></a>
+				<a href="/"><strong>고객센터</strong></a>
+			</nav>
+			<nav class="login">
+				<a href="/member/login"><strong>로그인</strong></a>
+				<a href="/member/join"><strong>회원가입</strong></a>
+				<a href="/"><strong>비즈니스 계정</strong></a>
+			</nav>
+		</header>
+
+		<!-- 👇 여기부터 커뮤니티 목록보기 -->
+		<main>
+			<div class="mainTitle">
+				<div class="mainTextBox">
+					<h2>커뮤니티</h2>
+				</div>
+
+				<div class="line"></div>
+
+				<div class="mainIconBox">
+					<div class="currentPlace">
+						<img src="/images/ic.png" alt="마커아이콘" />
+						<p>대전광역시 중구 대흥동</p>
+					</div>
+					<button class="btnAddPost" th:onclick="location.href='/community/insert'">
+						포스트 작성
+					</button>
+				</div>
+			</div>
+
+			<div class="mainContent">
+
+				<div class="postBox">
+					<a href="/community/view">
+						<div class="postImageBox">
+							<img src="/images/imag.jpg">
+						</div>
+				
+					
+					<div class="userProfileBox">
+							<img src="/images/Profile.png">
+							<p class="userName">haemssssss</p>
+						</div>
+						<p class="postText">
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, reiciendis consectetur!
+							Porro
+							soluta nam
+							architecto quidem, dolorem cumque inventore ipsam, quasi quae, consequatur fugiat? Adipisci
+							consequatur est
+							id quo in!
+						</p>
+						
+					</a>
+				</div>
+				</th:block>
+
+			</div>
+		</main>
+	</div>
+</body>
+
+</html>

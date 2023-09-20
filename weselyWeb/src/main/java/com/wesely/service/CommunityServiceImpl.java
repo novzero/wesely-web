@@ -1,6 +1,7 @@
 package com.wesely.service;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,11 +61,11 @@ public class CommunityServiceImpl implements CommunityService {
 			if(communityVO.getNickname()!= null && communityVO.getNickname().trim().length()>0) {				
 				
 			}
+			// 글 저장
+			communityDAO.insert(communityVO);
 			// 이미지 저장
 			for(CommunityImgVO vo : communityVO.getImgList()) {
 				communityImgDAO.insert(vo);
-				// 글 저장
-				communityDAO.insert(communityVO);
 			}
 		}
 		// -----------------------------------------------------------------------------
@@ -180,8 +181,9 @@ public class CommunityServiceImpl implements CommunityService {
 	public boolean commentDelete(CommentVO commentVO) {
 		log.info("commentDelete 호출 : {}", commentVO);
 		boolean result = false;
-		
+		// 글이 없으면
 		if(commentVO!=null) {
+			// id 1개 가져오는걸 dbVo로 넣어준다.
 			CommentVO dbVO = commentDAO.selectById(commentVO.getId());
 			if(dbVO!= null && dbVO.getPassword().equals(commentVO.getPassword())) {
 				commentDAO.delete(commentVO.getId());
@@ -193,9 +195,23 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public Paging<CommentVO> selectList(int currentPage, int sizeOfPage, int sizeOfBlock) {
-		// TODO Auto-generated method stub
-		return null;
+	public Paging<CommunityVO> selectList(int currentPage, int sizeOfPage, int sizeOfBlock) {
+		int toatalCount = communityDAO.selectCount();
+		Paging<CommunityVO> paging = new Paging<>(toatalCount, currentPage, sizeOfPage, sizeOfBlock);
+		HashMap<String, Integer> map = new HashMap<>();
+		map.put("startNo", paging.getStartNo());
+		map.put("endNo", paging.getEndNo());
+		List<CommunityVO> list = communityDAO.selectList(map);
+		if(list!=null) {
+			for(CommunityVO vo : list) {
+				List<CommunityImgVO> list2 = communityImgDAO.selectByRef(vo.getId());
+				vo.setImgList(list2);
+			}
+		}
+		paging.setList(list);
+		System.out.println(paging);
+		return paging;
 	}
+
 
 }

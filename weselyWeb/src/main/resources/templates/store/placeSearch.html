@@ -8,6 +8,9 @@
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/store/searchStore.css" />
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services">
+		</script>
 </head>
 
 <body>
@@ -37,91 +40,25 @@
 					<p>위치와 함께 키워드를 입력하면 매장들이 표시됩니다. 예시) 대흥동 헬스</p>
 				</div>
 
-				<div class="searchBox">
-					<input type="text" class="searchInput">
-					<button class="btnSearch">검색</button>
+				<div class="searchBox" id="menu_wrap">
+					<form onsubmit="searchPlaces(); return false;">
+						<input type="text" value="" id="keyword" size="15" class="searchInput">
+						<button type="submit" class="btnSearch">검색</button>
+					</form>
 				</div>
 			</section>
 
 
 			<section class="mainContent">
-				<ul class="storeList">
-					<li class="storeItem">
-						<div class="storeTitle">
-							<img src="/images/icon_place.png" alt="위치마커아이콘">
-							<p class="storeTitleText">가온 헬스</p>
-						</div>
-						<p class="storeAddress">대전 중구 충무로 107번길 122</p>
-					</li>
-
-					<li class="storeItem">
-						<div class="storeTitle">
-							<img src="/images/icon_place.png" alt="위치마커아이콘">
-							<p class="storeTitleText">가온 헬스</p>
-						</div>
-						<p class="storeAddress">대전 중구 충무로 107번길 122</p>
-					</li>
-
-					<li class="storeItem">
-						<div class="storeTitle">
-							<img src="/images/icon_place.png" alt="위치마커아이콘">
-							<p class="storeTitleText">가온 헬스</p>
-						</div>
-						<p class="storeAddress">대전 중구 충무로 107번길 122</p>
-					</li>
-
-					<li class="storeItem">
-						<div class="storeTitle">
-							<img src="/images/icon_place.png" alt="위치마커아이콘">
-							<p class="storeTitleText">가온 헬스</p>
-						</div>
-						<p class="storeAddress">대전 중구 충무로 107번길 122</p>
-					</li>
-
-					<li class="storeItem">
-						<div class="storeTitle">
-							<img src="/images/icon_place.png" alt="위치마커아이콘">
-							<p class="storeTitleText">가온 헬스</p>
-						</div>
-						<p class="storeAddress">대전 중구 충무로 107번길 122</p>
-					</li>
-
-					<li class="storeItem">
-						<div class="storeTitle">
-							<img src="/images/icon_place.png" alt="위치마커아이콘">
-							<p class="storeTitleText">가온 헬스</p>
-						</div>
-						<p class="storeAddress">대전 중구 충무로 107번길 122</p>
-					</li>
-
-					<li class="storeItem">
-						<div class="storeTitle">
-							<img src="/images/icon_place.png" alt="위치마커아이콘">
-							<p class="storeTitleText">가온 헬스</p>
-						</div>
-						<p class="storeAddress">대전 중구 충무로 107번길 122</p>
-					</li>
-
-					<li class="storeItem">
-						<div class="storeTitle">
-							<img src="/images/icon_place.png" alt="위치마커아이콘">
-							<p class="storeTitleText">가온 헬스</p>
-						</div>
-						<p class="storeAddress">대전 중구 충무로 107번길 122</p>
-					</li>
-
-					<li class="storeItem">
-						<div class="storeTitle">
-							<img src="/images/icon_place.png" alt="위치마커아이콘">
-							<p class="storeTitleText">가온 헬스</p>
-						</div>
-						<p class="storeAddress">대전 중구 충무로 107번길 122</p>
-					</li>
+				<ul class="storeList" id="placesList">
+					<!-- js에서 키워드 검색결과 item 삽입 -->
 				</ul>
-				<img class="map" src="/images/storeMapImg.png" alt="지도들어갈곳">
+				<div id="pagination"></div>
+				<div id="map"></div>
 			</section>
 		</main>
 	</div>
+	<script src="/js/store/searchStore.js"></script>
 </body>
 
 </html>

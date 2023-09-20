@@ -11,3 +11,4 @@ public class WeselyWebApplication {
 		SpringApplication.run(WeselyWebApplication.class, args);
 	}
 }
+
