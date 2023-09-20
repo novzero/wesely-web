@@ -10,11 +10,11 @@
 	<link rel="stylesheet" href="/css/store/placeList.css" />
 	<script>
 		let lastNum = 0;
-		window.onload = function(){
+		window.onload = function () {
 			storeMore();
 		}
-		
-	</script>	
+
+	</script>
 </head>
 
 <body>
@@ -32,9 +32,15 @@
 				<a href="/"><strong>고객센터</strong></a>
 			</nav>
 			<nav class="login">
-				<a href="/member/login"><strong>로그인</strong></a>
-				<a href="/member/join"><strong>회원가입</strong></a>
-				<a href="/"><strong>비즈니스 계정</strong></a>
+				<th:block th:if="${session.mvo == null}">
+					<a href="/member/login"><strong>로그인</strong></a>
+					<a href="/member/join"><strong>회원가입</strong></a>
+				</th:block>
+				<th:block th:if="${session.mvo != null}">
+					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
+					<a href="/logout"><strong>로그아웃</strong></a>
+					<a href="/"><strong>비즈니스 계정</strong></a>
+				</th:block>
 			</nav>
 		</header>
 
@@ -62,7 +68,7 @@
 					</div>
 				</div>
 
-				<div class="mainContent">
+				<div class="mainContent" id="mainContent">
 					<div class="placeItem" id="placeItem">
 						<a href="/store/view">
 							<div class="hoverImgBox">
@@ -93,23 +99,42 @@
 
 	<script>
 
-		function storeMore(){
+		function storeMore() {
 			lastNum += 3;
-			//location.href="/api/store?lastNum="+lastNum;
 			fetch('/api/store?lastNum=' + lastNum)
 				.then(response => response.json())
 				.then(data => {
-					console.log(data)
-					const storeListElement = document.getElementById('placeItem');
-					let content="";
+					console.log(data);
+					let content = "";
 					data.forEach(store => {
-						content += JSON.stringify(store);
-						content += "<hr>";
+						content += `
+                    <div class="placeItem" id="placeItem">
+                        <a href="/store/view">
+                            <div class="hoverImgBox">
+                                <img src="/images/teni.png" alt="시설이미지" />
+                            </div>
+                            <div class="placeTextBox">
+                                <div class="storeTitle">
+                                    <span>${store.name}</span>
+                                    <span>⭐평점 ${store.rating}</span>
+                                </div>
+                                <p class="storeLocation">${store.address}</p>
+                                <!-- 👇해시태그 리스트도 동적으로 생성하려면 추가적인 처리가 필요합니다 -->
+                                <!-- 이 부분은 store 객체의 구조와 데이터 형태에 따라 달라집니다 -->
+                                <div class="hashTagList">
+                                    <p class="hashTag">#헬스장</p>
+                                    <p class="hashTag">#에너지 넘치는</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>`;
+						console.log(store);
 					});
-					alert(content);
+					const storeListElement = document.getElementById('mainContent');
+					// 모든 HTML 문자열을 한 번에 innerHTML 에 할당
 					storeListElement.innerHTML = content;
 				})
-				.catch((e)=> console.log(e));
+				.catch((e) => console.log(e));
 		}
 	</script>
 </body>

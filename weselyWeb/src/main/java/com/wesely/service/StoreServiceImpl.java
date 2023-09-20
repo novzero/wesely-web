@@ -13,10 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service("storeService")
 @Slf4j
-public class StoreServiceImpl implements StoreService{
+public class StoreServiceImpl implements StoreService {
 	@Autowired
 	private StoreDAO storeDAO;
-	
+
 //	@Autowired
 //	private StoreReviewDAO storeReviewDAO;
 
@@ -29,7 +29,7 @@ public class StoreServiceImpl implements StoreService{
 		int totalCount = storeDAO.selectCount();
 		// 2. 가져오게 넘기기
 		List<StoreVO> list = storeDAO.selectMore(num);
-		
+	
 		return list;
 	}
 
@@ -63,5 +63,4 @@ public class StoreServiceImpl implements StoreService{
 		return false;
 	}
 
-	
 }

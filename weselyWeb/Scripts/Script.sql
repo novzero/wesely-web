@@ -47,6 +47,8 @@ CREATE TABLE COMM(
 	);
 SELECT * FROM comm;
 
+DROP TABLE COMMUNITY;
+
 -- 이미지 파일 테이블
 CREATE SEQUENCE communityImg_id_seq;
 CREATE TABLE communityImg(
