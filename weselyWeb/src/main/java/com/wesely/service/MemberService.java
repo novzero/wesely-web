@@ -9,7 +9,8 @@ public interface MemberService {
 	void insert(MemberVO memberVO);
 	
 	// 회원 정보 수정
-	void update(MemberVO memberVO);
+	boolean updateNickname(MemberVO memberVO);
+	boolean updatePassword(MemberVO memberVO, String newPassword);
 	
 	// 회원 탈퇴
 	void delete(MemberVO memberVO);
@@ -26,17 +27,24 @@ public interface MemberService {
 	// 이메일 인증
 	void emailCheck(String uuid, String userid);
 	
-	//아이디 중복검사
+	// 아이디 중복검사
 	int idCheck(String userid);
 	
-	//별명 중복검사
+	// 별명 중복검사
 	int nicknameCheck(String nickname);
+	
+	// 전화번호 중복검사
+	int phoneCheck(String phone);
+	
 	
 	// 아이디 찾기
 	MemberVO findUserId(MemberVO memberVO);
 	
 	// 비밀번호 찾기
 	MemberVO findPassword(MemberVO memberVO);
+	
+	// 별명 찾기
+	MemberVO findNickname(MemberVO memberVO);
 	
 
 }

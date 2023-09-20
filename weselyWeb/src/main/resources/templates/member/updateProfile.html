@@ -74,16 +74,6 @@
 			margin-bottom: 5px;
 		}
 
-		.updatePwBtn {
-			width: 100%;
-			height: 40px;
-			border-radius: 7px;
-			border: 1px solid #4D54A5;
-			color: #4D54A5;
-			font-weight: bold;
-			background-color: rgb(255, 255, 255);
-			margin-top: 10px;
-		}
 
 		#updateProfile .updateBtn {
 			width: 100%;
@@ -96,13 +86,59 @@
 			margin-top: 10px;
 		}
 
+		#updateProfile .updatePwBtn {
+			width: 100%;
+			height: 40px;
+			border-radius: 7px;
+			border: 1px solid #4D54A5;
+			color: #4D54A5;
+			font-weight: bold;
+			background-color: rgb(255, 255, 255);
+		}
+		
+		#updateProfile a {
+			color: rgb(128, 128, 128);
+			font-size: 15px;
+		}
+
 		td {
 			padding: 5px;
 		}
 	</style>
 
 	<script>
-		// 폼체크
+		$(function () {
+			// 별명 검사
+			$("#nickname").keyup(function () {
+				var value = $(this).val();
+				var reg = /^[가-힣]{2,8}$/;
+				if (!reg.test(value)) {
+					$("#nickmessage").css('color', 'red').html("별명은 2~8자(한글)만 가능합니다.");
+					$(this).focus();
+					return false;
+				}
+
+				$.ajax('nicknameCheck', {
+					type: "GET",
+					data: {
+						"nickname": value
+					},
+					success: function (data) {
+						if (data * 1 >= 1) {
+							$("#nickmessage").html("이미 존재하는 별명입니다.").css('color', 'red');
+						} else {
+							$("#nickmessage").html("사용가능한 별명입니다.").css('color', 'green');
+						}
+					},
+					error: function () {
+						alert("에러!!!");
+					}
+				});
+
+			});
+		});
+
+
 		function formCheck() {
 			let value = $("#nickname").val();
 			if (value == null || value.trim().length == 0) {
@@ -118,6 +154,7 @@
 				return false;
 			}
 		};
+
 
 	</script>
 </head>
@@ -168,7 +205,8 @@
 
 					<tr>
 						<td class="nickName" colspan="2">
-							<label for="nickname">닉네임</label>
+							<input type="hidden" id="userid" name="userid" th:value="${session.mvo.userid}"/>
+							<label for="nickname">별명<span id="nickmessage" style="float: right;" /></label>
 							<input type="text" id="nickname" name="nickname" th:placeholder="${session.mvo.nickname}"
 								th:value="${nickname}" />
 						</td>
@@ -189,23 +227,23 @@
 					<tr>
 						<td colspan="2">
 							<label for="email">이메일</label>
-							<input type="email" id="email" name="email" size="40" th:placeholder="${session.mvo.email}" readonly />
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<label for="userid">아이디</label>
-							<input type="text" id="userid" name="userid" th:placeholder="${session.mvo.userid}" readonly />
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<button class="updatePwBtn" onclick="location.href='/updatePassword.html'" />비밀번호 변경</button>
+							<input type="email" id="email" name="email" size="40" th:placeholder="${session.mvo.email}"
+								readonly />
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
 							<input type="submit" value="수정 완료" class="updateBtn" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<input type="button" class="updatePwBtn" onclick="location.href='/member/updatePassword'" value="비밀번호변경">						
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<a href="/member/delete">회원탈퇴</a>							
 						</td>
 					</tr>
 				</table>

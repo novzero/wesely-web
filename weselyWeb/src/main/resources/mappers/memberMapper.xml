@@ -13,14 +13,24 @@
 		(wmember_idx_seq.nextval, #{userid}, #{password}, #{username}, #{nickname}, #{email}, #{phone})
 	</insert>
 	
-	<!-- 수정하기 : 회원 정보 수정 -->
-	<update id="update"  parameterType="MemberVO">
+	<!-- 수정하기 : 회원 별명 수정 -->
+	<update id="updateNickname"  parameterType="MemberVO">
 		update 
 			wmember 
 		set
 			nickname = #{nickname}
 		where
-			idx=#{idx}
+			userid=#{userid}
+	</update>
+	
+	<!-- 수정하기 : 비밀번호 수정 -->
+	<update id="updatePassword"  parameterType="MemberVO">
+		update 
+			wmember 
+		set
+			password = #{password}
+		where
+			userid=#{userid}
 	</update>
 	
 	<!-- 삭제하기 : 회원 탈퇴 -->
@@ -51,9 +61,14 @@
 		select count(*) from wmember where userid=#{userid}
 	</select>
 	
-	<!-- 동일한 별명 개수세기 : 아이디 중복 확인 -->
+	<!-- 동일한 별명 개수세기 : 별명 중복 확인 -->
 	<select id="selectCountByNickname" parameterType="string" resultType="int">
 		select count(*) from wmember where nickname=#{nickname}
+	</select>
+	
+	<!-- 동일한 전화번호 개수세기 : 전화번호 중복 확인 -->
+	<select id="selectCountByPhone" parameterType="string" resultType="int">
+		select count(*) from wmember where phone=#{phone}
 	</select>
 	
 	
@@ -72,10 +87,10 @@
 		select * from wmember where phone=#{phone}
 	</select>
 	
-	
-	<!-- 비밀번호 변경하기 -->
-	<update id="updatePassword" parameterType="hashmap">
-		update wmember set password = #{password} where userid=#{userid} and username=#{username}
-	</update>
+	<!-- 별명으로 찾기 -->
+	<select id="selectByNickname" parameterType="string" resultType="MemberVO">
+		select * from wmember where phone=#{phone}
+	</select>
+
 	
 </mapper>
