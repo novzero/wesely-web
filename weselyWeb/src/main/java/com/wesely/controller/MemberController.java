@@ -1,6 +1,7 @@
 package com.wesely.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -63,6 +65,16 @@ public class MemberController {
 		return count + "";
 	}
 
+	// 별명 중복확인
+	@RequestMapping(value = "/nicknameCheck", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String nicknameCheck(@RequestParam String nickname) {
+		log.info("{}의 nicknameCheck 호출 : {}", this.getClass().getName(), nickname);
+		int count = memberService.nicknameCheck(nickname);
+		log.info("{}의 nicknameCheck 리턴 : {}", this.getClass().getName(), count);
+		return count + "";
+	}
+
 	// 로그인 폼 처리하기
 	@GetMapping(value = "/login")
 	public String login(HttpServletRequest request, Model model) {
@@ -84,21 +96,46 @@ public class MemberController {
 		return "/member/login";
 	}
 
-	/*
-	 * // 로그인 처리하기
-	 * 
-	 * @RequestMapping(value = "/loginOk", method = RequestMethod.POST) public
-	 * String login(MemberVO vo) { System.out.println("vo = " + vo); return "index";
-	 * }
-	 * 
-	 * @RequestMapping(value = "/loginOk", method = RequestMethod.POST) public
-	 * String login(MemberVO vo, Model model) { System.out.println("vo = " + vo);
-	 * MemberVO memberVO = MemberService.loginUser(vo.getUserId(),
-	 * vo.getPassword()); //일치하는 아이디,비번이 없는 경우. if (memberVO == null) {
-	 * model.addAttribute("loginMessage", "아이디 혹은 비밀번호가 일치하지 않습니다!"); return
-	 * "index"; } model.addAttribute("userName", memberVO.getUserName()); return
-	 * "main"; }
-	 */
+	// 로그인 처리하기
+	@GetMapping(value = "/loginOk")
+	public String loginOk(Model model) {
+		return "redirect:/";
+	}
+
+	@PostMapping(value = "/loginOk")
+	public String loginOkPost(@ModelAttribute MemberVO memberVO, Model model, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
+		if (memberVO != null) {
+			// 서비스를 호출하여 로그인을 수행한다.
+			MemberVO dbVO = memberService.login(memberVO);
+			if (dbVO != null) { // 로그인에 성공했다면
+				// 세션에 회원정보를 저장을 한다.
+				String userid = request.getParameter("userid");
+				String userpw = request.getParameter("userpw");
+				
+				session.setAttribute("mvo", dbVO);
+				session.setAttribute("userid", userid);
+				session.setAttribute("userpw", userpw);
+				
+				// 아이디 자동저장 처리
+				Cookie cookie = null;
+				if (memberVO.isSaveID()) { // 자동저장이라면
+					cookie = new Cookie("userid", dbVO.getUserid());
+					cookie.setMaxAge(60 * 60 * 24 * 7); // 초단위로 휴효기간 지정
+				} else { // 자동저장이 아니라면
+					cookie = new Cookie("userid", "");
+					cookie.setMaxAge(0);
+				}
+				// 쿠키를 저장
+				response.addCookie(cookie);
+
+			} else {// 로그인에 실패했다면 로그인 폼으로 다시 보낸다.
+				return "redirect:/member/login";
+			}
+		}
+		return "redirect:/";
+	}
+	
 
 	// 로그 아웃 처리
 	@GetMapping(value = "/logout")
@@ -154,6 +191,10 @@ public class MemberController {
 	public String updateProfileOk() {
 		return "/member/updateProfileOk";
 	}
+	
+	@RequestMapping()
+	
+	
 
 	// 비밀번호변경 폼
 	@GetMapping(value = "/updatePassword")

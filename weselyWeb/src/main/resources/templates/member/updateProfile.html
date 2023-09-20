@@ -85,7 +85,7 @@
 			margin-top: 10px;
 		}
 
-		.updateBtn {
+		#updateProfile .updateBtn {
 			width: 100%;
 			height: 40px;
 			border-radius: 7px;
@@ -99,18 +99,9 @@
 		td {
 			padding: 5px;
 		}
-
-		#joinform i {
-			position: absolute;
-			left: 75%;
-			top: 27px;
-			color: orange;
-		}
 	</style>
 
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
-
 		// 폼체크
 		function formCheck() {
 			let value = $("#nickname").val();
@@ -126,7 +117,8 @@
 				$("#nickname").focus();
 				return false;
 			}
-		}
+		};
+
 	</script>
 </head>
 
@@ -144,9 +136,15 @@
 				<a href="/"><strong>고객센터</strong></a>
 			</nav>
 			<nav class="login">
-				<a href="/member/login"><strong>로그인</strong></a>
-				<a href="/member/join"><strong>회원가입</strong></a>
-				<a href="/"><strong>비즈니스 계정</strong></a>
+				<th:block th:if="${session.mvo == null}">
+					<a href="/member/login"><strong>로그인</strong></a>
+					<a href="/member/join"><strong>회원가입</strong></a>
+				</th:block>
+				<th:block th:if="${session.mvo != null}">
+					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
+					<a href="/logout"><strong>로그아웃</strong></a>
+					<a href="/"><strong>비즈니스 계정</strong></a>
+				</th:block>
 			</nav>
 		</header>
 
@@ -161,45 +159,57 @@
 
 					<tr>
 						<td class="profileImage" colspan="2">
-							<input type="file" name="upload" accept="image/gif, image/png, image/jpeg">
-						</td>
+							<label for="profileimage">프로필 사진</label>
+							<a href="#profile-change" data-bs-toggle="modal">
+								<img src="/images/profile.png" class="profile-photo" width="80" height="80"
+									style="border-radius: 70%; overflow: hidden;">
+							</a>
 					</tr>
 
 					<tr>
 						<td class="nickName" colspan="2">
-							<label for="username">닉네임</label>
-							<input type="text" id="nickname" name="nickname" th:value="${nickname}" />
+							<label for="nickname">닉네임</label>
+							<input type="text" id="nickname" name="nickname" th:placeholder="${session.mvo.nickname}"
+								th:value="${nickname}" />
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
 							<label for="username">이름</label>
-							<input type="text" id="username" name="username" th:value="${username}" readonly />
+							<input type="text" id="username" name="username" th:placeholder="${session.mvo.username}"
+								readonly />
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
 							<label for="phone">전화번호</label>
-							<input type="text" id="phone" name="phone" th:value="${phone}" readonly />
+							<input type="text" id="phone" name="phone" th:placeholder="${session.mvo.phone}" readonly />
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
 							<label for="email">이메일</label>
-							<input type="email" id="email" name="email" size="40" th:value="${email}" readonly />
+							<input type="email" id="email" name="email" size="40" th:placeholder="${session.mvo.email}" readonly />
 						</td>
 					</tr>
 					<tr>
 						<td colspan="2">
 							<label for="userid">아이디</label>
-							<input type="text" id="userid" name="userid" th:value="${userid}" readonly />
+							<input type="text" id="userid" name="userid" th:placeholder="${session.mvo.userid}" readonly />
 						</td>
 					</tr>
-
+					<tr>
+						<td colspan="2">
+							<button class="updatePwBtn" onclick="location.href='/updatePassword.html'" />비밀번호 변경</button>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<input type="submit" value="수정 완료" class="updateBtn" />
+						</td>
+					</tr>
 				</table>
 			</form>
-			<button class="updatePwBtn" onclick="location.href='/member/updatePassword'" />비밀번호 변경</button> <br />
-			<button type="submit" value="수정완료" class="updateBtn">수정 완료</button> <br />
 
 		</div>
 	</div>

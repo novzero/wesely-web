@@ -33,11 +33,11 @@
    <!-- 4. 저장하기  -->
    <insert id="insert" parameterType="CommunityVO" >
    		insert into community values 
-   		(community_id_seq.nextval, #{userid},#{nickname},#{password},#{contents},sysdate,0)
+   		(community_id_seq.nextval, #{userid},#{nickname},#{contents},SYSDATE,0)
    </insert>
    <!-- 5. 수정하기  -->
    <update id="update" parameterType="CommunityVO">
-   		update community set contents=#{contents}, regdate=sysdate, ip=#{ip} where id=#{id}
+   		update community set contents=#{contents}, regdate=sysdate where id=#{id}
    </update>
    <!-- 6. 삭제하기  -->
    <delete id="delete"  parameterType="CommunityVO">

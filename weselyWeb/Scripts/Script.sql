@@ -36,11 +36,7 @@ CREATE TABLE community(
 	readCount NUMBER DEFAULT 0 -- 조회수 증가
 	);
 SELECT * FROM COMMUNITY;
-INSERT INTO community (id, userid,nickname,password,contents,regDate) values(1,'asdf','테스트계정','123456aaaa!','야이건테스트야', SYSDATE );
-INSERT INTO community (id, userid,nickname,password,contents,regDate) values(2,'qweqweqwe','테스트계정2','123456bbbb!','야이건테스트야2', SYSDATE );
-INSERT INTO community (id, userid,nickname,password,contents,regDate) values(3,'asdf12345','테스트계정3','123456cccc!','야이건테스트야3', SYSDATE );
-INSERT INTO community (id, userid,nickname,password,contents,regDate) values(4,'irekiek','테스트계정4','123456dddd!','야이건테스트야4', SYSDATE );
-
+DELETE FROM community WHERE userid = 'wesely';
 -- 커뮤니티 댓글 테이블 
 CREATE SEQUENCE comm_id_seq;
 CREATE TABLE COMM(
