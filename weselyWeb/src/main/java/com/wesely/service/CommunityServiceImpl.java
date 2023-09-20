@@ -59,7 +59,7 @@ public class CommunityServiceImpl implements CommunityService {
 		boolean result = false;
 		if (communityVO != null) {
 			if(communityVO.getNickname()!= null && communityVO.getNickname().trim().length()>0) {				
-				
+			
 			}
 			// 글 저장
 			communityDAO.insert(communityVO);
@@ -81,7 +81,7 @@ public class CommunityServiceImpl implements CommunityService {
 		// 글 존재하고 비번같으면 수정
 		if (communityVO != null) {
 			CommunityVO dbVO = communityDAO.selectById(communityVO.getId());
-			if (dbVO != null && dbVO.getPassword().equals(communityVO.getPassword())) {
+			if (dbVO != null ) {
 				communityDAO.update(communityVO);
 				result = true;
 			}
@@ -119,7 +119,7 @@ public class CommunityServiceImpl implements CommunityService {
 		// 비번 같으면 커뮤 글삭제
 		if (communityVO != null) {
 			CommunityVO dbVO = communityDAO.selectById(communityVO.getId());
-			if (dbVO != null & dbVO.getPassword().equals(communityVO.getPassword())) {
+			if (dbVO != null) {
 				communityDAO.delete(communityVO.getId());
 				// 커뮤 댓글도 삭제
 				commentDAO.deleteByRef(communityVO.getId());
@@ -168,7 +168,7 @@ public class CommunityServiceImpl implements CommunityService {
 		
 		if(commentVO!=null) {
 			CommentVO dbVO = commentDAO.selectById(commentVO.getId());
-			if(dbVO!=null && dbVO.getPassword().equals(commentVO.getPassword())) {
+			if(dbVO!=null ) {
 				commentDAO.update(dbVO);
 				result = true;
 			}
@@ -185,7 +185,7 @@ public class CommunityServiceImpl implements CommunityService {
 		if(commentVO!=null) {
 			// id 1개 가져오는걸 dbVo로 넣어준다.
 			CommentVO dbVO = commentDAO.selectById(commentVO.getId());
-			if(dbVO!= null && dbVO.getPassword().equals(commentVO.getPassword())) {
+			if(dbVO!= null ) {
 				commentDAO.delete(commentVO.getId());
 				result = true;
 			}

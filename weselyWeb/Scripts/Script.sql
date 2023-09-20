@@ -46,7 +46,7 @@ CREATE TABLE COMM(
 	regdate timestamp DEFAULT sysdate -- 작성일
 	);
 SELECT * FROM comm;
-
+DROP TABLE comm;
 -- 이미지 파일 테이블
 CREATE SEQUENCE communityImg_id_seq;
 CREATE TABLE communityImg(
