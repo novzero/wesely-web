@@ -23,7 +23,6 @@ public class CommunityVO {
 	private int id;
 	private String userid; // 아이디
 	private String nickname; // 닉네임
-	private String password; // 비번
 	private String contents; //내용
 	private Date regDate; // 작성날짜
 	private int readCount; // 조회수

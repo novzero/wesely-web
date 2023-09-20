@@ -30,7 +30,6 @@ CREATE TABLE community(
 	id NUMBER PRIMARY KEY, -- 키필드
 	userid varchar2(50) NOT NULL, -- 아이디
 	nickname varchar2(100) NOT NULL, -- 작성자
-	password varchar2(100) NOT NULL, -- 비번
 	contents varchar2(300) NOT NULL, -- 글 내용
 	regDate timestamp DEFAULT sysdate , -- 작성일
 	readCount NUMBER DEFAULT 0 -- 조회수 증가
@@ -43,11 +42,9 @@ CREATE TABLE COMM(
 	id NUMBER PRIMARY KEY,  -- 키필드
 	REF NUMBER NOT NULL, -- 원본글 번호
 	name varchar2(100) NOT NULL, -- 작성자
-	password varchar2(100) NOT NULL, -- 암호
 	content varchar2(2000) NOT NULL, -- 내용
 	regdate timestamp DEFAULT sysdate -- 작성일
 	);
-
 SELECT * FROM comm;
 
 -- 이미지 파일 테이블

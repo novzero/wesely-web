@@ -13,17 +13,18 @@
 	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
 	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
 	<script>
-		$(function () {
-			$("#btnAddPost").click(function() {
+		$(function(){
+			$("#btnAddPost").click(function(){
 				// alert($(this).val)
 				let buttobTile = $(this).val();
-				if (buttobTile=="댓글 저장") {
+				if (buttobTile=="댓글 저장"){
+					// 입력 내용 얻기
 					let ref = $("#ref").val();
-					let content = $("#content").val();
+					let content = $("#commentText").val();
 					alert(ref + "\n" + content); // 읽어왔는지 확인
 					let form = new FormData();// 폼만들기
 
-					form.append("commentText", commentText);
+					form.append("content", content);
 					form.append("ref", ref);
 
 					axios.post('/community/commentInsert', form)
@@ -45,6 +46,7 @@
 
 
 <body>
+	[[${session.mvo}]]
 	<div class="wrapper">
 		<header>
 			<div class="logo">
@@ -128,7 +130,7 @@
 								<img src="/images/Profile.png">
 								<p>[[${community.nickname}]]</p>
 							<input type="text" id="id" value="0">	
-							<input type="text" id="ref" value="0">	
+							<input type="text" id="ref" th:value="${community.id}">	
 							</div>
 							<p class="commentText" id="commentText">
 								
