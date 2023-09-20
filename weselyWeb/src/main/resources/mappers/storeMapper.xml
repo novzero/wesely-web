@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace는 반드시 DAO인터페이스와 이름이 일치해야 한다. -->
+<mapper namespace="com.wesely.dao.StoreDAO">
+	<!-- 매퍼파일에 태그 1개당 DAO인터페이스의 메서드 1개를 만든다. -->
+	<!-- SQL명령 1개당 태그 1개씩을 추가한다. -->
+	
+	<!-- 1. 전체 개수 얻기 : 페이징 -->
+	<select id="selectCount" resultType="int">
+		select count(*) from store
+	</select>
+	<!-- 2. 1개 얻기 : 상세보기/수정/삭제 -->
+	<select id="selectById" parameterType="int" resultType="StoreVO">
+		select * from store where id=#{id}
+	</select>
+	<!-- 3. 추가 아이템 얻기 : 더보기 -->
+	<select id="selectMore" parameterType="int" resultType="StoreVO">
+		select 
+			rownum rnum, R.* 
+		from 
+			(select * from store order by id desc) R
+		WHERE 
+			<![CDATA[
+			rownum <= #{lastNum}
+			]]>
+	</select>
+	<!-- 4. 저장하기 -->
+	<insert id="insert" parameterType="StoreVO">
+		insert into 
+			store 
+		values 
+			(store_id_seq.nextval,#{name},#{address},#{opening},#{Tel},#{description},#{hashTag})
+	</insert>
+	<!-- 5. 수정하기 -->
+	<update id="update" parameterType="StoreVO">
+		update 
+			store
+		set
+			name=#{name}, address=#{address}, opening=#{opening}, tel=#{Tel}, description=#{description}, hastTag=#{hashTag}
+		where
+			id=#{id}
+	</update>
+	<!-- 6. 삭제하기 -->
+	<delete id="delete" parameterType="int">
+		delete from store where id=#{id}
+	</delete>
+
+</mapper>

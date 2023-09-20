@@ -83,7 +83,7 @@ if (navigator.geolocation) {
 
           var smText = document.createElement("b");
           smText.innerHTML = "비가 내리는 날씨! <br />실내에서 운동할까요?";
-          document.querySelector(".sm1").appendChild(smText);
+          //document.querySelector(".sm1").appendChild(smText);
 
           let keyframes = [
             { transform: "rotate(10deg) translateY(0px)" },

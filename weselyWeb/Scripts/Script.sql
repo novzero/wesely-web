@@ -69,3 +69,25 @@ SELECT community_id_seq.nextval,community_id_seq.currval  FROM dual;
 insert into CommunityImg values (CommunityImg_id_seq.nextval, Community_id_seq.currval,'e2ff4d1b-b89d-423e-9f11-197573a4c515','1.png','image/png');
 
 SELECT * FROM CommunityImg;
+
+SELECT * FROM store;
+
+INSERT INTO store VALUES (store_id_seq.nextval, '나다움핏', '대전광역시 중구 대흥동 123-123', '월-금 : 9:00-22:00', '042-123-1234', '저희매장 정말 좋아요12', '#헬스, #에너지넘치는');
+INSERT INTO store VALUES (store_id_seq.nextval, '헬스장이오', '대전광역시 중구 오류동 123-123', '월-금 : 9:00-22:00', '042-123-1234', '저희매장 정말 좋아요2', '#헬스, #에너지넘치는');
+INSERT INTO store VALUES (store_id_seq.nextval, '요가이오', '대전광역시 중구 삼성동 123-123', '월-금 : 9:00-22:00', '042-123-1234', '저희매장 정말 좋아요3', '#헬스, #에너지넘치는');
+INSERT INTO store VALUES (store_id_seq.nextval, '필테이오', '대전광역시 중구 문화동 123-123', '월-금 : 9:00-22:00', '042-123-1234', '저희매장 정말 좋아요4', '#헬스, #에너지넘치는');
+INSERT INTO store VALUES (store_id_seq.nextval, '수영이오', '대전광역시 중구 목동 123-123', '월-금 : 9:00-22:00', '042-123-1234', '저희매장 정말 좋아요5', '#헬스, #에너지넘치는');
+INSERT INTO store VALUES (store_id_seq.nextval, '인라인이오', '대전광역시 중구 괴정동 123-123', '월-금 : 9:00-22:00', '042-123-1234', '저희매장 정말 좋아요6', '#헬스, #에너지넘치는');
+INSERT INTO store VALUES (store_id_seq.nextval, '테니스이오', '대전광역시 중구 용문동 123-123', '월-금 : 9:00-22:00', '042-123-1234', '저희매장 정말 좋아요7', '#헬스, #에너지넘치는');
+INSERT INTO store VALUES (store_id_seq.nextval, '태권도이오', '대전광역시 중구 와동 123-123', '월-금 : 9:00-22:00', '042-123-1234', '저희매장 정말 좋아요8', '#헬스, #에너지넘치는');
+INSERT INTO store VALUES (store_id_seq.nextval, '복싱이오', '대전광역시 중구 탄방동 123-123', '월-금 : 9:00-22:00', '042-123-1234', '저희매장 정말 좋아요9', '#헬스, #에너지넘치는');
+INSERT INTO store VALUES (store_id_seq.nextval, '스케이트이오', '대전광역시 중구 둔산동 123-123', '월-금 : 9:00-22:00', '042-123-1234', '저희매장 정말 좋아요10', '#헬스, #에너지넘치는');
+INSERT INTO store VALUES (store_id_seq.nextval, '만능이오', '대전광역시 중구 오정동 123-123', '월-금 : 9:00-22:00', '042-123-1234', '저희매장 정말 좋아요11', '#헬스, #에너지넘치는');
+
+
+
+
+
+
+
+

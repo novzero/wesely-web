@@ -8,6 +8,13 @@
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/store/placeList.css" />
+	<script>
+		let lastNum = 0;
+		window.onload = function(){
+			storeMore();
+		}
+		
+	</script>	
 </head>
 
 <body>
@@ -56,7 +63,7 @@
 				</div>
 
 				<div class="mainContent">
-					<div class="placeItem">
+					<div class="placeItem" id="placeItem">
 						<a href="/store/view">
 							<div class="hoverImgBox">
 								<img src="/images/teni.png" alt="시설이미지" />
@@ -77,12 +84,34 @@
 				</div>
 			</div>
 
-			<button class="btnSeeMore">
+			<button class="btnSeeMore" id="loadMoreButton" onclick="storeMore()">
 				<span>시설 더보기</span>
 				<img src="/images/icon_bottomArrow.png" alt="하단화살표아이콘" />
 			</button>
 		</main>
 	</div>
+
+	<script>
+
+		function storeMore(){
+			lastNum += 3;
+			//location.href="/api/store?lastNum="+lastNum;
+			fetch('/api/store?lastNum=' + lastNum)
+				.then(response => response.json())
+				.then(data => {
+					console.log(data)
+					const storeListElement = document.getElementById('placeItem');
+					let content="";
+					data.forEach(store => {
+						content += JSON.stringify(store);
+						content += "<hr>";
+					});
+					alert(content);
+					storeListElement.innerHTML = content;
+				})
+				.catch((e)=> console.log(e));
+		}
+	</script>
 </body>
 
 </html>
