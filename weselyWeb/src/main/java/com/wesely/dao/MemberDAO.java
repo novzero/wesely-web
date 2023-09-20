@@ -1,6 +1,5 @@
 package com.wesely.dao;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -14,7 +13,10 @@ public interface MemberDAO {
 	void insert(MemberVO memberVO);
 	
 	// <!-- 수정하기 : 회원정보 수정 -->
-	void update(MemberVO memberVO);
+	void updateNickname(MemberVO memberVO);
+	void updatePassword(MemberVO memberVO);
+	
+	
 	
 	// <!-- 삭제하기 : 회원탈퇴 -->
 	void delete(int id);
@@ -23,6 +25,8 @@ public interface MemberDAO {
 	// <!-- 1개 가져오기 : 수정/회원탈퇴/로그인 ... -->
 	MemberVO selectByIdx(int idx);
 	MemberVO selectByUserid(String userid);
+	MemberVO selectByNickname(String nickname);
+	MemberVO selectByPassword(String password);
 	
 	// <!-- 전체 개수 얻기 : 관리자 모드 -->
 	int selectCount();
@@ -39,9 +43,10 @@ public interface MemberDAO {
 	// <!-- 동일한 이메일의 개수 얻기 : 이메일 중복 확인 -->
 	int selectCountByEmail(String email);
 	
+	// <!-- 동일한 전화번호 개수 얻기 : 전화번호 중복 확인 -->
+	int selectCountByPhone(String phone);
+	
 	// <!-- 이름으로 찾기 -->
 	List<MemberVO> selectByUsername(String username);
 	
-	// 임시 비번으로 비번 변경하기
-	void updatePassword(HashMap<String, String> map);
 }

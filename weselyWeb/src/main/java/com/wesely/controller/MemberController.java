@@ -1,7 +1,6 @@
 package com.wesely.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.wesely.service.MemberService;
 import com.wesely.vo.CommVO;
@@ -75,6 +75,16 @@ public class MemberController {
 		return count + "";
 	}
 
+	// 전화번호 중복확인
+	@RequestMapping(value = "/phoneCheck", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String phoneCheck(@RequestParam String phone) {
+		log.info("{}의 phoneCheck 호출 : {}", this.getClass().getName(), phone);
+		int count = memberService.phoneCheck(phone);
+		log.info("{}의 phoneCheck 리턴 : {}", this.getClass().getName(), count);
+		return count + "";
+	}
+
 	// 로그인 폼 처리하기
 	@GetMapping(value = "/login")
 	public String login(HttpServletRequest request, Model model) {
@@ -112,11 +122,11 @@ public class MemberController {
 				// 세션에 회원정보를 저장을 한다.
 				String userid = request.getParameter("userid");
 				String userpw = request.getParameter("userpw");
-				
+
 				session.setAttribute("mvo", dbVO);
 				session.setAttribute("userid", userid);
 				session.setAttribute("userpw", userpw);
-				
+
 				// 아이디 자동저장 처리
 				Cookie cookie = null;
 				if (memberVO.isSaveID()) { // 자동저장이라면
@@ -133,15 +143,6 @@ public class MemberController {
 				return "redirect:/member/login";
 			}
 		}
-		return "redirect:/";
-	}
-	
-
-	// 로그 아웃 처리
-	@GetMapping(value = "/logout")
-	public String logout(HttpSession session) {
-		// 세션에 저장된 회원 정보를 지워버린다.
-		session.removeAttribute("mvo");
 		return "redirect:/";
 	}
 
@@ -186,15 +187,16 @@ public class MemberController {
 		return "/member/updateProfile";
 	}
 
-	// 회원정보수정 실행
-	@GetMapping(value = "/updateProfileOk")
-	public String updateProfileOk() {
-		return "/member/updateProfileOk";
+	@PostMapping(value = "/updateProfileOk")
+	public String updateProfilePost(@ModelAttribute MemberVO vo, Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		log.info("받은값 : {} ", vo);
+		
+		if(memberService.updateNickname(vo)) {
+			return "redirect:/member/login";
+		}else {
+			return "redirect:/member/updateProfile";
+		}
 	}
-	
-	@RequestMapping()
-	
-	
 
 	// 비밀번호변경 폼
 	@GetMapping(value = "/updatePassword")
@@ -203,9 +205,14 @@ public class MemberController {
 	}
 
 	// 비밀번호변경 실행
-	@GetMapping(value = "/updatePasswordOk")
-	public String updatePasswordOk() {
-		return "/member/updatePasswordOk";
+	@PostMapping(value = "/updatePasswordOk")
+	public String updatePasswordOk(@ModelAttribute MemberVO vo, @RequestParam String newPassword, Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+		
+		if(memberService.updatePassword(vo, newPassword)) {
+			return "redirect:/member/login";
+		}else {
+			return "redirect:/member/updatePassword";
+		}
 	}
 
 	@Autowired
@@ -222,7 +229,7 @@ public class MemberController {
 		// 메일을 발송하고
 		MimeMessage message = javaMailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-		helper.setFrom("ithuman202303@gmail.com");
+		helper.setFrom("wesely@gmail.com");
 		helper.setTo(dbVO.getEmail());
 		helper.setSubject(dbVO.getUsername() + "님 비밀번호 안내입니다.");
 		// 메일 내용 만들기
@@ -236,6 +243,14 @@ public class MemberController {
 
 		model.addAttribute("vo", dbVO);
 		return "/member/viewPassword";
+	}
+
+	// 로그 아웃 처리
+	@GetMapping(value = "/logout")
+	public String logout(HttpSession session) {
+		// 세션에 저장된 회원 정보를 지워버린다.
+		session.removeAttribute("mvo");
+		return "redirect:/";
 	}
 
 	// 커뮤니티 목록보기

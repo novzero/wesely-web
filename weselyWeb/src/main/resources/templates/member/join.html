@@ -142,58 +142,77 @@
 					$("#nickmessage").css('color', 'red').html("별명은 2~8자(한글)만 가능합니다.");
 					$(this).focus();
 					return false;
-
 				}
 
 				$.ajax('nicknameCheck', {
-						type: "GET",
-						data: {
-							"nickname": value
-						},
-						success: function (data) {
-							if (data * 1 >= 1) {
-								$("#nickmessage").html("이미 존재하는 별명입니다.").css('color', 'red');
-							} else {
-								$("#nickmessage").html("사용가능한 별명입니다.").css('color', 'green');
-							}
-						},
-						error: function () {
-							alert("에러!!!");
+					type: "GET",
+					data: {
+						"nickname": value
+					},
+					success: function (data) {
+						if (data * 1 >= 1) {
+							$("#nickmessage").html("이미 존재하는 별명입니다.").css('color', 'red');
+						} else {
+							$("#nickmessage").html("사용가능한 별명입니다.").css('color', 'green');
 						}
-					});
+					},
+					error: function () {
+						alert("에러!!!");
+					}
+				});
 
 			});
 
 
-
 			// 이메일검사
-			$('#email').on('change', function () {
-				var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-				if ($('#email').val().match(regExp) != null) {
-					$("#emailMsg").html("");
-				}
-				else {
+			$('#email').keyup(function () {
+				var email = $("#email").val();
+				var regExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+				if (!regExp.test(email)) {
 					$("#emailMsg").css('color', 'red').html("이메일 형식에 맞지않습니다.");
-					$('#email').focus();
-					return;
+				} else {
+					$("#emailMsg").css('color', 'green').html("사용가능한 이메일입니다.");
 				}
-			})
+			});
+
+
+			// 전화번호검사
+			$('#phone').keyup(function () {
+				var value = $(this).val();
+				var regphone = /^01([0|1|6|7|8|9])([0-9]{3,4})([0-9]{4})$/;
+				if (!regphone.test(value)) {
+					$("#phoneMsg").css('color', 'red').html("전화번호(11자리)가 올바르지 않습니다.");
+					$(this).focus();
+					return false;
+				}
+
+				$.ajax('phoneCheck', {
+					type: "GET",
+					data: {
+						"phone": value
+					},
+					success: function (data) {
+						if (data * 1 >= 1) {
+							$("#phoneMsg").html("이미 존재하는 전화번호입니다.").css('color', 'red');
+						} else {
+							$("#phoneMsg").html("사용가능한 전화번호입니다.").css('color', 'green');
+						}
+					},
+					error: function () {
+						alert("에러!!!");
+					}
+				});
+			});
+
+
 		});
 
-		// 이메일검사
-		$('#email').on('change', function () {
-			var email = $("#email").val();
-			var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-			if (!regExp.test(email)) {
-				$("#emailmsg").css('color', 'red').html("이메일 형식에 맞지않습니다.");
-			} else {
-				$("#emailmsg").css('color', 'green').html("사용가능한 이메일입니다.");
-			}
-		});
 
 
 		// 폼체크
 		function formCheck() {
+
+			// 아이디 폼체크
 			var value = $("#userid").val();
 			if (value == null || value.trim().length == 0) {
 				alert("아이디는 반드시 입력해야 합니다.");
@@ -208,6 +227,7 @@
 				return false;
 			};
 
+			// 비밀번호 폼체크
 			value = $("#password").val();
 			if (value == null || value.trim().length == 0) {
 				alert("비밀번호는 반드시 입력해야 합니다.");
@@ -222,6 +242,7 @@
 				return false;
 			};
 
+			// 비밀번호 확인 폼체크
 			value = $("#password1").val();
 			if (value == null || value.trim().length == 0) {
 				alert("비밀번호 확인은 반드시 입력해야 합니다.");
@@ -230,13 +251,13 @@
 				return false;
 			}
 			if ($("#pw1Message").css('color') != 'rgb(0, 128, 0)') {
-				alert('사용불가능한 비밀번호 입니다.');
+				alert('비밀번호를 확인해주세요.');
 				$("#password1").val("");
 				$("#password1").focus();
 				return false;
 			};
 
-
+			// 이름 폼체크
 			value = $("#username").val();
 			if (value == null || value.trim().length == 0) {
 				alert("사용자 이름은 반드시 입력해야 합니다.");
@@ -245,6 +266,15 @@
 				return false;
 			};
 
+			// 별명 폼체크
+			if ($("#nickmessage").css('color') != 'rgb(0, 128, 0)') {
+				alert('별명을 다시 확인해주세요.');
+				$("#nickname").val("");
+				$("#nickname").focus();
+				return false;
+			};
+
+			// 이메일 폼체크
 			value = $("#email").val();
 			if (value == null || value.trim().length == 0) {
 				alert("이메일 주소는 반드시 입력해야 합니다.");
@@ -259,9 +289,16 @@
 				return false;
 			};
 
+			// 전화번호 폼체크			
 			value = $("#phone").val();
 			if (value == null || value.trim().length == 0) {
 				alert("전화번호는 반드시 입력해야 합니다.");
+				$("#phone").val("");
+				$("#phone").focus();
+				return false;
+			};
+			if ($("#phoneMsg").css('color') != 'rgb(0, 128, 0)') {
+				alert('전화번호를 다시 확인해주세요.');
 				$("#phone").val("");
 				$("#phone").focus();
 				return false;
@@ -305,19 +342,19 @@
 
 					<tr>
 						<td>
-							<label for="userid">아이디 <span id="idMessage" style="float: right;"></span></label>
+							<label for="userid">아이디 <span id="idMessage" style="float: right;" /></label>
 							<input type="text" id="userid" name="userid" required />
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<label for="password">비밀번호<span id="pwMessage" style="float: right;"></span></label>
+							<label for="password">비밀번호<span id="pwMessage" style="float: right;" /></label>
 							<input type="password" id="password" name="password" required />
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<label for="password1">비밀번호확인<span id="pw1Message" style="float: right;"></label>
+							<label for="password1">비밀번호확인<span id="pw1Message" style="float: right;" /></label>
 							<input type="password" id="password1" name="password1" required />
 						</td>
 					</tr>
@@ -329,7 +366,7 @@
 					</tr>
 					<tr>
 						<td>
-							<label for="nickname">별명<span id="nickmessage" style="float: right;"></span></label>
+							<label for="nickname">별명<span id="nickmessage" style="float: right;" /></label>
 							<input type="text" id="nickname" name="nickname" />
 						</td>
 					</tr>
@@ -346,13 +383,13 @@
 					</tr>
 					<tr>
 						<td>
-							<label for="email">이메일<span id="emailmsg" style="float: right;"></span></label>
+							<label for="email">이메일<span id="emailMsg" style="float: right;" /></label>
 							<input type="text" id="email" name="email" size="40" required />
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<label for="phone">전화번호</label>
+							<label for="phone">전화번호<span id="phoneMsg" style="float: right;" /></label>
 							<input type="text" id="phone" name="phone" required />
 						</td>
 					</tr>
