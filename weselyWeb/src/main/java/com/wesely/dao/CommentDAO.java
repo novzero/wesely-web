@@ -19,7 +19,7 @@ import com.wesely.vo.CommentVO;
 		insert into 
 			comm
 		values
-			(comm_id_seq.nextval, #{ref},#{name},#{password},#{content},sysdate,0)
+			(comm_id_seq.nextval, #{ref},#{password},#{content},sysdate,0)
 	</insert>
 	<!-- 4. 댓글 수정 -->
 	<update id="update" parameterType="BCommentVO">

@@ -12,22 +12,22 @@
 	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
 	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
 	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
-	<script>
-		$(function(){
-			$("#btnAddPost").click(function(){
-				 //alert($(this).val)
+	<script th:inline="javascript">
+		$(function () {
+			$("#btnAddPost").click(function () {
+				//alert($(this).val)
 				let buttobTile = $(this).val();
-				if (buttobTile=="등록"){
+				if (buttobTile == "등록") {
 					// 입력 내용 얻기
 					let ref = $("#ref").val();
-					let name = $("#name").val();
 					let content = $("#content").val();
-					alert(name+"\n"+content); // 읽어왔는지 확인
+					//alert(content); // 읽어왔는지 확인
 					let form = new FormData();// 폼만들기
 
 					form.append("content", content);
 					form.append("ref", ref);
 
+					// Ajax를 통해 데이터를 서버로 보내 저장을 수행한다.
 					axios.post('/community/commentInsert', form)
 						.then(function (response) {
 							alert("성공!!! : " + JSON.stringify(response));
@@ -42,13 +42,14 @@
 				}
 			});
 		});
+
+
 	</script>
 </head>
 
 
 <body>
 	[[${session.mvo}]] <br />
-
 	<div class="wrapper">
 		<header>
 			<div class="logo">
@@ -86,6 +87,10 @@
 				<div class="userInfo">
 					<img src="/images/Profile.png">
 					<p>[[${community.nickname}]]</p>
+					<th:block th:if="${session.mvo != null}">
+						<input type="button" value="수정" th:onclick="|location.href='@{update(id=${community.id},p=${cv.p},s=${cv.s},b=${cv.b})}'|" />
+						<input type="button" value="삭제" />
+					</th:block>
 				</div>
 
 				<div class="postContent">
@@ -131,13 +136,13 @@
 							<div class="userInfo">
 								<img src="/images/Profile.png">
 								<p>[[${community.nickname}]]</p>
-							<input type="hidden" id="id" value="0">	
-							<input type="hidden" id="ref" th:value="${community.id}">	
+								<input type="hidden" id="id" value="0">
+								<input type="hidden" id="ref" th:value="${community.id}">
 							</div>
-							<input type="text" id="name" class="form-control form-control-sm" style="margin-bottom: 3px;" required placeholder="이름"/>
-							<p class="commentText" style="display: none;" th:id="|content${community.id}|">
-								
-							</p>
+
+							<div class="commentText" th:id="|content${community.id}|">
+
+							</div>
 						</div>
 						<button type="button" class="btnCommentLike">
 							<i class="fa-regular fa-heart"></i>
