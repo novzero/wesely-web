@@ -10,6 +10,37 @@
 	<link rel="stylesheet" href="/css/view.css">
 	<!-- fontawesome 아이콘 -->
 	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
+	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
+	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
+	<script>
+		$(function () {
+			$("#btnAddPost").click(function() {
+				// alert($(this).val)
+				let buttobTile = $(this).val();
+				if (buttobTile=="댓글 저장") {
+					let ref = $("#ref").val();
+					let content = $("#content").val();
+					alert(ref + "\n" + content); // 읽어왔는지 확인
+					let form = new FormData();// 폼만들기
+
+					form.append("commentText", commentText);
+					form.append("ref", ref);
+
+					axios.post('/community/commentInsert', form)
+						.then(function (response) {
+							alert("성공!!! : " + JSON.stringify(response));
+							location.reload();
+						})
+						.catch(function (error) { // 에러 발생했을때
+							alert("에러발생!! : " + error);
+						})
+						.finally(function () { // 항상 실행되는 영역
+
+						});
+				}
+			});
+		});
+	</script>
 </head>
 
 
@@ -27,9 +58,15 @@
 				<a href="/"><strong>고객센터</strong></a>
 			</nav>
 			<nav class="login">
-				<a href="/member/login"><strong>로그인</strong></a>
-				<a href="/member/join"><strong>회원가입</strong></a>
-				<a href="/"><strong>비즈니스 계정</strong></a>
+				<th:block th:if="${session.mvo == null}">
+					<a href="/member/login"><strong>로그인</strong></a>
+					<a href="/member/join"><strong>회원가입</strong></a>
+				</th:block>
+				<th:block th:if="${session.mvo != null}">
+					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
+					<a href="/logout"><strong>로그아웃</strong></a>
+					<a href="/"><strong>비즈니스 계정</strong></a>
+				</th:block>
 			</nav>
 		</header>
 
@@ -44,9 +81,9 @@
 			<div class="postBox">
 				<div class="userInfo">
 					<img src="/images/Profile.png">
-					<p>haemssssss</p>
+					<p>[[${community.nickname}]]</p>
 				</div>
-			
+
 				<div class="postContent">
 					<img src="/images/imag2.jpg">
 					<p class="postText">
@@ -89,50 +126,26 @@
 						<div class="commentLine">
 							<div class="userInfo">
 								<img src="/images/Profile.png">
-								<p>haemssssss</p>
+								<p>[[${community.nickname}]]</p>
+							<input type="text" id="id" value="0">	
+							<input type="text" id="ref" value="0">	
 							</div>
-							<p class="commentText">
-								Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti dolor mollitia non
-								adipisci aliquid, quisquam cumque voluptas amet provident eveniet earum quo rem sequi
-								repudiandae modi aspernatur, ducimus ab. Officiis.
-								Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere,
-								incidunt sapiente minima dolore quisquam quo fuga consequuntur quibusdam rem fugit
-								doloremque excepturi nihil, ut esse quidem id minus tempore omnis!
+							<p class="commentText" id="commentText">
+								
 							</p>
 						</div>
-
-						<button type="button" class="btnCommentLike">
-							<i class="fa-regular fa-heart"></i>
-							<!-- <img src="static/images/heart_icon.png" alt="좋아요아이콘"> -->
-						</button>
-					</div>
-					<div class="commentItem">
-						<div class="commentLine">
-							<div class="userInfo">
-								<img src="/images/Profile.png">
-								<p>haemssssss</p>
-							</div>
-							<p class="commentText">
-								Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti dolor mollitia non
-								adipisci aliquid, quisquam cumque voluptas amet provident eveniet earum quo rem sequi
-								repudiandae modi aspernatur, ducimus ab. Officiis.
-								Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere,
-								incidunt sapiente minima dolore quisquam quo fuga consequuntur quibusdam rem fugit
-								doloremque excepturi nihil, ut esse quidem id minus tempore omnis!
-							</p>
-						</div>
-
 						<button type="button" class="btnCommentLike">
 							<i class="fa-regular fa-heart"></i>
 							<!-- <img src="static/images/heart_icon.png" alt="좋아요아이콘"> -->
 						</button>
 					</div>
 				</div>
-
-				<div class="addCommentBox">
-					<textarea placeholder="댓글 작성" class="commentForm"></textarea>
-					<button type="button" class="btnAddPost">등록</button>
-				</div>
+				<th:block th:if="${session.mvo!=null}">
+					<div class="addCommentBox">
+						<textarea placeholder="댓글 작성" class="commentForm"></textarea>
+						<input type="button" id="btnAddPost" class="btnAddPost" value="등록"></input>
+					</div>
+				</th:block>
 			</div>
 		</main>
 	</div>

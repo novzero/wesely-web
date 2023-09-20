@@ -29,6 +29,6 @@ public class CommunityVO {
 	private int readCount; // 조회수
 	private int commentCount; // 댓글 개수 - 목록보기
 	private List<CommentVO> commentList; // 댓글목록 - 내용보기
-	private Date sysdate; // 작성날짜
+	private Date sysdate; // 댓글 작성날짜
 	private List<CommunityImgVO>imgList;// 이미지 
 }

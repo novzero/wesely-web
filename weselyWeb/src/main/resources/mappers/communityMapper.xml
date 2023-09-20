@@ -33,7 +33,7 @@
    <!-- 4. 저장하기  -->
    <insert id="insert" parameterType="CommunityVO" >
    		insert into community values 
-   		(community_id_seq.nextval, #{userid},#{nickname},#{password},#{contents},sysdate,0)
+   		(community_id_seq.nextval, #{userid},#{nickname},#{contents},SYSDATE,0)
    </insert>
    <!-- 5. 수정하기  -->
    <update id="update" parameterType="CommunityVO">

@@ -14,7 +14,7 @@
 		insert into 
 			CommunityImg
 		values
-			(CommunityImg_id_seq.nextval, Community_id_seq.currval,#{uuid},#{fileName},#{contentType})
+			(CommunityImg_id_seq.nextval,community_id_seq.currval, #{uuid},#{fileName},#{contentType})
 	</insert>
 	<insert id="insert2" parameterType="CommunityImgVO">
 		insert into 
