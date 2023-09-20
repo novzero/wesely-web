@@ -110,7 +110,6 @@
 
 			// 비밀번호 유효성검사
 			$("#password").keyup(function () {
-				//alert('fdsafds')
 				var pw = $("#password").val();
 				var reg = /^(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
 				if (!reg.test(pw)) {
@@ -134,7 +133,7 @@
 				}
 			});
 
-/*
+
 			// 별명 검사
 			$("#nickname").keyup(function () {
 				var value = $(this).val();
@@ -145,34 +144,30 @@
 					return false;
 
 				}
-				
-				$.ajax(
-					//'nicknameCheck', 
-					{
-					url:`${path}/users/duplicated/1?str=${str}`,
-					type: "GET",
-					data: {
-						"nickname": value
-					},
-					success: function (data) {
-						if (data * 1 >= 1) {
-							$("#nickmessage").html("이미 존재하는 별명입니다.").css('color', 'red');
-						} else {
-							$("#nickmessage").html("사용가능한 별명입니다.").css('color', 'green');
+
+				$.ajax('nicknameCheck', {
+						type: "GET",
+						data: {
+							"nickname": value
+						},
+						success: function (data) {
+							if (data * 1 >= 1) {
+								$("#nickmessage").html("이미 존재하는 별명입니다.").css('color', 'red');
+							} else {
+								$("#nickmessage").html("사용가능한 별명입니다.").css('color', 'green');
+							}
+						},
+						error: function () {
+							alert("에러!!!");
 						}
-					},
-					error: function () {
-						alert("에러!!!");
-					}
-				});
+					});
 
 			});
 
-*/
+
 
 			// 이메일검사
-			/*
-			$('#email').on('keyup', function () {
+			$('#email').on('change', function () {
 				var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 				if ($('#email').val().match(regExp) != null) {
 					$("#emailMsg").html("");
@@ -183,19 +178,18 @@
 					return;
 				}
 			})
-			*/
-			// 이메일검사
-			$('#email').on('keyup', function () {
-				var email = $("#email").val();
-				var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
-				if (!regExp.test(email)) {
-					$("#emailmsg").css('color', 'red').html("이메일 형식에 맞지않습니다.");
-				} else {
-					$("#emailmsg").css('color', 'green').html("사용가능한 이메일입니다.");
-				}
-			});
 		});
 
+		// 이메일검사
+		$('#email').on('change', function () {
+			var email = $("#email").val();
+			var regExp = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+			if (!regExp.test(email)) {
+				$("#emailmsg").css('color', 'red').html("이메일 형식에 맞지않습니다.");
+			} else {
+				$("#emailmsg").css('color', 'green').html("사용가능한 이메일입니다.");
+			}
+		});
 
 
 		// 폼체크
@@ -258,8 +252,7 @@
 				$("#email").focus();
 				return false;
 			};
-			
-			if ($("#emailmsg").css('color') != 'rgb(0, 128, 0)') {
+			if ($("#emailMsg").css('color') != 'rgb(0, 128, 0)') {
 				alert('이메일 주소를 다시 확인해주세요.');
 				$("#email").val("");
 				$("#email").focus();
@@ -374,13 +367,13 @@
 			</form>
 
 
-
 			<label>
 				회원가입과 동시에 <img src="/images/weLogo.png" style="width: 50px;"> 의
 				<span style="color: #4D54A5; font-weight: bold;"> 개인정보 수집 및 처리</span> 에 동의한 것으로 간주합니다.
 			</label>
 
 		</div>
+
 	</div>
 </body>
 

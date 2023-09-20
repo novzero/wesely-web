@@ -22,6 +22,7 @@ public interface MemberDAO {
 	
 	// <!-- 1개 가져오기 : 수정/회원탈퇴/로그인 ... -->
 	MemberVO selectByIdx(int idx);
+	MemberVO selectByUserid(String userid);
 	
 	// <!-- 전체 개수 얻기 : 관리자 모드 -->
 	int selectCount();
