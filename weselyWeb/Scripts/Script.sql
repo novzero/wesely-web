@@ -32,7 +32,7 @@ CREATE TABLE community(
 	nickname varchar2(100) NOT NULL, -- 작성자
 	contents varchar2(300) NOT NULL, -- 글 내용
 	regDate timestamp DEFAULT sysdate , -- 작성일
-	readCount NUMBER DEFAULT 0 -- 조회수 증가
+	readCount NUMBER DEFAULT 0 -- 조회수 증가 
 	);
 DROP TABLE COMMUNITY;
 SELECT * FROM COMMUNITY;
