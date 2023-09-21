@@ -38,7 +38,7 @@
 			height: 35px;
 			margin-top: 10px;
 			margin-bottom: 10px;
-			border: 2px solid gainsboro;
+			border: 1px solid gainsboro;
 			border-radius: 7px;
 			padding: 0 20px;
 			/* 앞상하 뒷좌우 */
@@ -59,7 +59,7 @@
 			margin-bottom: 5px;
 		}
 
-		.joinBtn {
+		#joinform .joinBtn {
 			width: 100%;
 			height: 40px;
 			border-radius: 7px;
@@ -68,11 +68,30 @@
 			font-weight: bold;
 			background-color: #4D54A5;
 			margin-top: 10px;
+			transition: all 0.3s;
+		}
+		
+		.joinBtn:hover {
+			transform: scale(1.03);
 		}
 
 		td {
 			padding: 5px;
 		}
+
+		#pwIcon {
+			position: absolute;
+			margin-left: 120px;
+			margin-top: -36px;
+		}
+		
+		#pw1Icon {
+			position: absolute;
+			margin-left: 120px;
+			margin-top: -36px;
+		}
+		
+		
 	</style>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
@@ -132,6 +151,29 @@
 					$("#pw1Message").html(""); // 1자 미만이면 메세지 삭제
 				}
 			});
+
+
+			// 비밀번호 보기/숨기기 구현
+			$("#pwIcon").on("click", function () {
+				if ($("#password").attr("type") == "password") {
+					$("#password").attr("type", "text");
+					$($(this)).attr('src', '/images/view.png');
+				} else {
+					$("#password").attr("type", "password");
+					$($(this)).attr('src', '/images/hide.png');
+				}
+			});
+			
+			$("#pw1Icon").on("click", function () {
+				if ($("#password1").attr("type") == "password") {
+					$("#password1").attr("type", "text");
+					$($(this)).attr('src', '/images/view.png');
+				} else {
+					$("#password1").attr("type", "password");
+					$($(this)).attr('src', '/images/hide.png');
+				}
+			});
+
 
 
 			// 별명 검사
@@ -274,6 +316,14 @@
 				return false;
 			};
 
+			// 계정유형 폼체크
+			value = $("#authority").val();
+			if (value == null) {
+				alert("계정 유형을 선택해주세요.");
+				$("#authority").focus();
+				return false;
+			};
+
 			// 이메일 폼체크
 			value = $("#email").val();
 			if (value == null || value.trim().length == 0) {
@@ -303,6 +353,7 @@
 				$("#phone").focus();
 				return false;
 			};
+
 
 		}
 
@@ -350,12 +401,14 @@
 						<td>
 							<label for="password">비밀번호<span id="pwMessage" style="float: right;" /></label>
 							<input type="password" id="password" name="password" required />
+							<img id="pwIcon" src="/images/hide.png" width="20px">
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<label for="password1">비밀번호확인<span id="pw1Message" style="float: right;" /></label>
 							<input type="password" id="password1" name="password1" required />
+							<img id="pw1Icon" src="/images/hide.png" width="20px">
 						</td>
 					</tr>
 					<tr>
@@ -372,12 +425,13 @@
 					</tr>
 					<tr>
 						<td>
-							<label for="role">계정 유형</label>
-							<select name="role"
-								style="width:100%; height: 35px; border: 2px solid gainsboro; border-radius: 7px; text-align: center;"
-								required />
-							<option value="1">일반 계정</option>
-							<option value="2">비즈니스 계정</option>
+							<label for="authority">계정 유형</label>
+							<select id="authority" name="authority"
+								style="width:100%; height: 35px; border: 1px solid gainsboro; border-radius: 7px; text-align: center;"
+								required>
+								<option selected disabled>계정 유형을 선택하세요.</option>
+								<option value="일반계정">일반 계정</option>
+								<option value="비즈니스계정">비즈니스 계정</option>
 							</select>
 						</td>
 					</tr>

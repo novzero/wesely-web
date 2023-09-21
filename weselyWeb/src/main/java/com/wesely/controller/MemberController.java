@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.wesely.service.MemberService;
 import com.wesely.vo.CommVO;
@@ -188,12 +187,13 @@ public class MemberController {
 	}
 
 	@PostMapping(value = "/updateProfileOk")
-	public String updateProfilePost(@ModelAttribute MemberVO vo, Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public String updateProfilePost(@ModelAttribute MemberVO vo, Model model, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
 		log.info("받은값 : {} ", vo);
-		
-		if(memberService.updateNickname(vo)) {
+
+		if (memberService.updateNickname(vo)) {
 			return "redirect:/member/login";
-		}else {
+		} else {
 			return "redirect:/member/updateProfile";
 		}
 	}
@@ -206,11 +206,12 @@ public class MemberController {
 
 	// 비밀번호변경 실행
 	@PostMapping(value = "/updatePasswordOk")
-	public String updatePasswordOk(@ModelAttribute MemberVO vo, @RequestParam String newPassword, Model model, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-		
-		if(memberService.updatePassword(vo, newPassword)) {
+	public String updatePasswordOk(@ModelAttribute MemberVO vo, @RequestParam String newPassword, Model model,
+			HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+
+		if (memberService.updatePassword(vo, newPassword)) {
 			return "redirect:/member/login";
-		}else {
+		} else {
 			return "redirect:/member/updatePassword";
 		}
 	}
@@ -251,6 +252,24 @@ public class MemberController {
 		// 세션에 저장된 회원 정보를 지워버린다.
 		session.removeAttribute("mvo");
 		return "redirect:/";
+	}
+
+	
+	@GetMapping(value = "/delete")
+	public String delete() {
+		return "/member/delete";
+	}
+
+	// 회원 탈퇴 처리
+	@PostMapping(value = "/deleteOk")
+	public String deleteOk(@ModelAttribute MemberVO vo, Model model, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
+		log.info("받은값 : {} ", vo);
+		if (memberService.delete(vo)) {
+			return "redirect:/";
+		} else {
+			return "redirect:/member/delete";
+		}
 	}
 
 	// 커뮤니티 목록보기

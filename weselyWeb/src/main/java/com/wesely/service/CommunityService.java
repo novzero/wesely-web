@@ -21,7 +21,7 @@ public interface CommunityService {
 	boolean update(CommunityVO communityVO , String delList,String filePath);
 
 	// 삭제
-	boolean delete(CommunityVO communityVO);
+	boolean delete(CommunityVO communityVO,String filePath);
 
 	// 댓글쓰기
 	boolean commentInsert(CommentVO commentVO);

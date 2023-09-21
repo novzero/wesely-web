@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>post상세보기</title>
+	<title>게시글 삭제</title>
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/view.css">
@@ -13,59 +13,12 @@
 	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
 	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
 	<script th:inline="javascript">
-		$(function () {
-			$("#btnAddPost").click(function () {
-				//alert($(this).val)
-				let buttobTile = $(this).val();
-				if (buttobTile == "등록") {
-					// 입력 내용 얻기
-					let ref = $("#ref").val();
-					let content = $("#content").val();
-					let name = $("#nickname").val();
-					//alert(content); // 읽어왔는지 확인
-					let form = new FormData();// 폼만들기
-
-					form.append("content", content);
-					form.append("ref", ref);
-					form.append("name", name);
-
-					// Ajax를 통해 데이터를 서버로 보내 저장을 수행한다.
-					axios.post('/community/commentInsert', form)
-						.then(function (response) {
-							//alert("성공!!! : " + JSON.stringify(response));
-							location.reload();
-						})
-						.catch(function (error) { // 에러 발생했을때
-							alert("에러발생!! : " + error);
-						})
-						.finally(function () { // 항상 실행되는 영역
-
-						});
-				}else if(buttobTile=="댓글 수정"){
-					let id =$("#id").val();
-					let content = $("#content").val();
-					
-					form.append|("id",id);
-					form.append("content",content);
-					
-					axiou.put('/community/commentUpdate',form)
-					.then(function (response){
-						alert("성공!!! : " + JSON.stringify(response));
-					    	location.reload();
-					})
-					 .catch(function (error) { // 에러 발생했을때
-					    	alert("에러발생!! : " + error);
-					    	 })
-					  .finally(function () { // 항상 실행되는 영역
-					  });
-				}
-			});
-		});
-		
-			
-		
-
-
+		function click(){
+			alert("정말 삭제하시겠습니까? 삭제게시물은 복구할 수 없습니다.");
+			if (click(alert)){
+				
+			}
+		}
 	</script>
 </head>
 
@@ -110,17 +63,15 @@
 					<img src="/images/Profile.png">
 					<p>[[${community.nickname}]]</p>
 					<th:block th:if="${session.mvo != null}">
-						<input type="button" value="수정"
-							th:onclick="|location.href='@{update(id=${community.id},p=${cv.p},s=${cv.s},b=${cv.b})}'|" />
-						<input type="button" value="삭제" th:onclick="|location.href='@{delete(id=${community.id},p=${cv.p},s=${cv.s},b=${cv.b})}'|" />
+						<input type="button" value="확인" id="ok" onclick="deleteOkPost();"/>
+							
+						<input type="button" value="취소" th:onclick="|location.href='@{/community/view?id={id}(id=${community.id},mode=1)}'|" />
 					</th:block>
 				</div>
 
 				<div class="postContent">
 					<img th:src='|/static/images/upload/${community.imgList[0].uuid}_${community.imgList[0].fileName}|'>
-					<p class="postText">
-						[[${community.contents}]]
-					</p>
+					<p class="postText">[[${community.contents}]]</p>
 				</div>
 			</div>
 

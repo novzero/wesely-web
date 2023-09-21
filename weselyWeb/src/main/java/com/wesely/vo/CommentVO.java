@@ -21,8 +21,10 @@ import lombok.Data;
 public class CommentVO {
 	private int id;
 	private int ref; // 원본글번호
-	private String name; // 작성자
+	private String name;
 	private String content; // 내용
 	private Date regdate; // 댓글작성날짜
 	private int good;// 좋아요 증가여부
+	
+	
 }

@@ -8,9 +8,11 @@ CREATE TABLE wmember (
 	uuid varchar2(200) NULL,
 	username varchar2(50) NOT NULL,
 	nickname varchar2(50),
+	authority varchar2(50) NOT NULL,
 	email varchar2(100),
 	phone varchar2(20)
 );
+
 
 CREATE SEQUENCE wmember_roles_idx_seq;
 
@@ -22,7 +24,8 @@ CREATE TABLE wmember_roles(
 
 SELECT * FROM wmember;
 SELECT * FROM wmember_roles;
-
+DROP TABLE WMEMBER ;
+DELETE FROM wmember WHERE USERID = 'wesely2';
 
 -- 커뮤니티 테이블
 CREATE SEQUENCE community_id_seq;
@@ -32,21 +35,21 @@ CREATE TABLE community(
 	nickname varchar2(100) NOT NULL, -- 작성자
 	contents varchar2(300) NOT NULL, -- 글 내용
 	regDate timestamp DEFAULT sysdate , -- 작성일
-	readCount NUMBER DEFAULT 0 -- 조회수 증가
+	readCount NUMBER DEFAULT 0 -- 조회수 증가 
 	);
+DROP TABLE COMMUNITY;
 SELECT * FROM COMMUNITY;
 DELETE FROM community WHERE userid = 'wesely';
 -- 커뮤니티 댓글 테이블 
 CREATE SEQUENCE comm_id_seq;
 CREATE TABLE COMM(
 	id NUMBER PRIMARY KEY,  -- 키필드
-	REF NUMBER NOT NULL, -- 원본글 번호
-	name varchar2(100) NOT NULL, -- 작성자
+	REF NUMBER NOT NULL, -- 원본글 번호 
 	content varchar2(2000) NOT NULL, -- 내용
 	regdate timestamp DEFAULT sysdate -- 작성일
 	);
 SELECT * FROM comm;
-
+DROP TABLE comm;
 -- 이미지 파일 테이블
 CREATE SEQUENCE communityImg_id_seq;
 CREATE TABLE communityImg(
