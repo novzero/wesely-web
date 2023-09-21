@@ -8,9 +8,9 @@
 	<!-- 저장하기 : 회원 가입 -->
 	<insert id="insert" parameterType="MemberVO">
 		insert into wmember
-		(idx, userid, password, username, nickname, email, phone)
+		(idx, userid, password, username, nickname, authority, email, phone)
 		values
-		(wmember_idx_seq.nextval, #{userid}, #{password}, #{username}, #{nickname}, #{email}, #{phone})
+		(wmember_idx_seq.nextval, #{userid}, #{password}, #{username}, #{nickname}, #{authority}, #{email}, #{phone})
 	</insert>
 	
 	<!-- 수정하기 : 회원 별명 수정 -->
@@ -34,8 +34,8 @@
 	</update>
 	
 	<!-- 삭제하기 : 회원 탈퇴 -->
-	<delete id="delete" parameterType="int">
-		delete from wmember where idx=#{idx}
+	<delete id="delete" parameterType="MemberVO">
+		delete from wmember where userid=#{userid}
 	</delete>
 	
 	

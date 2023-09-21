@@ -27,9 +27,15 @@ public class MemberServiceImpl implements MemberService{
 	
 
 	@Override
-	public void delete(MemberVO memberVO) {
+	public boolean delete(MemberVO memberVO) {
+		boolean result = false;
 		log.info("{}의 delete호출 : {}", this.getClass().getName(), memberVO);
-		
+		MemberVO dbVO = memberDAO.selectByUserid(memberVO.getUserid());
+		if(dbVO != null) {
+			memberDAO.delete(memberVO);
+			result = true;
+		}
+		return result;
 	}
 
 	@Override

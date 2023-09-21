@@ -8,9 +8,11 @@ CREATE TABLE wmember (
 	uuid varchar2(200) NULL,
 	username varchar2(50) NOT NULL,
 	nickname varchar2(50),
+	authority varchar2(50) NOT NULL,
 	email varchar2(100),
 	phone varchar2(20)
 );
+
 
 CREATE SEQUENCE wmember_roles_idx_seq;
 
@@ -22,7 +24,8 @@ CREATE TABLE wmember_roles(
 
 SELECT * FROM wmember;
 SELECT * FROM wmember_roles;
-
+DROP TABLE WMEMBER ;
+DELETE FROM wmember WHERE USERID = 'wesely2';
 
 -- 커뮤니티 테이블
 CREATE SEQUENCE community_id_seq;
