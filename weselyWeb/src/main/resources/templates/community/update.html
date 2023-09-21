@@ -105,13 +105,10 @@ function formCheck() {
 							</label>
 						</th:block>
 					</div>
-
 					<input type="hidden" name="userid" th:value="${session.mvo.userid}">
 					<input type="hidden" name="nickname" th:value="${session.mvo.nickname}">
 					<input type="hidden" name="id" th:value="${community.id}">
-					
 					<textarea id="addText" class="addText" name="contents">[[${community.contents}]]</textarea>
-
 					<div class="btnWrapper">
 						<input class="btnCancle" type="button" value="취소"
 							th:onclick="|location.href='@{/community/view?id={id}(id=${community.id},mode=1)}'|"></input>
