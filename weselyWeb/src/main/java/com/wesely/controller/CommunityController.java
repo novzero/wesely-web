@@ -26,6 +26,7 @@ import com.wesely.vo.CommunityVO;
 import com.wesely.vo.Paging;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.val;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -45,7 +46,7 @@ public class CommunityController {
 	public String getList(@ModelAttribute CommVO cv, Model model) {
 		Paging<CommunityVO> paging = communityService.selectList(cv.getP(), cv.getS(), cv.getB());
 		model.addAttribute("cv",cv);
-		model.addAttribute("pv", communityService.selectList(cv.getP(), cv.getS(), cv.getB()));
+		model.addAttribute("pv",paging);
 		return "/community/list";
 	}
 
@@ -123,6 +124,77 @@ public class CommunityController {
 	}
 	
 	@PostMapping(value = "/updateOk")
+	public String updatePost(
+			@ModelAttribute CommVO cv,
+			@ModelAttribute CommunityVO vo,
+			@RequestParam(defaultValue = "")String delList,
+			@RequestParam MultipartFile[] uploadFile,
+			HttpServletRequest request,Model model) throws IOException {
+		log.info("컨트롤러 ?: {}{}{}", cv, vo, uploadFile);
+		// 내용은 받았지만 파일은 받지 않았다.
+		// 첨부파일 처리를 여기서 해준다.
+		// 파일이 존재하면
+		if(uploadFile != null && uploadFile.length > 0) { 
+			List<CommunityImgVO> list = new ArrayList<>();
+			// 파일 저장 경로
+			String filePath = getFilePath(); 
+			log.info("서버 절대 경로 : " + filePath);
+			for (MultipartFile file : uploadFile) {
+				 // 파일이 있다면
+				if (!file.isEmpty()) {
+					// 랜덤으로 절대 경로 설정
+					String uuid = UUID.randomUUID().toString();
+					String fileName = file.getOriginalFilename();
+					String contentType = file.getContentType();
+					// 파일 중복제거를 위한 키 _ 파일 이름
+					File newFile = new File(filePath + uuid + "_" + fileName);
+					file.transferTo(newFile);
+					CommunityImgVO communityImgVO = new CommunityImgVO();
+					communityImgVO.setUuid(uuid);
+					communityImgVO.setFileName(fileName);
+					communityImgVO.setContentType(contentType);
+					list.add(communityImgVO);
+				}
+			}
+		vo.setImgList(list);
+	}
+		// 서비스 호출해서 DB에 저장하기
+		if (communityService.update(vo,delList,getFilePath())) {
+			log.info("수정 성공");
+		}else {
+			log.info("수정 실패");
+		}
+		return "redirect:/community/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
+	} 
+	// 삭제하기 폼
+	@GetMapping(value = "/delete")
+	public String deleteForm(@ModelAttribute CommVO cv,Model model) {
+		CommunityVO vo = communityService.selectById(cv.getId(),cv.getMode());
+		if(vo == null) {
+			return "redirect:/community/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
+		}
+		model.addAttribute("community",vo);
+		model.addAttribute("cv",cv);
+		return "community/delete";	
+	}
+	
+	// 삭제하기 완료
+	@GetMapping(value = "/deleteOk")
+	public String deleteOkGet() {
+		return "/redirect:/community/list";
+	}
+	
+	@PostMapping(value = "/deleteOk")
+	public String deleteOkPost(@ModelAttribute CommVO cv,
+			@ModelAttribute CommunityVO vo) throws IOException{
+		// 글내용하고 파일이있으면 삭제
+		if(communityService.delete(vo, getFilePath())){
+			log.info("삭제 성공");
+		}else {
+			log.info("삭제 실패");
+		}
+		return "redirect:/community/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
+	}
 	
 	// 서버경로
 	private String getFilePath() throws IOException{
@@ -136,7 +208,8 @@ public class CommunityController {
 	
 	// 커뮤니티 상세보기
 	@GetMapping(value = "/view")
-	public String view(@ModelAttribute CommVO cv, Model model) {
+	public String view(@ModelAttribute CommVO cv, 
+			Model model) {
 		CommunityVO vo = communityService.selectById(cv.getId(), cv.getMode());
 		if(vo == null) {
 			return "redirect:/community/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();

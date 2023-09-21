@@ -47,6 +47,8 @@ public class CommunityServiceImpl implements CommunityService {
 			vo.setReadCount(vo.getReadCount() + 1);
 		}
 		// ------------------------------------------------------------------------------------
+		vo.setCommentList(commentDAO.selectListByRef(vo.getId()));
+		vo.setImgList(communityImgDAO.selectByRef(id));
 		log.info("selectById({},{}) 리턴 : {}", id, mode, vo);
 		return vo;
 	}
@@ -80,7 +82,6 @@ public class CommunityServiceImpl implements CommunityService {
 		boolean result = false;
 		// 글 존재하면 수정
 		if (communityVO != null) {
-			// 글 저장
 			communityDAO.update(communityVO);
 			// 파일저장
 			for (CommunityImgVO vo : communityVO.getImgList()) {
@@ -102,6 +103,7 @@ public class CommunityServiceImpl implements CommunityService {
 						// db의 정보도 삭제
 						communityImgDAO.deleteById(Integer.parseInt(s));
 					}
+					result = true;
 				}
 			}
 		}
@@ -112,22 +114,37 @@ public class CommunityServiceImpl implements CommunityService {
 
 	// 커뮤니티 글 삭제
 	@Override
-	public boolean delete(CommunityVO communityVO) {
-		log.info("delete 호출 : {}", communityVO);
+	public boolean delete(CommunityVO communityVO, String filePath) {
+		log.info("delete 호출 :{}, {}", communityVO, filePath);
 		boolean result = false;
-		// 비번 같으면 커뮤 글삭제
+		// 글있으면 커뮤 글삭제
 		if (communityVO != null) {
-			CommunityVO dbVO = communityDAO.selectById(communityVO.getId());
-			if (dbVO != null) {
-				communityDAO.delete(communityVO.getId());
-				// 커뮤 댓글도 삭제
-				commentDAO.deleteByRef(communityVO.getId());
-				result = true;
+			List<CommunityImgVO> fileList = communityImgDAO.selectByRef(communityVO.getId());
+			if (fileList != null && fileList.size() > 0) {
+				for (CommunityImgVO vo : fileList) {
+					String fileName = vo.getUuid() + "_" + vo.getFileName();
+					File file = new File(filePath + fileName);
+					// getAbsolutePath 파일 절대경로
+					log.info("파일 경로" + file.getAbsolutePath());
+					// 파일이 존재하면
+					if (file.exists()) {
+						log.info("파일 있음");
+						// 파일을 삭제
+						file.delete();
+					} else {
+						log.info("파일 없음");
+					}
+					// 데이터 베이스에서 지움
+					communityImgDAO.deleteById(vo.getId());
+				}
 			}
+			// 글도 삭제
+			communityDAO.delete(communityVO.getId());
+			result = true;
 		}
-		log.info("delet 리턴 : {}", result);
 		return result;
 	}
+
 
 	// 내용보기
 	@Override
@@ -156,6 +173,7 @@ public class CommunityServiceImpl implements CommunityService {
 
 		if (commentVO != null) {
 			commentDAO.insert(commentVO);
+
 			result = true;
 		}
 		log.info("commentInsert 리턴 : {}", result);
@@ -167,9 +185,10 @@ public class CommunityServiceImpl implements CommunityService {
 	public boolean commentUpdate(CommentVO commentVO) {
 		log.info("commentUpdate 호출 : {}", commentVO);
 		boolean result = false;
-
+		// 글내용 있으면
 		if (commentVO != null) {
 			CommentVO dbVO = commentDAO.selectById(commentVO.getId());
+			// 댓글 내용있으면
 			if (dbVO != null) {
 				commentDAO.update(dbVO);
 				result = true;

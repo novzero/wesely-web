@@ -40,6 +40,7 @@ import com.wesely.vo.CommunityVO;
 
 @Mapper
 public interface CommunityImgDAO {
+	// 전체 읽기
 	List<CommunityImgVO> selectByRef(int ref);
 	// 저장
 	void insert(CommunityImgVO communityImgVO);

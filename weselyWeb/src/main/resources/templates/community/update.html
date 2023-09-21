@@ -15,33 +15,9 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <script th:inline="javascript">
-	function formCheck() {
-		let value = $("#inputFile1").val(); // 내용 얻고
-		if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
-			alert('이미지는 반드시 입력해야 합니다.'); // 경고
-			$("#inputFile1").val(""); // 입력값 삭제
-			$("#inputFile1").focus(); // 커서 위치
-			return false;   // 전송 취소
-		}
-		value = $("#addText").val(); // 내용 얻고
-		if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
-			alert('내용은 반드시 입력해야 합니다.'); // 경고
-			$("#addText").val(""); // 입력값 삭제
-			$("#addText").focus(); // 커서 위치
-			return false;   // 전송 취소
-		}
-		return true;
-	}
-
-	/*<![CDATA[*/
-	const vo = /*[[${session.mvo}]]*/;
-	if (vo == null) {
-		location.href = "/community/list";
-	}
-
-	/*]]>*/
 
 </script>
+
 <body>
 	<div class="wrapper">
 		<header>
@@ -75,58 +51,44 @@
 				</div>
 				<div class="line"></div>
 			</div>
-			
+
 			<div class="addPostWrapper">
 				<div class="userInfo">
 					<img src="/images/Profile.png">
 					<p>[[${session.mvo.nickname}]]</p>
 				</div>
-				
-				<form action="/community/insertOk" onsubmit="return formCheck()" method="post"enctype="multipart/form-data">
+
+				<form action="/community/updateOk" onsubmit="return formCheck()" method="post"
+					enctype="multipart/form-data">
 					<div class="addImgWrapper">
-						<label class="addImgItem" for="inputFile1">
-							<input type="file" id="inputFile1" class="inputFile" name="uploadFile">
-							<ion-icon name="add-outline" class="addIcon"></ion-icon>
-							<div>
-								사진추가
-							</div>
-							</input>
-						</label>
-
-						<label class="addImgItem" for="inputFile2">
-							<input type="file" id="inputFile2" class="inputFile" name="uploadFile">
-							<ion-icon name="add-outline" class="addIcon"></ion-icon>
-							<div>
-								사진추가
-							</div>
-							</input>
-						</label>
-
-						<label class="addImgItem" for="inputFile3">
-							<input type="file" id="inputFile3" class="inputFile" name="uploadFile">
-							<ion-icon name="add-outline" class="addIcon"></ion-icon>
-							<div>
-								사진추가
-							</div>
-							</input>
-						</label>
-
-						<label class="addImgItem" for="inputFile4">
-							<input type="file" id="inputFile4" class="inputFile" name="uploadFile">
-							<ion-icon name="add-outline" class="addIcon"></ion-icon>
-							<div>
-								사진추가
-							</div>
-							</input>
-						</label>
+						<th:block th:each="img, vs : ${community.imgList}">
+							<label class="addImgItem" th:for="|inputFile${vs.count}|">
+								<input type="file" th:id="|inputFile${vs.count}|" class="inputFile" name="uploadFile">
+								<div>
+									<img class="fileImg" th:src='|/static/images/upload/${img.uuid}_${img.fileName}|'>
+								</div>
+								</input>
+							</label>
+						</th:block>
+						<th:block th:each="num : ${#numbers.sequence(#lists.size(community.imgList)+1, 4)}">
+							<label class="addImgItem" th:for="|inputFile${num}|">
+								<input type="file" th:id="|inputFile${num}|" class="inputFile" name="uploadFile">
+								<ion-icon name="add-outline" class="addIcon"></ion-icon>
+								<div>
+									사진추가
+								</div>
+								</input>
+							</label>
+						</th:block>
 					</div>
 
 					<input type="hidden" name="userid" th:value="${session.mvo.userid}">
-					<input type="hidden" name="nickname" th:value="${session.mvo.nickname}">						
-					<textarea id="addText" class="addText" name="contents"></textarea>
+					<input type="hidden" name="nickname" th:value="${session.mvo.nickname}">
+					<textarea id="addText" class="addText" name="contents">[[${community.contents}]]</textarea>
 
 					<div class="btnWrapper">
-						<input class="btnCancle" type="button" value="취소" ></input>
+						<input class="btnCancle" type="button" value="취소"
+							th:onclick="|location.href='@{/community/view?id={id}(id=${community.id},mode=1)}'|"></input>
 						<input class="btnAdd" type="submit" value="등록"></input>
 					</div>
 				</form>

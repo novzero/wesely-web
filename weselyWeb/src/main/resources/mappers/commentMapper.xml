@@ -17,7 +17,7 @@
 		insert into 
 			comm
 		values
-			(comm_id_seq.nextval, #{ref},#{content},sysdate)
+			(comm_id_seq.nextval, #{ref},#{name},#{content},sysdate)
 	</insert>
 	<!-- 4. 댓글 수정 -->
 	<update id="update" parameterType="CommentVO">
