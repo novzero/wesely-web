@@ -13,12 +13,7 @@
 	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
 	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
 	<script th:inline="javascript">
-		function click(){
-			alert("정말 삭제하시겠습니까? 삭제게시물은 복구할 수 없습니다.");
-			if (click(alert)){
-				
-			}
-		}
+		
 	</script>
 </head>
 
@@ -59,16 +54,18 @@
 
 		<main>
 			<div class="postBox">
-				<div class="userInfo">
-					<img src="/images/Profile.png">
-					<p>[[${community.nickname}]]</p>
-					<th:block th:if="${session.mvo != null}">
-						<input type="button" value="확인" id="ok" onclick="deleteOkPost();"/>
-							
-						<input type="button" value="취소" th:onclick="|location.href='@{/community/view?id={id}(id=${community.id},mode=1)}'|" />
-					</th:block>
-				</div>
-
+				<form action="/community/deleteOk" method="post">
+					<input type="hidden" name="id" th:value="${community.id}" />
+					<div class="userInfo">
+						<img src="/images/Profile.png">
+						<p>[[${community.nickname}]]</p>
+						<th:block th:if="${session.mvo != null}">
+							<input type="submit" value="확인" id="ok" formmethod="post" />
+							<input type="button" value="취소"
+								th:onclick="|location.href='@{/community/view?id={id}(id=${community.id},mode=1)}'|" />
+						</th:block>
+					</div>
+				</form>
 				<div class="postContent">
 					<img th:src='|/static/images/upload/${community.imgList[0].uuid}_${community.imgList[0].fileName}|'>
 					<p class="postText">[[${community.contents}]]</p>

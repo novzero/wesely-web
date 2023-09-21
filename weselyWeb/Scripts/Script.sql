@@ -45,6 +45,7 @@ CREATE SEQUENCE comm_id_seq;
 CREATE TABLE COMM(
 	id NUMBER PRIMARY KEY,  -- 키필드
 	REF NUMBER NOT NULL, -- 원본글 번호 
+	name varchar2(100) NOT NULL, -- 작성자 이름
 	content varchar2(2000) NOT NULL, -- 내용
 	regdate timestamp DEFAULT sysdate -- 작성일
 	);
@@ -65,6 +66,7 @@ SELECT community_id_seq.nextval,community_id_seq.currval  FROM dual;
 insert into CommunityImg values (CommunityImg_id_seq.nextval, Community_id_seq.currval,'e2ff4d1b-b89d-423e-9f11-197573a4c515','1.png','image/png');
 
 SELECT * FROM CommunityImg;
+SELECT * FROM Community;
 
 SELECT * FROM store;
 

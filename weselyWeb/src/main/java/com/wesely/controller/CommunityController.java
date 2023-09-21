@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.wesely.dao.CommentDAO;
 import com.wesely.service.CommunityService;
 import com.wesely.vo.CommVO;
 import com.wesely.vo.CommentVO;
@@ -211,6 +212,7 @@ public class CommunityController {
 	public String view(@ModelAttribute CommVO cv, 
 			Model model) {
 		CommunityVO vo = communityService.selectById(cv.getId(), cv.getMode());
+		
 		if(vo == null) {
 			return "redirect:/community/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
 		}

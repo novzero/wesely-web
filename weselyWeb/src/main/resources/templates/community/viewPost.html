@@ -41,10 +41,10 @@
 						.finally(function () { // 항상 실행되는 영역
 
 						});
-				}else if(buttobTile=="댓글 수정"){
+				}else if(buttobTile=="수정"){
 					let id =$("#id").val();
 					let content = $("#content").val();
-					
+					alert(content);
 					form.append|("id",id);
 					form.append("content",content);
 					
@@ -62,6 +62,12 @@
 			});
 		});
 		
+		
+		$(function () {
+			$("#ok").click(function () {
+				alert("정말 삭제하시겠습니까? 삭제게시물은 복구할 수 없습니다.")
+			})
+		});
 			
 		
 
@@ -71,6 +77,7 @@
 
 
 <body>
+[[${community.commentList}]] <br />
 
 	<div class="wrapper">
 		<header>
@@ -112,7 +119,7 @@
 					<th:block th:if="${session.mvo != null}">
 						<input type="button" value="수정"
 							th:onclick="|location.href='@{update(id=${community.id},p=${cv.p},s=${cv.s},b=${cv.b})}'|" />
-						<input type="button" value="삭제" th:onclick="|location.href='@{delete(id=${community.id},p=${cv.p},s=${cv.s},b=${cv.b})}'|" />
+						<input id="ok" type="button" value="삭제" th:onclick="|location.href='@{delete(id=${community.id},p=${cv.p},s=${cv.s},b=${cv.b})}'|" />
 					</th:block>
 				</div>
 
@@ -152,7 +159,7 @@
 				</div>
 
 				<p class="totalComments">
-					댓글 <strong>[[${community.commentCount}]]</strong>개
+					댓글 <strong> </strong>개
 				</p>
 				<th:block th:each="c : ${community.commentList}">
 					<div class="commentList">
@@ -167,14 +174,16 @@
 									[[${c.content}]]
 								</div>
 							</div>
+							<form action="/community/commentDelete" method="post">
 							<button type="button" class="btnCommentLike">
 								<i class="fa-regular fa-heart"></i>
 								<!-- <img src="static/images/heart_icon.png" alt="좋아요아이콘"> -->
 							</button>
 							<th:block th:if="${session.mvo != null}">
-								<button th:onclick="updateForm">수정</button>
-								<button th:onclick="deleteForm">삭제</button>
+								<input type="button" th:onclick="updateForm" value="수정"></input>
+								<input type="button" th:onclick="deleteForm" value="삭제"></input>
 							</th:block>
+							</form>
 						</div>
 					</div>
 				</th:block>
