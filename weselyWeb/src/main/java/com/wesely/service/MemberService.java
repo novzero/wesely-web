@@ -13,7 +13,7 @@ public interface MemberService {
 	boolean updatePassword(MemberVO memberVO, String newPassword);
 	
 	// 회원 탈퇴
-	void delete(MemberVO memberVO);
+	boolean delete(MemberVO memberVO);
 	
 	// 로그인
 	MemberVO login(MemberVO memberVO);

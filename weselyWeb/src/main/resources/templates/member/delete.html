@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/style.css">
 	<style type="text/css">
-		#updatePasswordform {
+		#deleteform {
 			width: 300px;
 			margin-right: auto;
 			margin-left: auto;
@@ -22,13 +22,13 @@
 			text-align: center;
 		}
 
-		#updatePasswordform input {
+		#deleteform input {
 			display: block;
 			width: 100%;
 			height: 35px;
 			margin-top: 15px;
 			margin-bottom: 15px;
-			border: 2px solid gainsboro;
+			border: 1px solid gainsboro;
 			border-radius: 7px;
 			padding: 0 20px;
 			/* 앞상하 뒷좌우 */
@@ -37,7 +37,7 @@
 		}
 		
 
-		#updatePasswordform label {
+		#deleteform label {
 			display: block;
 			font-size: 12px;
 			color: #333;
@@ -45,7 +45,7 @@
 			margin-bottom: 5px;
 		}
 
-		.updatePasswordBtn {
+		.deleteMemberBtn {
 			width: 100%;
 			height: 40px;
 			border-radius: 7px;
@@ -58,18 +58,18 @@
 			transition: all 0.3s;
 		}
 
-		.updatePasswordBtn:hover {
+		.deleteMemberBtn:hover {
 			transform: scale(1.03);
 		}
 		
-		#updatePasswordform .title {
+		#deleteform .title {
 			color: #4D54A5;
 			font-weight: bold;
 			font-size: 20px;
 			text-align: left;
 		}
 
-		#updatePasswordform input:focus {
+		#deleteform input:focus {
 			border-color: #4D54A5;
 			outline: none;
 		}
@@ -92,53 +92,39 @@
 
 		$(function () {
 
-			// 새 비밀번호 유효성 검사
-			$("#newPassword").keyup(function () {
-				var pw = $("#newPassword").val();
-				var reg = /^(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
-				if (pw != null && pw.length >= 1) {
-					if (!reg.test(pw)) {
-						$("#newPwMessage").css('color', 'red').html("비밀번호는 8자 이상이며, 영문/숫자를 모두 포함해야합니다.");
-					} else {
-						$("#newPwMessage").css('color', 'green').html("적합한 비밀번호입니다.");
-					}
-				} else {
-					$("#newPwMessage").html(""); // 1자 미만이면 메세지 삭제
-				}
-			});
 
-			// 새 비밀번호 확인 검사
-			$("#newPassword1").keyup(function () {
-				var pw = $("#newPassword").val();
-				var pw1 = $("#newPassword1").val();
+			// 비밀번호 확인 검사
+			$("#password1").keyup(function () {
+				var pw = $("#password").val();
+				var pw1 = $("#password1").val();
 				if (pw1 != null && pw1.length >= 1) {
 					if (pw != pw1) {
-						$("#newPwMessage1").css('color', 'red').html("비밀번호가 일치하지 않습니다.");
+						$("#pwMessage").css('color', 'red').html("비밀번호가 일치하지 않습니다.");
 					} else {
-						$("#newPwMessage1").css('color', 'green').html("비밀번호가 일치합니다.");
+						$("#pwMessage").css('color', 'green').html("비밀번호가 일치합니다.");
 					}
 				} else {
-					$("#newPwMessage1").html(""); // 1자 미만이면 메세지 삭제
+					$("#password1").html(""); // 1자 미만이면 메세지 삭제
 				}
 			});
 			
 			// 비밀번호 보기/숨기기 구현
 			$("#pwIcon").on("click", function () {
-				if ($("#newPassword").attr("type") == "password") {
-					$("#newPassword").attr("type", "text");
+				if ($("#password").attr("type") == "password") {
+					$("#password").attr("type", "text");
 					$($(this)).attr('src', '/images/view.png');
 				} else {
-					$("#newPassword").attr("type", "password");
+					$("#password").attr("type", "password");
 					$($(this)).attr('src', '/images/hide.png');
 				}
 			});
 			
 			$("#pw1Icon").on("click", function () {
-				if ($("#newPassword1").attr("type") == "password") {
-					$("#newPassword1").attr("type", "text");
+				if ($("#password1").attr("type") == "password") {
+					$("#password1").attr("type", "text");
 					$($(this)).attr('src', '/images/view.png');
 				} else {
-					$("#newPassword1").attr("type", "password");
+					$("#password1").attr("type", "password");
 					$($(this)).attr('src', '/images/hide.png');
 				}
 			});
@@ -156,35 +142,22 @@
 				return false;
 			}
 
-			// 새 비밀번호 폼체크
-			value = $("#newPassword").val();
-			if (value == null || value.trim().length == 0) {
-				alert("새 비밀번호는 반드시 입력해야 합니다.");
-				$("#newPassword").val("");
-				$("#newPassword").focus();
-				return false;
-			}
-			if ($("#newPwMessage").css('color') != 'rgb(0, 128, 0)') {
-				alert('새 비밀번호를 확인해주세요.');
-				$("#newPassword").val("");
-				$("#newPassword").focus();
+		
+			if ($("#pwMessage").css('color') != 'rgb(0, 128, 0)') {
+				alert('비밀번호를 확인해주세요.');
+				$("#password1").val("");
+				$("#password1").focus();
 				return false;
 			};
 
-			// 새 비밀번호 확인 폼체크
-			value = $("#newPassword1").val();
+			// 비밀번호 확인 폼체크
+			value = $("#password1").val();
 			if (value == null || value.trim().length == 0) {
-				alert("새 비밀번호는 반드시 입력해야 합니다.");
-				$("#newPassword1").val("");
-				$("#newPassword1").focus();
+				alert("비밀번호 확인은 반드시 입력해야 합니다.");
+				$("#password1").val("");
+				$("#password1").focus();
 				return false;
 			}
-			if ($("#newPwMessage1").css('color') != 'rgb(0, 128, 0)') {
-				alert('새 비밀번호를 확인해주세요.');
-				$("#newPassword1").val("");
-				$("#newPassword1").focus();
-				return false;
-			};
 		}
 
 	</script>
@@ -218,41 +191,33 @@
 
 
 
-		<form action="/member/updatePasswordOk" method="post" onsubmit="return formCheck()">
-			<table id="updatePasswordform">
+		<form action="/member/deleteOk" method="post" onsubmit="return formCheck()">
+			<table id="deleteform">
 				<tr>
-					<td class="title">비밀번호 변경</td>
-					<td class="image"><img src="/images/wesely_logo.png" alt="wesely로고" width="50px"></td>
+					<td class="title">wesely를 탈퇴하시겠습니까?</td>
 				</tr>
 				<tr>
 					<td><br /></td>
 				</tr>
 				<tr>
-					<td colspan="2">
+					<td>
 						<input type="hidden" name="userid" th:value="${session.mvo.userid}">
-						<label for="password">현재 비밀번호<span id="pwMessage" style="float: right;" /></label>
-						<input type="text" id="password" name="password" required tabindex="1"/>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<label for="password">새 비밀번호 입력<span id="newPwMessage" style="float: right;" /></label>
-						<input type="text" id="newPassword" name="newPassword" required tabindex="2" />
+						<label for="password">현재 비밀번호를 입력해주세요.</label>
+						<input type="password" id="password" name="password" required tabindex="1"/>
 						<img id="pwIcon" src="/images/hide.png" width="20px">
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2">
-						<label for="password">새 비밀번호 확인<span id="newPwMessage1" style="float: right;" /></label>
-						<input type="text" id="newPassword1" required tabindex="3" />
+					<td >
+						<label for="password1">다시 한 번 입력해주세요.<br/><span id="pwMessage" /></label>
+						<input type="password" id="password1" name="password1" required tabindex="2" />
 						<img id="pw1Icon" src="/images/hide.png" width="20px">
 					</td>
 				</tr>
 
-
 				<tr>
-					<td colspan="2">
-						<button type="submit" value="비밀번호변경완료" class="updatePasswordBtn">변경 완료</button> <br />
+					<td>
+						<button type="submit" class="deleteMemberBtn">회원 탈퇴</button> <br />
 					</td>
 				</tr>
 

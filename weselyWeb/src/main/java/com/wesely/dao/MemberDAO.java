@@ -19,7 +19,7 @@ public interface MemberDAO {
 	
 	
 	// <!-- 삭제하기 : 회원탈퇴 -->
-	void delete(int id);
+	void delete(MemberVO memberVO);
 	
 	
 	// <!-- 1개 가져오기 : 수정/회원탈퇴/로그인 ... -->
