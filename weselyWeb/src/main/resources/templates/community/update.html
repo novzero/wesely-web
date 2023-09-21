@@ -15,7 +15,31 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <script th:inline="javascript">
+function formCheck() {
+		let value = $("#inputFile1").val(); // 내용 얻고
+		if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
+			alert('이미지는 반드시 입력해야 합니다.'); // 경고
+			$("#inputFile1").val(""); // 입력값 삭제
+			$("#inputFile1").focus(); // 커서 위치
+			return false;   // 전송 취소
+		}
+		value = $("#addText").val(); // 내용 얻고
+		if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
+			alert('내용은 반드시 입력해야 합니다.'); // 경고
+			$("#addText").val(""); // 입력값 삭제
+			$("#addText").focus(); // 커서 위치
+			return false;   // 전송 취소
+		}
+		return true;
+	}
 
+	/*<![CDATA[*/
+	const vo = /*[[${session.mvo}]]*/;
+	if (vo == null) {
+		location.href = "/community/list";
+	}
+
+	/*]]>*/
 </script>
 
 <body>
@@ -81,11 +105,10 @@
 							</label>
 						</th:block>
 					</div>
-
 					<input type="hidden" name="userid" th:value="${session.mvo.userid}">
 					<input type="hidden" name="nickname" th:value="${session.mvo.nickname}">
+					<input type="hidden" name="id" th:value="${community.id}">
 					<textarea id="addText" class="addText" name="contents">[[${community.contents}]]</textarea>
-
 					<div class="btnWrapper">
 						<input class="btnCancle" type="button" value="취소"
 							th:onclick="|location.href='@{/community/view?id={id}(id=${community.id},mode=1)}'|"></input>

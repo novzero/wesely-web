@@ -159,6 +159,7 @@ public class CommunityServiceImpl implements CommunityService {
 			List<CommentVO> commentList = commentDAO.selectListByRef(id);
 			// 3. 댓글을 VO에 넣어준다.
 			communityVO.setCommentList(commentList);
+			communityVO.setCommentCount(commentDAO.selectCountByRef(communityVO.getId()));// 댓글 개수 넣기
 		}
 		// -----------------------------------------------------------------------------
 		log.info("view 리턴 : {}", communityVO);
