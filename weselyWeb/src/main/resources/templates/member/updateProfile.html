@@ -108,7 +108,7 @@
 			transform: scale(1.03);
 		}
 
-		#updateProfile span {
+		#updateProfile .deleteBtn {
 			color: rgb(128, 128, 128);
 			font-size: 15px;
 			text-decoration: underline;
@@ -166,6 +166,13 @@
 				$("#nickname").focus();
 				return false;
 			}
+			if ($("#nickmessage").css('color') != 'rgb(0, 128, 0)') {
+				alert("별명을 확인해주세요.");
+				$("#userid").val("");
+				$("#userid").focus();
+				return false;
+			};
+			
 		};
 
 		function deleteMember() {
@@ -266,7 +273,7 @@
 					</tr>
 					<tr>
 						<td colspan="2">
-							<span onclick="deleteMember();">회원탈퇴</span>
+							<span class="deleteBtn" onclick="deleteMember();">회원탈퇴</span>
 						</td>
 					</tr>
 				</table>

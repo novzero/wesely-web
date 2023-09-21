@@ -266,6 +266,7 @@ public class MemberController {
 			HttpServletResponse response, HttpSession session) {
 		log.info("받은값 : {} ", vo);
 		if (memberService.delete(vo)) {
+			session.removeAttribute("mvo");
 			return "redirect:/";
 		} else {
 			return "redirect:/member/delete";
