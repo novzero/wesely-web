@@ -273,7 +273,7 @@ if (navigator.geolocation) {
             )
               .then((response) => response.json())
               .then((data) => {
-                yesterdayTemp = Math.round(((data.days[0].temp - 32) * 5) / 9); // 화씨에서 섭씨로 변환
+                let yesterdayTemp = Math.round(((data.days[0].temp - 32) * 5) / 9); // 화씨에서 섭씨로 변환
                 let diff = currentTemp - yesterdayTemp; // 현재온도와 어제온도 차이 계산
 
                 if (currentTemp > yesterdayTemp) {

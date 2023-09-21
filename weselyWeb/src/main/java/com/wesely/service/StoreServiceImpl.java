@@ -63,4 +63,11 @@ public class StoreServiceImpl implements StoreService {
 		return false;
 	}
 
+	
+	@Override
+	public StoreVO save(StoreVO storeVO) {
+		storeDAO.insert(storeVO);
+        return storeVO;
+	}
+
 }

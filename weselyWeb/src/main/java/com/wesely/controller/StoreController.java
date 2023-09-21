@@ -33,7 +33,7 @@ public class StoreController {
 	// 운동시설 상세보기
 	@GetMapping(value = "/view")
 	public String view() {
-
+		
 		return "/store/placeView";
 	}
 

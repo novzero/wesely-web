@@ -24,5 +24,8 @@ public interface StoreService {
 		
 		// 5. 삭제하기
 		boolean delete(StoreVO storeVO);
+		
+		//6. 카카오에서 받은 데이터
+		StoreVO save(StoreVO storeVO);
 	
 }

@@ -9,9 +9,53 @@
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/store/placeList.css" />
 	<script>
+		// 더보기버튼 클릭시 12개씩 가져오기 위해 초기 Num0셋팅
 		let lastNum = 0;
 		window.onload = function () {
 			storeMore();
+		}
+
+	</script>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services">
+		</script>
+	<script>
+		// 장소 검색 객체를 생성합니다
+		var ps = new kakao.maps.services.Places();
+		ps.keywordSearch("대전요가", placesSearchCB, {
+			page: 1, size: 15
+		});
+ 
+
+		function saveToDatabase(place) {
+			const store = {
+				// id: place.id,
+				name: place.place_name,
+				address: place.address_name,
+				opening: "",
+				Tel: "",
+				description: "",
+				hashTag: ""
+			};
+
+			fetch('/api/addStore', {  // make sure the URL matches with your server endpoint
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: store
+			})
+				.then(response => response.json())
+				.then(data => console.log(data))
+				.catch(error => console.error(error));
+		}
+
+		function placesSearchCB(data, status, pagination) {
+			if (status === kakao.maps.services.Status.OK) {
+				data.forEach(place => {
+					saveToDatabase(place);
+				});
+			}
 		}
 
 	</script>
@@ -98,9 +142,8 @@
 	</div>
 
 	<script>
-
 		function storeMore() {
-			lastNum += 3;
+			lastNum += 12;
 			fetch('/api/store?lastNum=' + lastNum)
 				.then(response => response.json())
 				.then(data => {
