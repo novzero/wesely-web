@@ -13,7 +13,6 @@
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/style.css">
 	<style>
-		
 		#loginform {
 			width: 300px;
 			margin-right: auto;
@@ -70,7 +69,7 @@
 		.loginBtn:hover {
 			transform: scale(1.03);
 		}
-		
+
 		#inputform a {
 			color: rgb(128, 128, 128);
 			font-size: 10px;
@@ -92,7 +91,7 @@
 				$("#userid").focus();
 				return false;
 			}
-			
+
 			value = $("#password").val();
 			if (!value || value.trim().length == 0) {
 				alert("사용자 비밀번호는 반드시 입력해야 합니다.");
@@ -127,9 +126,15 @@
 				<a href="/"><strong>고객센터</strong></a>
 			</nav>
 			<nav class="login">
-				<a href="/member/login"><strong>로그인</strong></a>
-				<a href="/member/join"><strong>회원가입</strong></a>
-				<a href="/"><strong>비즈니스 계정</strong></a>
+				<th:block th:if="${session.mvo == null}">
+					<a href="/member/login"><strong>로그인</strong></a>
+					<a href="/member/join"><strong>회원가입</strong></a>
+				</th:block>
+				<th:block th:if="${session.mvo != null}">
+					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
+					<a href="/member/logout"><strong>로그아웃</strong></a>
+					<a href="/"><strong>비즈니스 계정</strong></a>
+				</th:block>
 			</nav>
 		</header>
 
