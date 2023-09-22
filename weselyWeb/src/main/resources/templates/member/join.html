@@ -70,7 +70,7 @@
 			margin-top: 10px;
 			transition: all 0.3s;
 		}
-		
+
 		.joinBtn:hover {
 			transform: scale(1.03);
 		}
@@ -84,14 +84,12 @@
 			margin-left: 120px;
 			margin-top: -36px;
 		}
-		
+
 		#pw1Icon {
 			position: absolute;
 			margin-left: 120px;
 			margin-top: -36px;
 		}
-		
-		
 	</style>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
@@ -163,7 +161,7 @@
 					$($(this)).attr('src', '/images/hide.png');
 				}
 			});
-			
+
 			$("#pw1Icon").on("click", function () {
 				if ($("#password1").attr("type") == "password") {
 					$("#password1").attr("type", "text");
@@ -253,7 +251,6 @@
 
 		// 폼체크
 		function formCheck() {
-
 			// 아이디 폼체크
 			var value = $("#userid").val();
 			if (value == null || value.trim().length == 0) {
@@ -353,8 +350,6 @@
 				$("#phone").focus();
 				return false;
 			};
-
-
 		}
 
 	</script>
@@ -375,9 +370,15 @@
 				<a href="/"><strong>고객센터</strong></a>
 			</nav>
 			<nav class="login">
-				<a href="/member/login"><strong>로그인</strong></a>
-				<a href="/member/join"><strong>회원가입</strong></a>
-				<a href="/"><strong>비즈니스 계정</strong></a>
+				<th:block th:if="${session.mvo == null}">
+					<a href="/member/login"><strong>로그인</strong></a>
+					<a href="/member/join"><strong>회원가입</strong></a>
+				</th:block>
+				<th:block th:if="${session.mvo != null}">
+					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
+					<a href="/member/logout"><strong>로그아웃</strong></a>
+					<a href="/"><strong>비즈니스 계정</strong></a>
+				</th:block>
 			</nav>
 		</header>
 
