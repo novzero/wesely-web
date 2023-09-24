@@ -89,6 +89,7 @@
 			margin-top: 10px;
 			transition: all 0.3s;
 		}
+
 		.updateBtn:hover {
 			transform: scale(1.03);
 		}
@@ -155,24 +156,26 @@
 		function formCheck() {
 			let value = $("#nickname").val();
 			if (value == null || value.trim().length == 0) {
-				alert("닉네임은 반드시 입력해야 합니다.");
-				$("#userid").val("");
-				$("#userid").focus();
-				return false;
-			}
-			if (value.indexOf(" ") > 0) {
-				alert("닉네임에는 공백을 포함할 수 없습니다.");
+				alert("별명은 반드시 입력해야 합니다.");
 				$("#nickname").val("");
 				$("#nickname").focus();
 				return false;
-			}
-			if ($("#nickmessage").css('color') != 'rgb(0, 128, 0)') {
+			}else if (value.indexOf(" ") > 0) {
+				alert("별명에는 공백을 포함할 수 없습니다.");
+				$("#nickname").val("");
+				$("#nickname").focus();
+				return false;
+			}else if ($("#nickmessage").css('color') != 'rgb(0, 128, 0)') {
 				alert("별명을 확인해주세요.");
-				$("#userid").val("");
-				$("#userid").focus();
+				$("#nickname").val("");
+				$("#nickname").focus();
+				return false;
+			} else if (window.confirm("회원정보를 수정하시겠습니까? 다시 로그인해야합니다.")) {
+				location.href = "/member/login";
+			} else {
 				return false;
 			};
-			
+
 		};
 
 		function deleteMember() {
@@ -233,7 +236,6 @@
 
 					<tr>
 						<td class="nickName" colspan="2">
-							<input type="hidden" id="idx" name="idc" th:value="${session.mvo.idx}" />
 							<input type="hidden" id="userid" name="userid" th:value="${session.mvo.userid}" />
 							<label for="nickname">별명<span id="nickmessage" style="float: right;" /></label>
 							<input type="text" id="nickname" name="nickname" th:placeholder="${session.mvo.nickname}"

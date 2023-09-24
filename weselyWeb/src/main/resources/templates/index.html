@@ -30,6 +30,15 @@
 				<a href="/community/"><strong>커뮤니티</strong></a>
 				<a href="/"><strong>고객센터</strong></a>
 			</nav>
+			
+			<nav class="hello">
+				<th:block th:if = "${session.mvo != null}">
+					<span style="font-size: 15px;">
+						<input type="text" th:value="${session.mvo.nickname}" style="border: none; background:none; width:105px; text-align: right; font-size: 15px;" disabled/> 님 환영합니다.
+					</span>
+				</th:block>			
+			</nav>
+			
 			<nav class="login">
 				<th:block th:if="${session.mvo == null}">
 					<a href="/member/login"><strong>로그인</strong></a>
