@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -237,7 +239,7 @@ public class CommunityController {
 	}
 	
 	// 댓글수정
-	@PostMapping(value = "/commentUpdate")
+	@PutMapping(value = "/commentUpdate")
 	@ResponseBody
 	public boolean commentUpdate(@ModelAttribute CommentVO vo) {
 		log.info("댓글 수정 호출 : {}",vo);
@@ -252,7 +254,7 @@ public class CommunityController {
 	}
 	
 	// 댓글삭제
-	@PostMapping(value = "/commentDelete")
+	@DeleteMapping(value = "/commentDelete")
 	@ResponseBody
 	public boolean commentDelete(@ModelAttribute CommentVO vo) {
 		log.info("댓글 삭제 호출 : {}",vo);
