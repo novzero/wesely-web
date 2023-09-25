@@ -77,7 +77,7 @@ CREATE SEQUENCE store_id_seq;
 -- 2. 게시판 테이블 생성
 CREATE TABLE store(
 	id NUMBER PRIMARY KEY,  -- 키필드
-	name varchar2(30) NOT NULL, -- 매장명
+	name varchar2(50) NOT NULL, -- 매장명
 	address varchar2(100) NOT NULL, -- 매장주소
 	opening varchar2(300), -- 매장운영시간
 	tel varchar2(30), -- 매장번호
@@ -92,7 +92,7 @@ CREATE SEQUENCE sreview_id_seq;
 CREATE TABLE storeReview(
 	id NUMBER PRIMARY KEY,  -- 키필드
 	REF NUMBER NOT NULL, -- 원본글 번호
-	nickname varchar2(100) NOT NULL, -- 유저닉네임
+	nickname varchar2(50) NOT NULL, -- 유저닉네임
 	userProfile varchar2(100) NOT NULL, -- 유저프로필사진
 	star NUMBER NOT NULL, -- 별점
 	content varchar2(2000) NOT NULL, -- 내용
