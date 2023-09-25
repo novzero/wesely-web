@@ -145,12 +145,16 @@ public class MemberServiceImpl implements MemberService{
 		log.info("{}의 updateNickname호출 : {}", this.getClass().getName(), memberVO);
 		MemberVO dbVO = memberDAO.selectByUserid(memberVO.getUserid());
 		if(dbVO!=null) {
+<<<<<<< HEAD
+			
+=======
 			// 게시판의 정보를 변경
 			HashMap<String, String> map = new HashMap<>();
 			map.put("newNickname", memberVO.getNickname());
 			map.put("oldNickname", dbVO.getNickname());
 			communityDAO.updateNickname(map);
 			// 회원정보변경
+>>>>>>> branch 'main' of https://github.com/novzero/wesely-web.git
 			memberDAO.updateNickname(memberVO);
 			
 			result = true;
