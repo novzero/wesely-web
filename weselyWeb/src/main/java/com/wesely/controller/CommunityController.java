@@ -28,6 +28,7 @@ import com.wesely.vo.CommunityImgVO;
 import com.wesely.vo.CommunityVO;
 import com.wesely.vo.Paging;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.val;
 import lombok.extern.slf4j.Slf4j;
@@ -267,4 +268,24 @@ public class CommunityController {
 		log.info("댓글 삭제 리턴 : {}",result);
 		return result;
 	}
+	// 로그인 폼 처리하기
+		@GetMapping(value = "/login")
+		public String login(HttpServletRequest request, Model model) {
+			// 쿠키에 저장된 사용자아이디가 있으면 읽어서 간다.
+			Cookie[] cookies = request.getCookies();
+			String userid = null;
+			// userid변수에 쿠키에 userid가 있다면 읽어서 대입하자
+			if (cookies != null && cookies.length > 0) {
+				for (Cookie cookie : cookies) {
+					if (cookie.getName().equals("userid")) {
+						userid = cookie.getValue();
+						break;
+					}
+				}
+			}
+			// 모델에 쿠키값을 저장한다.
+			model.addAttribute("userid", userid);
+			// 로그인 폼으로 포워딩 한다.
+			return "/member/login";
+		}
 }
