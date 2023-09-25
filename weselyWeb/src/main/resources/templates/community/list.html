@@ -13,6 +13,7 @@
 
 
 <body>
+	[[${session.mvo.nickname}]]
 	<div class="wrapper">
 		<header>
 			<div class="logo">
@@ -60,23 +61,17 @@
 			</div>
 			<div class="mainContent">
 				<th:block th:each="vo: ${pv.list}">
-
-					<a th:href="@{/community/view?id={id}(id=${vo.id},mode=1)}">
+					<a th:href="@{/community/view?id={id}(id=${vo.id},mode=1)}">		
 						<div class="postBox">
-							<div class="postImageBox">
-							
+							<div class="postImageBox">		
 							<img th:src='|/static/images/upload/${vo.imgList[0].uuid}_${vo.imgList[0].fileName}|'>
-
 							</div>
-
-							<div class="userProfileBox">
-
-								<img src="/images/Profile.png">
-								<p class="userName">[[${vo.nickname}]]</p>
+							<div class="userProfileBox">				
+								<img src="/images/Profile.png">								
+								<p class="userName">[[${vo.nickname}]]</p>				
 							</div>
 							<p class="postText">
 								[[${vo.contents}]]
-
 							</p>
 						</div>
 					</a>

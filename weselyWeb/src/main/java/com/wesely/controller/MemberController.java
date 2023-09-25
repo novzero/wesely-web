@@ -190,8 +190,10 @@ public class MemberController {
 	public String updateProfilePost(@ModelAttribute MemberVO vo, Model model, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) {
 		log.info("받은값 : {} ", vo);
-
 		if (memberService.updateNickname(vo)) {
+			MemberVO dbVO = memberService.findUserId(vo);
+			// 세션정보 바꿈
+			session.setAttribute("mvo", dbVO);
 			return "redirect:/member/login";
 		} else {
 			return "redirect:/member/updateProfile";

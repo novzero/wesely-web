@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 import com.wesely.dao.CommentDAO;
 import com.wesely.dao.CommunityDAO;
 import com.wesely.dao.CommunityImgDAO;
+import com.wesely.dao.MemberDAO;
 import com.wesely.vo.CommentVO;
 import com.wesely.vo.CommunityImgVO;
 import com.wesely.vo.CommunityVO;
+import com.wesely.vo.MemberVO;
 import com.wesely.vo.Paging;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,9 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Autowired
 	private CommunityImgDAO communityImgDAO;
+	
+	@Autowired
+	private MemberDAO memberDAO;
 
 	// 1개 얻어 조회수 증가
 	@Override
@@ -191,7 +196,7 @@ public class CommunityServiceImpl implements CommunityService {
 			CommentVO dbVO = commentDAO.selectById(commentVO.getId());
 			// 댓글 내용있으면
 			if (dbVO != null) {
-				commentDAO.update(dbVO);
+				commentDAO.update(commentVO);
 				result = true;
 			}
 		}
@@ -241,5 +246,5 @@ public class CommunityServiceImpl implements CommunityService {
 		System.out.println(paging);
 		return paging;
 	}
-
+	
 }

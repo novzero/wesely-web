@@ -49,6 +49,7 @@ import com.wesely.vo.CommunityVO;
    </update>
  * 
  * */
+import com.wesely.vo.MemberVO;
 
 @Mapper
 public interface CommunityDAO {
@@ -56,6 +57,8 @@ public interface CommunityDAO {
 		int selectCount();
 //	   <!-- 2. 1개 얻기  -->
 		CommunityVO selectById(int id);
+//		<!-- 아이디로 찾기 -->
+		CommunityVO selectByUserid(String userid);
 //	   <!-- 3. 1페이지 얻기  -->
 		List<CommunityVO> selectList(HashMap<String, Integer>map);
 //	   <!-- 4. 저장하기  -->
@@ -66,4 +69,6 @@ public interface CommunityDAO {
 		void delete(int id);
 //	   <!-- 7. 조회수 증가하기  -->
 		void updateReadCount(int id);
+		// <!-- 수정하기 : 회원정보 수정 -->
+		void updateNickname(HashMap<String, String> map);
 }
