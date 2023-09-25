@@ -1,5 +1,7 @@
 package com.wesely.controller;
 
+import java.awt.Window;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;

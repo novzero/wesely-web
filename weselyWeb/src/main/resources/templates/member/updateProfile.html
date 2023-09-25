@@ -71,12 +71,16 @@
 
 		#updateProfile label {
 			display: block;
-			font-size: 12px;
+			font-size: 14px;
 			color: #333;
 			text-align: left;
 			margin-bottom: 5px;
 		}
 
+		input::placeholder {
+			color: lightgray;
+			font-size: 13px;
+		}
 
 		#updateProfile .updateBtn {
 			width: 100%;
@@ -115,7 +119,7 @@
 			text-decoration: underline;
 		}
 
-		span:hover {
+		.deleteBtn:hover{
 			font-weight: bold;
 		}
 	</style>
@@ -125,13 +129,18 @@
 			// 별명 검사
 			$("#nickname").keyup(function () {
 				var value = $(this).val();
-				var reg = /^[가-힣]{2,8}$/;
-				if (!reg.test(value)) {
-					$("#nickmessage").css('color', 'red').html("별명은 2~8자(한글)만 가능합니다.");
-					$(this).focus();
+				// 닉네임 검사 | 2글자 이상 8글자 이하로 작성
+				if (value.length < 2 || value.length > 8) {
+					$("#nickmessage").css('color', 'red').html("닉네임은 2~8자로 입력해야합니다.");
+					$(this).focus()
 					return false;
+				} else if (value.indexOf(" ") > 0) {
+					$("#nickmessage").css('color', 'red').html("닉네임에는 공백을 포함할 수 없습니다.");
+					$(this).focus();
+					return false;					
 				}
-
+				
+				// 별명 중복 확인, ajax로 처리
 				$.ajax('nicknameCheck', {
 					type: "GET",
 					data: {
@@ -139,9 +148,9 @@
 					},
 					success: function (data) {
 						if (data * 1 >= 1) {
-							$("#nickmessage").html("이미 존재하는 별명입니다.").css('color', 'red');
+							$("#nickmessage").html("이미 존재하는 닉네임입니다.").css('color', 'red');
 						} else {
-							$("#nickmessage").html("사용가능한 별명입니다.").css('color', 'green');
+							$("#nickmessage").html("사용가능한 닉네임입니다.").css('color', 'green');
 						}
 					},
 					error: function () {
@@ -156,17 +165,12 @@
 		function formCheck() {
 			let value = $("#nickname").val();
 			if (value == null || value.trim().length == 0) {
-				alert("별명은 반드시 입력해야 합니다.");
+				alert("닉네임은 반드시 입력해야 합니다.");
 				$("#nickname").val("");
 				$("#nickname").focus();
 				return false;
-			}else if (value.indexOf(" ") > 0) {
-				alert("별명에는 공백을 포함할 수 없습니다.");
-				$("#nickname").val("");
-				$("#nickname").focus();
-				return false;
-			}else if ($("#nickmessage").css('color') != 'rgb(0, 128, 0)') {
-				alert("별명을 확인해주세요.");
+			} else if ($("#nickmessage").css('color') != 'rgb(0, 128, 0)') {
+				alert("닉네임을 확인해주세요.");
 				$("#nickname").val("");
 				$("#nickname").focus();
 				return false;
@@ -237,9 +241,9 @@
 					<tr>
 						<td class="nickName" colspan="2">
 							<input type="hidden" id="userid" name="userid" th:value="${session.mvo.userid}" />
-							<label for="nickname">별명<span id="nickmessage" style="float: right;" /></label>
-							<input type="text" id="nickname" name="nickname" th:placeholder="${session.mvo.nickname}"
-								th:value="${nickname}" />
+							<label for="nickname">닉네임</label>
+							<input type="text" id="nickname" name="nickname" th:placeholder="${session.mvo.nickname}" th:value="${nickname}" />
+							<span id="nickmessage" style="float: left; font-size: 13px;" />
 						</td>
 					</tr>
 					<tr>

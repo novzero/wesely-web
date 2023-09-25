@@ -5,15 +5,14 @@
 <head>
 	<meta charset="UTF-8">
 	<title>아이디 찾기 페이지</title>
-	
+
 	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
 	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
-	
+
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/style.css">
 	<style type="text/css">
-		
 		#findIdform {
 			width: 300px;
 			margin-right: auto;
@@ -23,10 +22,22 @@
 			border: none;
 			text-align: center;
 		}
+		
+		#findIdform .title {
+			color: #4D54A5;
+			font-weight: bold;
+			font-size: 20px;
+			text-align: left;
+		}
 
-		#inputform {
-			margin-top: 30px;
-			margin-bottom: 30px;
+		#findIdform .content {
+			text-align: left;
+			font-size: 10px;
+		}
+
+		#findIdform input:focus {
+			border-color: #4D54A5;
+			outline: none;
 		}
 
 		#findIdform input {
@@ -43,38 +54,18 @@
 			font-size: 15px;
 		}
 
-		.findIdBtn {
-			width: 100%;
+
+		#findIdform .findIdBtn {
 			height: 40px;
-			border-radius: 7px;
 			border: none;
 			color: white;
 			font-weight: bold;
 			background-color: #4D54A5;
-			margin-top: 10px;
-			font-size: 15px;
 			transition: all 0.3s;
 		}
-		
+
 		.findIdBtn:hover {
 			transform: scale(1.03);
-		}
-
-		#findIdform .title {
-			color: #4D54A5;
-			font-weight: bold;
-			font-size: 20px;
-			text-align: left;
-		}
-
-		#findIdform .content {
-			text-align: left;
-			font-size: 10px;
-		}
-
-		#findIdform input:focus {
-			border-color: #4D54A5;
-			outline: none;
 		}
 	</style>
 	<script>
@@ -132,22 +123,24 @@
 				<tr>
 					<td class="content">가입 시 입력하신 이름과 전화번호를 입력해주세요.</td>
 				</tr>
+				<tr>
+					<td><br/></td>
+				</tr>
 
 				<tr>
 					<td colspan="2">
-						<input type="text" id="username" name="username" placeholder="이름" required tabindex="1"
-							th:value="${userid}" />
+						<input type="text" id="username" name="username" placeholder="이름" />
 					</td>
 				</tr>
 
 				<tr>
 					<td colspan="2">
-						<input type="text" id="phone" name="phone" placeholder="전화번호" required tabindex="2" />
+						<input type="text" id="phone" name="phone" placeholder="전화번호" />
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<button type="submit" value="아이디찾기" class="findIdBtn">아이디찾기</button> <br />
+						<input type="submit" value="아이디찾기" class="findIdBtn" />
 					</td>
 				</tr>
 
