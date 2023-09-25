@@ -140,6 +140,7 @@ public class MemberServiceImpl implements MemberService{
 		log.info("{}의 updateNickname호출 : {}", this.getClass().getName(), memberVO);
 		MemberVO dbVO = memberDAO.selectByUserid(memberVO.getUserid());
 		if(dbVO!=null) {
+			
 			memberDAO.updateNickname(memberVO);
 			
 			result = true;
