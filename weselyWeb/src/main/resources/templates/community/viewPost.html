@@ -16,8 +16,8 @@
 		$(function () {
 			$("#btnAddPost").click(function () {
 				//alert($(this).val)
-				let buttobTile = $(this).val();
-				if (buttobTile == "등록") {
+				let buttonTitle = $(this).val();
+				if (buttonTitle == "등록") {
 					// 입력 내용 얻기
 					let ref = $("#ref").val();
 					let content = $("#content").val();
@@ -41,37 +41,69 @@
 						.finally(function () { // 항상 실행되는 영역
 
 						});
-				}else if(buttobTile=="수정"){
-					let id =$("#id").val();
+				} else if (buttonTitle == "댓글 수정") {
+					// 입력 내용 얻기
+					let id = $("#id").val();
 					let content = $("#content").val();
-					alert(content);
-					form.append|("id",id);
-					form.append("content",content);
-					
-					axiou.put('/community/commentUpdate',form)
-					.then(function (response){
-						alert("성공!!! : " + JSON.stringify(response));
-					    	location.reload();
-					})
-					 .catch(function (error) { // 에러 발생했을때
-					    	alert("에러발생!! : " + error);
-					    	 })
-					  .finally(function () { // 항상 실행되는 영역
-					  });
+					let form = new FormData(); // 폼을 만든다.
+					alert(content)
+					// 폼에 내용을 추가한다.
+					form.append("id", id);
+					form.append("content", content);
+
+					// Ajax를 통해 데이터를 서버로 보내 저장을 수행한다.
+					axios.put('/community/commentUpdate', form)
+						.then(function (response) { // 성공 했을떄
+							alert("성공!!! : " + JSON.stringify(response));
+							location.reload();
+						})
+						.catch(function (error) { // 에러 발생했을때
+							alert("에러발생!! : " + error);
+						})
+						.finally(function () { // 항상 실행되는 영역
+
+						});
+				} else if (buttonTitle == "댓글 삭제") {
+					// 입력 내용 얻기
+					let id = $("#id").val();
+					let form = new FormData(); // 폼을 만든다.
+
+					// Ajax를 통해 데이터를 서버로 보내 저장을 수행한다.
+					axios.delete('/community/commentDelete?id=' + id)
+						.then(function (response) { // 성공 했을떄
+							// alert("성공!!! : " + JSON.stringify(response));
+							location.reload();
+						})
+						.catch(function (error) { // 에러 발생했을때
+							alert("에러발생!! : " + error);
+						})
+						.finally(function () { // 항상 실행되는 영역
+
+						});
 				}
+
 			});
 		});
-		
-		
+		function updateForm(id, name) {
+			$("#btnAddPost").val("댓글 수정");
+			$("#id").val(id);
+			$("#content").val($("#content" + id).html());
+
+		}
+		function deleteForm(id, name) {
+			// 취소 버튼을 보이게 한다.
+			$("#btnAddPost").val("댓글 삭제");
+			$("#id").val(id);
+			$("#content").val($("#content" + id).html());
+		}
+
+
+
 		$(function () {
 			$("#ok").click(function () {
 				alert("정말 삭제하시겠습니까? 삭제게시물은 복구할 수 없습니다.")
 			})
 		});
-			
-		
-
-
 	</script>
 </head>
 
@@ -96,7 +128,7 @@
 				</th:block>
 				<th:block th:if="${session.mvo != null}">
 					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
-					<a href="/logout"><strong>로그아웃</strong></a>
+					<a href="/member/logout"><strong>로그아웃</strong></a>
 					<a href="/"><strong>비즈니스 계정</strong></a>
 				</th:block>
 			</nav>
@@ -114,10 +146,11 @@
 				<div class="userInfo">
 					<img src="/images/Profile.png">
 					<p>[[${community.nickname}]]</p>
-					<th:block th:if="${session.mvo != null}">
+					<th:block th:if="${session.mvo.nickname == community.nickname}">
 						<input type="button" value="수정"
 							th:onclick="|location.href='@{update(id=${community.id},p=${cv.p},s=${cv.s},b=${cv.b})}'|" />
-						<input id="ok" type="button" value="삭제" th:onclick="|location.href='@{delete(id=${community.id},p=${cv.p},s=${cv.s},b=${cv.b})}'|" />
+						<input id="ok" type="button" value="삭제"
+							th:onclick="|location.href='@{delete(id=${community.id},p=${cv.p},s=${cv.s},b=${cv.b})}'|" />
 					</th:block>
 				</div>
 
@@ -156,32 +189,28 @@
 					<p class="moreComments">댓글 더 보기...</p>
 				</div>
 
-				<p class="totalComments">
-					댓글 <strong> </strong>개
-				</p>
 				<th:block th:each="c : ${community.commentList}">
+					<p class="totalComments">
+						댓글 <strong>[[${community.commentCount}]]</strong>개
+					</p>
 					<div class="commentList">
 						<div class="commentItem">
 							<div class="commentLine">
 								<div class="userInfo">
 									<img src="/images/Profile.png">
-									<p>[[${c.name}]]</p>
-								</div>
-
-								<div class="commentText" th:id="|content${community.id}|">
-									[[${c.content}]]
-								</div>
+									<p>[[${c.name}]] &nbsp;</p>
+								<p> [[${c.content}]]</p>
+								</div>						
 							</div>
-							<form action="/community/commentDelete" method="post">
 							<button type="button" class="btnCommentLike">
 								<i class="fa-regular fa-heart"></i>
 								<!-- <img src="static/images/heart_icon.png" alt="좋아요아이콘"> -->
 							</button>
-							<th:block th:if="${session.mvo != null}">
-								<input type="button" th:onclick="updateForm" value="수정"></input>
-								<input type="button" th:onclick="deleteForm" value="삭제"></input>
+
+							<th:block th:if="${session.mvo.nickname == c.name}">
+								<button th:onclick="updateForm([[${c.id}]],'[(${c.name})]')">수정</button>
+								<button th:onclick="deleteForm([[${c.id}]],'[(${c.name})]')">삭제</button>
 							</th:block>
-							</form>
 						</div>
 					</div>
 				</th:block>

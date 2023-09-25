@@ -2,6 +2,7 @@ package com.wesely.service;
 
 import com.wesely.vo.CommentVO;
 import com.wesely.vo.CommunityVO;
+import com.wesely.vo.MemberVO;
 import com.wesely.vo.Paging;
 
 public interface CommunityService {
@@ -18,7 +19,7 @@ public interface CommunityService {
 	boolean insert(CommunityVO communityVO);
 
 	// 수정
-	boolean update(CommunityVO communityVO , String delList,String filePath);
+	boolean update(CommunityVO communityVO , String delList, String filePath);
 
 	// 삭제
 	boolean delete(CommunityVO communityVO,String filePath);

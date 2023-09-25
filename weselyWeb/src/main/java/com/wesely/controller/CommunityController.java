@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +28,7 @@ import com.wesely.vo.CommunityImgVO;
 import com.wesely.vo.CommunityVO;
 import com.wesely.vo.Paging;
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.val;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +48,9 @@ public class CommunityController {
 	// 커뮤니티 목록보기
 	@RequestMapping(value = { "/", "/list" })
 	public String getList(@ModelAttribute CommVO cv, Model model) {
+		// 글 페이지,페이지당 갯수, 하단페이지를 저장해서
 		Paging<CommunityVO> paging = communityService.selectList(cv.getP(), cv.getS(), cv.getB());
+		// html 에다가 뿌려줌
 		model.addAttribute("cv",cv);
 		model.addAttribute("pv",paging);
 		return "/community/list";
@@ -237,7 +242,7 @@ public class CommunityController {
 	}
 	
 	// 댓글수정
-	@PostMapping(value = "/commentUpdate")
+	@PutMapping(value = "/commentUpdate")
 	@ResponseBody
 	public boolean commentUpdate(@ModelAttribute CommentVO vo) {
 		log.info("댓글 수정 호출 : {}",vo);
@@ -252,7 +257,7 @@ public class CommunityController {
 	}
 	
 	// 댓글삭제
-	@PostMapping(value = "/commentDelete")
+	@DeleteMapping(value = "/commentDelete")
 	@ResponseBody
 	public boolean commentDelete(@ModelAttribute CommentVO vo) {
 		log.info("댓글 삭제 호출 : {}",vo);
@@ -265,4 +270,24 @@ public class CommunityController {
 		log.info("댓글 삭제 리턴 : {}",result);
 		return result;
 	}
+	// 로그인 폼 처리하기
+		@GetMapping(value = "/login")
+		public String login(HttpServletRequest request, Model model) {
+			// 쿠키에 저장된 사용자아이디가 있으면 읽어서 간다.
+			Cookie[] cookies = request.getCookies();
+			String userid = null;
+			// userid변수에 쿠키에 userid가 있다면 읽어서 대입하자
+			if (cookies != null && cookies.length > 0) {
+				for (Cookie cookie : cookies) {
+					if (cookie.getName().equals("userid")) {
+						userid = cookie.getValue();
+						break;
+					}
+				}
+			}
+			// 모델에 쿠키값을 저장한다.
+			model.addAttribute("userid", userid);
+			// 로그인 폼으로 포워딩 한다.
+			return "/member/login";
+		}
 }
