@@ -24,7 +24,7 @@ CREATE TABLE wmember_roles(
 
 SELECT * FROM wmember;
 SELECT * FROM wmember_roles;
-DROP TABLE WMEMBER ;
+DROP TABLE WMEMBER;
 DELETE FROM wmember WHERE USERID = 'wesely2';
 
 -- 커뮤니티 테이블
@@ -61,7 +61,7 @@ CREATE TABLE communityImg(
 	contentType varchar2(200) NOT NULL -- 파일 종류
 );
 SELECT * FROM communityImg;
-
+DROP TABLE communityImg;
 SELECT community_id_seq.nextval,community_id_seq.currval  FROM dual;
 insert into CommunityImg values (CommunityImg_id_seq.nextval, Community_id_seq.currval,'e2ff4d1b-b89d-423e-9f11-197573a4c515','1.png','image/png');
 

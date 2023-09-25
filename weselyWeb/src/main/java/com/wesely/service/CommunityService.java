@@ -2,6 +2,7 @@ package com.wesely.service;
 
 import com.wesely.vo.CommentVO;
 import com.wesely.vo.CommunityVO;
+import com.wesely.vo.MemberVO;
 import com.wesely.vo.Paging;
 
 public interface CommunityService {

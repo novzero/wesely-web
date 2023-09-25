@@ -1,11 +1,13 @@
 package com.wesely.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.wesely.dao.CommunityDAO;
 import com.wesely.dao.MemberDAO;
 import com.wesely.vo.MemberVO;
 
@@ -17,6 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberServiceImpl implements MemberService{
 	@Autowired
 	MemberDAO memberDAO;
+	@Autowired
+	CommunityDAO communityDAO;
+	
 	
 	@Override
 	public void insert(MemberVO memberVO) {
@@ -140,7 +145,16 @@ public class MemberServiceImpl implements MemberService{
 		log.info("{}의 updateNickname호출 : {}", this.getClass().getName(), memberVO);
 		MemberVO dbVO = memberDAO.selectByUserid(memberVO.getUserid());
 		if(dbVO!=null) {
+<<<<<<< HEAD
 			
+=======
+			// 게시판의 정보를 변경
+			HashMap<String, String> map = new HashMap<>();
+			map.put("newNickname", memberVO.getNickname());
+			map.put("oldNickname", dbVO.getNickname());
+			communityDAO.updateNickname(map);
+			// 회원정보변경
+>>>>>>> branch 'main' of https://github.com/novzero/wesely-web.git
 			memberDAO.updateNickname(memberVO);
 			
 			result = true;

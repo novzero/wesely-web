@@ -39,6 +39,19 @@
    <update id="update" parameterType="CommunityVO">
    		update community set contents=#{contents}, regdate=sysdate where id=#{id}
    </update>
+   <!-- 수정하기 : 회원 별명 수정 -->
+	<update id="updateNickname"  parameterType="hashmap">
+		update 
+			community 
+		set
+			nickname = #{newNickname}
+		where
+			nickName = #{oldNickname}
+	</update>
+	<!-- 아이디로 찾기 -->
+	<select id="selectByUserid" parameterType="string" resultType="CommunityVO">
+		select * from community where userid=#{userid}
+	</select>
    <!-- 6. 삭제하기  -->
    <delete id="delete"  parameterType="CommunityVO">
    		delete  from community where id=#{id}
