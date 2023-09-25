@@ -27,6 +27,8 @@ SELECT * FROM wmember_roles;
 DROP TABLE WMEMBER;
 DELETE FROM wmember WHERE USERID = 'wesely2';
 
+--===============================================================================
+
 -- 커뮤니티 테이블
 CREATE SEQUENCE community_id_seq;
 CREATE TABLE community(
