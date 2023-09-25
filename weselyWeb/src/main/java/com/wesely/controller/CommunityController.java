@@ -48,7 +48,9 @@ public class CommunityController {
 	// 커뮤니티 목록보기
 	@RequestMapping(value = { "/", "/list" })
 	public String getList(@ModelAttribute CommVO cv, Model model) {
+		// 글 페이지,페이지당 갯수, 하단페이지를 저장해서
 		Paging<CommunityVO> paging = communityService.selectList(cv.getP(), cv.getS(), cv.getB());
+		// html 에다가 뿌려줌
 		model.addAttribute("cv",cv);
 		model.addAttribute("pv",paging);
 		return "/community/list";
