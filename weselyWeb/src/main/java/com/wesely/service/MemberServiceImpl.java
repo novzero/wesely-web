@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.wesely.dao.CommunityDAO;
 import com.wesely.dao.MemberDAO;
+import com.wesely.vo.CommunityVO;
 import com.wesely.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +38,7 @@ public class MemberServiceImpl implements MemberService{
 		log.info("{}의 delete호출 : {}", this.getClass().getName(), memberVO);
 		MemberVO dbVO = memberDAO.selectByUserid(memberVO.getUserid());
 		if(dbVO != null) {
+			communityDAO.deleteNickname(dbVO.getNickname());;
 			memberDAO.delete(memberVO);
 			result = true;
 		}

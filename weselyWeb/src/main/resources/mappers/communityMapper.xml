@@ -11,7 +11,7 @@
    	<select id="selectById"  parameterType="int" resultType="CommunityVO">
    		select * from community where id=#{id}
    	</select>
-   <!-- 3. 1페이지 얻기  -->
+   <!-- 3. 1페이지 얻기 : id 가 큰순서대로 첫번호와 끝번호 사이에 데이터들을 가져온다.-->
    <select id="selectList" parameterType="hashmap" resultType="CommunityVO">
 	 select 
 	 	Q.*
@@ -56,6 +56,10 @@
    <delete id="delete"  parameterType="CommunityVO">
    		delete  from community where id=#{id}
    </delete>
+   <!-- 삭제하기 : 회원탈퇴할때 게시판 삭제 -->
+   <delete id="deleteNickname"  parameterType="CommunityVO">
+		delete from community where nickname=#{nickname}
+	</delete>
    <!-- 7. 조회수 증가하기  -->
    <update id="updateReadCount" parameterType="int">
    		update community set readCount = readCount+1 where id=#{id}
