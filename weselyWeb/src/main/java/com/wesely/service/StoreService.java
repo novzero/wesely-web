@@ -2,6 +2,7 @@ package com.wesely.service;
 
 import java.util.List;
 
+import com.wesely.vo.StoreReviewVO;
 import com.wesely.vo.StoreVO;
 
 public interface StoreService {
@@ -11,10 +12,10 @@ public interface StoreService {
 		List<StoreVO> selectMore(int num);
 		
 		// 2. 1개 얻기 : 상세보기/수정/삭제
-		StoreVO selectById(int id);
+		StoreVO findById(int id);
 		
-		// 2. 내용보기
-		StoreVO view(int id);
+		// 2. 
+		StoreReviewVO getReview(Long id);
 		
 		// 3. 새글쓰기
 		boolean insert(StoreVO storeVO);
@@ -25,7 +26,16 @@ public interface StoreService {
 		// 5. 삭제하기
 		boolean delete(StoreVO storeVO);
 		
-		//6. 카카오에서 받은 데이터
+		// 6. 카카오에서 받은 데이터
 		StoreVO save(StoreVO storeVO);
+		
+		// 7. 댓글 쓰기
+		boolean reviewInsert(StoreReviewVO storeReivewVO);
+		
+		// 8. 댓글 수정
+		boolean reviewUpdate(StoreReviewVO storeReivewVO);
+		
+		// 9. 댓글 삭제
+		boolean reviewDelete(Long id);
 	
 }
