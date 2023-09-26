@@ -1,5 +1,6 @@
 package com.wesely.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -15,6 +16,9 @@ public interface MemberDAO {
 	// <!-- 수정하기 : 회원정보 수정 -->
 	void updateNickname(MemberVO memberVO);
 	void updatePassword(MemberVO memberVO);
+	
+	// 임시 비번으로 비밀번호 변경
+	void updatePassword1(HashMap<String, String> map);
 	
 	// <!-- 삭제하기 : 회원탈퇴 -->
 	void delete(MemberVO memberVO);
