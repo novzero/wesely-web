@@ -9,10 +9,65 @@
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/store/placeView.css" />
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="/js/store/placeView.js" defer></script>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
+	<!-- Scripts -->
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var user = [[${session.mvo}]];
+
+		window.onload = function () {
+			if (!user) {
+				location.replace("/member/login");
+			}
+			kakaoMap();
+		};
+
+		// 카카오 맵 띄우기
+		function kakaoMap() {
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+				mapOption = {
+					center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+					level: 3 // 지도의 확대 레벨
+				};
+
+			// 지도를 생성합니다    
+			var map = new kakao.maps.Map(mapContainer, mapOption);
+
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new kakao.maps.services.Geocoder();
+
+			// 주소로 좌표를 검색합니다
+			geocoder.addressSearch('[[${st.address}]]', function (result, status) {
+
+				// 정상적으로 검색이 완료됐으면 
+				if (status === kakao.maps.services.Status.OK) {
+
+					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+					// 결과값으로 받은 위치를 마커로 표시합니다
+					var marker = new kakao.maps.Marker({
+						map: map,
+						position: coords
+					});
+
+					// 인포윈도우로 장소에 대한 설명을 표시합니다
+					var infowindow = new kakao.maps.InfoWindow({
+						content: '<div style="width:150px;text-align:center;padding:6px 0;">[[${st.name}]]</div>'
+					});
+					infowindow.open(map, marker);
+
+					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					map.setCenter(coords);
+				}
+			})
+		};
+	</script>
 </head>
 
 <body>
-
 	<div class="wrapper">
 		<header>
 			<div class="logo">
@@ -26,9 +81,15 @@
 				<a href="/"><strong>고객센터</strong></a>
 			</nav>
 			<nav class="login">
-				<a href="/member/login"><strong>로그인</strong></a>
-				<a href="/member/join"><strong>회원가입</strong></a>
-				<a href="/"><strong>비즈니스 계정</strong></a>
+				<th:block th:if="${session.mvo == null}">
+					<a href="/member/login"><strong>로그인</strong></a>
+					<a href="/member/join"><strong>회원가입</strong></a>
+				</th:block>
+				<th:block th:if="${session.mvo != null}">
+					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
+					<a href="/logout"><strong>로그아웃</strong></a>
+					<a href="/"><strong>비즈니스 계정</strong></a>
+				</th:block>
 			</nav>
 		</header>
 
@@ -63,15 +124,19 @@
 
 			<section class="storeContent">
 				<div class="storeTitle">
-					<h2>나다운핏짐</h2>
+					<h2 th:text="${st.name}"></h2>
 					<p>⭐평점 4.7</p>
 				</div>
 
 				<ul class="storeInfo">
-					<li class="indexBall">대전 중구 중앙로 124 3층(대흥동, 이화빌딩)</p>
+					<li class="indexBall">
+						<p th:text="${st.address}"></p>
 					<li class="indexBall flex">
 						영업시간
 						<div class="space">
+							<p th:if="${st.opening != null}" th:text="${st.opening}"></p>
+							<p th:unless="${st.opening != null}">미등록</p>
+							<!--
 							<p>수 07:00 - 23:00</p>
 							<p>목 07:00 - 23:00</p>
 							<p>금 07:00 - 23:00</p>
@@ -79,23 +144,26 @@
 							<p>일 07:00 - 23:00</p>
 							<p>월 07:00 - 23:00</p>
 							<p>화 07:00 - 23:00</p>
+							-->
 						</div>
 					</li>
 
 					<li class="indexBall flex">전화번호
 						<div class="space">
-							<p>042-123-4567</p>
+							<p th:if="${st.tel != null}" th:text="${st.tel}"></p>
+							<p th:unless="${st.tel != null}">미등록</p>
 						</div>
 					</li>
 
-					<li class="indexBall">프리미엄 헬스 & 퍼스널 트레이닝 센터 '나다운핏 짐' 대전 중구 프리미엄 헬스장으로 [ 23년1월 10일 ] 신규 오픈 당신의 삶을
-						운동으로 더욱 아름답게
-						디자인하세요.
-						나다운핏 짐이 함께 하겠습니다. 나다운핏 짐은 운동할 맛 나는 공간, 쾌적하고 깔끔한 시설, 전문 트레이너들의 체계적인 관리와 친절함까지 갖춘 곳임을 약속드립니다.
+					<li class="indexBall description">
+						<p th:if="${st.description != null}" th:text="${st.description}"></p>
+						<p th:unless="${st.description != null}">매장설명 미등록</p>
 					</li>
 				</ul>
 
-				<img class="mapImg" src="/images/storeMapImg.png" alt="지도 이미지">
+				<!-- kakaoMap -->
+				<div class="mapImg" id="map"></div>
+
 				<div class="line"></div>
 			</section>
 
@@ -104,113 +172,72 @@
 					<h3>방문자 리뷰</h3>
 					<button class="btnAddReview">리뷰작성하기</button>
 				</div>
+				<!-- 리뷰 데이터가 있을 때 리뷰목록 출력 -->
+				<div th:if="${not #lists.isEmpty(st.reviewList)}">
+					<div th:each="review : ${st.reviewList}" class="reviewBox">
+						<div class="userInfo">
+							<img src="/images/userIcon.png" alt="유저이미지">
+							<span th:text="${review.nickname}"></span>
+						</div>
 
-				<div class="reviewBox">
-					<div class="userInfo">
-						<img src="/images/userIcon.png" alt="유저이미지">
-						<span>userName</span>
-					</div>
-
-					<div class="reviewContent">
-						<div class="star">⭐⭐⭐⭐⭐</div>
-						<p>상담 때 센터 시설이 깔끔하고 넓어서 선택하게 됐어요. 제대로 운동한게 처음이었는데 트레이너쌤이 친절하게 가르쳐주시고 식단도 하나하나 살펴봐주셔서 어려움없이 열심히 한
-							것 같아요.</p>
-						<div class="bottomBtn">
-							<button class="btnDelete">삭제</button>
-							<button class="btnModify">수정</button>
+						<div class="reviewContent">
+							<div class="star">
+								<span th:each="i : ${#numbers.sequence(1, review.star)}">⭐</span>
+							</div>
+							<p class="recontetn" th:text="${review.content}"></p>
+							<span th:text="${review.regdate}"></span>
+							<div class="bottomBtn">
+								<button class="btnDelete" th:onclick="sendDeleteRequest([[${review.id}]])">삭제</button>
+								<button class="btnModify" th:onclick="updateBtn([[${review.id}]])">수정</button>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="reviewBox">
-					<div class="userInfo">
-						<img src="/images/userIcon.png" alt="유저이미지">
-						<span>userName</span>
-					</div>
 
-					<div class="reviewContent">
-						<div class="star">⭐⭐⭐⭐⭐</div>
-						<p>상담 때 센터 시설이 깔끔하고 넓어서 선택하게 됐어요. 제대로 운동한게 처음이었는데 트레이너쌤이 친절하게 가르쳐주시고 식단도 하나하나 살펴봐주셔서 어려움없이 열심히 한
-							것 같아요.</p>
-						<div class="bottomBtn">
-							<button class="btnDelete">삭제</button>
-							<button class="btnModify">수정</button>
-						</div>
-					</div>
-				</div>
-				<div class="reviewBox">
-					<div class="userInfo">
-						<img src="/images/userIcon.png" alt="유저이미지">
-						<span>userName</span>
-					</div>
-
-					<div class="reviewContent">
-						<div class="star">⭐⭐⭐⭐⭐</div>
-						<p>상담 때 센터 시설이 깔끔하고 넓어서 선택하게 됐어요. 제대로 운동한게 처음이었는데 트레이너쌤이 친절하게 가르쳐주시고 식단도 하나하나 살펴봐주셔서 어려움없이 열심히 한
-							것 같아요.</p>
-						<div class="bottomBtn">
-							<button class="btnDelete">삭제</button>
-							<button class="btnModify">수정</button>
-						</div>
-					</div>
-				</div>
-				<div class="reviewBox">
-					<div class="userInfo">
-						<img src="/images/userIcon.png" alt="유저이미지">
-						<span>userName</span>
-					</div>
-
-					<div class="reviewContent">
-						<div class="star">⭐⭐⭐⭐⭐</div>
-						<p>상담 때 센터 시설이 깔끔하고 넓어서 선택하게 됐어요. 제대로 운동한게 처음이었는데 트레이너쌤이 친절하게 가르쳐주시고 식단도 하나하나 살펴봐주셔서 어려움없이 열심히 한
-							것 같아요.</p>
-						<div class="bottomBtn">
-							<button class="btnDelete">삭제</button>
-							<button class="btnModify">수정</button>
-						</div>
-					</div>
+				<!-- 리뷰 데이터가 없으면 아래 메시지 출력 -->
+				<div th:unless="${not #lists.isEmpty(st.reviewList)}" class="noReviews">
+					아직 리뷰가 없습니다. 첫 리뷰를 달아주세요!
 				</div>
 			</section>
 		</main>
 
-		<section class="addReviewModal">
-			<h2><span>나다운핏짐</span> 이용은 어떠셨나요?</h2>
-			<div class="stars">
-				<i class="fa-solid fa-star"></i>
-				<i class="fa-solid fa-star"></i>
-				<i class="fa-solid fa-star"></i>
-				<i class="fa-solid fa-star"></i>
-				<i class="fa-solid fa-star"></i>
-			</div>
-			<textarea class="reviewTextBox"></textarea>
-			<div class="modalBtn">
-				<button class="btnCanclePost" >취소</button>
-				<button class="" th:onclick="location.href='/store/insert'">등록</button>
-			</div>
+		<section class="reviewModal" id="myModal">
+			<h2><span>[[${st.name}]]</span> 이용은 어떠셨나요?</h2>
+			<form id="reviewForm">
+				<div class="stars">
+					<i class="fa-solid fa-star"></i>
+					<i class="fa-solid fa-star"></i>
+					<i class="fa-solid fa-star"></i>
+					<i class="fa-solid fa-star"></i>
+					<i class="fa-solid fa-star"></i>
+					<!-- 별점 value 담기 -->
+					<input type="hidden" id="starRating" name="star" />
+					<!-- 유저닉네임 value 담기 -->
+					<input th:if="${session.mvo == null}" type="hidden" id="nickname" name="nickname" value="닉네임없음" />
+					<input th:unless="${session.mvo == null}" type="hidden" id="nickname" name="nickname" th:value="${session.mvo.nickname}" />
+					<!-- 원본 시설글의 고유 id 담기 -->
+					<input type="hidden" id="ref" name="ref" th:value="${st.id}" />
+					<!-- 댓글의 고유 id 담기 -->
+					<input type="hidden" id="reviewID" name="id" th:value="emptyID" />
+					<!-- 유저프로필 value 담기 -->
+					<input type="hidden" id="userProfile" name="userProfile" value="유저프로필사진" />
+				</div>
+				<textarea class="reviewTextBox" name="content" required></textarea>
+				<div class="modalBtn">
+					<button type="button" class="btnCanclePost">취소</button>
+					<button type="submit" id='submitBtn' th:onclick="postReview()">등록</button>
+					<input type="button" id="modifyBtn" style="display: none" onclick="sendPutRequest()" value="수정" />
+				</div>
+			</form>
 		</section>
+
+
 		<div class="overlay"></div>
 	</div>
-	
-	<!-- Scripts -->
-	<script>
-		const btnAdd = document.querySelector('.btnAddReview');
-		const modal = document.querySelector('.addReviewModal');
-		const overlay = document.querySelector('.overlay');
-
-		const btnCanclePost = document.querySelector('.btnCanclePost');
-
-		btnAdd.addEventListener('click', function () {
-			modal.classList.add('on');
-			overlay.classList.add('on');
-		});
-
-		btnCanclePost.addEventListener('click', function () {
-			modal.classList.remove('on');
-			overlay.classList.remove('on');
-		});
-	</script>
 </body>
 
 </html>
 
+<!--<script th:inline="javascript" />-->
 <!-- <i class="fas fa-arrow-left"></i> -->
 <!-- <i class="fas fa-arrow-right"></i> -->

@@ -16,20 +16,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Transactional
 @Service("memberService")
-public class MemberServiceImpl implements MemberService{
+public class MemberServiceImpl implements MemberService {
 	@Autowired
 	MemberDAO memberDAO;
 	@Autowired
 	CommunityDAO communityDAO;
-	
-	
+
 	@Override
 	public void insert(MemberVO memberVO) {
 		log.info("{}의 insert호출 : {}", this.getClass().getName(), memberVO);
 		memberDAO.insert(memberVO);
 	}
-
-	
 
 	@Override
 	public boolean delete(MemberVO memberVO) {
@@ -39,13 +36,13 @@ public class MemberServiceImpl implements MemberService{
 		if(dbVO != null) {
 			// 입력한 비밀번호가 db정보와 일치한다면
 			if(dbVO.getPassword().equals(memberVO.getPassword())) {
+				communityDAO.deleteNickname(dbVO.getNickname());
 				memberDAO.delete(memberVO);	// 탈퇴
-				result = true;				
+				result = true;
 			}
 		}
 		return result;
 	}
-	
 
 	@Override
 	public MemberVO login(MemberVO vo) {
@@ -54,33 +51,32 @@ public class MemberServiceImpl implements MemberService{
 		try {
 			// 넘어온 아이디가 존재하는지 판단
 			MemberVO mvo = memberDAO.selectByUserid(vo.getUserid());
-			if(mvo!=null) { // 지정 아이디의 회원이 있다면
-				if(mvo.getPassword().equals(vo.getPassword())) {
+			if (mvo != null) { // 지정 아이디의 회원이 있다면
+				if (mvo.getPassword().equals(vo.getPassword())) {
 					memberVO = mvo;
-				}else {
+				} else {
 				}
-			}else {
+			} else {
 				// 아이디가 없다
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		log.info("login({}) 리턴", vo, memberVO);
 		return memberVO;
 	}
 
-	
 	@Override
 	public void logout() {
 		log.info("{}의 logout호출", this.getClass().getName());
-		
+
 	}
 
 	@Override
 	public List<MemberVO> selectList() {
 		List<MemberVO> list = null;
 		log.info("{}의 selectList 호출", this.getClass().getName());
-		
+
 		log.info("{}의 selectList 리턴 : {}", this.getClass().getName(), list);
 		return list;
 	}
@@ -88,7 +84,7 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public void emailCheck(String uuid, String userid) {
 		log.info("{}의 emailCheck 호출 : {}", this.getClass().getName(), userid + "," + uuid);
-		
+
 	}
 
 	@Override
@@ -98,7 +94,7 @@ public class MemberServiceImpl implements MemberService{
 		log.info("{}의 idCheck 리턴 : {}", this.getClass().getName(), idcount);
 		return idcount;
 	}
-	
+
 	@Override
 	public int nicknameCheck(String nickname) {
 		log.info("{}의 nicknameCheck 호출 : {}", this.getClass().getName(), nickname);
@@ -106,7 +102,7 @@ public class MemberServiceImpl implements MemberService{
 		log.info("{}의 nicknameCheck 리턴 : {}", this.getClass().getName(), nickcount);
 		return nickcount;
 	}
-	
+
 	@Override
 	public int phoneCheck(String phone) {
 		log.info("{}의 phoneCheck 호출 : {}", this.getClass().getName(), phone);
@@ -115,53 +111,51 @@ public class MemberServiceImpl implements MemberService{
 		return phonecount;
 	}
 
-
 	@Override
 	public MemberVO findUserId(MemberVO VO) {
 		log.info("findUserId({}) 호출", VO);
 		MemberVO memberVO = null;
-		
+
 		try {
 			// 전화번호로 찾기
 			MemberVO dbVO = memberDAO.selectByPhone(VO.getPhone());
-			if(dbVO!=null) { // 전화번호가 있고
+			if (dbVO != null) { // 전화번호가 있고
 				// 이름도 같으면
-				if(dbVO.getUsername().equals(VO.getUsername())) {
-					memberVO = dbVO; 
+				if (dbVO.getUsername().equals(VO.getUsername())) {
+					memberVO = dbVO;
 				}
 			}
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		log.info("findUserId({}) 리턴 : {}", VO, memberVO);
 		return memberVO;
 	}
-	
+
 
 	@Override
 	public MemberVO findPassword(MemberVO memberVO) {
 		log.info("{}의 findPassword 호출 : {}", this.getClass().getName(), memberVO);
 		MemberVO memberVO2 = memberDAO.selectByPassword(memberVO.getPassword());
-		
+
 		log.info("{}의 findPassword 리턴 : {}", this.getClass().getName(), memberVO2);
 		return memberVO2;
 	}
 
-	@Override
+
 	public boolean updateNickname(MemberVO memberVO) {
 		boolean result = false;
 		log.info("{}의 updateNickname호출 : {}", this.getClass().getName(), memberVO);
 		MemberVO dbVO = memberDAO.selectByUserid(memberVO.getUserid());
-		if(dbVO!=null) {
+
+		if (dbVO != null) {
 			// 게시판의 정보를 변경
 			HashMap<String, String> map = new HashMap<>();
 			map.put("newNickname", memberVO.getNickname());
 			map.put("oldNickname", dbVO.getNickname());
 			communityDAO.updateNickname(map);
 			// 회원정보변경
-			memberDAO.updateNickname(memberVO);
-			
 			result = true;
 		}
 		return result;
@@ -172,20 +166,16 @@ public class MemberServiceImpl implements MemberService{
 		boolean result = false;
 		log.info("{}의 updatePassword 호출 : {}", this.getClass().getName(), memberVO);
 		MemberVO dbVO = memberDAO.selectByUserid(memberVO.getUserid());
-		if(dbVO!=null) {
+		if (dbVO != null) {
 			// 입력한 비밀번호가 db정보와 일치한다면
-			if(dbVO.getPassword().equals(memberVO.getPassword())) {
+			if (dbVO.getPassword().equals(memberVO.getPassword())) {
 				// 비밀번호를 바꾼다
 				memberVO.setPassword(newPassword);
 				memberDAO.updatePassword(memberVO);
 				result = true;
-
 			}
 		}
 		return result;
 	}
-
-
-
 
 }

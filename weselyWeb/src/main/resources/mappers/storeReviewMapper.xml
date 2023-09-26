@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace는 반드시 DAO인터페이스와 이름이 일치해야 한다. -->
+<mapper namespace="com.wesely.dao.StoreReviewDAO">
+	<!-- 매퍼파일에 태그 1개당 DAO인터페이스의 메서드 1개를 만든다. -->
+	<!-- SQL명령 1개당 태그 1개씩을 추가한다. -->
+	
+	<!-- 1. ref에 대한 리뷰의 개수 구하기 : 목록보기에 리뷰 개수 출력 -->
+	<select id="selectCountByRef" parameterType="int" resultType="int">
+		select count(*) from storeReview where ref=#{ref} 
+	</select>
+	<!-- 2. ref에 대한 모든 리뷰 얻기 -->
+	<select id="selectListByRef" parameterType="int" resultType="storeReviewVO">
+		select * from storeReview where ref=#{ref} order by id desc
+	</select>
+	<!-- 3. 리뷰 저장 -->
+	<insert id="insert" parameterType="storeReviewVO">
+		insert into 
+			storeReview
+		values
+			(sreview_id_seq.nextval, #{ref}, #{nickname}, #{userProfile}, #{star}, #{content}, sysdate)
+	</insert>
+	<!-- 4. 리뷰 수정 -->
+	<update id="update" parameterType="storeReviewVO">
+		update 
+			storeReview
+		set
+			star=#{star}, content=#{content}, regDate=sysdate
+		where
+			id=#{id}
+	</update>
+	<!-- 5. 리뷰 1개 삭제 -->
+	<delete id="delete" parameterType="long">
+		delete from storeReview where id=#{id}
+	</delete>	
+	<!-- 6. 지정 ref대한 모든 리뷰 삭제하기 -->
+	<delete id="deleteByRef" parameterType="int">
+		delete from storeReview where ref=#{ref}
+	</delete>	
+	<!-- 7. 리뷰 1개 얻기 -->
+	<select id="selectById" parameterType="long" resultType="storeReviewVO">
+		select * from storeReview where id=#{id}
+	</select>
+</mapper>

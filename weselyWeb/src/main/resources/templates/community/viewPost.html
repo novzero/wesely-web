@@ -109,8 +109,6 @@
 
 
 <body>
-	[[${community.commentList}]] <br />
-
 	<div class="wrapper">
 		<header>
 			<div class="logo">
@@ -130,7 +128,7 @@
 				</th:block>
 				<th:block th:if="${session.mvo != null}">
 					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
-					<a href="/logout"><strong>로그아웃</strong></a>
+					<a href="/member/logout"><strong>로그아웃</strong></a>
 					<a href="/"><strong>비즈니스 계정</strong></a>
 				</th:block>
 			</nav>
@@ -148,7 +146,7 @@
 				<div class="userInfo">
 					<img src="/images/Profile.png">
 					<p>[[${community.nickname}]]</p>
-					<th:block th:if="${session.mvo != null}">
+					<th:block th:if="${session.mvo.nickname == community.nickname}">
 						<input type="button" value="수정"
 							th:onclick="|location.href='@{update(id=${community.id},p=${cv.p},s=${cv.s},b=${cv.b})}'|" />
 						<input id="ok" type="button" value="삭제"
@@ -193,7 +191,7 @@
 
 				<th:block th:each="c : ${community.commentList}">
 					<p class="totalComments">
-						댓글 <strong> </strong>개
+						댓글 <strong>[[${community.commentCount}]]</strong>개
 					</p>
 					<div class="commentList">
 						<div class="commentItem">
@@ -209,8 +207,7 @@
 								<!-- <img src="static/images/heart_icon.png" alt="좋아요아이콘"> -->
 							</button>
 
-							<th:block th:if="${session.mvo != null}">
-								
+							<th:block th:if="${session.mvo.nickname == c.name}">
 								<button th:onclick="updateForm([[${c.id}]],'[(${c.name})]')">수정</button>
 								<button th:onclick="deleteForm([[${c.id}]],'[(${c.name})]')">삭제</button>
 							</th:block>

@@ -14,49 +14,88 @@
 		window.onload = function () {
 			storeMore();
 		}
-
 	</script>
 	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services">
-		</script>
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
 	<script>
+		let latitude;
+		let longitude;
+
 		// 장소 검색 객체를 생성합니다
 		var ps = new kakao.maps.services.Places();
-		ps.keywordSearch("대전요가", placesSearchCB, {
-			page: 1, size: 15
-		});
- 
 
+		// 현재 위치의 위도, 경도 알아내기
+		navigator.geolocation.getCurrentPosition((position) => {
+			latitude = position.coords.latitude;
+			longitude = position.coords.longitude;
+
+			// 알아낸 위도,경도를 kakaoAPI로 파라미터로 넘겨 법정동으로 받아내기
+			geocoder.coord2RegionCode(longitude, latitude, callback);
+		});
+
+		var geocoder = new kakao.maps.services.Geocoder();
+
+		var callback = function (result, status) {
+			if (status === kakao.maps.services.Status.OK) {
+
+				console.log(result[0]);
+				console.log(result[0].region_1depth_name);
+				console.log(result[0].region_3depth_name);
+
+
+				// 현재 위치 표시 00시 00구 00동
+				document.getElementById('currentLocation').innerText = result[0].region_1depth_name + " " + result[0].region_2depth_name + " " + result[0].region_3depth_name;
+
+				// 현재 위치 00시 00동으로 검색
+				let region = result[0].region_1depth_name + result[0].region_3depth_name;
+
+				ps.keywordSearch(region + '수영', placesSearchCB, {
+					page: 1, size: 15
+				});
+				ps.keywordSearch(region + '요가', placesSearchCB, {
+					page: 1, size: 15
+				});
+				ps.keywordSearch(region + '헬스', placesSearchCB, {
+					page: 1, size: 15
+				});
+			}
+		};
+
+		function placesSearchCB(data, status, pagination) {
+			if (status === kakao.maps.services.Status.OK) {
+
+				data.forEach(place => {
+					saveToDatabase(place);
+				});
+			}
+		}
+
+		// 넘어온 시설정보 데이터저장
 		function saveToDatabase(place) {
 			const store = {
 				// id: place.id,
 				name: place.place_name,
 				address: place.address_name,
 				opening: "",
-				Tel: "",
+				tel: place.phone,
 				description: "",
 				hashTag: ""
 			};
 
-			fetch('/api/addStore', {  // make sure the URL matches with your server endpoint
+			fetch('/api/addStores', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: store
+				body: JSON.stringify([store])
 			})
-				.then(response => response.json())
-				.then(data => console.log(data))
-				.catch(error => console.error(error));
-		}
-
-		function placesSearchCB(data, status, pagination) {
-			if (status === kakao.maps.services.Status.OK) {
-				data.forEach(place => {
-					saveToDatabase(place);
+				.then(console.log('저장완료'))
+				.catch(error => {
+					console.error(error);
 				});
-			}
 		}
+	</script>
+	<script>
 
 	</script>
 </head>
@@ -103,7 +142,7 @@
 					<div class="mainIconBox">
 						<div class="currentPlace">
 							<img src="/images/ic.png" alt="마커아이콘" />
-							<p>대전광역시 중구 대흥동</p>
+							<p id="currentLocation"></p>
 						</div>
 						<div class="searchBtn">
 							<button th:onclick="location.href='/store/search'">시설검색</button>
@@ -147,19 +186,22 @@
 			fetch('/api/store?lastNum=' + lastNum)
 				.then(response => response.json())
 				.then(data => {
-					console.log(data);
+					//console.log(data);
 					let content = "";
 					data.forEach(store => {
+						if (store.rating == null) {
+							store.rating = 0;
+						}
 						content += `
                     <div class="placeItem" id="placeItem">
-                        <a href="/store/view">
+                        <a href="/store/view/${store.id}">
                             <div class="hoverImgBox">
                                 <img src="/images/teni.png" alt="시설이미지" />
                             </div>
                             <div class="placeTextBox">
                                 <div class="storeTitle">
                                     <span>${store.name}</span>
-                                    <span>⭐평점 ${store.rating}</span>
+                                    <span>⭐ ${store.rating}</span>
                                 </div>
                                 <p class="storeLocation">${store.address}</p>
                                 <!-- 👇해시태그 리스트도 동적으로 생성하려면 추가적인 처리가 필요합니다 -->
@@ -171,7 +213,6 @@
                             </div>
                         </a>
                     </div>`;
-						console.log(store);
 					});
 					const storeListElement = document.getElementById('mainContent');
 					// 모든 HTML 문자열을 한 번에 innerHTML 에 할당

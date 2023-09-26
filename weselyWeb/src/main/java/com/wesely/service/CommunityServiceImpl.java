@@ -52,6 +52,7 @@ public class CommunityServiceImpl implements CommunityService {
 			vo.setReadCount(vo.getReadCount() + 1);
 		}
 		// ------------------------------------------------------------------------------------
+		// CommunityVO에 내용과 이미지를 입력함
 		vo.setCommentList(commentDAO.selectListByRef(vo.getId()));
 		vo.setImgList(communityImgDAO.selectByRef(id));
 		log.info("selectById({},{}) 리턴 : {}", id, mode, vo);
@@ -176,8 +177,9 @@ public class CommunityServiceImpl implements CommunityService {
 	public boolean commentInsert(CommentVO commentVO) {
 		log.info("commentInsert 호출 : {}", commentVO);
 		boolean result = false;
-
+		// 댓글내용이있으면
 		if (commentVO != null) {
+			//저장
 			commentDAO.insert(commentVO);
 
 			result = true;
@@ -209,11 +211,12 @@ public class CommunityServiceImpl implements CommunityService {
 	public boolean commentDelete(CommentVO commentVO) {
 		log.info("commentDelete 호출 : {}", commentVO);
 		boolean result = false;
-		// 글이 없으면
+		// 글이 있으면
 		if (commentVO != null) {
 			// id 1개 가져오는걸 dbVo로 넣어준다.
 			CommentVO dbVO = commentDAO.selectById(commentVO.getId());
 			if (dbVO != null) {
+				// 댓글삭제해줌
 				commentDAO.delete(commentVO.getId());
 				result = true;
 			}

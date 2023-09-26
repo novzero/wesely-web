@@ -67,6 +67,8 @@ public interface CommunityDAO {
 		void update(CommunityVO communityVO);
 //	   <!-- 6. 삭제하기  -->
 		void delete(int id);
+//		<!-- 회원탈퇴했을때 게시판 삭제 -->
+		void deleteNickname(String nickname);
 //	   <!-- 7. 조회수 증가하기  -->
 		void updateReadCount(int id);
 		// <!-- 수정하기 : 회원정보 수정 -->

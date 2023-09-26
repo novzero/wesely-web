@@ -10,7 +10,7 @@
 		select count(*) from store
 	</select>
 	<!-- 2. 1개 얻기 : 상세보기/수정/삭제 -->
-	<select id="selectById" parameterType="int" resultType="StoreVO">
+	<select id="findById" parameterType="int" resultType="StoreVO">
 		select * from store where id=#{id}
 	</select>
 	<!-- 3. 추가 아이템 얻기 : 더보기 -->
@@ -29,14 +29,14 @@
 		insert into 
 			store 
 		values 
-			(store_id_seq.nextval,#{name},#{address},#{opening},#{Tel},#{description},#{hashTag})
+			(store_id_seq.nextval,#{name},#{address},#{opening},#{tel},#{description},#{hashTag})
 	</insert>
 	<!-- 5. 수정하기 -->
 	<update id="update" parameterType="StoreVO">
 		update 
 			store
 		set
-			name=#{name}, address=#{address}, opening=#{opening}, tel=#{Tel}, description=#{description}, hastTag=#{hashTag}
+			name=#{name}, address=#{address}, opening=#{opening}, tel=#{tel}, description=#{description}, hastTag=#{hashTag}
 		where
 			id=#{id}
 	</update>
@@ -44,5 +44,9 @@
 	<delete id="delete" parameterType="int">
 		delete from store where id=#{id}
 	</delete>
+	<!-- 7. 시설이름과 주소 같은지 확인 -->
+	<select id="selectByNameAndAddress" parameterType="map" resultType="StoreVO">
+        select * from store where name=#{name} and address=#{address}
+    </select>
 
 </mapper>
