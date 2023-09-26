@@ -12,14 +12,13 @@ import com.wesely.dao.CommunityDAO;
 import com.wesely.dao.CommunityImgDAO;
 import com.wesely.dao.MemberDAO;
 import com.wesely.dao.goodDAO;
+//github.com/novzero/wesely-web.git
 import com.wesely.vo.CommentVO;
 import com.wesely.vo.CommunityImgVO;
 import com.wesely.vo.CommunityVO;
 import com.wesely.vo.GoodVO;
-import com.wesely.vo.MemberVO;
+//github.com/novzero/wesely-web.git
 import com.wesely.vo.Paging;
-import com.wesely.vo.StoreReviewVO;
-import com.wesely.vo.StoreVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,12 +35,12 @@ public class CommunityServiceImpl implements CommunityService {
 	@Autowired
 	private CommunityImgDAO communityImgDAO;
 
+
 	@Autowired
 	private MemberDAO memberDAO;
 	
 	@Autowired
 	private goodDAO goodDAO;
-
 	// 1개 얻어 조회수 증가
 	@Override
 	public CommunityVO selectById(int id, int mode) {

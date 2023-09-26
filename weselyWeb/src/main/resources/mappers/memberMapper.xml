@@ -44,23 +44,6 @@
 	</delete>
 	
 	
-	
-	<!-- 1개얻기하기 : 수정/삭제/로그인 -->
-	<select  id="selectByIdx" parameterType="int" resultType="MemberVO">
-		select * from wmember where idx=#{idx}
-	</select>
-	
-	<!-- 개수 얻기 : 관리자모드 -->
-	<select id="selectCount" resultType="int">
-		select count(*) from wmember
-	</select>
-
-	<!-- 모두 얻기 : 관리자모드 -->
-	<select id="selectAll" resultType="MemberVO">
-		select * from wmember order by idx desc
-	</select>
-	
-	
 	<!-- 동일한 아이디 개수세기 : 아이디 중복 확인 -->
 	<select id="selectCountByUserid" parameterType="string" resultType="int">
 		select count(*) from wmember where userid=#{userid}
@@ -77,6 +60,10 @@
 	</select>
 	
 	
+	<!-- 1개얻기하기 : 수정/삭제/로그인 -->
+	<select  id="selectByIdx" parameterType="int" resultType="MemberVO">
+		select * from wmember where idx=#{idx}
+	</select>
 	<!-- 아이디로 찾기 -->
 	<select id="selectByUserid" parameterType="string" resultType="MemberVO">
 		select * from wmember where userid=#{userid}
@@ -98,4 +85,13 @@
 	</select>
 
 	
+	<!-- 개수 얻기 : 관리자모드 -->
+	<select id="selectCount" resultType="int">
+		select count(*) from wmember
+	</select>
+
+	<!-- 모두 얻기 : 관리자모드 -->
+	<select id="selectAll" resultType="MemberVO">
+		select * from wmember order by idx desc
+	</select>
 </mapper>
