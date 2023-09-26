@@ -90,17 +90,24 @@
 			margin-left: 120px;
 			margin-top: -36px;
 		}
-		
-		input::placeholder{
-			color: lightgray;	
+
+		input::placeholder {
+			color: lightgray;
 			font-size: 13px;
 		}
-		
-		span{
+
+		span {
 			font-size: 13px;
 			float: left;
 		}
-		
+
+		a {
+			color: #4D54A5;
+		}
+
+		a:hover {
+			font-weight: bold;
+		}
 	</style>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
@@ -109,29 +116,33 @@
 			$("#userid").keyup(function () {
 				var value = $(this).val();
 				// 아이디 유효성검사 | 6-12자의 영문 또는 숫자 구성
-				var reg =  /^[A-Za-z0-9]{6,12}$/;
-				if (!reg.test(value) ) {
-					$("#idMessage").html("아이디는 6~12자 이며, 영문 또는 숫자만 가능합니다.").css('color', 'red');
-					$(this).focus();
-					return false;
-				}
-				// 아이디 중복확인 : Ajax로 처리
-				$.ajax('idCheck', {
-					type: "GET",
-					data: {
-						"userid": value
-					},
-					success: function (data) {
-						if (data * 1 >= 1) {
-							$("#idMessage").html("이미 존재하는 아이디입니다.").css('color', 'red');
-						} else {
-							$("#idMessage").html("사용가능한 아이디입니다.").css('color', 'green');
-						}
-					},
-					error: function () {
-						alert("에러!!!");
+				var reg = /^[A-Za-z0-9]{6,12}$/;
+				if (value != null && value.length >= 1) {
+					if (!reg.test(value)) {
+						$("#idMessage").html("아이디는 6~12자 이며, 영문 또는 숫자만 가능합니다.").css('color', 'red');
+						$(this).focus();
+						return false;
 					}
-				});
+					// 아이디 중복확인 : Ajax로 처리
+					$.ajax('idCheck', {
+						type: "GET",
+						data: {
+							"userid": value
+						},
+						success: function (data) {
+							if (data * 1 >= 1) {
+								$("#idMessage").html("이미 존재하는 아이디입니다.").css('color', 'red');
+							} else {
+								$("#idMessage").html("사용가능한 아이디입니다.").css('color', 'green');
+							}
+						},
+						error: function () {
+							alert("에러!!!");
+						}
+					});
+				} else {
+					$("#idMessage").html(""); // 1자 미만이면 메세지 삭제
+				}
 			});
 
 
@@ -139,17 +150,21 @@
 			$("#password").keyup(function () {
 				var pw = $("#password").val();
 				var reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-				if(pw.length >=8 && pw.length <=20){
-					if (!reg.test(pw)) {
-						$("#pwMessage").css('color', 'red').html("비밀번호는 영문/숫자/특수문자를 모두 포함해야합니다.");
+				if (pw != null && pw.length >= 1) {
+					if (pw.length >= 8 && pw.length <= 20) {
+						if (!reg.test(pw)) {
+							$("#pwMessage").css('color', 'red').html("비밀번호는 영문/숫자/특수문자를 모두 포함해야합니다.");
+						} else {
+							$("#pwMessage").css('color', 'green').html("사용가능한 비밀번호입니다.");
+						}
 					} else {
-						$("#pwMessage").css('color', 'green').html("사용가능한 비밀번호입니다.");
-					}					
-				} else {					
-					$("#pwMessage").css('color', 'red').html("비밀번호는 8자~20자로 작성해야합니다.");
+						$("#pwMessage").css('color', 'red').html("비밀번호는 8자~20자로 작성해야합니다.");
+					}
+				} else {
+					$("#pwMessage").html(""); // 1자 미만이면 메세지 삭제
 				}
 			});
-			
+
 			// 비밀번호 확인 검사
 			$("#password1").keyup(function () {
 				var pw = $("#password").val();
@@ -192,29 +207,34 @@
 
 			$("#nickname").keyup(function () {
 				var value = $(this).val();
-				// 닉네임 검사 | 2글자 이상 8글자 이하로 작성
-				if (value.length < 2 || value.length > 5) {
-					$("#nickmessage").css('color', 'red').html("닉네임은 2~8자 입니다.");
-					$(this).focus();
-					return false;
-				}
-				// 별명 중복 확인, ajax로 처리
-				$.ajax('nicknameCheck', {
-					type: "GET",
-					data: {
-						"nickname": value
-					},
-					success: function (data) {
-						if (data * 1 >= 1) {
-							$("#nickmessage").html("이미 존재하는 닉네임입니다.").css('color', 'red');
-						} else {
-							$("#nickmessage").html("사용가능한 닉네임입니다.").css('color', 'green');
-						}
-					},
-					error: function () {
-						alert("에러!!!");
+				var reg = /^[A-Za-z가-힣]{2,5}$/;
+				if (value != null && value.length >= 1) {
+					// 닉네임 검사 | 2글자 이상 5글자 이하로 작성
+					if (!reg.test(value)) {
+						$("#nickmessage").css('color', 'red').html("닉네임은 2~5자이며 한글 또는 영문만 가능합니다.");
+						$(this).focus();
+						return false;
 					}
-				});
+					// 별명 중복 확인, ajax로 처리
+					$.ajax('nicknameCheck', {
+						type: "GET",
+						data: {
+							"nickname": value
+						},
+						success: function (data) {
+							if (data * 1 >= 1) {
+								$("#nickmessage").html("이미 존재하는 닉네임입니다.").css('color', 'red');
+							} else {
+								$("#nickmessage").html("사용가능한 닉네임입니다.").css('color', 'green');
+							}
+						},
+						error: function () {
+							alert("에러!!!");
+						}
+					});
+				} else {
+					$("#nickmessage").html(""); // 1자 미만이면 메세지 삭제
+				}
 
 			});
 
@@ -277,7 +297,7 @@
 				$("#userid").val("");
 				$("#userid").focus();
 				return false;
-			} else if ( $("#password").val() == null ||  $("#password").val().trim().length == 0) {
+			} else if ($("#password").val() == null || $("#password").val().trim().length == 0) {
 				alert("비밀번호는 반드시 입력해야 합니다.");
 				$("#password").val("");
 				$("#password").focus();
@@ -292,7 +312,7 @@
 				$("#password1").val("");
 				$("#password1").focus();
 				return false;
-			}else if ($("#pw1Message").css('color') != 'rgb(0, 128, 0)') {
+			} else if ($("#pw1Message").css('color') != 'rgb(0, 128, 0)') {
 				alert('비밀번호를 확인해주세요.');
 				$("#password1").val("");
 				$("#password1").focus();
@@ -331,7 +351,7 @@
 				$("#phone").val("");
 				$("#phone").focus();
 				return false;
-			}else if ($("#phoneMsg").css('color') != 'rgb(0, 128, 0)') {
+			} else if ($("#phoneMsg").css('color') != 'rgb(0, 128, 0)') {
 				alert('전화번호를 다시 확인해주세요.');
 				$("#phone").val("");
 				$("#phone").focus();
@@ -388,35 +408,36 @@
 						<td>
 							<label for="userid">아이디</label>
 							<input type="text" id="userid" name="userid" placeholder="6~12자의 영문 또는 숫자" />
-							<span id="idMessage"/>
+							<span id="idMessage" />
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<label for="password">비밀번호</label>
-							<input type="password" id="password" name="password" placeholder="영문, 숫자, 특수문자 포함 8~20자 입력"/>
+							<input type="password" id="password" name="password"
+								placeholder="영문, 숫자, 특수문자 포함 8~20자 입력" />
 							<img id="pwIcon" src="/images/hide.png" width="20px">
-							<span id="pwMessage"/>
+							<span id="pwMessage" />
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<label for="password1">비밀번호확인</label>
+							<label for="password1">비밀번호 확인</label>
 							<input type="password" id="password1" name="password1" placeholder="비밀번호 재입력" />
 							<img id="pw1Icon" src="/images/hide.png" width="20px">
-							<span id="pw1Message"/>
+							<span id="pw1Message" />
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<label for="username">이름</label>
-							<input type="text" id="username" name="username" placeholder="이름(필수)"/>
+							<input type="text" id="username" name="username" placeholder="이름(필수)" />
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<label for="nickname">닉네임</label>
-							<input type="text" id="nickname" name="nickname" placeholder="닉네임(필수)"/>
+							<input type="text" id="nickname" name="nickname" placeholder="닉네임(필수)" />
 							<span id="nickmessage" />
 						</td>
 					</tr>
@@ -435,15 +456,16 @@
 					<tr>
 						<td>
 							<label for="email">이메일</label>
-							<input type="text" id="email" name="email" size="40" placeholder="ex. weselymember@wesely.com" />
-							<span id="emailMsg"/>
+							<input type="text" id="email" name="email" size="40"
+								placeholder="ex. weselymember@wesely.com" />
+							<span id="emailMsg" />
 						</td>
 					</tr>
 					<tr>
 						<td>
 							<label for="phone">전화번호</label>
 							<input type="text" id="phone" name="phone" placeholder="'-' 기호 없이 숫자만 입력" />
-							<span id="phoneMsg"/>
+							<span id="phoneMsg" />
 						</td>
 					</tr>
 
@@ -453,11 +475,12 @@
 							<input type="submit" value="회원가입" class="joinBtn" />
 						</td>
 					</tr>
-					
+
 					<!-- 약관동의설명 -->
 					<tr>
 						<td>
-							<label>회원가입과 동시에 wesely의 개인정보 수집 및 처리에 동의한 것으로 간주합니다.</label>
+							<label>회원가입과 동시에 wesely의 <a href="/member/agreement">개인정보 수집 및 처리</a>에 동의한 것으로
+								간주합니다.</label>
 						</td>
 					</tr>
 				</table>
