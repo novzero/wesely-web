@@ -169,7 +169,10 @@
 
 			<section class="storeReview">
 				<div class="storeReviewTitleBox">
-					<h3>방문자 리뷰</h3>
+					<div>
+						<h3>방문자 리뷰</h3>
+						<span id="totalReview">총 [[${st.reviewCount}]]개</span>
+					</div>
 					<button class="btnAddReview">리뷰작성하기</button>
 				</div>
 				<!-- 리뷰 데이터가 있을 때 리뷰목록 출력 -->
@@ -184,11 +187,15 @@
 							<div class="star">
 								<span th:each="i : ${#numbers.sequence(1, review.star)}">⭐</span>
 							</div>
-							<p class="recontetn" th:text="${review.content}"></p>
-							<span th:text="${review.regdate}"></span>
+							<p class="recontent" th:text="${review.content}"></p>
+							<span class="time">[[${#dates.format(review.regdate,'yy.MM.dd(E) HH:mm')}]]</span>
 							<div class="bottomBtn">
-								<button class="btnDelete" th:onclick="sendDeleteRequest([[${review.id}]])">삭제</button>
-								<button class="btnModify" th:onclick="updateBtn([[${review.id}]])">수정</button>
+								<button class="btnDelete" th:onclick="sendDeleteRequest([[${review.id}]])">
+									<i class="fa-solid fa-xmark"></i>
+								</button>
+								<button class="btnModify" th:onclick="updateBtn([[${review.id}]])">
+									<i class="fa-solid fa-pencil"></i>
+								</button>
 							</div>
 						</div>
 					</div>
@@ -218,7 +225,7 @@
 					<!-- 원본 시설글의 고유 id 담기 -->
 					<input type="hidden" id="ref" name="ref" th:value="${st.id}" />
 					<!-- 댓글의 고유 id 담기 -->
-					<input type="hidden" id="reviewID" name="id" th:value="emptyID" />
+					<input type="hidden" id="reviewID" name="id" th:value="0" />
 					<!-- 유저프로필 value 담기 -->
 					<input type="hidden" id="userProfile" name="userProfile" value="유저프로필사진" />
 				</div>

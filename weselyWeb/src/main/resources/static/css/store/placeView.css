@@ -40,6 +40,7 @@ main {
 	justify-content: space-between;
 	align-items: center;
 	margin: 10px 0 30px 0;
+	font-size: 18px;
 }
 
 /* 인덱스 볼 있는곳 밀어넣기 */
@@ -64,6 +65,7 @@ main {
 .indexBall {
 	position: relative;
 	margin-bottom: 20px;
+	font-size: 16px;
 }
 
 .indexBall.flex {
@@ -113,9 +115,22 @@ main {
 	margin-bottom: 20px;
 }
 
+.storeReviewTitleBox div{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 18px;
+}
+
+#totalReview {
+	margin-left: 12px;
+	font-size: 16px;
+	color: #686868;
+}
+
 .storeReviewTitleBox button {
 	border: none;
-	background-color: #494b7c;
+	background-color: #4b4eba;
 	color: #fff;
 
 	width: 130px;
@@ -126,6 +141,11 @@ main {
 	font-weight: 800;
 
 	cursor: pointer;
+	transition: opacity 150ms ease-in-out;
+}
+
+.storeReviewTitleBox button:hover {
+	opacity: 0.8;
 }
 
 .reviewBox {
@@ -143,9 +163,12 @@ main {
 	align-items: center;
 
 	width: 260px;
-	font-size: 14px;
-	
+	font-size: 16px;
+}
 
+.userInfo span {
+	color: #686868;
+	font-weight: 600;
 }
 
 .userInfo img {
@@ -160,19 +183,26 @@ main {
 	flex-direction: column;
 	
 	width: calc(100% - 260px);
-	margin-top: 8px;
+	margin-top: 7px;
 	
 	text-align: start;
-	font-size: 14px;
+	font-size: 16px;
 	color: #686868;
 
 	/* word-break: div 영역에 맞추어 자동 줄바꿈 */
 	word-break: break-all;
 }
 
-.recontetn {
+.recontent {
 	/* pre-wrap: 스페이스&탭&줄바꿈 보존됨, 크기에 넘어가면 자동 줄바꿈 */
 	white-space:pre-wrap;
+	margin-bottom: 10px;
+	line-height: 22px;
+}
+
+.time {
+	font-size: 14px;
+	font-weight: 300;
 }
 
 .star {
@@ -184,8 +214,8 @@ main {
 }
 
 .bottomBtn button {
-	width: 34px;
-	height: 34px;
+	width: 36px;
+	height: 36px;
 
 	background-color: #fff;
 	color: #494b7c;
@@ -193,6 +223,15 @@ main {
 	border: 1px solid #494b7c;
 
 	cursor: pointer;
+}
+
+.bottomBtn i{
+	font-size: 16px;
+}
+
+.bottomBtn button:hover {
+	color: #fff;
+	background-color: #4b4eba;
 }
 
 .reviewModal {

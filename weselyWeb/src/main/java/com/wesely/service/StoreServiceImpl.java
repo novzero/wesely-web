@@ -23,16 +23,22 @@ public class StoreServiceImpl implements StoreService {
 	@Autowired
 	private StoreReviewDAO storeReviewDAO;
 
+	// 더보기
 	@Override
 	public List<StoreVO> selectMore(int num) {
-		log.info("selectMore 호출 : {},{},{}", num);
-		// List<StoreVO> moreVIew = null;
-		// -----------------------------------------------------------------------------
-		// 1. 페이지 계산을 위하여 전체개수를 구한다.
-		// int totalCount = storeDAO.selectCount();
-		// 2. 가져오게 넘기기
+		log.info("selectMore 호출 : {}", num);
+
+		// 먼저 운동시설 정보를 가져온다.
 		List<StoreVO> list = storeDAO.selectMore(num);
 
+		// 각 시설에 대해 리뷰 개수를 추가로 설정한다.
+		if (list != null) {
+			for (StoreVO storeVO : list) {
+				storeVO.setReviewCount(storeReviewDAO.selectCountByRef(storeVO.getId()));
+			}
+		}
+		//log.info("selectMore 리턴 : {}", );
+		log.info("selectMore 리턴 : {}", list);
 		return list;
 	}
 
@@ -60,6 +66,7 @@ public class StoreServiceImpl implements StoreService {
 		return storeVO;
 	}
 
+	// 현재위치의 운동시설 데이터 저장
 	@Override
 	public boolean insert(StoreVO storeVO) {
 		try {
@@ -71,12 +78,14 @@ public class StoreServiceImpl implements StoreService {
 		}
 	}
 
+	// 현재위치의 운동시설 데이터 수정
 	@Override
 	public boolean update(StoreVO storeVO) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	// 현재위치의 운동시설 데이터 삭제
 	@Override
 	public boolean delete(StoreVO storeVO) {
 		// TODO Auto-generated method stub
@@ -99,6 +108,7 @@ public class StoreServiceImpl implements StoreService {
 		return store;
 	}
 
+	// id로 리뷰 찾기
 	@Override
 	public StoreReviewVO getReview(Long id) {
 		return storeReviewDAO.selectById(id);
@@ -147,10 +157,10 @@ public class StoreServiceImpl implements StoreService {
 	// 리뷰 삭제
 	@Override
 	public boolean reviewDelete(Long id) {
-	    log.info("reviewDelete 호출 : {}", id);
-	    boolean result = false;
-	    
-		if(id != null) {
+		log.info("reviewDelete 호출 : {}", id);
+		boolean result = false;
+
+		if (id != null) {
 			storeReviewDAO.delete(id);
 			result = true;
 		}

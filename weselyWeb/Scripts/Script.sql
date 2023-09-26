@@ -104,5 +104,5 @@ CREATE TABLE storeReview(
 SELECT * FROM store;
 SELECT * FROM sreview_id_seq;
 
-
+select count(*) from storeReview where ref=3549;
 

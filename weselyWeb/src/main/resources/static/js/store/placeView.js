@@ -73,7 +73,7 @@ function postReview() {
 				ref: ref,
 				nickname: nickname,
 				userProfile: userProfile,
-				star: starRating,
+				star: starRatingInput,
 				content: reviewContent
 			})
 		};

@@ -240,7 +240,12 @@ main {
 	cursor: pointer;
 }
 
+i {
+	font-size: 14px;
+}
+
 .btnSeeMore:hover {
 	background-color: #494b7c;
 	color: #fff;
 }
+
