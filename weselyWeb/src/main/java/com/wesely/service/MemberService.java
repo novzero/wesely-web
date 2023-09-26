@@ -38,13 +38,11 @@ public interface MemberService {
 	
 	
 	// 아이디 찾기
-	MemberVO findUserId(MemberVO memberVO);
+	MemberVO findUserId(MemberVO VO);
 	
 	// 비밀번호 찾기
 	MemberVO findPassword(MemberVO memberVO);
-	
-	// 별명 찾기
-	MemberVO findNickname(MemberVO memberVO);
+
 	
 
 }

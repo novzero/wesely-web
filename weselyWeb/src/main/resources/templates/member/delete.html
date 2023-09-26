@@ -4,7 +4,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>비밀번호 변경 페이지</title>
+	<title>비밀번호 확인 페이지</title>
 
 	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
 	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/style.css">
 	<style type="text/css">
-		#deleteform {
+		#delete {
 			width: 300px;
 			margin-right: auto;
 			margin-left: auto;
@@ -21,8 +21,20 @@
 			border: none;
 			text-align: center;
 		}
+		
+		td {
+			margin: auto;
+			padding: 5px;
+		}
 
-		#deleteform input {
+		#delete .title {
+			color: #4D54A5;
+			font-weight: bold;
+			font-size: 20px;
+			text-align: left;
+		}
+		
+		#delete input {
 			display: block;
 			width: 100%;
 			height: 35px;
@@ -35,16 +47,33 @@
 			box-sizing: border-box;
 			font-size: 15px;
 		}
-		
 
-		#deleteform label {
+
+		#delete input:focus {
+			border-color: #4D54A5;
+			outline: none;
+		}
+
+		#delete label {
 			display: block;
-			font-size: 12px;
+			font-size: 14px;
 			color: #333;
 			text-align: left;
 			margin-bottom: 5px;
 		}
 
+		#pwIcon {
+			position: absolute;
+			margin-left: 90px;
+			margin-top: -41px;
+		}
+
+		#pw1Icon {
+			position: absolute;
+			margin-left: 90px;
+			margin-top: -41px;
+		}
+		
 		.deleteMemberBtn {
 			width: 100%;
 			height: 40px;
@@ -61,32 +90,9 @@
 		.deleteMemberBtn:hover {
 			transform: scale(1.03);
 		}
-		
-		#deleteform .title {
-			color: #4D54A5;
-			font-weight: bold;
-			font-size: 20px;
-			text-align: left;
-		}
 
-		#deleteform input:focus {
-			border-color: #4D54A5;
-			outline: none;
-		}
-		
-		#pwIcon {
-			position: absolute;
-			margin-left: 100px;
-			margin-top: -41px;
-		}
-		
-		#pw1Icon {
-			position: absolute;
-			margin-left: 100px;
-			margin-top: -41px;
-		}
-		
-		
+
+
 	</style>
 	<script>
 
@@ -107,7 +113,7 @@
 					$("#password1").html(""); // 1자 미만이면 메세지 삭제
 				}
 			});
-			
+
 			// 비밀번호 보기/숨기기 구현
 			$("#pwIcon").on("click", function () {
 				if ($("#password").attr("type") == "password") {
@@ -118,7 +124,7 @@
 					$($(this)).attr('src', '/images/hide.png');
 				}
 			});
-			
+
 			$("#pw1Icon").on("click", function () {
 				if ($("#password1").attr("type") == "password") {
 					$("#password1").attr("type", "text");
@@ -142,7 +148,7 @@
 				return false;
 			}
 
-		
+
 			if ($("#pwMessage").css('color') != 'rgb(0, 128, 0)') {
 				alert('비밀번호를 확인해주세요.');
 				$("#password1").val("");
@@ -190,39 +196,42 @@
 		</header>
 
 
+		<div id="delete">
+			<form action="/member/deleteOk" method="post" onsubmit="return formCheck()">
+				<table id="deleteform">
+					<tr>
+						<td class="title">wesely를 탈퇴하시겠습니까?</td>
+					</tr>
+					<tr>
+						<td><br /></td>
+					</tr>
+					<tr>
+						<td>
+							<input type="hidden" name="userid" th:value="${session.mvo.userid}">
+							<label for="password">현재 비밀번호를 입력해주세요.</label>
+							<input type="password" id="password" name="password" />
+							<img id="pwIcon" src="/images/hide.png" width="20px">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="password1">다시 한 번 입력해주세요.</label>
+							<input type="password" id="password1" name="password1" />
+							<img id="pw1Icon" src="/images/hide.png" width="20px">
+							<span id="pwMessage" style="font-size: 13px; float: left;" />
+						</td>
+					</tr>
 
-		<form action="/member/deleteOk" method="post" onsubmit="return formCheck()">
-			<table id="deleteform">
-				<tr>
-					<td class="title">wesely를 탈퇴하시겠습니까?</td>
-				</tr>
-				<tr>
-					<td><br /></td>
-				</tr>
-				<tr>
-					<td>
-						<input type="hidden" name="userid" th:value="${session.mvo.userid}">
-						<label for="password">현재 비밀번호를 입력해주세요.</label>
-						<input type="password" id="password" name="password" required tabindex="1"/>
-						<img id="pwIcon" src="/images/hide.png" width="20px">
-					</td>
-				</tr>
-				<tr>
-					<td >
-						<label for="password1">다시 한 번 입력해주세요.<br/><span id="pwMessage" /></label>
-						<input type="password" id="password1" name="password1" required tabindex="2" />
-						<img id="pw1Icon" src="/images/hide.png" width="20px">
-					</td>
-				</tr>
+					<tr>
+						<td>
+							<button type="submit" class="deleteMemberBtn">회원 탈퇴</button>
+						</td>
+					</tr>
 
-				<tr>
-					<td>
-						<button type="submit" class="deleteMemberBtn">회원 탈퇴</button> <br />
-					</td>
-				</tr>
+				</table>
+			</form>
 
-			</table>
-		</form>
+		</div>
 	</div>
 </body>
 

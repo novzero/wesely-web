@@ -16,8 +16,6 @@ public interface MemberDAO {
 	void updateNickname(MemberVO memberVO);
 	void updatePassword(MemberVO memberVO);
 	
-	
-	
 	// <!-- 삭제하기 : 회원탈퇴 -->
 	void delete(MemberVO memberVO);
 	
@@ -27,6 +25,7 @@ public interface MemberDAO {
 	MemberVO selectByUserid(String userid);
 	MemberVO selectByNickname(String nickname);
 	MemberVO selectByPassword(String password);
+	MemberVO selectByPhone(String phone);
 	
 	// <!-- 전체 개수 얻기 : 관리자 모드 -->
 	int selectCount();
