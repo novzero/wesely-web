@@ -33,7 +33,7 @@
    <!-- 4. 저장하기  -->
    <insert id="insert" parameterType="CommunityVO" >
    		insert into community values 
-   		(community_id_seq.nextval, #{userid},#{nickname},#{contents},SYSDATE,0)
+   		(community_id_seq.nextval, #{userid},#{nickname},#{contents},SYSDATE,#{commentCount},0)
    </insert>
    <!-- 5. 수정하기  -->
    <update id="update" parameterType="CommunityVO">
@@ -64,5 +64,9 @@
    <update id="updateReadCount" parameterType="int">
    		update community set readCount = readCount+1 where id=#{id}
    </update>
+   <!-- 댓글갯수 가져오기 -->
+   <select id="selectComment" resultType="int" >
+   		select count(commentCount) from community
+   </select>
    
  </mapper>
