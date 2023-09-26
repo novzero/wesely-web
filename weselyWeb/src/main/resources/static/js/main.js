@@ -81,8 +81,8 @@ if (navigator.geolocation) {
             document.querySelector(".window").appendChild(rainDiv);
           }
 
-          var smText = document.createElement("b");
-          smText.innerHTML = "비가 내리는 날씨! <br />실내에서 운동할까요?";
+          var introText = document.querySelector(".introText");
+          introText.innerHTML = "비가 내리는 날씨! <br />실내에서 운동할까요?";
           //document.querySelector(".sm1").appendChild(smText);
 
           let keyframes = [
@@ -115,9 +115,9 @@ if (navigator.geolocation) {
 
           document.querySelector(".window").style.display = "none";
 
-          var smText = document.createElement("b");
-          smText.innerHTML = "선선한 날씨! <br />야외활동은 어떠세요?";
-          document.querySelector(".introText").appendChild(smText);
+         var introText = document.querySelector(".introText");
+          introText.innerHTML = "선선한 날씨! <br />야외활동은 어떠세요?";
+          document.querySelector(".introText").appendChild(introText);
 
           let keyframes = [
             { transform: "translateY(0%)" },
@@ -170,9 +170,9 @@ if (navigator.geolocation) {
           cloudImgElement.src = "/images/cloud.png";
           document.querySelector(".window").appendChild(cloudImgElement);
 
-          var smText = document.createElement("b");
-          smText.innerHTML = "흐린 날씨! <br />차분한 실내운동은 어떠세요?";
-          document.querySelector(".introText").appendChild(smText);
+          var introText = document.querySelector(".introText");
+          introText.innerHTML = "흐린 날씨! <br />차분한 실내운동은 어떠세요?";
+          document.querySelector(".introText").appendChild(introText);
 
           let keyFrames = [
             { transform: "translateX(0%)" },
@@ -195,9 +195,9 @@ if (navigator.geolocation) {
 
           document.querySelector(".window").style.display = "none";
 
-          var smText = document.createElement("b");
-          smText.innerHTML = "화창한 날씨! <br />야외활동은 어떠세요?";
-          document.querySelector(".introText").appendChild(smText);
+          var introText = document.querySelector(".introText");
+          introText.innerHTML = "화창한 날씨! <br />야외활동은 어떠세요?";
+          document.querySelector(".introText").appendChild(introText);
 
           let keyFrames = [
             { top: "-80px", left: "-100px" },
@@ -228,9 +228,9 @@ if (navigator.geolocation) {
           cloudImgElement.src = "/images/cloud.png";
           document.querySelector(".window").appendChild(cloudImgElement);
 
-          var smText = document.createElement("b");
-          smText.innerHTML = "흐린 날씨! <br />차분한 실내운동은 어떠세요?";
-          document.querySelector(".introText").appendChild(smText);
+          var introText = document.querySelector(".introText");
+          introText.innerHTML = "흐린 날씨! <br />차분한 실내운동은 어떠세요?";
+          document.querySelector(".introText").appendChild(introText);
 
           let keyFrames = [
             { transform: "translateX(0%)" },
