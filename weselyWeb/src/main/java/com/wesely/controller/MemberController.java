@@ -105,6 +105,12 @@ public class MemberController {
 		return "/member/login";
 	}
 
+	// 회원약관
+	@GetMapping(value = "/agreement")
+	public String agreement() {
+		return "/member/agreement";
+	}
+
 	// 로그인 처리하기
 	@GetMapping(value = "/loginOk")
 	public String loginOk(Model model) {
@@ -145,7 +151,6 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-	
 	// 아이디 찾기 폼
 	@GetMapping(value = "/findUserId")
 	public String findUserId() {
@@ -157,6 +162,7 @@ public class MemberController {
 	public String findUserIdOkGet() {
 		return "redirect:/";
 	}
+
 	@PostMapping(value = "/findUserIdOk")
 	public String findUserIdOkPost(@ModelAttribute MemberVO vo, Model model) {
 		// 사용자 이름과 전화번호 받음
@@ -168,7 +174,6 @@ public class MemberController {
 		return "/member/viewUserId";
 	}
 
-	
 	// 비밀번호 찾기 폼
 	@GetMapping(value = "/findPassword")
 	public String findPassword() {
@@ -180,7 +185,7 @@ public class MemberController {
 	public String findPasswordGet() {
 		return "redirect:/";
 	}
-	
+
 	@Autowired
 	private JavaMailSender javaMailSender;
 
@@ -194,7 +199,7 @@ public class MemberController {
 		// 일치하면 메일을 발송한다.
 		MimeMessage message = javaMailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-		helper.setFrom("wesely@gmail.com");
+		helper.setFrom("sksmsdlcodud@gmail.com");
 		helper.setTo(dbVO.getEmail());
 		helper.setSubject(dbVO.getUsername() + "님 비밀번호 안내입니다.");
 		// 메일 내용 만들기
@@ -209,14 +214,13 @@ public class MemberController {
 		model.addAttribute("vo", dbVO);
 		return "/member/viewPassword";
 	}
-	
-	
+
 	// 회원정보수정 폼
 	@GetMapping(value = "/updateProfile")
 	public String updateProfile() {
 		return "/member/updateProfile";
 	}
-	
+
 	@PostMapping(value = "/updateProfileOk")
 	public String updateProfilePost(@ModelAttribute MemberVO vo, Model model, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) {
@@ -230,7 +234,7 @@ public class MemberController {
 			return "redirect:/member/updateProfile";
 		}
 	}
-	
+
 	// 비밀번호변경 폼
 	@GetMapping(value = "/updatePassword")
 	public String updatePassword() {
@@ -249,8 +253,6 @@ public class MemberController {
 		}
 	}
 
-	
-
 	// 로그 아웃 처리
 	@GetMapping(value = "/logout")
 	public String logout(HttpSession session) {
@@ -259,7 +261,6 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-	
 	// 회원탈퇴폼
 	@GetMapping(value = "/delete")
 	public String delete() {
