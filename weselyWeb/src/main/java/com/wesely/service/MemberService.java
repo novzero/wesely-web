@@ -41,7 +41,7 @@ public interface MemberService {
 	MemberVO findUserId(MemberVO VO);
 	
 	// 비밀번호 찾기
-	MemberVO findPassword(MemberVO memberVO);
+	MemberVO findPassword(MemberVO VO);
 
 	
 

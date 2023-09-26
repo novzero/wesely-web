@@ -1,7 +1,5 @@
 package com.wesely.controller;
 
-import java.awt.Window;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -147,6 +145,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 
+	
 	// 아이디 찾기 폼
 	@GetMapping(value = "/findUserId")
 	public String findUserId() {
@@ -158,7 +157,6 @@ public class MemberController {
 	public String findUserIdOkGet() {
 		return "redirect:/";
 	}
-
 	@PostMapping(value = "/findUserIdOk")
 	public String findUserIdOkPost(@ModelAttribute MemberVO vo, Model model) {
 		// 사용자 이름과 전화번호 받음
@@ -170,6 +168,7 @@ public class MemberController {
 		return "/member/viewUserId";
 	}
 
+	
 	// 비밀번호 찾기 폼
 	@GetMapping(value = "/findPassword")
 	public String findPassword() {
@@ -181,13 +180,43 @@ public class MemberController {
 	public String findPasswordGet() {
 		return "redirect:/";
 	}
+	
+	@Autowired
+	private JavaMailSender javaMailSender;
 
+	@PostMapping(value = "/findPasswordOk")
+	public String findPasswordPost(@ModelAttribute MemberVO vo, Model model) throws MessagingException {
+		MemberVO dbVO = memberService.findPassword(vo);
+		if (dbVO == null) {
+			// 일치하지 않는다면
+			return "redirect:/member/findPassword";
+		}
+		// 일치하면 메일을 발송한다.
+		MimeMessage message = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+		helper.setFrom("wesely@gmail.com");
+		helper.setTo(dbVO.getEmail());
+		helper.setSubject(dbVO.getUsername() + "님 비밀번호 안내입니다.");
+		// 메일 내용 만들기
+		StringBuffer sb = new StringBuffer();
+		sb.append(dbVO.getUsername() + "님 비밀번호 안내입니다.<br>");
+		sb.append(dbVO.getUsername() + "님의 임시 비밀번호는 " + dbVO.getPassword() + "입니다.<br>");
+		helper.setText(sb.toString(), true);
+
+		// 메일 발송
+		javaMailSender.send(message);
+
+		model.addAttribute("vo", dbVO);
+		return "/member/viewPassword";
+	}
+	
+	
 	// 회원정보수정 폼
 	@GetMapping(value = "/updateProfile")
 	public String updateProfile() {
 		return "/member/updateProfile";
 	}
-
+	
 	@PostMapping(value = "/updateProfileOk")
 	public String updateProfilePost(@ModelAttribute MemberVO vo, Model model, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) {
@@ -201,7 +230,7 @@ public class MemberController {
 			return "redirect:/member/updateProfile";
 		}
 	}
-
+	
 	// 비밀번호변경 폼
 	@GetMapping(value = "/updatePassword")
 	public String updatePassword() {
@@ -220,35 +249,7 @@ public class MemberController {
 		}
 	}
 
-	@Autowired
-	private JavaMailSender javaMailSender;
-
-	@PostMapping(value = "/findPasswordOk")
-	public String findPasswordPost(@ModelAttribute MemberVO vo, Model model) throws MessagingException {
-		MemberVO dbVO = memberService.findPassword(vo);
-		if (dbVO == null) {
-			// 일치하지 않는다면
-			return "redirect:/member/findPassword";
-		}
-		// 일치하면
-		// 메일을 발송하고
-		MimeMessage message = javaMailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-		helper.setFrom("wesely@gmail.com");
-		helper.setTo(dbVO.getEmail());
-		helper.setSubject(dbVO.getUsername() + "님 비밀번호 안내입니다.");
-		// 메일 내용 만들기
-		StringBuffer sb = new StringBuffer();
-		sb.append(dbVO.getUsername() + "님 비밀번호 안내입니다.<br>");
-		sb.append(dbVO.getUsername() + "님의 임시 비밀번호는 " + dbVO.getPassword() + "입니다.<br>");
-		helper.setText(sb.toString(), true);
-
-		// 메일 발송
-		javaMailSender.send(message);
-
-		model.addAttribute("vo", dbVO);
-		return "/member/viewPassword";
-	}
+	
 
 	// 로그 아웃 처리
 	@GetMapping(value = "/logout")
@@ -259,6 +260,7 @@ public class MemberController {
 	}
 
 	
+	// 회원탈퇴폼
 	@GetMapping(value = "/delete")
 	public String delete() {
 		return "/member/delete";
