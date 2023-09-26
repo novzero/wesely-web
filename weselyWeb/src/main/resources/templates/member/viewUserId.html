@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<!-- Thymeleaf를 사용하겠다. -->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>아이디 찾기 페이지</title>
+
+	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
+	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
+
+	<link rel="stylesheet" href="/css/font.css" />
+	<link rel="stylesheet" href="/css/header.css" />
+	<link rel="stylesheet" href="/css/style.css">
+	<style type="text/css">
+		#info {
+			width: 350px;
+			margin-right: auto;
+			margin-left: auto;
+			margin-top: 50px;
+			padding: 20px;
+			border: none;
+			text-align: center;
+		}
+
+		#info .title {
+			color: #4D54A5;
+			font-weight: bold;
+			font-size: 20px;
+			text-align: left;
+		}
+
+		#info .loginBtn {
+			display: block;
+			width: 100%;
+			height: 40px;
+			border: none;
+			border-radius: 7px;
+			color: white;
+			font-weight: bold;
+			background-color: #4D54A5;
+			
+			transition: all 0.3s;
+		}
+		.loginBtn:hover {
+			transform: scale(1.03);
+		}
+
+		td {
+			padding: 5px;
+		}
+	</style>
+	<script>
+
+	</script>
+</head>
+
+<body>
+	<div id="wrap">
+		<table id="info">
+			<tr>
+				<td class="title">아이디 찾기</td>
+				<td class="image"><img src="/images/wesely_logo.png" alt="wesely로고" width="50px"></td>
+			</tr>
+			
+			<tr>
+				<td colspan="2">
+					[[${vo.username}]]님의 아이디는 <br/>
+					<b style="color: #4D54A5;">[[${vo.userid}]]</b> <br/>
+					입니다. <br />
+				</td>
+			</tr>
+			
+			<tr>
+				<td colspan="2">
+					<input type="button" value="로그인 하러가기" class="loginBtn" onclick="location.href='/member/login'"  />
+				</td>
+			</tr>
+		</table>
+	</div>
+</body>
+
+</html>

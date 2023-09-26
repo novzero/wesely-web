@@ -25,7 +25,7 @@ CREATE TABLE wmember_roles(
 SELECT * FROM wmember;
 SELECT * FROM wmember_roles;
 DROP TABLE WMEMBER;
-DELETE FROM wmember WHERE USERID = 'wesely2';
+DELETE FROM wmember;
 
 --===============================================================================
 
