@@ -102,7 +102,10 @@ CREATE TABLE storeReview(
 );
 
 SELECT * FROM store;
-SELECT * FROM sreview_id_seq;
+SELECT * FROM storeReview;
+
+DROP TABLE store;
+
 
 select count(*) from storeReview where ref=3549;
 

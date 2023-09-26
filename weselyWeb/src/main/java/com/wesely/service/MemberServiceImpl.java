@@ -1,7 +1,6 @@
 package com.wesely.service;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +55,8 @@ public class MemberServiceImpl implements MemberService {
 			if (mvo != null) { // 지정 아이디의 회원이 있다면
 				if (mvo.getPassword().equals(vo.getPassword())) {
 					memberVO = mvo;
-				} else {
+				} else { 
+					// 비밀번호가 일치하지 않는다
 				}
 			} else {
 				// 아이디가 없다
@@ -136,15 +136,16 @@ public class MemberServiceImpl implements MemberService {
 			if(dbVO!=null) { // 아이디가 있고
 				// 이메일도 같으면
 				if(dbVO.getEmail().equals(VO.getEmail())) {
-					
 					// 임시 비밀 번호를 만들고
 					String newPassword = MakePassword.makePassword(10);
+					
 					// DB에 비밀번호를 임시 비번으로 변경하고
 					HashMap<String, String> map = new HashMap<>();
 					map.put("userid", dbVO.getUserid());
 					map.put("password", newPassword);
 					memberDAO.updatePassword1(map);
-					// 임시비밀번호를 넣어서
+					
+					// 새로운 임시비밀번호로 저장
 					dbVO.setPassword(newPassword);
 					memberVO = dbVO; 
 				}
@@ -195,18 +196,5 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
-
-	@Override
-	public List<MemberVO> selectList() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public void emailCheck(String uuid, String userid) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

@@ -92,6 +92,7 @@ public class MemberController {
 		String userid = null;
 		// userid변수에 쿠키에 userid가 있다면 읽어서 대입하자
 		if (cookies != null && cookies.length > 0) {
+			// 반복문으로 userid 라는 쿠키를 찾고 변수에 대입한다.
 			for (Cookie cookie : cookies) {
 				if (cookie.getName().equals("userid")) {
 					userid = cookie.getValue();
@@ -118,28 +119,21 @@ public class MemberController {
 	}
 
 	@PostMapping(value = "/loginOk")
-	public String loginOkPost(@ModelAttribute MemberVO memberVO, Model model, HttpServletRequest request,
-			HttpServletResponse response, HttpSession session) {
+	public String loginOkPost(@ModelAttribute MemberVO memberVO, HttpServletResponse response, HttpSession session) {
 		if (memberVO != null) {
 			// 서비스를 호출하여 로그인을 수행한다.
 			MemberVO dbVO = memberService.login(memberVO);
 			if (dbVO != null) { // 로그인에 성공했다면
 				// 세션에 회원정보를 저장을 한다.
-				String userid = request.getParameter("userid");
-				String userpw = request.getParameter("userpw");
-
 				session.setAttribute("mvo", dbVO);
-				session.setAttribute("userid", userid);
-				session.setAttribute("userpw", userpw);
-
 				// 아이디 자동저장 처리
 				Cookie cookie = null;
 				if (memberVO.isSaveID()) { // 자동저장이라면
 					cookie = new Cookie("userid", dbVO.getUserid());
-					cookie.setMaxAge(60 * 60 * 24 * 7); // 초단위로 휴효기간 지정
+					cookie.setMaxAge(60 * 60 * 24 * 7); // 유효기간 일주일(60초*60분*24시간*7일)
 				} else { // 자동저장이 아니라면
 					cookie = new Cookie("userid", "");
-					cookie.setMaxAge(0);
+					cookie.setMaxAge(0);	// 유효기간은 없음
 				}
 				// 쿠키를 저장
 				response.addCookie(cookie);
@@ -199,9 +193,9 @@ public class MemberController {
 		// 일치하면 메일을 발송한다.
 		MimeMessage message = javaMailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-		helper.setFrom("sksmsdlcodud@gmail.com");
-		helper.setTo(dbVO.getEmail());
-		helper.setSubject(dbVO.getUsername() + "님 비밀번호 안내입니다.");
+		helper.setFrom("sksmsdlcodud@gmail.com");	//보내는 사람
+		helper.setTo(dbVO.getEmail());	// 받는 사람
+		helper.setSubject(dbVO.getUsername() + "님 비밀번호 안내입니다.");	// 메일제목
 		// 메일 내용 만들기
 		StringBuffer sb = new StringBuffer();
 		sb.append(dbVO.getUsername() + "님 비밀번호 안내입니다.<br>");
@@ -222,8 +216,7 @@ public class MemberController {
 	}
 
 	@PostMapping(value = "/updateProfileOk")
-	public String updateProfilePost(@ModelAttribute MemberVO vo, Model model, HttpServletRequest request,
-			HttpServletResponse response, HttpSession session) {
+	public String updateProfilePost(@ModelAttribute MemberVO vo, HttpSession session) {
 		log.info("받은값 : {} ", vo);
 		if (memberService.updateNickname(vo)) {
 			MemberVO dbVO = memberService.findUserId(vo);
@@ -243,9 +236,7 @@ public class MemberController {
 
 	// 비밀번호변경 실행
 	@PostMapping(value = "/updatePasswordOk")
-	public String updatePasswordOk(@ModelAttribute MemberVO vo, @RequestParam String newPassword, Model model,
-			HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-
+	public String updatePasswordOk(@ModelAttribute MemberVO vo, @RequestParam String newPassword) {
 		if (memberService.updatePassword(vo, newPassword)) {
 			return "redirect:/member/login";
 		} else {
@@ -269,8 +260,7 @@ public class MemberController {
 
 	// 회원 탈퇴 처리
 	@PostMapping(value = "/deleteOk")
-	public String deleteOk(@ModelAttribute MemberVO vo, Model model, HttpServletRequest request,
-			HttpServletResponse response, HttpSession session) {
+	public String deleteOk(@ModelAttribute MemberVO vo, HttpSession session) {
 		log.info("받은값 : {} ", vo);
 		if (memberService.delete(vo)) {
 			session.removeAttribute("mvo");
