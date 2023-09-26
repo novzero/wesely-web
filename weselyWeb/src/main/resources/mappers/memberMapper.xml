@@ -33,6 +33,11 @@
 			userid=#{userid}
 	</update>
 	
+	<!-- 임시 비번으로 고치기 -->
+	<update id="updatePassword1" parameterType="hashmap">
+		update wmember set password=#{password} where userid=#{userid}
+	</update>
+	
 	<!-- 삭제하기 : 회원 탈퇴 -->
 	<delete id="delete" parameterType="MemberVO">
 		delete from wmember where userid=#{userid}
