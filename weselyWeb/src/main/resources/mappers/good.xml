@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- namespace는 반드시 DAO인터페이스와 이름이 일치해야 한다. -->
+<mapper namespace="com.wesely.dao.goodDAO">
+	<!-- 좋아요 개수 찾기 -->
+	<select id="CountGood" parameterType="int"  resultType="int">
+		select count(*) from good where ref=#{ref}
+	</select>
+	<!-- 좋아요 등록  -->
+	<insert id="insertGood" parameterType="goodVO" >
+		INSERT INTO good VALUES
+		(good_id_seq.nextval,#{nickname},#{ref},1)
+	</insert>
+	
+	<!-- 좋아요 삭제  --> 
+	<delete id="deleteGood" parameterType="int">
+		DELETE FROM good
+		WHERE nickname = #{nickname}
+	</delete>
+</mapper>

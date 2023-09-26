@@ -73,4 +73,5 @@ public interface CommunityDAO {
 		void updateReadCount(int id);
 		// <!-- 수정하기 : 회원정보 수정 -->
 		void updateNickname(HashMap<String, String> map);
+
 }

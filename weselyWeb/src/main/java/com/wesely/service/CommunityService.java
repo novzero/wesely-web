@@ -2,6 +2,7 @@ package com.wesely.service;
 
 import com.wesely.vo.CommentVO;
 import com.wesely.vo.CommunityVO;
+import com.wesely.vo.GoodVO;
 import com.wesely.vo.MemberVO;
 import com.wesely.vo.Paging;
 
@@ -32,4 +33,12 @@ public interface CommunityService {
 
 	// 댓글삭제
 	boolean commentDelete(CommentVO commentVO);
+	
+	//좋아요 등록
+	boolean goodInsert(GoodVO goodVO);
+	
+	//좋아요 삭제
+	boolean goodDelete(GoodVO goodVO);
+	
+	
 }

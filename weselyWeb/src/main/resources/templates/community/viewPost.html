@@ -22,6 +22,7 @@
 					let ref = $("#ref").val();
 					let content = $("#content").val();
 					let name = $("#nickname").val();
+					
 					//alert(content); // 읽어왔는지 확인
 					let form = new FormData();// 폼만들기
 
@@ -46,7 +47,7 @@
 					let id = $("#id").val();
 					let content = $("#content").val();
 					let form = new FormData(); // 폼을 만든다.
-					alert(content)
+					//alert(content)
 					// 폼에 내용을 추가한다.
 					form.append("id", id);
 					form.append("content", content);
@@ -54,7 +55,7 @@
 					// Ajax를 통해 데이터를 서버로 보내 저장을 수행한다.
 					axios.put('/community/commentUpdate', form)
 						.then(function (response) { // 성공 했을떄
-							alert("성공!!! : " + JSON.stringify(response));
+							//alert("성공!!! : " + JSON.stringify(response));
 							location.reload();
 						})
 						.catch(function (error) { // 에러 발생했을때
@@ -104,10 +105,10 @@
 				alert("정말 삭제하시겠습니까? 삭제게시물은 복구할 수 없습니다.")
 			})
 		});
+		
+		
 	</script>
 </head>
-
-
 <body>
 	<div class="wrapper">
 		<header>
@@ -169,7 +170,10 @@
 
 				<div class="btnList">
 					<div>
-						<button type="button">
+						<input type="text" id="ref1" th:value="${community.id}"/>
+						<input type="text" id="whether" value="whether"/>
+						<input type="text" id="nickname1" th:value="${session.mvo.nickname}"/>
+						<button type="button" id="like">
 							<!-- 꽉찬하트 -->
 							<!-- <i class="fa-solid fa-heart"></i> -->
 							<!-- 빈 하트 -->
@@ -188,11 +192,12 @@
 
 					<p class="moreComments">댓글 더 보기...</p>
 				</div>
-
-				<th:block th:each="c : ${community.commentList}">
+				<input type="hidden" id="commentCount" th:value="${community.commentCount}">
 					<p class="totalComments">
 						댓글 <strong>[[${community.commentCount}]]</strong>개
+						<!--댓글 <strong>[[${#lists.size(community.commentList)}]]</strong>개-->
 					</p>
+				<th:block th:each="c : ${community.commentList}">
 					<div class="commentList">
 						<div class="commentItem">
 							<div class="commentLine">
@@ -227,5 +232,4 @@
 		</main>
 	</div>
 </body>
-
 </html>
