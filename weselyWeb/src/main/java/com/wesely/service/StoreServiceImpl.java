@@ -31,13 +31,14 @@ public class StoreServiceImpl implements StoreService {
 		// 먼저 운동시설 정보를 가져온다.
 		List<StoreVO> list = storeDAO.selectMore(num);
 
-		// 각 시설에 대해 리뷰 개수를 추가로 설정한다.
+		// 각 시설에 대한 리뷰 개수를 추가로 설정한다.
 		if (list != null) {
 			for (StoreVO storeVO : list) {
 				storeVO.setReviewCount(storeReviewDAO.selectCountByRef(storeVO.getId()));
+				storeVO.setAverageStar(storeReviewDAO.selectAverageStarByRef(storeVO.getId()));
 			}
 		}
-		//log.info("selectMore 리턴 : {}", );
+		// log.info("selectMore 리턴 : {}", );
 		log.info("selectMore 리턴 : {}", list);
 		return list;
 	}
@@ -53,27 +54,34 @@ public class StoreServiceImpl implements StoreService {
 			storeVO = storeDAO.findById(id);
 			// 2. 해당 글이 존재한다면 리뷰들을 모두 가져온다.
 			if (storeVO != null) {
+				// 리뷰들 모두 가져온 것을 reviewList 라고 하자.
 				List<StoreReviewVO> reviewList = storeReviewDAO.selectListByRef(id);
+				// 리뷰 총 개수 가져온 것을 totalReview라고 하자.
+				int totalReview = storeReviewDAO.selectCountByRef(id);
+
 				// 3. 리뷰를 VO에 넣어준다.
 				storeVO.setReviewList(reviewList);
+				// 4. 리뷰의 총 개수를 VO에 넣어준다.
+				storeVO.setReviewCount(totalReview);
 			}
 		} catch (Exception e) {
-			log.error("Error occurred while finding a store with ID " + id, e);
+			log.error(" Store 아이디 찾는데 문제 발생 " + id, e);
 			e.printStackTrace();
 		}
 		// -----------------------------------------------------------------------------
-		log.info("view 리턴 : {}", storeVO);
+		log.info("findById 리턴 : {}", storeVO);
 		return storeVO;
 	}
 
 	// 현재위치의 운동시설 데이터 저장
 	@Override
 	public boolean insert(StoreVO storeVO) {
+		log.info(" 운동시설 데이터 저장 insert 리턴 : {}", storeVO);
 		try {
 			storeDAO.insert(storeVO);
 			return true;
 		} catch (Exception e) {
-			log.error("Error occurred while inserting a store", e);
+			log.info(" 운동시설 데이터 저장 insert 리턴 : {}", storeVO);
 			return false;
 		}
 	}
@@ -81,14 +89,14 @@ public class StoreServiceImpl implements StoreService {
 	// 현재위치의 운동시설 데이터 수정
 	@Override
 	public boolean update(StoreVO storeVO) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 
 	// 현재위치의 운동시설 데이터 삭제
 	@Override
 	public boolean delete(StoreVO storeVO) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 

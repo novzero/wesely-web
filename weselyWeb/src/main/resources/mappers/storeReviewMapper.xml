@@ -41,4 +41,8 @@
 	<select id="selectById" parameterType="long" resultType="storeReviewVO">
 		select * from storeReview where id=#{id}
 	</select>
+	<!-- 8. 리뷰 평균 값 얻기 -->
+	<select id="selectAverageStarByRef" parameterType="int" resultType="double">
+    select NVL2(avg(star),ROUND(avg(star), 1),0) from storeReview where ref=#{ref}
+	</select>
 </mapper>

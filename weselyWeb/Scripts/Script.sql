@@ -1,6 +1,5 @@
 CREATE SEQUENCE wmember_idx_seq;
 
-
 CREATE TABLE wmember (
 	idx NUMBER PRIMARY KEY,
 	userid varchar2(50) NOT NULL,
@@ -37,7 +36,6 @@ CREATE TABLE community(
 	nickname varchar2(100) NOT NULL, -- 작성자
 	contents varchar2(300) NOT NULL, -- 글 내용
 	regDate timestamp DEFAULT sysdate , -- 작성일
-	commentCount NUMBER NOT NULL, -- 댓글 개수
 	readCount NUMBER DEFAULT 0 -- 조회수 증가 
 	);
 DROP TABLE COMMUNITY;
@@ -110,11 +108,12 @@ CREATE TABLE storeReview(
 	regdate timestamp DEFAULT sysdate -- 작성일
 );
 
+DROP TABLE store;
+SELECT * FROM storeReview;
+=======
 SELECT * FROM store;
 SELECT * FROM storeReview;
 
 DROP TABLE store;
 
-
-select count(*) from storeReview where ref=3549;
 

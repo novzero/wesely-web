@@ -59,6 +59,9 @@
 				ps.keywordSearch(region + '헬스', placesSearchCB, {
 					page: 1, size: 15
 				});
+				ps.keywordSearch(region + '필라테스', placesSearchCB, {
+					page: 1, size: 15
+				});
 			}
 		};
 
@@ -199,7 +202,7 @@
                             <div class="placeTextBox">
                                 <div class="storeTitle">
                                     <span>${store.name}</span>
-                                    <span>⭐ ${store.rating}</span>
+                                    <span>⭐ ${store.averageStar}</span>
                                 </div>
                                 <p class="storeLocation">${store.address}</p>
                                 <!-- 👇해시태그 리스트도 동적으로 생성하려면 추가적인 처리가 필요합니다 -->

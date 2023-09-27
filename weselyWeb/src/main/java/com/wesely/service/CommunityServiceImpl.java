@@ -3,6 +3,7 @@ package com.wesely.service;
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -300,6 +301,12 @@ public class CommunityServiceImpl implements CommunityService {
 		log.info("goodDelete 리턴 : {}", goodVO);
 		return result;
 		
+	}
+	// 좋아요 체크확인
+	@Override
+	public int goodCheck(Map<String, Object> map) {
+		
+		return goodDAO.goodCheck(map);
 	}
 
 }
