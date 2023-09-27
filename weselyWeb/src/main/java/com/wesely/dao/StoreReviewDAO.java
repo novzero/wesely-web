@@ -22,4 +22,6 @@ public interface StoreReviewDAO {
 	void deleteByRef(int ref);
 	// 7. 댓글 1개 얻기(기존 리뷰를 얻어서 수정 폼에 띄우는 역할)
 	StoreReviewVO selectById(Long id);
+	// 8. ref(해당 시설)에 대한 리뷰의 평균 star 값 구하기
+    Double selectAverageStarByRef(int ref);
 }

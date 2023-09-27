@@ -15,7 +15,7 @@ public class StoreVO {
 	private String hashTag; // 매장해쉬태그
 	
 	//추가
-	private int reviewCount; //리뷰의 개수 -- 목록보기
+	private int reviewCount; // 리뷰의 개수 -- 목록보기
 	private List<StoreReviewVO> reviewList; // 리뷰목록 -- 내용보기
-	
+	private Double averageStar; // 별점 평균값
 }

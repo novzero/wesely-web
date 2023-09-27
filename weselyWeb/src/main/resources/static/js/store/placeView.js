@@ -51,42 +51,49 @@ function postReview() {
 	let nickname = document.getElementById('nickname').value; // 유저닉네임
 	let userProfile = document.getElementById('userProfile').value; // 유저프로필(사진)
 	let ref = document.getElementById('ref').value; // 시설의 고유 key
-
+	let reviewForm = document.getElementById('reviewForm'); // 리뷰 폼 form
+	
 	// 별점의 value 없을 때 (클릭없을 시)
 	if (starRating.value == '') {
 		alert('별점은 필수사항입니다. 별점을 클릭해주세요.');
-		// text 없을 떄 
-	} else if (reviewContent.value == '') {
-		alert('내용은 필수사항입니다.');
-	} // 그 외
-	else {
-		reviewForm.action = '/api/reviewInsert';
-		reviewForm.method = 'post'; // POST 방식으로 변경
-
-		// URL과 옵션 설정
-		let url = '/api/reviewInsert';
-		let options = {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			// 필드명에 맞게 key-value 쌍 생성
-			body: JSON.stringify({
-				ref: ref,
-				nickname: nickname,
-				userProfile: userProfile,
-				star: starRatingInput,
-				content: reviewContent
-			})
-		};
-
-		// AJAX 요청 보내기
-		fetch(url, options)
-			.then(response => {
-				console.log(response.data);
-				location.reload();
-			})
-			.catch(error => alert('에러발생!! : ', error));
+		return false;
 	}
-};
+
+	// text 없을 떄 
+	let v = reviewContent.value;
+	if (v == null || v.trim().length == 0) {
+		alert('내용은 필수사항입니다.');
+		reviewContent.value = '';
+		reviewContent.focus();
+		return false;
+	}
+	reviewForm.action = '/api/reviewInsert';
+	reviewForm.method = 'post'; // POST 방식으로 변경
+
+	// URL과 옵션 설정
+	let url = '/api/reviewInsert';
+	let options = {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		// 필드명에 맞게 key-value 쌍 생성
+		body: JSON.stringify({
+			ref: ref,
+			nickname: nickname,
+			userProfile: userProfile,
+			star: starRatingInput,
+			content: reviewContent
+		})
+	};
+
+	// AJAX 요청 보내기
+	fetch(url, options)
+		.then(response => {
+			console.log(response.data);
+			location.reload();
+		})
+		.catch(error => alert('에러발생!! : ', error));
+
+}
 
 
 // 리뷰수정버튼을 클릭했을 때 실행할 함수 (한개 읽어오기)

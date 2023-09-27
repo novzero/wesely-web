@@ -1,6 +1,5 @@
 CREATE SEQUENCE wmember_idx_seq;
 
-
 CREATE TABLE wmember (
 	idx NUMBER PRIMARY KEY,
 	userid varchar2(50) NOT NULL,
@@ -101,8 +100,6 @@ CREATE TABLE storeReview(
 	regdate timestamp DEFAULT sysdate -- 작성일
 );
 
-SELECT * FROM store;
-SELECT * FROM sreview_id_seq;
-
-select count(*) from storeReview where ref=3549;
+DROP TABLE store;
+SELECT * FROM storeReview;
 
