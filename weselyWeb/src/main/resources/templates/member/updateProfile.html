@@ -8,7 +8,7 @@
 
 	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
 	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
-
+	<script src="/js/templates/profile.js" defer></script>
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/style.css">
@@ -119,6 +119,12 @@
 			text-decoration: underline;
 		}
 
+		.profileImageBtn{
+			background: url("/images/profile.png") no-repeat;
+			overflow: hidden;
+			text-align: center;
+		}
+		
 		.deleteBtn:hover{
 			font-weight: bold;
 		}
@@ -232,6 +238,7 @@
 					<tr>
 						<td class="profileImage" colspan="2">
 							<label for="profileimage">프로필 사진</label>
+							<input type="button" class="profileImageBtn" style="height: 100px; background-color: white; border: none;"/>
 							<a href="#profile-change" data-bs-toggle="modal">
 								<img src="/images/profile.png" class="profile-photo" width="80" height="80"
 									style="border-radius: 70%; overflow: hidden;">
@@ -284,7 +291,10 @@
 					</tr>
 				</table>
 			</form>
-
+		</div>
+		
+		<div id="profileModal">
+			
 		</div>
 	</div>
 </body>
