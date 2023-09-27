@@ -36,6 +36,7 @@ CREATE TABLE community(
 	nickname varchar2(100) NOT NULL, -- 작성자
 	contents varchar2(300) NOT NULL, -- 글 내용
 	regDate timestamp DEFAULT sysdate , -- 작성일
+	commentCount NUMBER NOT NULL, -- 댓글 개수
 	readCount NUMBER DEFAULT 0 -- 조회수 증가 
 	);
 DROP TABLE COMMUNITY;
@@ -61,14 +62,22 @@ CREATE TABLE communityImg(
 	fileName varchar2(200) NOT NULL, -- 원본 파일명
 	contentType varchar2(200) NOT NULL -- 파일 종류
 );
+
 SELECT * FROM communityImg;
 DROP TABLE communityImg;
 SELECT community_id_seq.nextval,community_id_seq.currval  FROM dual;
 insert into CommunityImg values (CommunityImg_id_seq.nextval, Community_id_seq.currval,'e2ff4d1b-b89d-423e-9f11-197573a4c515','1.png','image/png');
 
-SELECT * FROM CommunityImg;
-SELECT * FROM Community;
-
+-- 좋아요 테이블
+CREATE SEQUENCE good_id_seq; 
+CREATE TABLE good(
+	id NUMBER PRIMARY KEY, -- 키필드
+	nickname varchar2(100) NOT NULL, -- 유저별명
+	REF NUMBER NOT NULL, -- 원본글 번호
+	whether NUMBER DEFAULT 0 -- 좋아요 여부
+);
+SELECT * FROM good;
+DROP TABLE good;
 --===============================================================================
 
 -- ✅ 리뷰가 작성가능한 시설섹션을 만들자
@@ -102,4 +111,10 @@ CREATE TABLE storeReview(
 
 DROP TABLE store;
 SELECT * FROM storeReview;
+=======
+SELECT * FROM store;
+SELECT * FROM storeReview;
+
+DROP TABLE store;
+
 
