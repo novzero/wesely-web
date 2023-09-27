@@ -60,8 +60,8 @@
 						<img src="/images/Profile.png">
 						<p>[[${community.nickname}]]</p>
 						<th:block th:if="${session.mvo != null}">
-							<input type="submit" value="확인" id="ok" formmethod="post" />
-							<input type="button" value="취소"
+							<input class="updateBtn" type="submit" value="확인" id="ok" formmethod="post" />
+							<input class="deleteBtn" type="button" value="취소"
 								th:onclick="|location.href='@{/community/view?id={id}(id=${community.id},mode=1)}'|" />
 						</th:block>
 					</div>
