@@ -59,6 +59,10 @@
 		select count(*) from wmember where phone=#{phone}
 	</select>
 	
+	<!-- 동일한 이메일 개수세기 : 이베일 중복 확인 -->
+	<select id="selectCountByEmail" parameterType="string" resultType="int">
+		select count(*) from wmember where email=#{email}
+	</select>	
 	
 	<!-- 1개얻기하기 : 수정/삭제/로그인 -->
 	<select  id="selectByIdx" parameterType="int" resultType="MemberVO">

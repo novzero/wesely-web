@@ -205,13 +205,13 @@
 
 
 
+			// 닉네임 검사 | 2글자 이상 5글자 이하로 작성
 			$("#nickname").keyup(function () {
 				var value = $(this).val();
 				var reg = /^[A-Za-z가-힣]{2,5}$/;
 				if (value != null && value.length >= 1) {
-					// 닉네임 검사 | 2글자 이상 5글자 이하로 작성
 					if (!reg.test(value)) {
-						$("#nickmessage").css('color', 'red').html("닉네임은 2~5자이며 한글 또는 영문만 가능합니다.");
+						$("#nickmessage").css('color', 'red').html("닉네임은 2~5자이며(공백X) 한글 또는 영문만 가능합니다.");
 						$(this).focus();
 						return false;
 					}
@@ -243,10 +243,31 @@
 			$('#email').keyup(function () {
 				var email = $("#email").val();
 				var regExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
-				if (!regExp.test(email)) {
-					$("#emailMsg").css('color', 'red').html("이메일 형식에 맞지않습니다.");
+				if (email != null && email.length >= 1) {
+					if (!regExp.test(email)) {
+						$("#emailMsg").css('color', 'red').html("이메일 형식에 맞지않습니다.");
+						return false;
+					}
+
+					// 이메일 중복 확인, ajax로 처리
+					$.ajax('emailCheck', {
+						type: "GET",
+						data: {
+							"email": email
+						},
+						success: function (data) {
+							if (data * 1 >= 1) {
+								$("#emailMsg").html("해당 이메일로 이미 가입된 계정이 있습니다.").css('color', 'red');
+							} else {
+								$("#emailMsg").html("사용가능한 이메일입니다.").css('color', 'green');
+							}
+						},
+						error: function () {
+							alert("에러!!!");
+						}
+					});
 				} else {
-					$("#emailMsg").css('color', 'green').html("사용가능한 이메일입니다.");
+					$("#emailMsg").html("");
 				}
 			});
 
@@ -322,17 +343,22 @@
 				$("#username").val("");
 				$("#username").focus();
 				return false;
-			} else if ($("#nickname").val() == null || $("#nickname").val().trim().length == 0) {
+			}
+			/*
+			else if ($("#nickname").val() == null || $("#nickname").val().trim().length == 0) {
 				alert("닉네임은 반드시 입력해야 합니다.");
 				$("#nickname").val("");
 				$("#nickname").focus();
 				return false;
-			} else if ($("#nickmessage").css('color') != 'rgb(0, 128, 0)') {
+			} 
+			else if ($("#nickmessage").css('color') != 'rgb(0, 128, 0)') {
 				alert('닉네임을 확인해주세요.');
 				$("#nickname").val("");
 				$("#nickname").focus();
 				return false;
-			} else if ($("#authority").val() == null) {
+			}
+			*/
+			else if ($("#authority").val() == null) {
 				alert("계정 유형을 선택해주세요.");
 				$("#authority").focus();
 				return false;
@@ -437,7 +463,7 @@
 					<tr>
 						<td>
 							<label for="nickname">닉네임</label>
-							<input type="text" id="nickname" name="nickname" placeholder="닉네임(필수)" />
+							<input type="text" id="nickname" name="nickname" placeholder="닉네임(선택)" />
 							<span id="nickmessage" />
 						</td>
 					</tr>

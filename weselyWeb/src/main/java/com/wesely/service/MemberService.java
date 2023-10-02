@@ -29,6 +29,9 @@ public interface MemberService {
 	// 전화번호 중복검사
 	int phoneCheck(String phone);
 	
+	// 이메일 중복검사
+	int emailCheck(String email);
+	
 	
 	// 아이디 찾기
 	MemberVO findUserId(MemberVO VO);

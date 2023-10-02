@@ -1,6 +1,7 @@
 package com.wesely.service;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -100,6 +101,15 @@ public class MemberServiceImpl implements MemberService {
 		log.info("{}의 phoneCheck 리턴 : {}", this.getClass().getName(), phonecount);
 		return phonecount;
 	}
+	
+	// 이메일 중복체크
+	@Override
+	public int emailCheck(String email) {
+		log.info("{}의 emailCheck 호출 : {}", this.getClass().getName(), email);
+		int emailcount = memberDAO.selectCountByEmail(email);
+		log.info("{}의 emailCheck 리턴 : {}", this.getClass().getName(), emailcount);
+		return emailcount;
+	}
 
 	// 아이디 찾기
 	@Override
@@ -164,16 +174,28 @@ public class MemberServiceImpl implements MemberService {
 		boolean result = false;
 		log.info("{}의 updateNickname호출 : {}", this.getClass().getName(), memberVO);
 		MemberVO dbVO = memberDAO.selectByUserid(memberVO.getUserid());
+		MemberVO dbVO2 = memberDAO.selectByNickname(memberVO.getNickname());
 
 		if (dbVO != null) {
-			// 게시판의 정보를 변경
-			HashMap<String, String> map = new HashMap<>();
-			map.put("newNickname", memberVO.getNickname());
-			map.put("oldNickname", dbVO.getNickname());
-			communityDAO.updateNickname(map);
-			memberDAO.updateNickname(memberVO);
-			// 회원정보변경
-			result = true;
+			// 닉네임이 존재할 때
+			if(dbVO2 != null) {
+				// 게시판의 정보를 변경
+				HashMap<String, String> map = new HashMap<>();
+				map.put("newNickname", memberVO.getNickname());
+				map.put("oldNickname", dbVO.getNickname());
+				communityDAO.updateNickname(map);
+				memberDAO.updateNickname(memberVO);
+				// 회원정보변경
+				result = true;				
+			}else {	// 닉네임이 존재하지 않을 때
+				HashMap<String, String> map = new HashMap<>();
+				map.put("newNickname", memberVO.getNickname());
+				map.put("oldNickname", dbVO.getUsername());
+				communityDAO.updateNickname(map);
+				memberDAO.updateNickname(memberVO);
+				// 회원정보변경
+				result = true;								
+			}
 		}
 		return result;
 	}
