@@ -20,12 +20,3 @@ function SendPost(path, params, method) {
 }	
 // 호출 : sendPost('.jsp',{"p":1,"s":10,"b":10},"post");
 //--------------------------------------------------------------------------
-
-// 이메일 검증 스크립트
-function verifyEmail(emailVal) { 
-	var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
-	// 검증에 사용할 정규식 변수 regExp에 저장 
-	return reg_email.test(emailVal);
-}
-
-//--------------------------------------------------------------------------
