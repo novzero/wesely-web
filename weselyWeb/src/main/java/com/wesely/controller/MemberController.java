@@ -83,6 +83,16 @@ public class MemberController {
 		log.info("{}의 phoneCheck 리턴 : {}", this.getClass().getName(), count);
 		return count + "";
 	}
+	
+	// 이메일 중복확인
+	@RequestMapping(value = "/emailCheck", produces = "text/plain;charset=UTF-8")
+	@ResponseBody
+	public String emailCheck(@RequestParam String email) {
+		log.info("{}의 emailCheck 호출 : {}", this.getClass().getName(), email);
+		int count = memberService.emailCheck(email);
+		log.info("{}의 emailCheck 리턴 : {}", this.getClass().getName(), count);
+		return count + "";
+	}
 
 	// 로그인 폼 처리하기
 	@GetMapping(value = "/login")
@@ -243,6 +253,8 @@ public class MemberController {
 			return "redirect:/member/updatePassword";
 		}
 	}
+	
+	
 
 	// 로그 아웃 처리
 	@GetMapping(value = "/logout")

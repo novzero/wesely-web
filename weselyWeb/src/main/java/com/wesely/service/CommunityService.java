@@ -1,5 +1,7 @@
 package com.wesely.service;
 
+import java.util.Map;
+
 import com.wesely.vo.CommentVO;
 import com.wesely.vo.CommunityVO;
 import com.wesely.vo.GoodVO;
@@ -39,6 +41,9 @@ public interface CommunityService {
 	
 	//좋아요 삭제
 	boolean goodDelete(GoodVO goodVO);
+	
+	//좋아요 확인
+	int goodCheck(Map<String, Object>map);
 	
 	
 }

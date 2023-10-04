@@ -27,6 +27,7 @@ public class StoreController {
 	public String getList() {
 		
 		
+		
 		return "/store/placeList";
 	}
 
