@@ -82,20 +82,22 @@ function formCheck() {
 							<label class="addImgItem" th:for="|inputFile${vs.count}|">
 								<input type="file" th:id="|inputFile${vs.count}|" class="inputFile" name="uploadFile">
 								<div>
-									<img class="fileImg" th:src='|/static/images/upload/${img.uuid}_${img.fileName}|'>
+									<img th:id="|img${vs.count}|" class="fileImg" th:src='|/static/images/upload/${img.uuid}_${img.fileName}|'>
 								</div>
 								</input>
 							</label>
 						</th:block>
-						<th:block th:each="num : ${#numbers.sequence(#lists.size(community.imgList)+1, 4)}">
-							<label class="addImgItem" th:for="|inputFile${num}|">
-								<input type="file" th:id="|inputFile${num}|" class="inputFile" name="uploadFile">
-								<ion-icon name="add-outline" class="addIcon"></ion-icon>
-								<div>
-									사진추가
-								</div>
-								</input>
-							</label>
+						<th:block th:if="${#lists.size(community.imgList)<4}">	
+							<th:block th:each="num : ${#numbers.sequence(#lists.size(community.imgList)+1, 4)}">
+								<label class="addImgItem" th:for="|inputFile${num}|">
+									<input type="file" th:id="|inputFile${num}|" class="inputFile" name="uploadFile">
+									<ion-icon name="add-outline" class="addIcon"></ion-icon>
+									<div>
+										사진추가
+									</div>
+									</input>
+								</label>
+							</th:block>
 						</th:block>
 					</div>
 					<input type="hidden" name="userid" th:value="${session.mvo.userid}">
@@ -111,6 +113,14 @@ function formCheck() {
 			</div>
 		</main>
 	</div>
+	<script th:inline="javascript">
+		/*<![CDATA[*/ 
+		const imgs = document.querySelector( );
+		
+		
+		
+		/*]]>*/
+	</script>
 </body>
 
 </html>
