@@ -90,39 +90,47 @@
 					<div class="addImgWrapper">
 						<label class="addImgItem" for="inputFile1">
 							<input type="file" accept=".png, .jpeg" id="inputFile1" class="inputFile" name="uploadFile">
-							<img id="imagePreview" src="https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg" class="image-box" />
-							<ion-icon name="add-outline" class="addIcon"></ion-icon>
-							<div>
+							<img id="imagePreview"
+								src=""
+								class="image-box" />
+							<ion-icon name="add-outline" class="addIcon" id="addIcon"></ion-icon>
+							<div id="addImg">
 								사진추가
 							</div>
 							</input>
 						</label>
 
 						<label class="addImgItem" for="inputFile2">
-							<img id="imagePreview2" src="https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg" class="image-box" />
+							<img id="imagePreview2"
+								src=""
+								class="image-box" />
 							<input type="file" accept=".png, .jpeg" id="inputFile2" class="inputFile" name="uploadFile">
-							<ion-icon name="add-outline" class="addIcon"></ion-icon>
-							<div>
+							<ion-icon name="add-outline" class="addIcon" id="addIcon2"></ion-icon>
+							<div id="addImg2">
 								사진추가
 							</div>
 							</input>
 						</label>
 
 						<label class="addImgItem" for="inputFile3">
-							<img id="imagePreview3" src="https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg" class="image-box" />
+							<img id="imagePreview3"
+								src=""
+								class="image-box" />
 							<input type="file" accept=".png, .jpeg" id="inputFile3" class="inputFile" name="uploadFile">
-							<ion-icon name="add-outline" class="addIcon"></ion-icon>
-							<div>
+							<ion-icon name="add-outline" class="addIcon" id="addIcon3"></ion-icon>
+							<div id="addImg3">
 								사진추가
 							</div>
 							</input>
 						</label>
 
 						<label class="addImgItem" for="inputFile4">
-							<img id="imagePreview4" src="https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg" class="image-box" />
+							<img id="imagePreview4"
+								src=""
+								class="image-box" />
 							<input type="file" accept=".png, .jpeg" id="inputFile4" class="inputFile" name="uploadFile">
-							<ion-icon name="add-outline" class="addIcon"></ion-icon>
-							<div>
+							<ion-icon name="add-outline" class="addIcon" id="addIcon4"></ion-icon>
+							<div id="addImg4">
 								사진추가
 							</div>
 							</input>
@@ -143,19 +151,46 @@
 		</main>
 	</div>
 	<script>
-		
-	const fileDOM = document.querySelector('#inputFile1');
-	const preview = document.querySelector('#imagePreview');
-	const preview1 = document.querySelector('#imagePreview2');
-	const preview2 = document.querySelector('#imagePreview3');
-	const preview3 = document.querySelector('#imagePreview4');
-
-	fileDOM.addEventListener('change', () => {
-		const imageSrc = URL.createObjectURL(fileDOM.files[0]);
-		preview.src = imageSrc;
-		preview1.src = imageSrc;
-	
-	});
+		const fileDOM = document.querySelector('#inputFile1');
+		const preview = document.querySelector('#imagePreview');
+		const addIcon = document.querySelector('#addIcon');
+		const addImg = document.querySelector('#addImg');
+		fileDOM.addEventListener('change', () => {
+			const imageSrc = URL.createObjectURL(fileDOM.files[0]);
+			preview.src = imageSrc;			
+			addIcon.style.display = 'none';
+			addImg.style.display = 'none';
+		});
+		const fileDOM1 = document.querySelector('#inputFile2');
+		const preview1 = document.querySelector('#imagePreview2');
+		const addIcon1 = document.querySelector('#addIcon2');
+		const addImg1 = document.querySelector('#addImg2');
+		fileDOM1.addEventListener('change', () => {
+			const imageSrc1 = URL.createObjectURL(fileDOM1.files[0]);
+			preview1.src = imageSrc1;
+			addIcon1.style.display = 'none';
+			addImg1.style.display = 'none';
+		});
+		const fileDOM2 = document.querySelector('#inputFile3');
+		const preview2 = document.querySelector('#imagePreview3');
+		const addIcon2 = document.querySelector('#addIcon3');
+		const addImg2 = document.querySelector('#addImg3');
+		fileDOM2.addEventListener('change', () => {
+			const imageSrc2 = URL.createObjectURL(fileDOM2.files[0]);
+			preview2.src = imageSrc2;
+			addIcon2.style.display = 'none';
+			addImg2.style.display = 'none';
+		});
+		const fileDOM3 = document.querySelector('#inputFile4');
+		const preview3 = document.querySelector('#imagePreview4');
+		const addIcon3 = document.querySelector('#addIcon4');
+		const addImg3 = document.querySelector('#addImg4');
+		fileDOM3.addEventListener('change', () => {
+			const imageSrc3 = URL.createObjectURL(fileDOM3.files[0]);
+			preview3.src = imageSrc3;
+			addIcon3.style.display = 'none';
+			addImg3.style.display = 'none';
+		});
 	</script>
 </body>
 
