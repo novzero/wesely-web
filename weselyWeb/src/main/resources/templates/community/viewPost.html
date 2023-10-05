@@ -132,11 +132,15 @@ function likeComment(obj) {
     obj.innerHTML = '<i class="fa-regular fa-heart"></i>';
     obj.style.color = "";
     obj.classList.remove("liked");
+    
+    
   } else {
     // 좋아요하지 않은 상태인 경우
     obj.innerHTML = '<i class="fa-solid fa-heart"></i>';
     obj.style.color = "red";
     obj.classList.add("liked");
+    
+    
   }
 }
 
