@@ -15,6 +15,7 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <script th:inline="javascript">
+
 	function formCheck() {
 		let value = $("#inputFile1").val(); // 내용 얻고
 		if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
@@ -40,6 +41,7 @@
 	}
 
 	/*]]>*/
+
 
 </script>
 
@@ -82,12 +84,13 @@
 					<img src="/images/Profile.png">
 					<p>[[${session.mvo.nickname}]]</p>
 				</div>
-				
+
 				<form action="/community/insertOk" onsubmit="return formCheck()" method="post"
 					enctype="multipart/form-data">
 					<div class="addImgWrapper">
 						<label class="addImgItem" for="inputFile1">
-							<input type="file" id="inputFile1" class="inputFile" name="uploadFile">
+							<input type="file" accept=".png, .jpeg" id="inputFile1" class="inputFile" name="uploadFile">
+							<img id="imagePreview" src="https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg" class="image-box" />
 							<ion-icon name="add-outline" class="addIcon"></ion-icon>
 							<div>
 								사진추가
@@ -96,7 +99,8 @@
 						</label>
 
 						<label class="addImgItem" for="inputFile2">
-							<input type="file" id="inputFile2" class="inputFile" name="uploadFile">
+							<img id="imagePreview2" src="https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg" class="image-box" />
+							<input type="file" accept=".png, .jpeg" id="inputFile2" class="inputFile" name="uploadFile">
 							<ion-icon name="add-outline" class="addIcon"></ion-icon>
 							<div>
 								사진추가
@@ -105,7 +109,8 @@
 						</label>
 
 						<label class="addImgItem" for="inputFile3">
-							<input type="file" id="inputFile3" class="inputFile" name="uploadFile">
+							<img id="imagePreview3" src="https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg" class="image-box" />
+							<input type="file" accept=".png, .jpeg" id="inputFile3" class="inputFile" name="uploadFile">
 							<ion-icon name="add-outline" class="addIcon"></ion-icon>
 							<div>
 								사진추가
@@ -114,7 +119,8 @@
 						</label>
 
 						<label class="addImgItem" for="inputFile4">
-							<input type="file" id="inputFile4" class="inputFile" name="uploadFile">
+							<img id="imagePreview4" src="https://i0.wp.com/adventure.co.kr/wp-content/uploads/2020/09/no-image.jpg" class="image-box" />
+							<input type="file" accept=".png, .jpeg" id="inputFile4" class="inputFile" name="uploadFile">
 							<ion-icon name="add-outline" class="addIcon"></ion-icon>
 							<div>
 								사진추가
@@ -124,7 +130,7 @@
 					</div>
 
 					<input type="hidden" name="userid" th:value="${session.mvo.userid}">
-					<input type="hidden" name="nickname" th:value="${session.mvo.nickname}">						
+					<input type="hidden" name="nickname" th:value="${session.mvo.nickname}">
 					<textarea id="addText" class="addText" name="contents"></textarea>
 
 					<div class="btnWrapper">
@@ -136,6 +142,21 @@
 			</div>
 		</main>
 	</div>
+	<script>
+		
+	const fileDOM = document.querySelector('#inputFile1');
+	const preview = document.querySelector('#imagePreview');
+	const preview1 = document.querySelector('#imagePreview2');
+	const preview2 = document.querySelector('#imagePreview3');
+	const preview3 = document.querySelector('#imagePreview4');
+
+	fileDOM.addEventListener('change', () => {
+		const imageSrc = URL.createObjectURL(fileDOM.files[0]);
+		preview.src = imageSrc;
+		preview1.src = imageSrc;
+	
+	});
+	</script>
 </body>
 
 </html>
