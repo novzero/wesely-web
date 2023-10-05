@@ -15,6 +15,7 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <script th:inline="javascript">
+
 	function formCheck() {
 		let value = $("#inputFile1").val(); // 내용 얻고
 		if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
@@ -40,6 +41,7 @@
 	}
 
 	/*]]>*/
+
 
 </script>
 
@@ -82,41 +84,53 @@
 					<img src="/images/Profile.png">
 					<p>[[${session.mvo.nickname}]]</p>
 				</div>
-				
+
 				<form action="/community/insertOk" onsubmit="return formCheck()" method="post"
 					enctype="multipart/form-data">
 					<div class="addImgWrapper">
 						<label class="addImgItem" for="inputFile1">
-							<input type="file" id="inputFile1" class="inputFile" name="uploadFile">
-							<ion-icon name="add-outline" class="addIcon"></ion-icon>
-							<div>
+							<input type="file" accept=".png, .jpeg" id="inputFile1" class="inputFile" name="uploadFile">
+							<img id="imagePreview"
+								src=""
+								class="image-box" />
+							<ion-icon name="add-outline" class="addIcon" id="addIcon"></ion-icon>
+							<div id="addImg">
 								사진추가
 							</div>
 							</input>
 						</label>
 
 						<label class="addImgItem" for="inputFile2">
-							<input type="file" id="inputFile2" class="inputFile" name="uploadFile">
-							<ion-icon name="add-outline" class="addIcon"></ion-icon>
-							<div>
+							<img id="imagePreview2"
+								src=""
+								class="image-box" />
+							<input type="file" accept=".png, .jpeg" id="inputFile2" class="inputFile" name="uploadFile">
+							<ion-icon name="add-outline" class="addIcon" id="addIcon2"></ion-icon>
+							<div id="addImg2">
 								사진추가
 							</div>
 							</input>
 						</label>
 
 						<label class="addImgItem" for="inputFile3">
-							<input type="file" id="inputFile3" class="inputFile" name="uploadFile">
-							<ion-icon name="add-outline" class="addIcon"></ion-icon>
-							<div>
+							<img id="imagePreview3"
+								src=""
+								class="image-box" />
+							<input type="file" accept=".png, .jpeg" id="inputFile3" class="inputFile" name="uploadFile">
+							<ion-icon name="add-outline" class="addIcon" id="addIcon3"></ion-icon>
+							<div id="addImg3">
 								사진추가
 							</div>
 							</input>
 						</label>
 
 						<label class="addImgItem" for="inputFile4">
-							<input type="file" id="inputFile4" class="inputFile" name="uploadFile">
-							<ion-icon name="add-outline" class="addIcon"></ion-icon>
-							<div>
+							<img id="imagePreview4"
+								src=""
+								class="image-box" />
+							<input type="file" accept=".png, .jpeg" id="inputFile4" class="inputFile" name="uploadFile">
+							<ion-icon name="add-outline" class="addIcon" id="addIcon4"></ion-icon>
+							<div id="addImg4">
 								사진추가
 							</div>
 							</input>
@@ -124,7 +138,7 @@
 					</div>
 
 					<input type="hidden" name="userid" th:value="${session.mvo.userid}">
-					<input type="hidden" name="nickname" th:value="${session.mvo.nickname}">						
+					<input type="hidden" name="nickname" th:value="${session.mvo.nickname}">
 					<textarea id="addText" class="addText" name="contents"></textarea>
 
 					<div class="btnWrapper">
@@ -136,6 +150,48 @@
 			</div>
 		</main>
 	</div>
+	<script>
+		const fileDOM = document.querySelector('#inputFile1');
+		const preview = document.querySelector('#imagePreview');
+		const addIcon = document.querySelector('#addIcon');
+		const addImg = document.querySelector('#addImg');
+		fileDOM.addEventListener('change', () => {
+			const imageSrc = URL.createObjectURL(fileDOM.files[0]);
+			preview.src = imageSrc;			
+			addIcon.style.display = 'none';
+			addImg.style.display = 'none';
+		});
+		const fileDOM1 = document.querySelector('#inputFile2');
+		const preview1 = document.querySelector('#imagePreview2');
+		const addIcon1 = document.querySelector('#addIcon2');
+		const addImg1 = document.querySelector('#addImg2');
+		fileDOM1.addEventListener('change', () => {
+			const imageSrc1 = URL.createObjectURL(fileDOM1.files[0]);
+			preview1.src = imageSrc1;
+			addIcon1.style.display = 'none';
+			addImg1.style.display = 'none';
+		});
+		const fileDOM2 = document.querySelector('#inputFile3');
+		const preview2 = document.querySelector('#imagePreview3');
+		const addIcon2 = document.querySelector('#addIcon3');
+		const addImg2 = document.querySelector('#addImg3');
+		fileDOM2.addEventListener('change', () => {
+			const imageSrc2 = URL.createObjectURL(fileDOM2.files[0]);
+			preview2.src = imageSrc2;
+			addIcon2.style.display = 'none';
+			addImg2.style.display = 'none';
+		});
+		const fileDOM3 = document.querySelector('#inputFile4');
+		const preview3 = document.querySelector('#imagePreview4');
+		const addIcon3 = document.querySelector('#addIcon4');
+		const addImg3 = document.querySelector('#addImg4');
+		fileDOM3.addEventListener('change', () => {
+			const imageSrc3 = URL.createObjectURL(fileDOM3.files[0]);
+			preview3.src = imageSrc3;
+			addIcon3.style.display = 'none';
+			addImg3.style.display = 'none';
+		});
+	</script>
 </body>
 
 </html>

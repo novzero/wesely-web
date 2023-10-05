@@ -14,6 +14,7 @@
    <script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
    <script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
    <script th:inline="javascript">
+	   
       $(function () {
          $("#btnAddPost").click(function () {
             //alert($(this).val)
@@ -110,22 +111,40 @@
          textarea.style.height = textarea.scrollHeight + 'px';
       }
 
-      // 좋아요 버튼 
-      function changeIcon() {
-         let heartIcon = document.getElementById('heartIcon');
+    function likePost() {
+  const pushHeartBtn = document.querySelector(".heartBtn");
+  if (pushHeartBtn.classList.contains("liked")) {
+    // 이미 좋아요한 상태인 경우
+    pushHeartBtn.innerHTML = '<i class="fa-regular fa-heart"></i>';
+    pushHeartBtn.style.color = "";
+    pushHeartBtn.classList.remove("liked");
+  } else {
+    // 좋아요하지 않은 상태인 경우
+    pushHeartBtn.innerHTML = '<i class="fa-solid fa-heart"></i>';
+    pushHeartBtn.style.color = "red";
+    pushHeartBtn.classList.add("liked");
+  }
+}
 
-         if (heartIcon.classList.contains('fa-regular fa-heart')) {
-            // 빈하트면 꽉찬하트로
-            heartIcon.classList.remove('fa-regular fa-heart');
-            heartIcon.classList.add('fa-solid fa-heart');
+function likeComment(obj) {
+  if (obj.classList.contains("liked")) {
+    // 이미 좋아요한 상태인 경우
+    obj.innerHTML = '<i class="fa-regular fa-heart"></i>';
+    obj.style.color = "";
+    obj.classList.remove("liked");
+    
+    
+  } else {
+    // 좋아요하지 않은 상태인 경우
+    obj.innerHTML = '<i class="fa-solid fa-heart"></i>';
+    obj.style.color = "red";
+    obj.classList.add("liked");
+    
+    
+  }
+}
 
-         } else {
-            // 꽉찬하트면 빈하트로
-            heartIcon.classList.remove('fa-solid fa-heart');
-            heartIcon.classList.add('fa-regular fa-heart');
-         }
-
-      }
+   
    </script>
 </head>
 
@@ -194,12 +213,9 @@
                   <input type="hidden" id="ref1" th:value="${community.id}" />
                   <input type="hidden" id="whether" />
                   <input type="hidden" id="nickname1" th:value="${session.mvo.nickname}" />
-                  <button type="button" id="like" onclick="changeIcon()">
-                     <!-- 빈 하트 -->
-                     <i id="heartIcon" class="fa-regular fa-heart"></i>
-                     <!-- 꽉찬하트 -->
-                     <!--<i id="heartIcon2" class="fa-solid fa-heart"></i>-->
-                  </button>
+                  <button class="heartBtn" onclick="likePost()">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
                   <!-- <img src="static/images/heart_icon.png" alt="좋아요아이콘"> -->
                </div>
                </th:block>
@@ -222,10 +238,9 @@
                            <p> [[${c.content}]]</p>
                         </div>
                      </div>
-                     <button type="button" class="btnCommentLike">
-                        <i class="fa-regular fa-heart"></i>
-                        <!-- <img src="static/images/heart_icon.png" alt="좋아요아이콘"> -->
-                     </button>
+                     <button type="button" class="btnCommentLike" onclick="likeComment(this)">
+                            <i class="fa-regular fa-heart"></i>
+                        </button>
 
                      <th:block th:if="${session.mvo.nickname == c.name}">
                         <button class="commentUpdate"
