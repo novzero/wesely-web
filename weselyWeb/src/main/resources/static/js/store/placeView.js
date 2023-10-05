@@ -52,7 +52,7 @@ function postReview() {
 	let userProfile = document.getElementById('userProfile').value; // 유저프로필(사진)
 	let ref = document.getElementById('ref').value; // 시설의 고유 key
 	let reviewForm = document.getElementById('reviewForm'); // 리뷰 폼 form
-	
+
 	// 별점의 value 없을 때 (클릭없을 시)
 	if (starRating.value == '') {
 		alert('별점은 필수사항입니다. 별점을 클릭해주세요.');
@@ -153,6 +153,21 @@ function sendPutRequest() {
 	let prevText = reviewContent.value; // 기존의 text 값 받기
 
 	console.log(prevStar, prevText);
+
+	// 별점의 value 없을 때 (클릭없을 시)
+	if (starRating.value == '') {
+		alert('별점은 필수사항입니다. 별점을 클릭해주세요.');
+		return false;
+	}
+
+	// text 없을 떄 
+	let v = reviewContent.value;
+	if (v == null || v.trim().length == 0) {
+		alert('내용은 필수사항입니다.');
+		reviewContent.value = '';
+		reviewContent.focus();
+		return false;
+	}
 
 	// FormData 객체를 만든다.
 	let form = new FormData();

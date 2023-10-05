@@ -13,6 +13,7 @@
 	<script src="/js/store/placeView.js" defer></script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
+	<script defer src="/js/store/storeSlide.js"></script>
 	<!-- Scripts -->
 	<script th:inline="javascript">
 		/*<![CDATA[*/
@@ -97,28 +98,19 @@
 		<!-- 👇여기부터 시설상세페이지 -->
 		<main>
 			<section class="slide">
-				<ul class="slideList">
-					<li class="slideItem">
+				<ul class="slide__list">
+					<li class="slide__item">
 						<img class="slideImg" src="/images/image123.png" alt="매장슬라이드이미지" />
 					</li>
-					<!-- <li class="slideItem">
-              <img
-                class="slideImg"
-                src="./images/storeImage.png"
-                alt="매장슬라이드이미지"
-              />
-            </li>
-            <li class="slideItem">
-              <img
-                class="slideImg"
-                src="./images/storeImage.png"
-                alt="매장슬라이드이미지"
-              />
-            </li> -->
+					<li class="slide__item">
+						<img class="slideImg" src="/images/exmainStore.png" alt="매장슬라이드이미지" />
+					</li>
+					<li class="slide__item">
+						<img class="slideImg" src="/images/exmainStore.png" alt="매장슬라이드이미지" />
+					</li>
 				</ul>
 
-				<!-- <i class="fas fa-arrow-left"></i>
-          <i class="fas fa-arrow-right"></i> -->
+		
 				<div class="buttons"></div>
 				<div class="paginations"></div>
 			</section>
@@ -176,7 +168,7 @@
 					</div>
 					<button class="btnAddReview">리뷰작성하기</button>
 				</div>
-				
+
 				<!-- 리뷰 데이터가 있을 때 리뷰목록 출력 -->
 				<div th:if="${not #lists.isEmpty(st.reviewList)}">
 					<div th:each="review : ${st.reviewList}" class="reviewBox">
@@ -223,7 +215,8 @@
 					<input type="hidden" id="starRating" name="star" />
 					<!-- 유저닉네임 value 담기 -->
 					<input th:if="${session.mvo == null}" type="hidden" id="nickname" name="nickname" value="닉네임없음" />
-					<input th:unless="${session.mvo == null}" type="hidden" id="nickname" name="nickname" th:value="${session.mvo.nickname}" />
+					<input th:unless="${session.mvo == null}" type="hidden" id="nickname" name="nickname"
+						th:value="${session.mvo.nickname}" />
 					<!-- 원본 시설글의 고유 id 담기 -->
 					<input type="hidden" id="ref" name="ref" th:value="${st.id}" />
 					<!-- 댓글의 고유 id 담기 -->
@@ -233,8 +226,8 @@
 				</div>
 				<textarea class="reviewTextBox" name="content" required></textarea>
 				<div class="modalBtn">
-					<input type="button" class="btnCanclePost" value="취소"/>
-					<input type="submit" id='submitBtn'  value="등록"/>
+					<input type="button" class="btnCanclePost" value="취소" />
+					<input type="submit" id='submitBtn' value="등록" />
 					<input type="button" id="modifyBtn" style="display: none" onclick="sendPutRequest()" value="수정" />
 				</div>
 			</form>
