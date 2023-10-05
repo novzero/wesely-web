@@ -51,7 +51,13 @@ public class MemberController {
 			// 서비스를 호출하여 저장을 수행한다.
 			memberService.insert(memberVO);
 		}
-		return "redirect:/member/login";
+		return "redirect:/member/joinComplete";
+	}
+
+	// 회원 가입 처리
+	@GetMapping("/joinComplete")
+	public String joinCompleteGet() {
+		return "member/joinComplete";
 	}
 
 	// 아이디 중복확인
@@ -83,7 +89,7 @@ public class MemberController {
 		log.info("{}의 phoneCheck 리턴 : {}", this.getClass().getName(), count);
 		return count + "";
 	}
-	
+
 	// 이메일 중복확인
 	@RequestMapping(value = "/emailCheck", produces = "text/plain;charset=UTF-8")
 	@ResponseBody
@@ -143,7 +149,7 @@ public class MemberController {
 					cookie.setMaxAge(60 * 60 * 24 * 7); // 유효기간 일주일(60초*60분*24시간*7일)
 				} else { // 자동저장이 아니라면
 					cookie = new Cookie("userid", "");
-					cookie.setMaxAge(0);	// 유효기간은 없음
+					cookie.setMaxAge(0); // 유효기간은 없음
 				}
 				// 쿠키를 저장
 				response.addCookie(cookie);
@@ -203,9 +209,9 @@ public class MemberController {
 		// 일치하면 메일을 발송한다.
 		MimeMessage message = javaMailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-		helper.setFrom("sksmsdlcodud@gmail.com");	//보내는 사람
-		helper.setTo(dbVO.getEmail());	// 받는 사람
-		helper.setSubject(dbVO.getUsername() + "님 비밀번호 안내입니다.");	// 메일제목
+		helper.setFrom("sksmsdlcodud@gmail.com"); // 보내는 사람
+		helper.setTo(dbVO.getEmail()); // 받는 사람
+		helper.setSubject(dbVO.getUsername() + "님 비밀번호 안내입니다."); // 메일제목
 		// 메일 내용 만들기
 		StringBuffer sb = new StringBuffer();
 		sb.append(dbVO.getUsername() + "님 비밀번호 안내입니다.<br>");
@@ -238,6 +244,17 @@ public class MemberController {
 		}
 	}
 
+	// 프로필 사진 등록
+	@RequestMapping("/member/photoView.do")
+	public String getProfile(HttpSession session, HttpServletRequest request, Model model) {
+		// 로그인한 회원 정보 세션에서 가져오기
+		MemberVO dbVO = (MemberVO) session.getAttribute("dbVO");
+		if (dbVO != null) {
+
+		}
+		return "imageView";
+	}
+
 	// 비밀번호변경 폼
 	@GetMapping(value = "/updatePassword")
 	public String updatePassword() {
@@ -253,8 +270,6 @@ public class MemberController {
 			return "redirect:/member/updatePassword";
 		}
 	}
-	
-	
 
 	// 로그 아웃 처리
 	@GetMapping(value = "/logout")
@@ -288,5 +303,7 @@ public class MemberController {
 
 		return "comm/community";
 	}
+	
+
 
 }

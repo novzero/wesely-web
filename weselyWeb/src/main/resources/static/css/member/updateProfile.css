@@ -1,0 +1,196 @@
+#updateProfile {
+			width: 400px;
+			margin-right: auto;
+			margin-left: auto;
+			margin-top: 50px;
+			padding: 50px;
+			border: none;
+			text-align: center;
+		}
+
+		#updateProfile .title {
+			color: #4D54A5;
+			font-weight: bold;
+			font-size: 20px;
+			text-align: left;
+			height: 80px;
+		}
+
+		#updateProfile input {
+			display: block;
+			width: 100%;
+			height: 35px;
+			margin-bottom: 10px;
+			border: 1px solid gainsboro;
+			border-radius: 7px;
+			padding: 0 20px;
+			/* 앞상하 뒷좌우 */
+			box-sizing: border-box;
+			font-size: 15px;
+			background-color: rgb(243, 243, 243);
+		}
+
+		#updateProfile .nickName input {
+			background-color: white;
+		}
+
+		#updateProfile .nickName input:focus {
+			border-color: #4D54A5;
+			outline: none;
+		}
+
+		#updateProfile input:focus {
+			outline: none;
+		}
+
+
+		#updateProfile label {
+			display: block;
+			font-size: 14px;
+			color: #333;
+			text-align: left;
+			margin-bottom: 5px;
+		}
+
+		input::placeholder {
+			color: lightgray;
+			font-size: 13px;
+		}
+
+		/* 회원수정 버튼 */
+		#updateProfile .updateBtn {
+			width: 100%;
+			height: 40px;
+			background-color: #4D54A5;
+			border-radius: 7px;
+			border: none;
+			color: white;
+			font-weight: bold;
+			margin-top: 10px;
+			transition: all 0.3s;
+		}
+
+		.updateBtn:hover {
+			transform: scale(1.03);
+		}
+
+		/* 비밀번호 변경 버튼 */
+		#updateProfile .updatePwBtn {
+			height: 40px;
+			border: 1px solid #4D54A5;
+			background-color: white;
+			color: #4D54A5;
+			font-weight: bold;
+			transition: all 0.3s;
+		}
+
+		.updatePwBtn:hover {
+			transform: scale(1.03);
+		}
+
+		/* 프로필사진 버튼 */
+		.profileImageBtn {
+			background: url("/images/profile.png") no-repeat;
+			overflow: hidden;
+			text-align: center;
+		}
+
+		/* 회원탈퇴 버튼 */
+		.deleteBtn {
+			color: rgb(128, 128, 128);
+			font-size: 15px;
+			text-decoration: underline;
+		}
+
+		.deleteBtn:hover {
+			font-weight: bold;
+		}
+
+		/* 프로필 사진 버튼*/
+		#btn-modal {
+			background-color: white;
+			border: none;
+			transition: all 0.2s;
+		}
+
+		#btn-modal:hover {
+			transform: scale(1.02);
+		}
+
+		/* 모달창 */
+		#modal.modal-overlay {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			left: 0;
+			top: 0;
+			display: none;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			background: rgba(255, 255, 255, 0.25);
+			box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+			backdrop-filter: blur(1.5px);
+			-webkit-backdrop-filter: blur(1.5px);
+			border-radius: 10px;
+			border: 1px solid rgba(255, 255, 255, 0.18);
+		}
+
+		#modal .modal-window {
+			background: white;
+			box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+			backdrop-filter: blur(13.5px);
+			-webkit-backdrop-filter: blur(13.5px);
+			border-radius: 10px;
+			border: 1px solid white;
+			width: 300px;
+			height: 300px;
+			position: relative;
+			top: -50px;
+			padding: 20px;
+		}
+
+		#modal .title {
+			padding-left: 10px;
+			display: inline;
+			text-shadow: 1px 1px 2px gray;
+			color: #4D54A5;
+
+		}
+
+		#modal .title h2 {
+			display: inline;
+			font-size: 20px;
+		}
+
+		#modal .close-area {
+			display: inline;
+			float: right;
+			padding-right: 10px;
+			cursor: pointer;
+			text-shadow: 1px 1px 2px gray;
+			color: #4D54A5;
+		}
+
+		#modal .content {
+			margin-top: 20px;
+			padding: 0px 10px;
+			color: white;
+		}
+
+		#modal .ModalBtn {
+			margin-top: 20px;
+			padding: 0px 10px;
+		}
+
+		#modal .resetBtn {
+			background-color: white;
+			border: 1px solid #4D54A5;
+			color: #4D54A5;
+		}
+
+		#modal .submitBtn {
+			background-color: #4D54A5;
+			color: white;
+			border: none;
+		}

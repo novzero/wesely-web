@@ -38,7 +38,7 @@ public class MemberServiceImpl implements MemberService {
 		if(dbVO != null) {
 			// 입력한 비밀번호가 db정보와 일치한다면
 			if(dbVO.getPassword().equals(memberVO.getPassword())) {
-				communityDAO.deleteNickname(dbVO.getNickname());
+				//communityDAO.deleteNickname(dbVO.getNickname());
 				memberDAO.delete(memberVO);	// 탈퇴
 				result = true;
 			}

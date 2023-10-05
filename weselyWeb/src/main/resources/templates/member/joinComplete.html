@@ -29,14 +29,9 @@
 			text-align: left;
 		}
 
-		.image {
-			position: absolute;
-			margin-left: 240px;
-			margin-top : -30px;
-		}
-		
-		.info .content{
-			margin-top: 50px;
+
+		.info .content {
+			margin-top: 30px;
 		}
 
 		.info .loginBtn {
@@ -45,7 +40,7 @@
 			height: 40px;
 			border: none;
 			border-radius: 7px;
-			margin-top: 20px;
+			margin-top: 30px;
 			color: white;
 			font-weight: bold;
 			background-color: #4D54A5;
@@ -60,6 +55,7 @@
 </head>
 
 <body>
+
 	<header>
 		<div class="logo">
 			<a href="/">
@@ -72,30 +68,36 @@
 			<a href="/"><strong>고객센터</strong></a>
 		</nav>
 		<nav class="login">
-			<a href="/member/login"><strong>로그인</strong></a>
-			<a href="/member/join"><strong>회원가입</strong></a>
-			<a href="/"><strong>비즈니스 계정</strong></a>
+			<th:block th:if="${session.mvo == null}">
+				<a href="/member/login"><strong>로그인</strong></a>
+				<a href="/member/join"><strong>회원가입</strong></a>
+			</th:block>
+			<th:block th:if="${session.mvo != null}">
+				<a href="/member/updateProfile"><strong>마이페이지</strong></a>
+				<a href="/member/logout"><strong>로그아웃</strong></a>
+				<a href="/"><strong>비즈니스 계정</strong></a>
+			</th:block>
 		</nav>
 	</header>
-	
-	<main>
-		<div class="info">
-			<div class="title">아이디 찾기</div>
-			<div class="image">
-				<img src="/images/wesely_logo.png" alt="wesely로고" width="50px">
-			</div>
-		
-			<div class="content">
-				[[${vo.username}]]님의 아이디는 <br />
-				[ <b style="color: #4D54A5;">[[${vo.userid}]]</b> ]<br />
-				입니다. <br />
-			</div>
-			<div class="btn">
-				<input type="button" value="로그인 하러가기" class="loginBtn" onclick="location.href='/member/login'" />
-			</div>
-		</div>
-	</main>
 
+	<div class="info">
+		<div class="image">
+			<img src="/images/wesely_logo.png" alt="wesely로고" width="50px">
+		</div>
+		<div class="content">
+			<h2>
+				<span style="color: #4D54A5;">
+					
+				</span>
+				 님 반갑습니다!
+			</h2>
+			<br />
+			<h4>회원가입이 완료되었습니다.</h4>
+		</div>
+		<div>
+			<input type="button" value="로그인" class="loginBtn" onclick="location.href='/member/login'" />
+		</div>
+	</div>
 </body>
 
 </html>
