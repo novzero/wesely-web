@@ -13,358 +13,10 @@
 
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
-	<link rel="stylesheet" href="/css/style.css">
-
-	<style type="text/css">
-		#joinform {
-			width: 400px;
-			margin-right: auto;
-			margin-left: auto;
-			margin-top: 50px;
-			padding: 20px;
-			border: none;
-			text-align: center;
-		}
-
-		table {
-			width: 100%;
-			margin: auto;
-			padding: 15px;
-		}
-
-		#joinform input {
-			display: block;
-			width: 100%;
-			height: 35px;
-			margin-top: 10px;
-			margin-bottom: 10px;
-			border: 1px solid gainsboro;
-			border-radius: 7px;
-			padding: 0 20px;
-			/* 앞상하 뒷좌우 */
-			box-sizing: border-box;
-			font-size: 15px;
-		}
-
-		#joinform input:focus {
-			border-color: #4D54A5;
-			outline: none;
-		}
-
-		#joinform label {
-			display: block;
-			font-size: 14px;
-			color: #333;
-			text-align: left;
-			margin-bottom: 5px;
-		}
-
-		#joinform .joinBtn {
-			width: 100%;
-			height: 40px;
-			border-radius: 7px;
-			border: none;
-			color: white;
-			font-weight: bold;
-			background-color: #4D54A5;
-			margin-top: 10px;
-			transition: all 0.3s;
-		}
-
-		.joinBtn:hover {
-			transform: scale(1.03);
-		}
-
-		td {
-			padding: 5px;
-		}
-
-		#pwIcon {
-			position: absolute;
-			margin-left: 120px;
-			margin-top: -36px;
-		}
-
-		#pw1Icon {
-			position: absolute;
-			margin-left: 120px;
-			margin-top: -36px;
-		}
-
-		input::placeholder {
-			color: lightgray;
-			font-size: 13px;
-		}
-
-		span {
-			font-size: 13px;
-			float: left;
-		}
-
-		a {
-			color: #4D54A5;
-		}
-
-		a:hover {
-			font-weight: bold;
-		}
-	</style>
+	<link rel="stylesheet" href="/css/member/join.css">
+	<script src="/js/member/join.js" defer></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script>
 
-		$(function () {
-			$("#userid").keyup(function () {
-				var value = $(this).val();
-				// 아이디 유효성검사 | 6-12자의 영문 또는 숫자 구성
-				var reg = /^[A-Za-z0-9]{6,12}$/;
-				if (value != null && value.length >= 1) {
-					if (!reg.test(value)) {
-						$("#idMessage").html("아이디는 6~12자 이며, 영문 또는 숫자만 가능합니다.").css('color', 'red');
-						$(this).focus();
-						return false;
-					}
-					// 아이디 중복확인 : Ajax로 처리
-					$.ajax('idCheck', {
-						type: "GET",
-						data: {
-							"userid": value
-						},
-						success: function (data) {
-							if (data * 1 >= 1) {
-								$("#idMessage").html("이미 존재하는 아이디입니다.").css('color', 'red');
-							} else {
-								$("#idMessage").html("사용가능한 아이디입니다.").css('color', 'green');
-							}
-						},
-						error: function () {
-							alert("에러!!!");
-						}
-					});
-				} else {
-					$("#idMessage").html(""); // 1자 미만이면 메세지 삭제
-				}
-			});
-
-
-			// 비밀번호 유효성검사 | 영문/숫자/특수문자를 포함하여 8~20자
-			$("#password").keyup(function () {
-				var pw = $("#password").val();
-				var reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-				if (pw != null && pw.length >= 1) {
-					if (pw.length >= 8 && pw.length <= 20) {
-						if (!reg.test(pw)) {
-							$("#pwMessage").css('color', 'red').html("비밀번호는 영문/숫자/특수문자를 모두 포함해야합니다.");
-						} else {
-							$("#pwMessage").css('color', 'green').html("사용가능한 비밀번호입니다.");
-						}
-					} else {
-						$("#pwMessage").css('color', 'red').html("비밀번호는 8자~20자로 작성해야합니다.");
-					}
-				} else {
-					$("#pwMessage").html(""); // 1자 미만이면 메세지 삭제
-				}
-			});
-
-			// 비밀번호 확인 검사
-			$("#password1").keyup(function () {
-				var pw = $("#password").val();
-				var pw1 = $("#password1").val();
-				if (pw1 != null && pw1.length >= 1) {
-					if (pw1 != pw) {
-						$("#pw1Message").css('color', 'red').html("비밀번호가 일치하지 않습니다.");
-					} else {
-						$("#pw1Message").css('color', 'green').html("비밀번호가 일치합니다.");
-					}
-				} else {
-					$("#pw1Message").html(""); // 1자 미만이면 메세지 삭제
-				}
-			});
-
-
-			// 비밀번호 보기/숨기기 구현
-			$("#pwIcon").on("click", function () {
-				if ($("#password").attr("type") == "password") {
-					$("#password").attr("type", "text");
-					$($(this)).attr('src', '/images/view.png');
-				} else {
-					$("#password").attr("type", "password");
-					$($(this)).attr('src', '/images/hide.png');
-				}
-			});
-
-			// 비밀번호확인 보기/숨기기 구현
-			$("#pw1Icon").on("click", function () {
-				if ($("#password1").attr("type") == "password") {
-					$("#password1").attr("type", "text");
-					$($(this)).attr('src', '/images/view.png');
-				} else {
-					$("#password1").attr("type", "password");
-					$($(this)).attr('src', '/images/hide.png');
-				}
-			});
-
-
-
-			$("#nickname").keyup(function () {
-				var value = $(this).val();
-				var reg = /^[A-Za-z가-힣]{2,5}$/;
-				if (value != null && value.length >= 1) {
-					// 닉네임 검사 | 2글자 이상 5글자 이하로 작성
-					if (!reg.test(value)) {
-						$("#nickmessage").css('color', 'red').html("닉네임은 2~5자이며 한글 또는 영문만 가능합니다.");
-						$(this).focus();
-						return false;
-					}
-					// 별명 중복 확인, ajax로 처리
-					$.ajax('nicknameCheck', {
-						type: "GET",
-						data: {
-							"nickname": value
-						},
-						success: function (data) {
-							if (data * 1 >= 1) {
-								$("#nickmessage").html("이미 존재하는 닉네임입니다.").css('color', 'red');
-							} else {
-								$("#nickmessage").html("사용가능한 닉네임입니다.").css('color', 'green');
-							}
-						},
-						error: function () {
-							alert("에러!!!");
-						}
-					});
-				} else {
-					$("#nickmessage").html(""); // 1자 미만이면 메세지 삭제
-				}
-
-			});
-
-
-			// 이메일 유효성검사
-			$('#email').keyup(function () {
-				var email = $("#email").val();
-				var regExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
-				if (!regExp.test(email)) {
-					$("#emailMsg").css('color', 'red').html("이메일 형식에 맞지않습니다.");
-				} else {
-					$("#emailMsg").css('color', 'green').html("사용가능한 이메일입니다.");
-				}
-			});
-
-
-			// 전화번호검사
-			$('#phone').keyup(function () {
-				var value = $(this).val();
-				var regphone = /^01([0|1|6|7|8|9])([0-9]{4})([0-9]{4})$/;
-				if (!regphone.test(value)) {
-					$("#phoneMsg").css('color', 'red').html("전화번호(11자리)가 올바르지 않습니다.");
-					$(this).focus();
-					return false;
-				}
-				// 전화번호 중복 확인, ajax로 처리
-				$.ajax('phoneCheck', {
-					type: "GET",
-					data: {
-						"phone": value
-					},
-					success: function (data) {
-						if (data * 1 >= 1) {
-							$("#phoneMsg").html("이미 존재하는 전화번호입니다.").css('color', 'red');
-						} else {
-							$("#phoneMsg").html("사용가능한 전화번호입니다.").css('color', 'green');
-						}
-					},
-					error: function () {
-						alert("에러!!!");
-					}
-				});
-			});
-
-
-		});
-
-
-
-		// 폼체크
-		function formCheck() {
-			// 아이디 폼체크
-			if ($("#userid").val() == null || $("#userid").val().trim().length == 0) {
-				alert("아이디는 반드시 입력해야 합니다.");
-				$("#userid").val("");
-				$("#userid").focus();
-				return false;
-			} else if ($("#idMessage").css('color') != 'rgb(0, 128, 0)') {
-				alert("아이디를 확인해주세요.");
-				$("#userid").val("");
-				$("#userid").focus();
-				return false;
-			} else if ($("#password").val() == null || $("#password").val().trim().length == 0) {
-				alert("비밀번호는 반드시 입력해야 합니다.");
-				$("#password").val("");
-				$("#password").focus();
-				return false;
-			} else if ($("#pwMessage").css('color') != 'rgb(0, 128, 0)') {
-				alert('비밀번호를 확인해주세요.');
-				$("#password").val("");
-				$("#password").focus();
-				return false;
-			} else if ($("#password1").val() == null || $("#password1").val().trim().length == 0) {
-				alert("비밀번호 확인은 반드시 입력해야 합니다.");
-				$("#password1").val("");
-				$("#password1").focus();
-				return false;
-			} else if ($("#pw1Message").css('color') != 'rgb(0, 128, 0)') {
-				alert('비밀번호를 확인해주세요.');
-				$("#password1").val("");
-				$("#password1").focus();
-				return false;
-			} else if ($("#username").val() == null || $("#username").val().trim().length == 0) {
-				alert("사용자 이름은 반드시 입력해야 합니다.");
-				$("#username").val("");
-				$("#username").focus();
-				return false;
-			} else if ($("#nickname").val() == null || $("#nickname").val().trim().length == 0) {
-				alert("닉네임은 반드시 입력해야 합니다.");
-				$("#nickname").val("");
-				$("#nickname").focus();
-				return false;
-			} else if ($("#nickmessage").css('color') != 'rgb(0, 128, 0)') {
-				alert('닉네임을 확인해주세요.');
-				$("#nickname").val("");
-				$("#nickname").focus();
-				return false;
-			} else if ($("#authority").val() == null) {
-				alert("계정 유형을 선택해주세요.");
-				$("#authority").focus();
-				return false;
-			} else if ($("#email").val() == null || $("#email").val().trim().length == 0) {
-				alert("이메일 주소는 반드시 입력해야 합니다.");
-				$("#email").val("");
-				$("#email").focus();
-				return false;
-			} else if ($("#emailMsg").css('color') != 'rgb(0, 128, 0)') {
-				alert('이메일 주소를 다시 확인해주세요.');
-				$("#email").val("");
-				$("#email").focus();
-				return false;
-			} else if ($("#phone").val() == null || $("#phone").val().trim().length == 0) {
-				alert("전화번호는 반드시 입력해야 합니다.");
-				$("#phone").val("");
-				$("#phone").focus();
-				return false;
-			} else if ($("#phoneMsg").css('color') != 'rgb(0, 128, 0)') {
-				alert('전화번호를 다시 확인해주세요.');
-				$("#phone").val("");
-				$("#phone").focus();
-				return false;
-			} else if (window.confirm("회원가입을 완료하시겠습니까? 로그인창으로 이동합니다.")) {
-				location.href = "/member/login";
-			} else {
-				return false;
-			};
-
-		}
-
-	</script>
 </head>
 
 <body>
@@ -389,7 +41,7 @@
 				<th:block th:if="${session.mvo != null}">
 					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
 					<a href="/member/logout"><strong>로그아웃</strong></a>
-					<a href="/"><strong>비즈니스 계정</strong></a>
+					<a href="/business/main"><strong>비즈니스 계정</strong></a>
 				</th:block>
 			</nav>
 		</header>
@@ -397,95 +49,74 @@
 
 
 
-		<div id="joinform">
+		<div class="wrap">
 			<form action="/member/joinOk" method="post" onsubmit="return formCheck()">
-				<table class="inputform">
-					<tr>
-						<td class="title"><img src="/images/wesely_logo.png" alt="wesely로고" width="50px"></td>
-					</tr>
+				<div class="title">
+					<img src="/images/wesely_logo.png" alt="wesely로고" width="50px">
+				</div>
+				<div class="userid">
+					<label for="userid">아이디</label>
+					<input type="text" id="userid" name="userid" placeholder="6~12자의 영문 또는 숫자" />
+					<div class="message" id="idMessage" />
+				</div>
+				<div class="password">
+					<label for="password">비밀번호</label>
+					<input type="password" id="password" name="password" placeholder="영문, 숫자, 특수문자 포함 8~20자 입력" />
+					<img id="pwIcon" src="/images/hide.png" width="20px">
+					<div class="message" id="pwMessage" />
+				</div>
+				<div class="password1">
+					<label for="password1">비밀번호 확인</label>
+					<input type="password" id="password1" name="password1" placeholder="비밀번호 재입력" />
+					<img id="pw1Icon" src="/images/hide.png" width="20px">
+					<div class="message" id="pw1Message" />
+				</div>
+				<div class="username">
+					<label for="username">이름</label>
+					<input type="text" id="username" name="username" placeholder="이름(필수)" />
+				</div>
+				<div class="nickname">
+					<label for="nickname">닉네임</label>
+					<input type="text" id="nickname" name="nickname" placeholder="닉네임(선택)" />
+					<div class="message" id="nickmessage" />
+				</div>
+				<div class="authority">
+					<label for="authority">계정 유형</label>
+					<select id="authority" name="authority" onchange="showValue(this)"
+						style="width:100%; height: 35px; border: 1px solid gainsboro; border-radius: 7px; text-align: center;"
+						required>
+						<option selected disabled>계정 유형을 선택하세요.</option>
+						<option value="일반계정">일반 계정</option>
+						<option value="비즈니스계정">비즈니스 계정</option>
+					</select>
+				</div>
+				<div class="email">
+					<label for="email">이메일</label>
+					<input type="text" id="email" name="email" size="40" placeholder="ex. weselymember@wesely.com" />
+					<div class="message" id="emailMsg" />
+				</div>
+				<div class="phone">
+					<label for="phone">전화번호</label>
+					<input type="text" id="phone" name="phone" placeholder="'-' 기호 없이 숫자만 입력" />
+					<div class="message" id="phoneMsg" />
+				</div>
 
-					<tr>
-						<td>
-							<label for="userid">아이디</label>
-							<input type="text" id="userid" name="userid" placeholder="6~12자의 영문 또는 숫자" />
-							<span id="idMessage" />
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="password">비밀번호</label>
-							<input type="password" id="password" name="password"
-								placeholder="영문, 숫자, 특수문자 포함 8~20자 입력" />
-							<img id="pwIcon" src="/images/hide.png" width="20px">
-							<span id="pwMessage" />
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="password1">비밀번호 확인</label>
-							<input type="password" id="password1" name="password1" placeholder="비밀번호 재입력" />
-							<img id="pw1Icon" src="/images/hide.png" width="20px">
-							<span id="pw1Message" />
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="username">이름</label>
-							<input type="text" id="username" name="username" placeholder="이름(필수)" />
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="nickname">닉네임</label>
-							<input type="text" id="nickname" name="nickname" placeholder="닉네임(필수)" />
-							<span id="nickmessage" />
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="authority">계정 유형</label>
-							<select id="authority" name="authority"
-								style="width:100%; height: 35px; border: 1px solid gainsboro; border-radius: 7px; text-align: center;"
-								required>
-								<option selected disabled>계정 유형을 선택하세요.</option>
-								<option value="일반계정">일반 계정</option>
-								<option value="비즈니스계정">비즈니스 계정</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="email">이메일</label>
-							<input type="text" id="email" name="email" size="40"
-								placeholder="ex. weselymember@wesely.com" />
-							<span id="emailMsg" />
-						</td>
-					</tr>
-					<tr>
-						<td>
-							<label for="phone">전화번호</label>
-							<input type="text" id="phone" name="phone" placeholder="'-' 기호 없이 숫자만 입력" />
-							<span id="phoneMsg" />
-						</td>
-					</tr>
+				<!-- 전송 입력폼 -->
+				<div class="btn">
+					<div class="abc" ></div>
+					<input type="submit" value="회원가입" class="joinBtn" />
+				</div>
+				<div id="btn">
+					<input type="button" value="다음" class="nextBtn"/>					
+				</div>
 
-					<!-- 전송 입력폼 -->
-					<tr>
-						<td>
-							<input type="submit" value="회원가입" class="joinBtn" />
-						</td>
-					</tr>
-
-					<!-- 약관동의설명 -->
-					<tr>
-						<td>
-							<label>회원가입과 동시에 wesely의 <a href="/member/agreement">개인정보 수집 및 처리</a>에 동의한 것으로
-								간주합니다.</label>
-						</td>
-					</tr>
-				</table>
+				<!-- 약관동의설명 -->
+				<div>
+					<label>회원가입과 동시에 wesely의 <a href="/member/agreement">개인정보 수집 및 처리</a>에 동의한 것으로 간주합니다.</label>
+				</div>
 			</form>
 		</div>
+
 
 	</div>
 </body>

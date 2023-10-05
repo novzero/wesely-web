@@ -13,7 +13,8 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<!-- 아이콘 -->
 	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
-
+	<script defer src="js/main.js"></script>
+	<script defer src="js/mainSlide.js"></script>
 </head>
 
 <body>
@@ -30,24 +31,27 @@
 				<a href="/community/"><strong>커뮤니티</strong></a>
 				<a href="/"><strong>고객센터</strong></a>
 			</nav>
-			
+
 			<nav class="hello">
 				<th:block th:if = "${session.mvo != null}">
-					<span style="font-size: 15px;">
-						<input type="text" th:value="${session.mvo.nickname}" style="border: none; background:none; width:105px; text-align: right; font-size: 15px;" disabled/> 님 환영합니다.
+					<span>
+						<!-- 별명을 설정하지 않은 회원은 이름으로 출력한다. -->
+						<input th:if="${session.mvo.nickname == null}" type="text" th:value="${session.mvo.username}" disabled/>
+						<input th:unless="${session.mvo.nickname == null}" type="text" th:value="${session.mvo.nickname}" disabled/>
+						님 환영합니다.
 					</span>
-				</th:block>			
+				</th:block>	
 			</nav>
-			
+
 			<nav class="login">
 				<th:block th:if="${session.mvo == null}">
 					<a href="/member/login"><strong>로그인</strong></a>
-					<a href="/member/join"><strong>회원가입</strong></a>			
+					<a href="/member/join"><strong>회원가입</strong></a>
 				</th:block>
 				<th:block th:if="${session.mvo != null}">
 					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
-					<a href="/member/logout"><strong>로그아웃</strong></a>			
-					<a href="/"><strong>비즈니스 계정</strong></a>
+					<a href="/member/logout"><strong>로그아웃</strong></a>
+					<a href="/member/bJoin"><strong>비즈니스 계정</strong></a>
 				</th:block>
 			</nav>
 		</header>
@@ -95,20 +99,46 @@
 					</div>
 
 					<div class="buttonBox">
-						<button class="btnLeft">
+						<button class="btnLeft" onclick="handlePrev()">
 							<img src="images/RBtn.png" alt="좌측화살표" />
 						</button>
 
-						<button class="btnRight">
+						<button class="btnRight" onclick="handleNext()">
 							<img src="images/LBtn.png" alt="우측화살표" />
 						</button>
 					</div>
-
 				</div>
 
 				<div class="slideShow">
 					<ul class="slide__list">
-						<li class="slide__item on">
+						<!-- 이 클래스에 on이 붙으면 설명나옴 -->
+						<li class="slide__item">
+							<a>
+								<img class="slide__image" src="/images/panda-bear-gd69cd903a_1280.jpg" />
+							</a>
+							<div class="slideBoxText on">
+								<h2>나다운핏짐</h2>
+								<div class="slideBoxTextSub">
+									<p>평점 <span>4.7</span></p>
+									<p>중구 대흥동</p>
+								</div>
+							</div>
+						</li>
+
+						<li class="slide__item">
+							<a>
+								<img class="slide__image" src="/images/KakaoTalk_20230908_174957696_01.png" />
+							</a>
+							<div class="slideBoxText on">
+								<h2>나다운핏짐</h2>
+								<div class="slideBoxTextSub">
+									<p>평점 <span>4.7</span></p>
+									<p>중구 대흥동</p>
+								</div>
+							</div>
+						</li>
+
+						<li class="slide__item">
 							<a>
 								<img class="slide__image" src="/images/exmainStore.png" />
 							</a>
@@ -122,16 +152,107 @@
 						</li>
 
 						<li class="slide__item">
-							<img class="slide__image" src="/images/exmainStore.png" />
+							<a>
+								<img class="slide__image" src="/images/exmainStore.png" />
+							</a>
+							<div class="slideBoxText on">
+								<h2>나다운핏짐</h2>
+								<div class="slideBoxTextSub">
+									<p>평점 <span>4.7</span></p>
+									<p>중구 대흥동</p>
+								</div>
+							</div>
+						</li>
+						<li class="slide__item">
+							<a>
+								<img class="slide__image" src="/images/exmainStore.png" />
+							</a>
+							<div class="slideBoxText on">
+								<h2>나다운핏짐</h2>
+								<div class="slideBoxTextSub">
+									<p>평점 <span>4.7</span></p>
+									<p>중구 대흥동</p>
+								</div>
+							</div>
+						</li>
+						<li class="slide__item">
+							<a>
+								<img class="slide__image" src="/images/exmainStore.png" />
+							</a>
+							<div class="slideBoxText on">
+								<h2>나다운핏짐</h2>
+								<div class="slideBoxTextSub">
+									<p>평점 <span>4.7</span></p>
+									<p>중구 대흥동</p>
+								</div>
+							</div>
+						</li>
+						<li class="slide__item">
+							<a>
+								<img class="slide__image" src="/images/exmainStore.png" />
+							</a>
+							<div class="slideBoxText on">
+								<h2>나다운핏짐</h2>
+								<div class="slideBoxTextSub">
+									<p>평점 <span>4.7</span></p>
+									<p>중구 대흥동</p>
+								</div>
+							</div>
 						</li>
 
 						<li class="slide__item">
-							<img class="slide__image" src="/images/exmainStore.png" />
+							<a>
+								<img class="slide__image" src="/images/exmainStore.png" />
+							</a>
+							<div class="slideBoxText on">
+								<h2>나다운핏짐</h2>
+								<div class="slideBoxTextSub">
+									<p>평점 <span>4.7</span></p>
+									<p>중구 대흥동</p>
+								</div>
+							</div>
 						</li>
 
 						<li class="slide__item">
-							<img class="slide__image" src="/images/exmainStore.png" />
+							<a>
+								<img class="slide__image" src="/images/exmainStore.png" />
+							</a>
+							<div class="slideBoxText on">
+								<h2>나다운핏짐</h2>
+								<div class="slideBoxTextSub">
+									<p>평점 <span>4.7</span></p>
+									<p>중구 대흥동</p>
+								</div>
+							</div>
 						</li>
+
+						<li class="slide__item">
+							<a>
+								<img class="slide__image" src="/images/exmainStore.png" />
+							</a>
+							<div class="slideBoxText on">
+								<h2>나다운핏짐</h2>
+								<div class="slideBoxTextSub">
+									<p>평점 <span>4.7</span></p>
+									<p>중구 대흥동</p>
+								</div>
+							</div>
+						</li>
+
+						<li class="slide__item">
+							<a>
+								<img class="slide__image" src="/images/run.png" />
+							</a>
+							<div class="slideBoxText on">
+								<h2>나다운핏짐</h2>
+								<div class="slideBoxTextSub">
+									<p>평점 <span>4.7</span></p>
+									<p>중구 대흥동</p>
+								</div>
+							</div>
+						</li>
+
+
 					</ul>
 				</div>
 			</section>
@@ -349,7 +470,6 @@
 			</div>
 		</footer>
 	</div>
-	<script src="js/main.js"></script> 
 
 </body>
 

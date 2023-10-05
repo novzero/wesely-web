@@ -27,6 +27,7 @@ public interface MemberDAO {
 	// <!-- 1개 가져오기 : 수정/회원탈퇴/로그인 ... -->
 	MemberVO selectByIdx(int idx);
 	MemberVO selectByUserid(String userid);
+	MemberVO selectByUsername(String username);
 	MemberVO selectByNickname(String nickname);
 	MemberVO selectByPassword(String password);
 	MemberVO selectByPhone(String phone);
@@ -41,6 +42,9 @@ public interface MemberDAO {
 	// <!-- 동일한 전화번호 개수 얻기 : 전화번호 중복 확인 -->
 	int selectCountByPhone(String phone);
 	
+	// <!-- 동일한 이메일 개수 얻기 : 이메일 중복 확인 -->
+	int selectCountByEmail(String email);
+	
 	
 	// <!-- 전체 개수 얻기 : 관리자 모드 -->
 	int selectCount();
@@ -48,7 +52,5 @@ public interface MemberDAO {
 	// <!-- 전체 가져오기 : 관리자가 회원 목록보기(나중에 조건별, 페이징 처리) -->
 	List<MemberVO> selectAll();
 	
-	// <!-- 이름으로 찾기 -->
-	List<MemberVO> selectByUsername(String username);
 	
 }

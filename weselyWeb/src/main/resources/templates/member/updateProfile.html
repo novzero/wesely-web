@@ -8,196 +8,11 @@
 
 	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
 	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
-	<script src="/js/templates/profile.js" defer></script>
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
-	<link rel="stylesheet" href="/css/style.css">
-	<style type="text/css">
-		#updateProfile {
-			width: 400px;
-			margin-right: auto;
-			margin-left: auto;
-			margin-top: 50px;
-			padding: 20px;
-			border: none;
-			text-align: center;
-		}
+	<link rel="stylesheet" href="/css/member/updateProfile.css">
+	<script src="/js/member/updateProfile.js" defer></script>
 
-		table {
-			width: 100%;
-			margin: auto;
-			padding: 15px;
-		}
-
-		td {
-			padding: 5px;
-		}
-
-
-		#updateProfile .title {
-			color: #4D54A5;
-			font-weight: bold;
-			font-size: 20px;
-			text-align: left;
-		}
-
-		#updateProfile input {
-			display: block;
-			width: 100%;
-			height: 35px;
-			margin-bottom: 10px;
-			border: 1px solid gainsboro;
-			border-radius: 7px;
-			padding: 0 20px;
-			/* 앞상하 뒷좌우 */
-			box-sizing: border-box;
-			font-size: 15px;
-			background-color: rgb(243, 243, 243);
-		}
-
-		#updateProfile .nickName input {
-			background-color: white;
-		}
-
-		#updateProfile .nickName input:focus {
-			border-color: #4D54A5;
-			outline: none;
-		}
-
-		#updateProfile input:focus {
-			outline: none;
-		}
-
-
-		#updateProfile label {
-			display: block;
-			font-size: 14px;
-			color: #333;
-			text-align: left;
-			margin-bottom: 5px;
-		}
-
-		input::placeholder {
-			color: lightgray;
-			font-size: 13px;
-		}
-
-		#updateProfile .updateBtn {
-			width: 100%;
-			height: 40px;
-			border-radius: 7px;
-			border: none;
-			color: white;
-			font-weight: bold;
-			background-color: #4D54A5;
-			margin-top: 10px;
-			transition: all 0.3s;
-		}
-
-		.updateBtn:hover {
-			transform: scale(1.03);
-		}
-
-		#updateProfile .updatePwBtn {
-			width: 100%;
-			height: 40px;
-			border-radius: 7px;
-			border: 1px solid #4D54A5;
-			color: #4D54A5;
-			font-weight: bold;
-			background-color: rgb(255, 255, 255);
-			transition: all 0.3s;
-		}
-
-		.updatePwBtn:hover {
-			transform: scale(1.03);
-		}
-
-		#updateProfile .deleteBtn {
-			color: rgb(128, 128, 128);
-			font-size: 15px;
-			text-decoration: underline;
-		}
-
-		.profileImageBtn{
-			background: url("/images/profile.png") no-repeat;
-			overflow: hidden;
-			text-align: center;
-		}
-		
-		.deleteBtn:hover{
-			font-weight: bold;
-		}
-	</style>
-
-	<script>
-		$(function () {
-			// 별명 검사
-			$("#nickname").keyup(function () {
-				var value = $(this).val();
-				// 닉네임 검사 | 2글자 이상 8글자 이하로 작성
-				if (value.length < 2 || value.length > 8) {
-					$("#nickmessage").css('color', 'red').html("닉네임은 2~8자로 입력해야합니다.");
-					$(this).focus()
-					return false;
-				} else if (value.indexOf(" ") > 0) {
-					$("#nickmessage").css('color', 'red').html("닉네임에는 공백을 포함할 수 없습니다.");
-					$(this).focus();
-					return false;					
-				}
-				
-				// 별명 중복 확인, ajax로 처리
-				$.ajax('nicknameCheck', {
-					type: "GET",
-					data: {
-						"nickname": value
-					},
-					success: function (data) {
-						if (data * 1 >= 1) {
-							$("#nickmessage").html("이미 존재하는 닉네임입니다.").css('color', 'red');
-						} else {
-							$("#nickmessage").html("사용가능한 닉네임입니다.").css('color', 'green');
-						}
-					},
-					error: function () {
-						alert("에러!!!");
-					}
-				});
-
-			});
-		});
-
-
-		function formCheck() {
-			let value = $("#nickname").val();
-			if (value == null || value.trim().length == 0) {
-				alert("닉네임은 반드시 입력해야 합니다.");
-				$("#nickname").val("");
-				$("#nickname").focus();
-				return false;
-			} else if ($("#nickmessage").css('color') != 'rgb(0, 128, 0)') {
-				alert("닉네임을 확인해주세요.");
-				$("#nickname").val("");
-				$("#nickname").focus();
-				return false;
-			} else if (window.confirm("회원정보를 수정하시겠습니까? 다시 로그인해야합니다.")) {
-				location.href = "/member/login";
-			} else {
-				return false;
-			};
-
-		};
-
-		function deleteMember() {
-			if (window.confirm("wesely를 탈퇴하시겠습니까?")) {
-				location.href = "/member/delete";
-			} else {
-				location.href = "redirect:/member/updateProfile";
-			}
-		}
-
-
-	</script>
 </head>
 
 <body>
@@ -226,76 +41,87 @@
 			</nav>
 		</header>
 
+		<!-- 프로필 수정 페이지 -->
+		<main>
 
-		<div id="updateProfile">
-			<form action="/member/updateProfileOk" method="post" onsubmit="return formCheck()">
-				<table class="editform">
-					<tr>
-						<td class="title">프로필 수정</td>
-						<td class="image"><img src="/images/wesely_logo.png" alt="wesely로고" width="50px"></td>
-					</tr>
+			<div id="updateProfile">
+				<div>
+					<div class="title">프로필 수정
+						<img src="/images/wesely_logo.png" alt="wesely로고" width="50px" style="float: right;">
+					</div>
+				</div>
 
-					<tr>
-						<td class="profileImage" colspan="2">
-							<label for="profileimage">프로필 사진</label>
-							<input type="button" class="profileImageBtn" style="height: 100px; background-color: white; border: none;"/>
-							<a href="#profile-change" data-bs-toggle="modal">
-								<img src="/images/profile.png" class="profile-photo" width="80" height="80"
-									style="border-radius: 70%; overflow: hidden;">
-							</a>
-					</tr>
+				<div>
+					<div class="profileImage" colspan="2">
+						<label for="profileimage">프로필 사진</label>
+						<button id="btn-modal">
+							<img src="${pageContext.request.contextPath}/member/photoView.do" class="profile-photo" width="80" height="80"
+								style="border-radius: 70%; overflow: hidden;" />
+						</button>
+					</div>
+				</div>
 
-					<tr>
-						<td class="nickName" colspan="2">
-							<input type="hidden" id="userid" name="userid" th:value="${session.mvo.userid}" />
-							<label for="nickname">닉네임</label>
-							<input type="text" id="nickname" name="nickname" th:placeholder="${session.mvo.nickname}" th:value="${nickname}" />
-							<span id="nickmessage" style="float: left; font-size: 13px;" />
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<label for="username">이름</label>
-							<input type="text" id="username" name="username" th:placeholder="${session.mvo.username}"
-								readonly />
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<label for="phone">전화번호</label>
-							<input type="text" id="phone" name="phone" th:placeholder="${session.mvo.phone}" readonly />
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<label for="email">이메일</label>
-							<input type="email" id="email" name="email" size="40" th:placeholder="${session.mvo.email}"
-								readonly />
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<input type="submit" value="수정 완료" class="updateBtn" />
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<input type="button" class="updatePwBtn" onclick="location.href='/member/updatePassword'"
-								value="비밀번호변경">
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2">
-							<span class="deleteBtn" onclick="deleteMember();">회원탈퇴</span>
-						</td>
-					</tr>
-				</table>
-			</form>
-		</div>
-		
-		<div id="profileModal">
-			
-		</div>
+				<!-- 모달창 -->
+				<div id="modal" class="modal-overlay">
+					<div class="modal-window">
+						<div class="title">
+							<h2>프로필 사진 등록</h2>
+						</div>
+						<div class="close-area">X</div>
+						<div class="content">
+							<img src = "${pageContext.request.contextPath}/member/photoView.do" class="profile-photo" style="width: 80px; height: 80px;">
+							<input type="hidden" name="userid" th:value="${session.mvo.userid}" />
+							<input type="file" id="upload" accept="image/gif, image/png, image/jpeg" />
+						</div>
+						<div class="ModalBtn">
+							<button type="button" id="photo_submit" value="등록" />
+						</div>
+					</div>
+				</div>
+
+
+				<form action="/member/updateProfileOk" method="post" onsubmit="return formCheck()">
+
+					<div class="nickName">
+						<input type="hidden" id="userid" name="userid" th:value="${session.mvo.userid}" />
+
+						<label for="nickname">닉네임</label>
+						<!-- 닉네임 없으면 유저이름 출력 -->
+						<input th:if="${session.mvo.nickname}==null" type="text" id="nickname"
+							th:placeholder="|아직 ${session.mvo.username}님의 닉네임이 설정되지 않았어요!|" />
+						<!-- 닉네임이 있다면 닉네임을 기본으로 보여주자. -->
+						<input th:unless="${session.mvo.nickname}==null" type="text" id="nickname"
+							th:value="${session.mvo.nickname}" style="color: lightgray;" />
+						<span id="nickmessage" style="float: left; font-size: 13px;" />
+					</div>
+					<div>
+						<label for="username">이름</label>
+						<input type="text" id="username" name="username" th:placeholder="${session.mvo.username}"
+							readonly />
+					</div>
+					<div>
+						<label for="phone">전화번호</label>
+						<input type="text" id="phone" name="phone" th:placeholder="${session.mvo.phone}" readonly />
+					</div>
+					<div>
+						<label for="email">이메일</label>
+						<input type="email" id="email" name="email" size="40" th:placeholder="${session.mvo.email}"
+							readonly />
+					</div>
+					<div>
+						<input type="submit" value="수정 완료" class="updateBtn" />
+					</div>
+					<div>
+						<input type="button" class="updatePwBtn" onclick="location.href='/member/updatePassword'"
+							value="비밀번호변경">
+					</div>
+					<div>
+						<span class="deleteBtn" onclick="deleteMember();">회원탈퇴</span>
+					</div>
+				</form>
+			</div>
+		</main>
+
 	</div>
 </body>
 

@@ -117,12 +117,12 @@ if (navigator.geolocation) {
 
          var introText = document.querySelector(".introText");
           introText.innerHTML = "선선한 날씨! <br />야외활동은 어떠세요?";
-          document.querySelector(".introText").appendChild(introText);
+          //document.querySelector(".introText").appendChild(introText);
 
           let keyframes = [
-            { transform: "translateY(0%)" },
-            { transform: "translateY(10%)" },
-            { transform: "translateY(5%)" },
+            { transform: "translateY(-5%)", rotate: "-2deg" },
+            { transform: "translate(5%,0%)", rotate: "2deg" },
+            { transform: "translateY(2%)", rotate: "-2deg" },
           ];
 
           let keyframes1 = [
@@ -131,12 +131,12 @@ if (navigator.geolocation) {
           ];
 
           let options = {
-            duration: 800,
+            duration: 2000,
             iterations: Infinity,
           };
 
           let options1 = {
-            duration: 3000,
+            duration: 2000,
             iterations: Infinity,
           };
 
@@ -172,7 +172,7 @@ if (navigator.geolocation) {
 
           var introText = document.querySelector(".introText");
           introText.innerHTML = "흐린 날씨! <br />차분한 실내운동은 어떠세요?";
-          document.querySelector(".introText").appendChild(introText);
+          //document.querySelector(".introText").appendChild(introText);
 
           let keyFrames = [
             { transform: "translateX(0%)" },
@@ -197,7 +197,7 @@ if (navigator.geolocation) {
 
           var introText = document.querySelector(".introText");
           introText.innerHTML = "화창한 날씨! <br />야외활동은 어떠세요?";
-          document.querySelector(".introText").appendChild(introText);
+          //document.querySelector(".introText").appendChild(introText);
 
           let keyFrames = [
             { top: "-80px", left: "-100px" },
@@ -230,7 +230,7 @@ if (navigator.geolocation) {
 
           var introText = document.querySelector(".introText");
           introText.innerHTML = "흐린 날씨! <br />차분한 실내운동은 어떠세요?";
-          document.querySelector(".introText").appendChild(introText);
+          //document.querySelector(".introText").appendChild(introText);
 
           let keyFrames = [
             { transform: "translateX(0%)" },
