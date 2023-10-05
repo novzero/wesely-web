@@ -110,7 +110,6 @@ CREATE TABLE storeReview(
 
 DROP TABLE store;
 SELECT * FROM storeReview;
-=======
 SELECT * FROM store;
 SELECT * FROM storeReview;
 
