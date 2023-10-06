@@ -1,10 +1,14 @@
 package com.wesely.service;
 
+import com.wesely.vo.BusinessVO;
 import com.wesely.vo.MemberVO;
 
 public interface MemberService {
 	// 회원가입
 	void insert(MemberVO memberVO);
+	
+	// 비즈니스 계정정보 저장
+	void insert(BusinessVO businessVO, String bno, String bname, String bdate);
 	
 	// 닉네임 수정
 	boolean updateNickname(MemberVO memberVO);

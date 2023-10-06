@@ -57,7 +57,7 @@ $(function() {
 
 		if (value != null && value.length >= 1) {
 			if (!reg.test(value)) {
-				$("#nickmessage").css('color', 'red').html("닉네임은 2~5자(공백X)이며 한글 또는 영문만 가능합니다.");
+				$("#nickmessage").css('color', 'red').html("공백제외 2~5자로 한글 또는 영문만 가능합니다.");
 				$(this).focus();
 				return false;
 			}
