@@ -233,22 +233,7 @@ function formCheck() {
 		$("#username").val("");
 		$("#username").focus();
 		return false;
-	}
-	/*
-	else if ($("#nickname").val() == null || $("#nickname").val().trim().length == 0) {
-		alert("닉네임은 반드시 입력해야 합니다.");
-		$("#nickname").val("");
-		$("#nickname").focus();
-		return false;
-	} 
-	else if ($("#nickmessage").css('color') != 'rgb(0, 128, 0)') {
-		alert('닉네임을 확인해주세요.');
-		$("#nickname").val("");
-		$("#nickname").focus();
-		return false;
-	}
-	*/
-	else if ($("#authority").val() == null) {
+	} else if ($("#authority").val() == null) {
 		alert("계정 유형을 선택해주세요.");
 		$("#authority").focus();
 		return false;
@@ -272,7 +257,7 @@ function formCheck() {
 		$("#phone").val("");
 		$("#phone").focus();
 		return false;
-	} else if (window.confirm("회원가입을 완료하시겠습니까?")) {
+	} else if (window.confirm("회원가입을 완료하시겠습니까? \n[비즈니스계정]은 사업자정보입력화면으로 이동합니다.")) {
 		location.href = "/member/joinOk";
 	} else {
 		return false;

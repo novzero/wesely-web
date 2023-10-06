@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wesely.service.MemberService;
+import com.wesely.vo.BusinessVO;
 import com.wesely.vo.CommVO;
 import com.wesely.vo.MemberVO;
 
@@ -51,13 +52,30 @@ public class MemberController {
 			// 서비스를 호출하여 저장을 수행한다.
 			memberService.insert(memberVO);
 		}
-		return "redirect:/member/joinComplete";
+		if(memberVO.getNickname()==null) {
+			memberVO.setNickname(memberVO.getUsername());	// 닉네임이 없으면 이름을 저장하자.
+		}
+		if (memberVO.getAuthority().equals("비즈니스계정")) {
+			return "member/businessJoin";
+		} else {
+			return "redirect:/member/joinComplete";
+		}
 	}
 
-	// 회원 가입 처리
+	// 회원가입완료 처리
 	@GetMapping("/joinComplete")
 	public String joinCompleteGet() {
 		return "member/joinComplete";
+	}
+
+	@PostMapping("/businessJoinOk")
+	public String businessJoinOkPost(@ModelAttribute BusinessVO businessVO, @RequestParam String bno, @RequestParam String bname, @RequestParam String bdate) {
+		log.info("businessJoinOkPost({})호출", businessVO);
+		if (businessVO != null) {
+			// 서비스를 호출하여 저장을 수행한다.
+			memberService.insert(businessVO, bno, bname, bdate);
+		}
+		return "redirect:/member/joinComplete";
 	}
 
 	// 아이디 중복확인
@@ -135,7 +153,7 @@ public class MemberController {
 	}
 
 	@PostMapping(value = "/loginOk")
-	public String loginOkPost(@ModelAttribute MemberVO memberVO, HttpServletResponse response, HttpSession session) {
+	public String loginOkPost(@ModelAttribute MemberVO memberVO, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
 		if (memberVO != null) {
 			// 서비스를 호출하여 로그인을 수행한다.
 			MemberVO dbVO = memberService.login(memberVO);
@@ -155,7 +173,7 @@ public class MemberController {
 				response.addCookie(cookie);
 
 			} else {// 로그인에 실패했다면 로그인 폼으로 다시 보낸다.
-				return "redirect:/member/login";
+				return "/member/login";
 			}
 		}
 		return "redirect:/";
@@ -297,13 +315,17 @@ public class MemberController {
 		}
 	}
 
+	// 비즈니스계정인증으로 이동
+	@GetMapping(value = "/businessJoin")
+	public String businessJoin() {
+		return "/member/businessJoin";
+	}
+
 	// 커뮤니티 목록보기
 	@RequestMapping(value = { "/", "/list" })
 	public String getList(@ModelAttribute CommVO cv, Model model) {
 
 		return "comm/community";
 	}
-	
-
 
 }
