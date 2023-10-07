@@ -14,7 +14,7 @@ public interface MemberDAO {
 	void insert(MemberVO memberVO);
 	
 	// <!-- 수정하기 : 회원정보 수정 -->
-	void updateNickname(MemberVO memberVO);
+	void updateNickname(HashMap<String, String> map);
 	void updatePassword(MemberVO memberVO);
 	
 	// 임시 비번으로 비밀번호 변경
