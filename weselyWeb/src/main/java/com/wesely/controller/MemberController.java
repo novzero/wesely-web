@@ -46,30 +46,35 @@ public class MemberController {
 	}
 
 	@PostMapping("/joinOk")
-	public String joinOkPost(@ModelAttribute MemberVO memberVO) {
+	public String joinOkPost(@ModelAttribute MemberVO memberVO, Model model) {
 		log.info("joinOkPost({})호출", memberVO);
 		if (memberVO != null) {
+			// 닉네임이 비어있을 경우
+			if(memberVO.getNickname().equals("")) {
+				// 닉네임 자리에 이름을 넣어준다.
+				memberVO.setNickname(memberVO.getUsername());
+			}
+			
 			// 서비스를 호출하여 저장을 수행한다.
 			memberService.insert(memberVO);
-		}
-		if(memberVO.getNickname()==null) {
-			memberVO.setNickname(memberVO.getUsername());	// 닉네임이 없으면 이름을 저장하자.
 		}
 		if (memberVO.getAuthority().equals("비즈니스계정")) {
 			return "member/businessJoin";
 		} else {
-			return "redirect:/member/joinComplete";
+			model.addAttribute("username", memberVO.getUsername());
+			return "member/joinComplete";
 		}
 	}
 
 	// 회원가입완료 처리
 	@GetMapping("/joinComplete")
-	public String joinCompleteGet() {
+	public String joinCompleteGet(MemberVO memberVO, Model model) {
 		return "member/joinComplete";
 	}
 
 	@PostMapping("/businessJoinOk")
-	public String businessJoinOkPost(@ModelAttribute BusinessVO businessVO, @RequestParam String bno, @RequestParam String bname, @RequestParam String bdate) {
+	public String businessJoinOkPost(@ModelAttribute BusinessVO businessVO, @RequestParam String bno,
+			@RequestParam String bname, @RequestParam String bdate) {
 		log.info("businessJoinOkPost({})호출", businessVO);
 		if (businessVO != null) {
 			// 서비스를 호출하여 저장을 수행한다.
@@ -153,7 +158,8 @@ public class MemberController {
 	}
 
 	@PostMapping(value = "/loginOk")
-	public String loginOkPost(@ModelAttribute MemberVO memberVO, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+	public String loginOkPost(@ModelAttribute MemberVO memberVO, HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) {
 		if (memberVO != null) {
 			// 서비스를 호출하여 로그인을 수행한다.
 			MemberVO dbVO = memberService.login(memberVO);
