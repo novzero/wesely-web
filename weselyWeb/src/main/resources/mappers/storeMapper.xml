@@ -29,7 +29,7 @@
 		insert into 
 			store 
 		values 
-			(store_id_seq.nextval,#{name},#{address},#{opening},#{tel},#{description},#{hashTag})
+			(store_id_seq.nextval,#{userid},#{name},#{address},#{opening},#{tel},#{description},#{hashTag})
 	</insert>
 	<!-- 5. 수정하기 -->
 	<update id="update" parameterType="StoreVO">

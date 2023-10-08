@@ -50,9 +50,20 @@
 				// 현재 위치 00시 00동으로 검색
 				let region = result[0].region_1depth_name + result[0].region_3depth_name;
 
-				ps.keywordSearch(region + '수영', placesSearchCB, {
-					page: 1, size: 15
+				/*
+				// and 연산만 지원해서 안됨
+				ps.keywordSearch(region + " 수영 요가 헬스 필라테스", placesSearchCB, {
+						page: 1, size: 15
 				});
+				*/
+				/*
+				for(s  of "수영,요가,헬스,필라테스".split(",")){
+					ps.keywordSearch(region + s, placesSearchCB, {
+						page: 1, size: 15
+					});
+				}
+				*/
+
 				ps.keywordSearch(region + '요가', placesSearchCB, {
 					page: 1, size: 15
 				});
@@ -62,6 +73,7 @@
 				ps.keywordSearch(region + '필라테스', placesSearchCB, {
 					page: 1, size: 15
 				});
+
 			}
 		};
 
@@ -69,6 +81,7 @@
 			if (status === kakao.maps.services.Status.OK) {
 
 				data.forEach(place => {
+					console.log(place);
 					saveToDatabase(place);
 				});
 			}
@@ -78,6 +91,7 @@
 		function saveToDatabase(place) {
 			const store = {
 				// id: place.id,
+				userid: "",
 				name: place.place_name,
 				address: place.address_name,
 				opening: "",
@@ -187,17 +201,21 @@
 			fetch('/api/store?lastNum=' + lastNum)
 				.then(response => response.json())
 				.then(data => {
-					//console.log(data);
+					console.log(data);
 					let content = "";
 					data.forEach(store => {
-						if (store.rating == null) {
-							store.rating = 0;
+						let imgSrc;
+						if (store.imgList.length > 0) {
+							imgSrc = `/static/images/upload/${store.imgList[0].uuid}_${store.imgList[0].fileName}`;
+						} else {
+							console.log('imgList is empty');
+							imgSrc = '/images/noImg.png';
 						}
 						content += `
                     <div class="placeItem" id="placeItem">
                         <a href="/store/view/${store.id}">
-                            <div class="hoverImgBox">
-                                <img src="/images/teni.png" alt="시설이미지" />
+                            <div class="hoverImgBox">         
+                              <img src="${imgSrc}" alt="시설이미지" />
                             </div>
                             <div class="placeTextBox">
                                 <div class="storeTitle">

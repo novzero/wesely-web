@@ -36,6 +36,7 @@ public class APIController {
 	// 해당 쿼리 파라미터가 없으면 기본값으로 12
 	@GetMapping(value = "/store")
 	public List<StoreVO> getList(@RequestParam(defaultValue = "12") int lastNum) {
+		
 		return storeService.selectMore(lastNum);
 	}
 
@@ -45,12 +46,11 @@ public class APIController {
 	@PostMapping(value = "/addStores")
 	public ResponseEntity<?> addStores(@RequestBody List<StoreVO> stores) {
 		for (StoreVO store : stores) {
-			log.info("=================== {}", store);
 			try {
-				// Save each facility to the database only if it does not already exist.
+				// db에 없는 시설만 저장
 				this.storeService.save(store);
 			} catch (Exception e) {
-				log.error("Error while saving a facility", e);
+				log.error("시설저장중 발생 에러", e);
 			}
 		}
 
@@ -104,10 +104,11 @@ public class APIController {
         return result;
     }
     
+    // 리뷰 수정위해 해당 리뷰 1개 가져오기
     @GetMapping(value="/reviewByID/{id}")
     @ResponseBody
     public StoreReviewVO reviewByID(@PathVariable("id") Long id) {
-        log.info("reviewByID 호출 : {}", id);
+        log.info("해당 리뷰 1개 가져오기=== reviewByID 호출 : {}", id);
         StoreReviewVO storeReviewVO = null;
         try {
         	storeReviewVO = storeService.getReview(id);

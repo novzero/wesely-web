@@ -1,17 +1,29 @@
 package com.wesely.controller;
 
-
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.wesely.service.StoreService;
+import com.wesely.vo.CommVO;
+import com.wesely.vo.CommunityImgVO;
+import com.wesely.vo.CommunityVO;
 import com.wesely.vo.StoreVO;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -26,8 +38,6 @@ public class StoreController {
 	@RequestMapping(value = "/")
 	public String getList() {
 		
-		
-		
 		return "/store/placeList";
 	}
 
@@ -37,7 +47,7 @@ public class StoreController {
 	    StoreVO store = storeService.findById(id);
 	    
 	    if (store != null) {
-	    	log.info("==================================");
+	    	log.info("운동시설 상세보기==================================");
 	    	log.info("findById 호출 : {}", id);
 	        model.addAttribute("st", store);
 	        return "/store/placeView";
@@ -52,4 +62,5 @@ public class StoreController {
 
 		return "/store/placeSearch";
 	}
+	
 }

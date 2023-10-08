@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>운동시설상세보기</title>
+	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="/css/font.css" />
+	<link rel="stylesheet" href="/css/header.css" />
+	<link rel="stylesheet" href="/css/store/placeView.css" />
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
+	
+	<!-- Scripts -->
+	<script scr="javascript">
+		function formCheck() {
+			let value = $("#storeImges").val(); // 내용 얻고
+			if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
+				alert('이미지는 반드시 입력해야 합니다.'); // 경고
+				$("#storeImges").val(""); // 입력값 삭제
+				$("#storeImges").focus(); // 커서 위치
+				return false;   // 전송 취소
+			}
+			value = $(".addText").val(); // 내용 얻고
+			if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
+				alert('내용은 반드시 입력해야 합니다.'); // 경고
+				
+				return false;   // 전송 취소
+			}
+			return true;
+		}
+	</script>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header>
+			<div class="logo">
+				<a href="/">
+					<img src="/images/weLogo.png" alt="Logo" />
+				</a>
+			</div>
+			<nav class="bar">
+				<a href="/store/"><strong>운동시설검색</strong></a>
+				<a href="/community/"><strong>커뮤니티</strong></a>
+				<a href="/"><strong>고객센터</strong></a>
+			</nav>
+			<nav class="login">
+				<th:block th:if="${session.mvo == null}">
+					<a href="/member/login"><strong>로그인</strong></a>
+					<a href="/member/join"><strong>회원가입</strong></a>
+				</th:block>
+				<th:block th:if="${session.mvo != null}">
+					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
+					<a href="/logout"><strong>로그아웃</strong></a>
+					<a href="/"><strong>비즈니스 계정</strong></a>
+				</th:block>
+			</nav>
+		</header>
+
+		<!-- 👇여기부터 시설상세페이지 -->
+		<main>
+			<form action="/business/insertOk" onsubmit="return formCheck()" method="post" enctype="multipart/form-data">
+				<label for="storeImges">
+					<input id="storeImges" type="file" name="uploadFile"/>
+				</label>
+
+				<input th:if="${session.mvo.nickname == null}" type="text" th:value="${session.mvo.username}"
+					disabled />
+				<input id="userid" th:unless="${session.mvo.nickname == null}"
+					th:value="${session.mvo.userid}" type="hidden" name="userid"/>
+				<input class="addText" id="name" type="text" placeholder="매장이름" name="name">
+				<input class="addText" id="address" type="text" placeholder="매장주소" name="address">
+				<input class="addText" id="hashTag" type="text" placeholder="해쉬태그" name="hashTag">
+				<input class="addText" id="opening" type="text" placeholder="매장운영시간" name="opening">
+				<input class="addText" id="tel" type="text" placeholder="매장전화번호" name="tel">
+				<input class="addText" id="dec" type="text" placeholder="매장설명" name="description">
+				<input class="btnCancle" type="button" value="취소" th:onclick="location.href='/'"></input>
+				<input class="btnAdd" type="submit" value="등록"></input>
+			</form>
+		</main>
+</body>
+
+</html>
+
+<!--<script th:inline="javascript" />-->
+<!-- <i class="fas fa-arrow-left"></i> -->
+<!-- <i class="fas fa-arrow-right"></i> -->

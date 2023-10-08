@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.wesely.dao.StoreDAO;
+import com.wesely.dao.StoreImgDAO;
 import com.wesely.dao.StoreReviewDAO;
+import com.wesely.vo.StoreImgVO;
 import com.wesely.vo.StoreReviewVO;
 import com.wesely.vo.StoreVO;
 
@@ -23,7 +25,10 @@ public class StoreServiceImpl implements StoreService {
 	@Autowired
 	private StoreReviewDAO storeReviewDAO;
 
-	// 더보기
+	@Autowired
+	private StoreImgDAO storeImgDAO;
+
+	// 목록보기&더보기
 	@Override
 	public List<StoreVO> selectMore(int num) {
 		log.info("selectMore 호출 : {}", num);
@@ -31,15 +36,22 @@ public class StoreServiceImpl implements StoreService {
 		// 먼저 운동시설 정보를 가져온다.
 		List<StoreVO> list = storeDAO.selectMore(num);
 
-		// 각 시설에 대한 리뷰 개수를 추가로 설정한다.
+		// 각 시설에 대한 리뷰 개수와 별점평균 그리고 시설이미지리스트를 추가로 설정한다.
 		if (list != null) {
 			for (StoreVO storeVO : list) {
+				// 리뷰개수
 				storeVO.setReviewCount(storeReviewDAO.selectCountByRef(storeVO.getId()));
+				// 별점평균
 				storeVO.setAverageStar(storeReviewDAO.selectAverageStarByRef(storeVO.getId()));
+				// 반복중인 storeVO ID에 해당하는 이미지를 가져온다.
+				List<StoreImgVO> images = storeImgDAO.selectByRef(storeVO.getId());
+				log.info("selectMore 이미지 : {}", images);
+				// 가져온걸 이미지리스트에 집어넣는다.
+				storeVO.setImgList(images);
 			}
 		}
-		// log.info("selectMore 리턴 : {}", );
 		log.info("selectMore 리턴 : {}", list);
+
 		return list;
 	}
 
@@ -76,27 +88,33 @@ public class StoreServiceImpl implements StoreService {
 	// 현재위치의 운동시설 데이터 저장
 	@Override
 	public boolean insert(StoreVO storeVO) {
-		log.info(" 운동시설 데이터 저장 insert 리턴 : {}", storeVO);
+		log.info(" 비즈니스 시설 등록 -- insert 호출 : {}", storeVO);
+		boolean result = false;
 		try {
+			// 글 저장
 			storeDAO.insert(storeVO);
+			// 이미지 저장
+			for(StoreImgVO images : storeVO.getImgList()) {
+				storeImgDAO.insert(images);
+			}
 			return true;
 		} catch (Exception e) {
 			log.info(" 운동시설 데이터 저장 insert 리턴 : {}", storeVO);
-			return false;
+			return result;
 		}
 	}
 
 	// 현재위치의 운동시설 데이터 수정
 	@Override
 	public boolean update(StoreVO storeVO) {
-		
+
 		return false;
 	}
 
 	// 현재위치의 운동시설 데이터 삭제
 	@Override
 	public boolean delete(StoreVO storeVO) {
-		
+
 		return false;
 	}
 
