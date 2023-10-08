@@ -86,6 +86,7 @@ CREATE SEQUENCE store_id_seq;
 -- 2. 게시판 테이블 생성
 CREATE TABLE store(
 	id NUMBER PRIMARY KEY,  -- 키필드
+	userid varchar2(50), -- 권한자 아이디 : 비즈니스계정
 	name varchar2(50) NOT NULL, -- 매장명
 	address varchar2(100) NOT NULL, -- 매장주소
 	opening varchar2(300), -- 매장운영시간
@@ -94,10 +95,25 @@ CREATE TABLE store(
 	hashTag varchar2(50)-- 매장해쉬태그
 );
 
--- 3. 리뷰 테이블에 사용할 시퀀스
+-- 3. 이미지 테이블에 사용할 시퀀스
+CREATE SEQUENCE storeImg_id_seq;
+-- 4. 이미지 파일 테이블
+CREATE TABLE storeImg(
+	id NUMBER PRIMARY KEY,  -- 키필드
+	ref NUMBER NOT NULL, -- 원본글 번호
+	uuid varchar2(200) NOT NULL, -- 중복처리위한 키
+	fileName varchar2(200) NOT NULL, -- 원본 파일명
+	contentType varchar2(200) NOT NULL -- 파일 종류
+);
+
+SELECT store_id_seq.nextval,store_id_seq.currval  FROM dual;
+INSERT INTO storeImg values (storeImg_id_seq.nextval, '3808', 'e2ff4d1b-b89d-423e-9f11-197573a4c515','1.png','image/png' );
+
+
+-- 5. 리뷰 테이블에 사용할 시퀀스
 CREATE SEQUENCE sreview_id_seq;
 
--- 4. 리뷰 테이블 생성
+-- 6. 리뷰 테이블 생성
 CREATE TABLE storeReview(
 	id NUMBER PRIMARY KEY,  -- 키필드
 	REF NUMBER NOT NULL, -- 원본글 번호
@@ -109,9 +125,9 @@ CREATE TABLE storeReview(
 );
 
 DROP TABLE store;
-SELECT * FROM storeReview;
 SELECT * FROM store;
 SELECT * FROM storeReview;
+SELECT * FROM storeImg;
 
 DROP TABLE store;
 
