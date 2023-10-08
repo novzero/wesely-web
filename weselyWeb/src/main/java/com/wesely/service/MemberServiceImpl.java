@@ -1,14 +1,16 @@
 package com.wesely.service;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.wesely.dao.BusinessDAO;
 import com.wesely.dao.CommunityDAO;
 import com.wesely.dao.MemberDAO;
+import com.wesely.vo.BusinessVO;
+import com.wesely.vo.CommunityVO;
 import com.wesely.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,8 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	MemberDAO memberDAO;
 	@Autowired
+	BusinessDAO businessDAO;
+	@Autowired
 	CommunityDAO communityDAO;
 
 	@Override
@@ -28,18 +32,23 @@ public class MemberServiceImpl implements MemberService {
 		memberDAO.insert(memberVO);
 	}
 
-	
-	//회원 탈퇴
+	@Override
+	public void insert(BusinessVO businessVO, String bno, String bname, String bdate) {
+		log.info("{}의 insert호출 : {}", this.getClass().getName(), businessVO);
+		businessDAO.insert(businessVO.getBno(), businessVO.getBname(), businessVO.getBdate());
+	}
+
+	// 회원 탈퇴
 	@Override
 	public boolean delete(MemberVO memberVO) {
 		boolean result = false;
 		log.info("{}의 delete호출 : {}", this.getClass().getName(), memberVO);
 		MemberVO dbVO = memberDAO.selectByUserid(memberVO.getUserid());
-		if(dbVO != null) {
+		if (dbVO != null) {
 			// 입력한 비밀번호가 db정보와 일치한다면
-			if(dbVO.getPassword().equals(memberVO.getPassword())) {
-				//communityDAO.deleteNickname(dbVO.getNickname());
-				memberDAO.delete(memberVO);	// 탈퇴
+			if (dbVO.getPassword().equals(memberVO.getPassword())) {
+				// communityDAO.deleteNickname(dbVO.getNickname());
+				memberDAO.delete(memberVO); // 탈퇴
 				result = true;
 			}
 		}
@@ -56,7 +65,7 @@ public class MemberServiceImpl implements MemberService {
 			if (mvo != null) { // 지정 아이디의 회원이 있다면
 				if (mvo.getPassword().equals(vo.getPassword())) {
 					memberVO = mvo;
-				} else { 
+				} else {
 					// 비밀번호가 일치하지 않는다
 				}
 			} else {
@@ -101,7 +110,7 @@ public class MemberServiceImpl implements MemberService {
 		log.info("{}의 phoneCheck 리턴 : {}", this.getClass().getName(), phonecount);
 		return phonecount;
 	}
-	
+
 	// 이메일 중복체크
 	@Override
 	public int emailCheck(String email) {
@@ -139,65 +148,60 @@ public class MemberServiceImpl implements MemberService {
 	public MemberVO findPassword(MemberVO VO) {
 		log.info("findPassword({}) 호출", VO);
 		MemberVO memberVO = null;
-		
+
 		try {
 			// 아이디로 찾기
 			MemberVO dbVO = memberDAO.selectByUserid(VO.getUserid());
-			if(dbVO!=null) { // 아이디가 있고
+			if (dbVO != null) { // 아이디가 있고
 				// 이메일도 같으면
-				if(dbVO.getEmail().equals(VO.getEmail())) {
+				if (dbVO.getEmail().equals(VO.getEmail())) {
 					// 임시 비밀 번호를 만들고
 					String newPassword = MakePassword.makePassword(10);
-					
+
 					// DB에 비밀번호를 임시 비번으로 변경하고
 					HashMap<String, String> map = new HashMap<>();
 					map.put("userid", dbVO.getUserid());
 					map.put("password", newPassword);
 					memberDAO.updatePassword1(map);
-					
+
 					// 새로운 임시비밀번호로 저장
 					dbVO.setPassword(newPassword);
-					memberVO = dbVO; 
+					memberVO = dbVO;
 				}
 			}
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		log.info("findPassword({}) 리턴 : {}", VO, memberVO);
 		return memberVO;
 	}
 
-	
 	// 닉네임 변경
 	public boolean updateNickname(MemberVO memberVO) {
 		boolean result = false;
 		log.info("{}의 updateNickname호출 : {}", this.getClass().getName(), memberVO);
 		MemberVO dbVO = memberDAO.selectByUserid(memberVO.getUserid());
-		MemberVO dbVO2 = memberDAO.selectByNickname(memberVO.getNickname());
 
 		if (dbVO != null) {
-			// 닉네임이 존재할 때
-			if(dbVO2 != null) {
-				// 게시판의 정보를 변경
-				HashMap<String, String> map = new HashMap<>();
-				map.put("newNickname", memberVO.getNickname());
-				map.put("oldNickname", dbVO.getNickname());
+			// 게시판의 정보를 변경
+			HashMap<String, String> map = new HashMap<>();
+			map.put("newNickname", memberVO.getNickname());
+			map.put("oldNickname", dbVO.getNickname());
+
+			try {
 				communityDAO.updateNickname(map);
-				memberDAO.updateNickname(memberVO);
+				memberDAO.updateNickname(map);
 				// 회원정보변경
-				result = true;				
-			}else {	// 닉네임이 존재하지 않을 때
-				HashMap<String, String> map = new HashMap<>();
-				map.put("newNickname", memberVO.getNickname());
-				map.put("oldNickname", dbVO.getUsername());
-				communityDAO.updateNickname(map);
-				memberDAO.updateNickname(memberVO);
-				// 회원정보변경
-				result = true;								
+				result = true;
+			} catch (Exception e) {
+				// 예외 처리
+				log.error("닉네임 변경 중 오류 발생: {}", e.getMessage());
+				//========================================= 여기서 왜 자꾸 오류가 발생하는 것이냐!!!!!!!!!!!!!!!!!
 			}
 		}
 		return result;
+
 	}
 
 	// 비밀번호 변경
@@ -217,6 +221,5 @@ public class MemberServiceImpl implements MemberService {
 		}
 		return result;
 	}
-
 
 }

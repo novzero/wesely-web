@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!-- Thymeleaf를 사용하겠다. -->
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>아이디 찾기 페이지</title>
+
+	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
+	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
+	<script src="/js/member/businessJoin.js" defer></script>
+
+	<link rel="stylesheet" href="/css/font.css" />
+	<link rel="stylesheet" href="/css/header.css" />
+	<link rel="stylesheet" href="/css/member/businessJoin.css" />
+
+</head>
+
+<body>
+
+	<header>
+		<div class="logo">
+			<a href="/">
+				<img src="/images/weLogo.png" alt="Logo" />
+			</a>
+		</div>
+		<nav class="bar">
+			<a href="/store/"><strong>운동시설검색</strong></a>
+			<a href="/community/"><strong>커뮤니티</strong></a>
+			<a href="/"><strong>고객센터</strong></a>
+		</nav>
+		<nav class="login">
+			<th:block th:if="${session.mvo == null}">
+				<a href="/member/login"><strong>로그인</strong></a>
+				<a href="/member/join"><strong>회원가입</strong></a>
+			</th:block>
+			<th:block th:if="${session.mvo != null}">
+				<a href="/member/updateProfile"><strong>마이페이지</strong></a>
+				<a href="/member/logout"><strong>로그아웃</strong></a>
+				<a href="/"><strong>비즈니스 계정</strong></a>
+			</th:block>
+		</nav>
+	</header>
+
+	<div class="info">
+		<form action="/member/businessJoinOk" method="post" onsubmit="return formCheck()">
+			<div class="image">
+				<img src="/images/wesely_logo.png" alt="wesely로고" width="50px">
+			</div>
+
+			<div class="businessNumber">
+				<label>사업자 등록번호</label><br />
+				<input id="bNum1" class="bNumber" type="text" size="1" maxlength="3" placeholder="000"> -
+				<input id="bNum2" class="bNumber" type="text" size="1" maxlength="2" placeholder="00"> -
+				<input id="bNum3" class="bNumber" type="text" size="2" maxlength="5" placeholder="00000">
+			</div>
+
+			<div class="name">
+				<label>대표자성명</label><br />
+				<input id="bname" type="text">
+			</div>
+
+			<div class="date">
+				<label>개업일자</label><br />
+				<div id="info_birth">
+					<select class="box" id="birthyear">
+						<option disabled selected>개업연도</option>
+					</select>
+					<select class="box" id="birthmonth">
+						<option disabled selected>월</option>
+					</select>
+					<select class="box" id="birthday">
+						<option disabled selected>일</option>
+					</select>
+				</div>
+			</div>
+
+			<!-- 사업자인증 화면으로 이동 -->
+			<div>
+				<input type="submit" value="사업자인증" class="Btn" />
+			</div>
+		</form>
+	</div>
+</body>
+
+</html>

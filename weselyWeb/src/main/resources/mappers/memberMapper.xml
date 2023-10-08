@@ -14,13 +14,13 @@
 	</insert>
 	
 	<!-- 수정하기 : 회원 별명 수정 -->
-	<update id="updateNickname"  parameterType="MemberVO">
+	<update id="updateNickname"  parameterType="hashmap">
 		update 
 			wmember 
 		set
-			nickname = #{nickname}
+			nickname = #{newNickname}
 		where
-			userid=#{userid}
+			nickname=#{oldNickname}
 	</update>
 	
 	<!-- 수정하기 : 비밀번호 수정 -->

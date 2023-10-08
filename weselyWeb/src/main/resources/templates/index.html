@@ -35,9 +35,8 @@
 			<nav class="hello">
 				<th:block th:if = "${session.mvo != null}">
 					<span>
-						<!-- 별명을 설정하지 않은 회원은 이름으로 출력한다. -->
-						<input th:if="${session.mvo.nickname == null}" type="text" th:value="${session.mvo.username}" disabled/>
-						<input th:unless="${session.mvo.nickname == null}" type="text" th:value="${session.mvo.nickname}" disabled/>
+						<!-- 별명을 설정하지 않은 회원은 이름으로 표시된다. -->
+						<input type="text" th:value="${session.mvo.nickname}" disabled/>
 						님 환영합니다.
 					</span>
 				</th:block>	
@@ -51,7 +50,7 @@
 				<th:block th:if="${session.mvo != null}">
 					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
 					<a href="/member/logout"><strong>로그아웃</strong></a>
-					<a href="/member/bJoin"><strong>비즈니스 계정</strong></a>
+					<a href="/member/businessJoin"><strong>비즈니스 계정</strong></a>
 				</th:block>
 			</nav>
 		</header>

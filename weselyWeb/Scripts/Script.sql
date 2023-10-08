@@ -1,5 +1,6 @@
-CREATE SEQUENCE wmember_idx_seq;
+-- 일반회원 테이블
 
+CREATE SEQUENCE wmember_idx_seq;
 CREATE TABLE wmember (
 	idx NUMBER PRIMARY KEY,
 	userid varchar2(50) NOT NULL,
@@ -12,19 +13,21 @@ CREATE TABLE wmember (
 	phone varchar2(20)
 );
 
-
-CREATE SEQUENCE wmember_roles_idx_seq;
-
-CREATE TABLE wmember_roles(
-	idx NUMBER PRIMARY KEY,
-	username varchar2(50) NOT NULL,
-	role varchar2(50) NOT NULL
-);
-
 SELECT * FROM wmember;
-SELECT * FROM wmember_roles;
-DROP TABLE WMEMBER;
 DELETE FROM wmember;
+
+--===============================================================================
+-- 비즈니스회원 테이블
+CREATE SEQUENCE bmember_id_seq;
+CREATE TABLE bmember(
+	idx NUMBER PRIMARY KEY,
+	ref NUMBER,
+	bno varchar2(100) NOT NULL,
+	bname varchar2(50) NOT NULL,
+	bdate varchar2(100) NOT NULL
+);
+DROP TABLE bmember;
+SELECT * FROM bmember;
 
 --===============================================================================
 
@@ -82,7 +85,7 @@ DROP TABLE good;
 -- ✅ 리뷰가 작성가능한 시설섹션을 만들자
 -- 1. 시설섹션에 사용할 시퀀스
 CREATE SEQUENCE store_id_seq;
-
+DROP SEQUENCE store_id_seq;
 -- 2. 게시판 테이블 생성
 CREATE TABLE store(
 	id NUMBER PRIMARY KEY,  -- 키필드
@@ -128,7 +131,5 @@ DROP TABLE store;
 SELECT * FROM store;
 SELECT * FROM storeReview;
 SELECT * FROM storeImg;
-
-DROP TABLE store;
 
 

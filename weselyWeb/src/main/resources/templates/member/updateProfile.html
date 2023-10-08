@@ -86,12 +86,8 @@
 						<input type="hidden" id="userid" name="userid" th:value="${session.mvo.userid}" />
 
 						<label for="nickname">닉네임</label>
-						<!-- 닉네임 없으면 유저이름 출력 -->
-						<input th:if="${session.mvo.nickname}==null" type="text" id="nickname"
-							th:placeholder="|아직 ${session.mvo.username}님의 닉네임이 설정되지 않았어요!|" />
-						<!-- 닉네임이 있다면 닉네임을 기본으로 보여주자. -->
-						<input th:unless="${session.mvo.nickname}==null" type="text" id="nickname"
-							th:value="${session.mvo.nickname}" style="color: lightgray;" />
+						<!-- 회원가입 시 닉네임을 설정하지 않았다면 이름이 기본으로 보여진다!! -->
+						<input type="text" id="nickname" th:value="${session.mvo.nickname}"  />
 						<span id="nickmessage" style="float: left; font-size: 13px;" />
 					</div>
 					<div>
