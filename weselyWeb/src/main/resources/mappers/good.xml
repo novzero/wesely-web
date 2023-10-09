@@ -14,7 +14,7 @@
 		(good_id_seq.nextval,#{nickname},#{ref},1)
 	</insert>
 	<!-- 좋아요 삭제  --> 
-	<delete id="deleteGood" parameterType="int">
+	<delete id="deleteGood" parameterType="goodVO">
 		DELETE FROM good
 		WHERE nickname = #{nickname}
 	</delete>
