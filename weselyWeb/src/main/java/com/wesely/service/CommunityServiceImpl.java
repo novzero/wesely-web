@@ -190,6 +190,9 @@ public class CommunityServiceImpl implements CommunityService {
 			communityVO.setCommentList(commentList);
 			// 댓글 개수 넣기
 			communityVO.setCommentCount(commentDAO.selectCountByRef(communityVO.getId()));
+			// 좋아요 개수 넣기
+			
+			
 		}
 		// -----------------------------------------------------------------------------
 		log.info("view 리턴 : {}", communityVO);
@@ -295,7 +298,7 @@ public class CommunityServiceImpl implements CommunityService {
 		log.info("goodDelete 호출 : {}", goodVO);
 		boolean result = false;
 		if(goodVO != null) {
-			goodDAO.deleteGood(goodVO.getId());
+			goodDAO.deleteGood(goodVO);
 			result = true;
 		}
 		log.info("goodDelete 리턴 : {}", goodVO);

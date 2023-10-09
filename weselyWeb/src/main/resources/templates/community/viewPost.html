@@ -113,43 +113,64 @@
 		}
 
 		function likePost() {
-			const pushHeartBtn = document.querySelector(".heartBtn");
-			if (pushHeartBtn.classList.contains("liked")) {
+			const pushHeartBtn = $(".heartBtn");
+			if (pushHeartBtn.hasClass("liked")) {
 				// 이미 좋아요한 상태인 경우
-				pushHeartBtn.innerHTML = '<i class="fa-regular fa-heart"></i>';
-				pushHeartBtn.style.color = "";
-				pushHeartBtn.classList.remove("liked");
+				pushHeartBtn.html('<i class="fa-regular fa-heart"></i>');
+				pushHeartBtn.css("color", "");
+				pushHeartBtn.removeClass("liked");
 			} else {
 				// 좋아요하지 않은 상태인 경우
-				pushHeartBtn.innerHTML = '<i class="fa-solid fa-heart"></i>';
-				pushHeartBtn.style.color = "red";
-				pushHeartBtn.classList.add("liked");
+				pushHeartBtn.html('<i class="fa-solid fa-heart"></i>');
+				pushHeartBtn.css("color", "red");
+				pushHeartBtn.addClass("liked");
 			}
 		}
 
 		function likeComment(obj) {
-			if (obj.classList.contains("liked")) {
+			if ($(obj).hasClass("liked")) {
 				// 이미 좋아요한 상태인 경우
-				obj.innerHTML = '<i class="fa-regular fa-heart"></i>';
-				obj.style.color = "";
-				obj.classList.remove("liked");
-
-
+				$(obj).html('<i class="fa-regular fa-heart"></i>');
+				$(obj).css("color", "");
+				$(obj).removeClass("liked");
 			} else {
 				// 좋아요하지 않은 상태인 경우
-				obj.innerHTML = '<i class="fa-solid fa-heart"></i>';
-				obj.style.color = "red";
-				obj.classList.add("liked");
-
-
+				$(obj).html('<i class="fa-solid fa-heart"></i>');
+				$(obj).css("color", "red");
+				$(obj).addClass("liked");
 			}
 		}
+// 좋아요 데이터 전송
+$(function () {
+    $("#btnLike").click(function () {
+        let postId = $("#postId").val(); // 현재 게시글의 ID
+        let nickname2 = $("#nickname2").val(); // 현재 로그인한 사용자의 닉네임
 
+        let form = new FormData();
+        form.append("ref", postId);
+        form.append("nickname", nickname2);
+
+        axios.post('/community/goodInsert', form)
+            .then(function (response) {
+                if(response.data) {
+                    alert("좋아요!");
+                } else {
+                    alert("이미 좋아요를 누르셨습니다.");
+                }
+                location.reload();
+            })
+            .catch(function (error) { 
+                alert("에러발생!! : " + error);
+            });
+    });
+  
+});
 
 	</script>
 </head>
 
 <body>
+	[[${community}]]
 	<div class="wrapper">
 		<header>
 			<div class="logo">
@@ -221,11 +242,10 @@
 				<br />
 
 				<div class="btnList">
-					<div>
-						<input type="hidden" id="ref1" th:value="${community.id}" />
-						<input type="hidden" id="whether" />
-						<input type="hidden" id="nickname1" th:value="${session.mvo.nickname}" />
-						<button class="heartBtn" onclick="likePost()">
+					<div>			
+						<input type="text" id="postId" th:value="${community.id}" />
+						<input type="text" id="nickname2" th:value="${session.mvo.nickname}" />
+						<button id="btnLike" class="heartBtn" onclick="likePost()">
 							<i class="fa-regular fa-heart"></i>
 						</button>
 						<!-- <img src="static/images/heart_icon.png" alt="좋아요아이콘"> -->
@@ -270,7 +290,7 @@
 									th:onclick="deleteForm([[${c.id}]],'[(${c.name})]')">삭제</button>
 							-->
 							</th:block>
-							
+
 						</div>
 					</div>
 				</th:block>
