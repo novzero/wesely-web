@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>운동시설상세보기</title>
+	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="/css/font.css" />
+	<link rel="stylesheet" href="/css/header.css" />
+	<link rel="stylesheet" href="/css/store/placeView.css" />
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="/js/store/placeView.js" defer></script>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
+	<script defer src="/js/store/storeSlide.js"></script>
+	<!-- Scripts -->
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var user = [[${session.mvo}]];
+
+		window.onload = function () {
+			// 세션에 정보없을 때 로그인페이지로 이동
+			if (!user) {
+				location.replace("/member/login");
+			}
+			kakaoMap();
+		};
+
+		// 카카오 맵 띄우기
+		function kakaoMap() {
+			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+				mapOption = {
+					center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+					level: 3 // 지도의 확대 레벨
+				};
+
+			// 지도를 생성합니다    
+			var map = new kakao.maps.Map(mapContainer, mapOption);
+
+			// 주소-좌표 변환 객체를 생성합니다
+			var geocoder = new kakao.maps.services.Geocoder();
+
+			// 주소로 좌표를 검색합니다
+			geocoder.addressSearch('[[${st.address}]]', function (result, status) {
+
+				// 정상적으로 검색이 완료됐으면 
+				if (status === kakao.maps.services.Status.OK) {
+
+					var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+					// 결과값으로 받은 위치를 마커로 표시합니다
+					var marker = new kakao.maps.Marker({
+						map: map,
+						position: coords
+					});
+
+					// 인포윈도우로 장소에 대한 설명을 표시합니다
+					var infowindow = new kakao.maps.InfoWindow({
+						content: '<div style="width:150px;text-align:center;padding:6px 0;">[[${st.name}]]</div>'
+					});
+					infowindow.open(map, marker);
+
+					// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					map.setCenter(coords);
+				}
+			})
+		};
+	</script>
+</head>
+
+<body>
+	<div class="wrapper">
+		<header>
+			<div class="logo">
+				<a href="/">
+					<img src="/images/weLogo.png" alt="Logo" />
+				</a>
+			</div>
+			<nav class="bar">
+				<a href="/store/"><strong>운동시설검색</strong></a>
+				<a href="/community/"><strong>커뮤니티</strong></a>
+				<a href="/"><strong>고객센터</strong></a>
+			</nav>
+			<nav class="login">
+				<th:block th:if="${session.mvo == null}">
+					<a href="/member/login"><strong>로그인</strong></a>
+					<a href="/member/join"><strong>회원가입</strong></a>
+				</th:block>
+				<th:block th:if="${session.mvo != null}">
+					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
+					<a href="/logout"><strong>로그아웃</strong></a>
+					<a href="/"><strong>비즈니스 계정</strong></a>
+				</th:block>
+			</nav>
+		</header>
+
+		<!-- 👇여기부터 시설상세페이지 -->
+		<main>
+			<section class="slide">
+				<ul class="slide__list">
+					<!--
+					<li class="slide__item">
+						<img class="slideImg" src="/images/image123.png" alt="매장슬라이드이미지" />
+					</li>
+					<li class="slide__item">
+						<img class="slideImg" src="/images/exmainStore.png" alt="매장슬라이드이미지" />
+					</li>
+					<li class="slide__item">
+						<img class="slideImg" src="/images/exmainStore.png" alt="매장슬라이드이미지" />
+					</li>
+					-->
+
+					<th:block th:each="img : ${st.imgList}">
+						<li class="slide__item">
+							<img class="slideImg" th:src='|/static/images/upload/${img.uuid}_${img.fileName}|' />
+						</li>
+					</th:block>
+				</ul>
+
+
+				<div class="buttons"></div>
+				<div class="paginations"></div>
+			</section>
+
+			<section class="storeContent">
+				<div class="storeTitle">
+					<h2 th:text="${st.name}"></h2>
+					<p>⭐평점 [[${st.averageStar}]]</p>
+				</div>
+
+				<ul class="storeInfo">
+					<li class="indexBall">
+						<p th:text="${st.address}"></p>
+					<li class="indexBall flex">
+						영업시간
+						<div class="space">
+							<p th:if="${st.opening != null}" th:text="${st.opening}"></p>
+							<p th:unless="${st.opening != null}">미등록</p>
+							<!--
+							<p>수 07:00 - 23:00</p>
+							<p>목 07:00 - 23:00</p>
+							<p>금 07:00 - 23:00</p>
+							<p>토 07:00 - 23:00</p>
+							<p>일 07:00 - 23:00</p>
+							<p>월 07:00 - 23:00</p>
+							<p>화 07:00 - 23:00</p>
+							-->
+						</div>
+					</li>
+
+					<li class="indexBall flex">전화번호
+						<div class="space">
+							<p th:if="${st.tel != null}" th:text="${st.tel}"></p>
+							<p th:unless="${st.tel != null}">미등록</p>
+						</div>
+					</li>
+
+					<li class="indexBall description">
+						<p th:if="${st.description != null}" th:text="${st.description}"></p>
+						<p th:unless="${st.description != null}">매장설명 미등록</p>
+					</li>
+				</ul>
+
+				<!-- kakaoMap -->
+				<div class="mapImg" id="map"></div>
+
+				<div class="line"></div>
+			</section>
+
+			<section class="storeReview">
+				<div class="storeReviewTitleBox">
+					<div>
+						<h3>방문자 리뷰</h3>
+						<span id="totalReview">총 [[${st.reviewCount}]]개</span>
+					</div>
+					<button class="btnAddReview">리뷰작성하기</button>
+				</div>
+
+				<!-- 리뷰 데이터가 있을 때 리뷰목록 출력 -->
+				<div th:if="${not #lists.isEmpty(st.reviewList)}">
+					<div th:each="review : ${st.reviewList}" class="reviewBox">
+						<div class="userInfo">
+							<img src="/images/userIcon.png" alt="유저이미지">
+							<span th:text="${review.nickname}"></span>
+						</div>
+
+						<div class="reviewContent">
+							<div class="star">
+								<span th:each="i : ${#numbers.sequence(1, review.star)}">⭐</span>
+							</div>
+							<p class="recontent" th:text="${review.content}"></p>
+							<span class="time">[[${#dates.format(review.regdate,'yy.MM.dd(E) HH:mm')}]]</span>
+							<div class="bottomBtn">
+								<button class="btnDelete" th:onclick="sendDeleteRequest([[${review.id}]])">
+									<i class="fa-solid fa-xmark"></i>
+								</button>
+								<button class="btnModify" th:onclick="updateBtn([[${review.id}]])">
+									<i class="fa-solid fa-pencil"></i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 리뷰 데이터가 없으면 아래 메시지 출력 -->
+				<div th:unless="${not #lists.isEmpty(st.reviewList)}" class="noReviews">
+					아직 리뷰가 없습니다. 첫 리뷰를 달아주세요!
+				</div>
+			</section>
+		</main>
+
+		<section class="reviewModal" id="myModal">
+			<h2><span>[[${st.name}]]</span> 이용은 어떠셨나요?</h2>
+			<form id="reviewForm" onsubmit="return postReview();">
+				<div class="stars">
+					<i class="fa-solid fa-star"></i>
+					<i class="fa-solid fa-star"></i>
+					<i class="fa-solid fa-star"></i>
+					<i class="fa-solid fa-star"></i>
+					<i class="fa-solid fa-star"></i>
+					<!-- 별점 value 담기 -->
+					<input type="hidden" id="starRating" name="star" />
+					<!-- 유저닉네임 value 담기 -->
+					<input th:if="${session.mvo == null}" type="hidden" id="nickname" name="nickname" value="닉네임없음" />
+					<input th:unless="${session.mvo == null}" type="hidden" id="nickname" name="nickname"
+						th:value="${session.mvo.nickname}" />
+					<!-- 원본 시설글의 고유 id 담기 -->
+					<input type="hidden" id="ref" name="ref" th:value="${st.id}" />
+					<!-- 댓글의 고유 id 담기 -->
+					<input type="hidden" id="reviewID" name="id" th:value="0" />
+					<!-- 유저프로필 value 담기 -->
+					<input type="hidden" id="userProfile" name="userProfile" value="유저프로필사진" />
+				</div>
+				<textarea class="reviewTextBox" name="content" required></textarea>
+				<div class="modalBtn">
+					<input type="button" class="btnCanclePost" value="취소" />
+					<input type="submit" id='submitBtn' value="등록" />
+					<input type="button" id="modifyBtn" style="display: none" onclick="sendPutRequest()" value="수정" />
+				</div>
+			</form>
+		</section>
+
+
+		<div class="overlay"></div>
+	</div>
+</body>
+
+</html>
+
+<!--<script th:inline="javascript" />-->
+<!-- <i class="fas fa-arrow-left"></i> -->
+<!-- <i class="fas fa-arrow-right"></i> -->
