@@ -212,7 +212,26 @@ public class StoreServiceImpl implements StoreService {
 				// 1. 해당 시설 id의 글을 읽어온다.
 		    	storeVO = storeDAO.findByUserId(userid);
 				
-				
+		    	  // 2. 해당 글이 존재한다면 추가 정보들을 가져온다.
+		        if (storeVO != null) {
+		            int id = storeVO.getId();  // 가져온 매장의 ID
+
+		            // 리뷰들 모두 가져온 것을 reviewList 라고 하자.
+		            List<StoreReviewVO> reviewList = storeReviewDAO.selectListByRef(id);
+		            // 리뷰 총 개수 가져온 것을 totalReview라고 하자.
+		            int totalReview = storeReviewDAO.selectCountByRef(id);
+		            // 리뷰의 별점 평균을 가져온 것을 averageStar라고 하자.
+		            double averageStar = storeReviewDAO.selectAverageStarByRef(id);
+		            // 매장 사진리스트 가져온 것을 imgList라고 하자.
+		            List<StoreImgVO> imgList = storeImgDAO.selectByRef(id);
+
+		            // 3. 위 정보들을 VO에 넣어준다.
+		            storeVO.setReviewList(reviewList);
+		            storeVO.setReviewCount(totalReview);
+		            storeVO.setAverageStar(averageStar);
+		            storeVO.setImgList(imgList); 
+		        }
+		        
 			} catch (Exception e) {
 				log.error(" Store 아이디 찾는데 문제 발생 " + userid, e);
 				e.printStackTrace();

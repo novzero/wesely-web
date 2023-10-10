@@ -55,7 +55,7 @@
 
 				<th:block th:if="${session.mvo != null && session.mvo.authority == '비즈니스계정'}">
 					<a href="/member/updateProfile"><strong>회원정보수정</strong></a>
-					<a th:href="@{/store/view/b/${session.mvo.userid}}"><strong>[[${session.mvo.userid}]]</strong></a>
+					<a th:href="@{/store/view/b/{userId}(userId=${session.mvo.userid})}"><strong>매장관리</strong></a>
 					<a href="/member/logout"><strong>로그아웃</strong></a>
 				</th:block>
 			</nav>
