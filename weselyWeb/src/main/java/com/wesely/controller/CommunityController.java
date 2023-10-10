@@ -315,13 +315,13 @@ public class CommunityController {
 	}
 
 	// 좋아요 저장했을때 호출 주소
-	@GetMapping(value = "/goodInsert")
+	@PostMapping(value = "/goodInsert")
 	@ResponseBody
-	public boolean goodInsert(@ModelAttribute GoodVO vo) {
-		log.info("좋아요 저장 호출 : {}", vo);
+	public boolean goodInsert(@ModelAttribute GoodVO go) {
+		log.info("좋아요 저장 호출 : {}", go);
 		boolean result = false;
 		try {
-			result = communityService.goodInsert(vo);
+			result = communityService.goodInsert(go);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -329,13 +329,13 @@ public class CommunityController {
 		return result;
 	}
 	// 좋아요 삭제했을때 호출 주소
-	@GetMapping(value = "/goodDelete")
+	@DeleteMapping(value = "/goodDelete")
 	@ResponseBody
-	public boolean goodDelete(@ModelAttribute GoodVO vo) {
-		log.info("좋아요 삭제 호출 : {}", vo);
+	public boolean goodDelete(@ModelAttribute GoodVO go) {
+		log.info("좋아요 삭제 호출 : {}", go);
 		boolean result = false;
 		try {
-			result = communityService.goodDelete(vo);
+			result = communityService.goodDelete(go);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
