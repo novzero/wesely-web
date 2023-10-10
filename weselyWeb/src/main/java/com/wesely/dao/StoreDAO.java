@@ -37,4 +37,6 @@ public interface StoreDAO {
 		// 7. 사용자의 현재 위치 주변 운동시설들 받아온 데이터를 데이터베이스에 저장하기 전에 중복된 것이 있는지 확인하기
 		StoreVO selectByNameAndAddress(Map<String, Object> params);
 		
+		// 8. 비즈니스계정 : 아이디로 시설정보가져오기
+		StoreVO findByUserId(String userid);
 }

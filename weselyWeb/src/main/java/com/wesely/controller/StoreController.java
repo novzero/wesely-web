@@ -41,7 +41,7 @@ public class StoreController {
 		return "/store/placeList";
 	}
 
-	// 운동시설 상세보기
+	// 운동시설 상세보기 : 일반계정
 	@GetMapping(value = "/view/{id}")
 	public String view(@PathVariable("id") int id, Model model) {
 	    StoreVO store = storeService.findById(id);
@@ -53,6 +53,21 @@ public class StoreController {
 	        return "/store/placeView";
 	    } else {
 	        return "redirect:/store/";
+	    }
+	}
+	
+	// 운동시설 상세보기 : 비즈니스 계정 ==> 매장관리 NAV바 메뉴 클릭 시
+	@GetMapping(value = "/view/b/{userid}")
+	public String businessView(@PathVariable("userid") String userid, Model model) {
+	    StoreVO store = storeService.findByUserId(userid);
+	    
+	    if (store != null) {
+	    	log.info("운동시설 비즈니스 상세보기==================================");
+	    	log.info("findByUserId 호출 : {}", userid);
+	        model.addAttribute("st", store);
+	        return "/business/businessView";
+	    } else {
+	        return "redirect:/";
 	    }
 	}
 

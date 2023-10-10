@@ -72,13 +72,17 @@ public class StoreServiceImpl implements StoreService {
 				int totalReview = storeReviewDAO.selectCountByRef(id);
 				// 리뷰의 별점 평균을 가져온 것을 averageStar라고 하자.
 				double averageStar = storeReviewDAO.selectAverageStarByRef(id);
-
+				// 매장 사진리스트 가져온 것을 imgList라고 하자.
+				List<StoreImgVO> imgList = storeImgDAO.selectByRef(id);
+				
 				// 3. 리뷰를 VO에 넣어준다.
 				storeVO.setReviewList(reviewList);
 				// 4. 리뷰의 총 개수를 VO에 넣어준다.
 				storeVO.setReviewCount(totalReview);
 				// 5. 리뷰의 별점 평균을 VO에 넣어준다.
 				storeVO.setAverageStar(averageStar);
+				// 6. 매장 사진리스트를 VO에 넣어준다.
+				storeVO.setImgList(imgList);
 			}
 		} catch (Exception e) {
 			log.error(" Store 아이디 찾는데 문제 발생 " + id, e);
@@ -197,6 +201,25 @@ public class StoreServiceImpl implements StoreService {
 
 		log.info("reviewDelete 결과 : {}", result);
 		return result;
+	}
+	
+	// 비즈니스계정회원 아이디로 매장상세보기 가져오기
+	@Override
+	public StoreVO findByUserId(String userid) {
+		 log.info("findByUserId 호출 : {}", userid);
+		    StoreVO storeVO = null;
+		    try {
+				// 1. 해당 시설 id의 글을 읽어온다.
+		    	storeVO = storeDAO.findByUserId(userid);
+				
+				
+			} catch (Exception e) {
+				log.error(" Store 아이디 찾는데 문제 발생 " + userid, e);
+				e.printStackTrace();
+			}
+			// -----------------------------------------------------------------------------
+			log.info("findByUserId 리턴 : {}", storeVO);
+			return storeVO;
 	}
 
 }

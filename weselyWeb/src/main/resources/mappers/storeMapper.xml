@@ -48,5 +48,9 @@
 	<select id="selectByNameAndAddress" parameterType="map" resultType="StoreVO">
         select * from store where name=#{name} and address=#{address}
     </select>
+    <!-- 8. 유저 id로 1개 얻기 -->
+    <select id="findByUserId" parameterType="string" resultType="StoreVO">
+    	select * from store where userid=#{userid}
+	</select>
 
 </mapper>

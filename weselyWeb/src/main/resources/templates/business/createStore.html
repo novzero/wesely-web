@@ -8,12 +8,12 @@
 	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
-	<link rel="stylesheet" href="/css/store/placeView.css" />
+	<link rel="stylesheet" href="/css/store/createStore.css" />
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	
+
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
-	
+
 	<!-- Scripts -->
 	<script scr="javascript">
 		function formCheck() {
@@ -27,7 +27,7 @@
 			value = $(".addText").val(); // 내용 얻고
 			if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
 				alert('내용은 반드시 입력해야 합니다.'); // 경고
-				
+
 				return false;   // 전송 취소
 			}
 			return true;
@@ -64,22 +64,46 @@
 		<!-- 👇여기부터 시설상세페이지 -->
 		<main>
 			<form action="/business/insertOk" onsubmit="return formCheck()" method="post" enctype="multipart/form-data">
-				<label for="storeImges">
-					<input id="storeImges" type="file" name="uploadFile"/>
-				</label>
+				<div class="fileWrapper">
+					<p class="titleText required">매장 사진<span class="subText"> 첫번째는 필수등록이며, 썸네일로 적용됩니다.</span></p>
+					<label for="storeImges1">
+						<input id="storeImges1" type="file" name="uploadFile" />
+					</label>
+
+					<label for="storeImges2">
+						<input id="storeImges2" type="file" name="uploadFile" />
+					</label>
+
+					<label for="storeImges3">
+						<input id="storeImges3" type="file" name="uploadFile" />
+					</label>
+
+					<label for="storeImges4">
+						<input id="storeImges4" type="file" name="uploadFile" />
+					</label>
+				</div>
 
 				<input th:if="${session.mvo.nickname == null}" type="text" th:value="${session.mvo.username}"
 					disabled />
-				<input id="userid" th:unless="${session.mvo.nickname == null}"
-					th:value="${session.mvo.userid}" type="hidden" name="userid"/>
+				<input id="userid" th:unless="${session.mvo.nickname == null}" th:value="${session.mvo.userid}"
+					type="hidden" name="userid" />
+				
+				<p class="titleText required">매장 이름</p>
 				<input class="addText" id="name" type="text" placeholder="매장이름" name="name">
+				<p class="titleText required">매장 주소</p>
 				<input class="addText" id="address" type="text" placeholder="매장주소" name="address">
+				<p class="titleText">해쉬태그</p>
 				<input class="addText" id="hashTag" type="text" placeholder="해쉬태그" name="hashTag">
+				<p class="titleText">매장 운영시간</p>
 				<input class="addText" id="opening" type="text" placeholder="매장운영시간" name="opening">
+				<p class="titleText required">매장 전화번호</p>
 				<input class="addText" id="tel" type="text" placeholder="매장전화번호" name="tel">
-				<input class="addText" id="dec" type="text" placeholder="매장설명" name="description">
-				<input class="btnCancle" type="button" value="취소" th:onclick="location.href='/'"></input>
-				<input class="btnAdd" type="submit" value="등록"></input>
+				<p class="titleText">매장 소개(설명)</p>
+				<input class="addTextDes" id="dec" type="text" placeholder="매장설명" name="description">
+				<div class="modalBtn">
+					<input class="btnCancle" type="button" value="취소" th:onclick="location.href='/'"></input>
+					<input class="btnAdd" type="submit" value="등록"></input>
+				</div>
 			</form>
 		</main>
 </body>

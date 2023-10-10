@@ -99,6 +99,7 @@
 		<main>
 			<section class="slide">
 				<ul class="slide__list">
+					<!--
 					<li class="slide__item">
 						<img class="slideImg" src="/images/image123.png" alt="매장슬라이드이미지" />
 					</li>
@@ -108,9 +109,16 @@
 					<li class="slide__item">
 						<img class="slideImg" src="/images/exmainStore.png" alt="매장슬라이드이미지" />
 					</li>
+					-->
+
+					<th:block th:each="img : ${st.imgList}">
+						<li class="slide__item">
+							<img class="slideImg" th:src='|/static/images/upload/${img.uuid}_${img.fileName}|' />
+						</li>
+					</th:block>
 				</ul>
 
-		
+
 				<div class="buttons"></div>
 				<div class="paginations"></div>
 			</section>
