@@ -1,4 +1,6 @@
-#updateProfile {
+/*프로필 수정, 비밀번호 변경 페이지 css*/
+
+#update {
 	width: 400px;
 	margin-right: auto;
 	margin-left: auto;
@@ -8,7 +10,7 @@
 	text-align: center;
 }
 
-#updateProfile .title {
+#update .title {
 	color: #4D54A5;
 	font-weight: bold;
 	font-size: 20px;
@@ -16,7 +18,7 @@
 	height: 80px;
 }
 
-#updateProfile input {
+#update input {
 	display: block;
 	width: 100%;
 	height: 35px;
@@ -27,36 +29,10 @@
 	/* 앞상하 뒷좌우 */
 	box-sizing: border-box;
 	font-size: 15px;
-	background-color: rgb(243, 243, 243);
 }
 
-#updateProfile .nickName input {
-	background-color: white;
-}
-
-#updateProfile .nickName input:focus {
-	border-color: #4D54A5;
+#update input:focus {
 	outline: none;
-}
-
-#updateProfile input:focus {
-	outline: none;
-}
-
-
-#updateProfile label {
-	display: block;
-	font-size: 14px;
-	color: #333;
-	text-align: left;
-	margin-bottom: 5px;
-}
-
-#nickmessage {
-	width: 100%;
-	margin-bottom: 10px;
-	text-align: left;
-	padding-left: 10px;
 }
 
 input::placeholder {
@@ -64,8 +40,52 @@ input::placeholder {
 	font-size: 13px;
 }
 
-/* 회원수정 버튼 */
-#updateProfile .updateBtn {
+#update label {
+	display: block;
+	font-size: 14px;
+	color: #333;
+	text-align: left;
+	margin-bottom: 5px;
+}
+
+/* ============== 여기까진 공통으로 적용 ================== */
+
+
+
+#update .nickName input:focus,
+#update .pw input:focus{
+	border-color: #4D54A5;
+	outline: none;
+}
+
+/* 경고메시지 */
+#nickmessage,
+#newPwMessage,
+#newPwMessage1
+ {
+	float: left; 
+	font-size: 13px;
+	width: 100%;
+	margin-bottom: 10px;
+	text-align: left;
+	padding-left: 10px;
+}
+
+/* 보기/숨기기 아이콘 */
+#pw,
+#pwIcon,
+#pw1Icon {
+	width: 20px;
+	position: absolute;
+	margin-left: 118px;
+	margin-top: -31px;
+}
+
+
+
+/* 회원수정, 비밀번호변경완료 버튼 */
+#update .updateBtn,
+#update .updatePasswordBtn {
 	width: 100%;
 	height: 40px;
 	background-color: #4D54A5;
@@ -77,12 +97,14 @@ input::placeholder {
 	transition: all 0.3s;
 }
 
-.updateBtn:hover {
+.updateBtn:hover,
+.updatePasswordBtn:hover {
 	transform: scale(1.03);
 }
 
+
 /* 비밀번호 변경 버튼 */
-#updateProfile .updatePwBtn {
+#update .updatePwBtn {
 	height: 40px;
 	border: 1px solid #4D54A5;
 	background-color: white;
@@ -90,7 +112,6 @@ input::placeholder {
 	font-weight: bold;
 	transition: all 0.3s;
 }
-
 .updatePwBtn:hover {
 	transform: scale(1.03);
 }
@@ -106,6 +127,7 @@ input::placeholder {
 .deleteBtn:hover {
 	font-weight: bold;
 }
+
 
 /* 프로필 사진 버튼*/
 #btn-modal {
