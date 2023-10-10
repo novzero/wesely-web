@@ -70,11 +70,15 @@ public class StoreServiceImpl implements StoreService {
 				List<StoreReviewVO> reviewList = storeReviewDAO.selectListByRef(id);
 				// 리뷰 총 개수 가져온 것을 totalReview라고 하자.
 				int totalReview = storeReviewDAO.selectCountByRef(id);
+				// 리뷰의 별점 평균을 가져온 것을 averageStar라고 하자.
+				double averageStar = storeReviewDAO.selectAverageStarByRef(id);
 
 				// 3. 리뷰를 VO에 넣어준다.
 				storeVO.setReviewList(reviewList);
 				// 4. 리뷰의 총 개수를 VO에 넣어준다.
 				storeVO.setReviewCount(totalReview);
+				// 5. 리뷰의 별점 평균을 VO에 넣어준다.
+				storeVO.setAverageStar(averageStar);
 			}
 		} catch (Exception e) {
 			log.error(" Store 아이디 찾는데 문제 발생 " + id, e);
