@@ -1,4 +1,6 @@
-s//==========================================================
+// 사업자 정보 입력부분 js
+
+//==========================================================
 // '사업자 등록번호' 맨앞 3자리 입력 후 다음으로 이동
 //==========================================================
 $("#bNum1").on("keyup", function() {
@@ -21,7 +23,8 @@ $("#bNum2").on("keyup", function() {
 //==========================================================
 
 
-
+/*
+// 개업일자 보류
 //==========================================================
 // '개업연도' 셀렉트 박스 option 목록 동적 생성
 //==========================================================
@@ -86,7 +89,7 @@ birthDay.addEventListener('focus', function() {
 
 	}
 });
-
+*/
 
 //==========================================================
 // 폼 체크
@@ -132,31 +135,6 @@ function formCheck() {
 		return false;
 	};
 }
-
-var main = {
-    init : function () {
-        var _this = this;
-        $('#btn-movies-find').on('click', function () {
-            _this.find();
-        });
-    },
-    find : function () {
-        var keyword = $('#keyword').val();
-
-        $.ajax({
-            type: 'GET',
-            url: '/business/'+keyword,
-            dataType: 'json',
-            contentType:'application/json; charset=utf-8',
-        }).done(function(res) {
-            alert(JSON.stringify(res));
-        }).fail(function (error) {
-            alert(JSON.stringify(error));
-        });
-    }
-};
-
-main.init();
 
 
 

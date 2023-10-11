@@ -23,11 +23,13 @@ CREATE SEQUENCE bmember_id_seq;
 CREATE TABLE bmember(
 	idx NUMBER PRIMARY KEY,
 	ref NUMBER,
-	bno varchar2(100) NOT NULL,		-- 사업자번호
-	bname varchar2(50) NOT NULL	-- 대표자성명
+	bno varchar2(100) NOT NULL ,	-- 사업자번호
+	bname varchar2(50) NOT NULL ,	-- 대표자성명
+	store varchar2(100) NOT NULL	-- 대표자성명
 );
 DROP TABLE bmember;
 SELECT * FROM bmember;
+INSERT inTO bmember values(bmember_id_seq.nextval, '3808','1234567890','ddd','ddd');
 
 --===============================================================================
 

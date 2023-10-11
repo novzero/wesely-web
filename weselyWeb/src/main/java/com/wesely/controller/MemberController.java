@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.wesely.service.BusinessService;
 import com.wesely.service.MemberService;
-import com.wesely.vo.BusinessDataVO;
 import com.wesely.vo.CommVO;
 import com.wesely.vo.MemberVO;
 
@@ -50,11 +50,11 @@ public class MemberController {
 		log.info("joinOkPost({})호출", memberVO);
 		if (memberVO != null) {
 			// 닉네임이 비어있을 경우
-			if(memberVO.getNickname().equals("")) {
+			if (memberVO.getNickname().equals("")) {
 				// 닉네임 자리에 이름을 넣어준다.
 				memberVO.setNickname(memberVO.getUsername());
 			}
-			
+
 			// 서비스를 호출하여 저장을 수행한다.
 			memberService.insert(memberVO);
 		}
@@ -310,11 +310,6 @@ public class MemberController {
 		}
 	}
 
-	// 비즈니스계정인증으로 이동
-	@GetMapping(value = "/businessJoin")
-	public String businessJoin() {
-		return "/member/businessJoin";
-	}
 
 	// 커뮤니티 목록보기
 	@RequestMapping(value = { "/", "/list" })
@@ -323,4 +318,5 @@ public class MemberController {
 		return "comm/community";
 	}
 
+	
 }

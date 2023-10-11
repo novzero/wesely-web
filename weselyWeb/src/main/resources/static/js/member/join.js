@@ -9,7 +9,7 @@ $(function() {
 		var reg = /^[A-Za-z0-9]{6,12}$/;
 		if (value != null && value.length >= 1) {
 			if (!reg.test(value)) {
-				$("#idMessage").html("아이디는 6~12자 이며, 영문 또는 숫자만 가능합니다.").css('color', 'red');
+				$("#idMsg").html("아이디는 6~12자 이며, 영문 또는 숫자만 가능합니다.").css('color', 'red');
 				$(this).focus();
 				return false;
 			}
@@ -21,9 +21,9 @@ $(function() {
 				},
 				success: function(data) {
 					if (data * 1 >= 1) {
-						$("#idMessage").html("이미 존재하는 아이디입니다.").css('color', 'red');
+						$("#idMsg").html("이미 존재하는 아이디입니다.").css('color', 'red');
 					} else {
-						$("#idMessage").html("사용가능한 아이디입니다.").css('color', 'green');
+						$("#idMsg").html("사용가능한 아이디입니다.").css('color', 'green');
 					}
 				},
 				error: function() {
@@ -31,7 +31,7 @@ $(function() {
 				}
 			});
 		} else {
-			$("#idMessage").html(""); // 1자 미만이면 메세지 삭제
+			$("#idMsg").html(""); // 1자 미만이면 메세지 삭제
 		}
 	});
 
@@ -43,15 +43,15 @@ $(function() {
 		if (pw != null && pw.length >= 1) {
 			if (pw.length >= 8 && pw.length <= 20) {
 				if (!reg.test(pw)) {
-					$("#pwMessage").css('color', 'red').html("비밀번호는 영문/숫자/특수문자를 모두 포함해야합니다.");
+					$("#pwMsg").css('color', 'red').html("비밀번호는 영문/숫자/특수문자를 모두 포함해야합니다.");
 				} else {
-					$("#pwMessage").css('color', 'green').html("사용가능한 비밀번호입니다.");
+					$("#pwMsg").css('color', 'green').html("사용가능한 비밀번호입니다.");
 				}
 			} else {
-				$("#pwMessage").css('color', 'red').html("비밀번호는 8자~20자로 작성해야합니다.");
+				$("#pwMsg").css('color', 'red').html("비밀번호는 8자~20자로 작성해야합니다.");
 			}
 		} else {
-			$("#pwMessage").html(""); // 1자 미만이면 메세지 삭제
+			$("#pwMsg").html(""); // 1자 미만이면 메세지 삭제
 		}
 	});
 
@@ -61,12 +61,12 @@ $(function() {
 		var pw1 = $("#password1").val();
 		if (pw1 != null && pw1.length >= 1) {
 			if (pw1 != pw) {
-				$("#pw1Message").css('color', 'red').html("비밀번호가 일치하지 않습니다.");
+				$("#pw1Msg").css('color', 'red').html("비밀번호가 일치하지 않습니다.");
 			} else {
-				$("#pw1Message").css('color', 'green').html("비밀번호가 일치합니다.");
+				$("#pw1Msg").css('color', 'green').html("비밀번호가 일치합니다.");
 			}
 		} else {
-			$("#pw1Message").html(""); // 1자 미만이면 메세지 삭제
+			$("#pw1Msg").html(""); // 1자 미만이면 메세지 삭제
 		}
 	});
 
@@ -101,7 +101,7 @@ $(function() {
 		var reg = /^[A-Za-z가-힣]{2,5}$/;
 		if (value != null && value.length >= 1) {
 			if (!reg.test(value)) {
-				$("#nickmessage").css('color', 'red').html("닉네임은 2~5자이며(공백X) 한글 또는 영문만 가능합니다.");
+				$("#nickMsg").css('color', 'red').html("닉네임은 2~5자이며(공백X) 한글 또는 영문만 가능합니다.");
 				$(this).focus();
 				return false;
 			}
@@ -113,9 +113,9 @@ $(function() {
 				},
 				success: function(data) {
 					if (data * 1 >= 1) {
-						$("#nickmessage").html("이미 존재하는 닉네임입니다.").css('color', 'red');
+						$("#nickMsg").html("이미 존재하는 닉네임입니다.").css('color', 'red');
 					} else {
-						$("#nickmessage").html("사용가능한 닉네임입니다.").css('color', 'green');
+						$("#nickMsg").html("사용가능한 닉네임입니다.").css('color', 'green');
 					}
 				},
 				error: function() {
@@ -123,7 +123,7 @@ $(function() {
 				}
 			});
 		} else {
-			$("#nickmessage").html(""); // 1자 미만이면 메세지 삭제
+			$("#nickMsg").html(""); // 1자 미만이면 메세지 삭제
 		}
 
 	});
@@ -190,20 +190,127 @@ $(function() {
 		});
 	});
 
+});
 
+//==========================================================
+// select 값 읽어오기
+
+const showValue = (target) => {
+	const value = target.value;
+	// document.querySelector(`.abc`).innerHTML = `value: ${value}`;
+	const businessNo = document.querySelector(".Bno");	// 사업자 번호
+	const bname = document.querySelector(".Bname");		// 대표자 성명
+	const store = document.querySelector(".Store"); 		// 상호명
+	const cofirm = document.querySelector("#cofirmBtn");	// 사업자 인증 버튼
+	const join = document.querySelector(".joinBtn");
+
+	if (value == '비즈니스계정') {	// select가 비즈니스 계정이 선택됐을 때
+		// 사업자번호, 대표자성명, 상호명 input 보여라
+		businessNo.style.display = "block"
+		bname.style.display = "block"
+		store.style.display = "block"
+		cofirm.style.display = "none"
+		join.disabled = "true"
+	} else {
+		businessNo.style.display = "none"
+		bname.style.display = "none"
+		store.style.display = "none"
+		cofirm.style.display = "none"
+	}
+	
+	
+}
+
+//==========================================================
+// '사업자 등록번호' 맨앞 3자리 입력 후 다음으로 이동
+//==========================================================
+$("#bNum1").on("keyup", function() {
+	var value = $(this).val().match(/[0-9]/g)
+	if (value != null && value.length == 3) {
+		$("#bNum2").focus();
+		$("#bNum2").select();
+	}
+});
+
+//==========================================================
+// '사업자 등록번호' 가운데 2자리 입력 후 다음으로 이동
+//==========================================================
+$("#bNum2").on("keyup", function() {
+	var value = $(this).val().match(/[0-9]/g)
+	if (value != null && value.length == 2) {
+		$("#bNum3").focus();
+		$("#bNum3").select();
+	}
+});
+
+//==========================================================
+//==========================================================
+// 사업자 인증 체크
+var bnock = 0;
+$(function() {
+	$("#cofirmBtn").click(function() {
+
+		if ($("#bNum1").val() == null || $("#bNum1").val().trim().length == 0) {
+			alert("사업자 등록번호(10자리)는 반드시 입력해야 합니다.");
+			$("#bNum1").val("");
+			$("#bNum1").focus();
+			return false;
+		} else if ($("#bNum2").val() == null || $("#bNum2").val().trim().length == 0) {
+			alert("사업자 등록번호(10자리)는 반드시 입력해야합니다.");
+			$("#bNum2").val("");
+			$("#bNum2").focus();
+			return false;
+		} else if ($("#bNum3").val() == null || $("#bNum3").val().trim().length == 0) {
+			alert("사업자 등록번호(10자리)는 반드시 입력해야합니다.");
+			$("#bNum3").val("");
+			$("#bNum3").focus();
+			return false;
+		} else if ($("#bname").val() == null || $("#bname").val().trim().length == 0) {
+			alert("대표자성명은 반드시 입력해야 합니다.");
+			$("#bname").val("");
+			$("#bname").focus();
+			return false;
+		} else if ($("#store").val() == null || $("#store").val().trim().length == 0) {
+			alert("상호명은 반드시 입력해야 합니다.");
+			$("#store").val("");
+			$("#store").focus();
+			return false;
+		} else {
+			const bno = $("#bNum1").val() + $("#bNum2").val() + $("#bNum3").val(); // 사업자등록번호 얻어오기
+			
+			$.ajax('/bnoCheck', {
+				type: "GET",
+				data: {
+					"bno": bno
+				},
+				success: function(data) {
+					if (data * 1 >= 1) {
+						alert("이미 존재하는 사업자 번호입니다.");
+					} else {
+						alert("가능가능");
+						bnock = 1;
+					}
+				},
+				error: function() {
+					alert("에러!!!");
+				}
+			});
+		}
+	})
 });
 
 // ========================================================================================================
 // 폼체크
 // ========================================================================================================
 function formCheck() {
+
 	// 아이디 폼체크
 	if ($("#userid").val() == null || $("#userid").val().trim().length == 0) {
 		alert("아이디는 반드시 입력해야 합니다.");
 		$("#userid").val("");
 		$("#userid").focus();
 		return false;
-	} else if ($("#idMessage").css('color') != 'rgb(0, 128, 0)') {
+	} else if ($("#idMsg").css('color') != 'rgb(0, 128, 0)') {
 		alert("아이디를 확인해주세요.");
 		$("#userid").val("");
 		$("#userid").focus();
@@ -213,7 +320,7 @@ function formCheck() {
 		$("#password").val("");
 		$("#password").focus();
 		return false;
-	} else if ($("#pwMessage").css('color') != 'rgb(0, 128, 0)') {
+	} else if ($("#pwMsg").css('color') != 'rgb(0, 128, 0)') {
 		alert('비밀번호를 확인해주세요.');
 		$("#password").val("");
 		$("#password").focus();
@@ -223,7 +330,7 @@ function formCheck() {
 		$("#password1").val("");
 		$("#password1").focus();
 		return false;
-	} else if ($("#pw1Message").css('color') != 'rgb(0, 128, 0)') {
+	} else if ($("#pw1Msg").css('color') != 'rgb(0, 128, 0)') {
 		alert('비밀번호를 확인해주세요.');
 		$("#password1").val("");
 		$("#password1").focus();
@@ -257,26 +364,15 @@ function formCheck() {
 		$("#phone").val("");
 		$("#phone").focus();
 		return false;
-	} else if (window.confirm("회원가입을 완료하시겠습니까? \n[비즈니스계정]은 사업자정보입력화면으로 이동합니다.")) {
+	} else if (window.confirm("회원가입을 완료하시겠습니까?")) {
 		location.href = "/member/joinOk";
 	} else {
 		return false;
 	};
+
+
 }
 
-/* select 값 읽어오기 */
-const showValue = (target) => {
-  const value = target.value;
-  // document.querySelector(`.abc`).innerHTML = `value: ${value}`;
-  const next = document.querySelector(".nextBtn");
-  const join = document.querySelector(".joinBtn");
-	  
-  if(value=='비즈니스계정'){
-	  next.style.display = "block";
-	  join.style.display = "none";
-  }else{
-	  next.style.display = "none";
-	  join.style.display = "block";
-  }
-}
+
+
 
