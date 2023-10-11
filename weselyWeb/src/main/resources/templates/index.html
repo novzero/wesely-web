@@ -47,10 +47,16 @@
 					<a href="/member/login"><strong>로그인</strong></a>
 					<a href="/member/join"><strong>회원가입</strong></a>
 				</th:block>
-				<th:block th:if="${session.mvo != null}">
+				
+				<th:block th:if="${session.mvo != null && session.mvo.authority == '일반계정'}">
 					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
 					<a href="/member/logout"><strong>로그아웃</strong></a>
-					<a href="/member/businessJoin"><strong>비즈니스 계정</strong></a>
+				</th:block>
+
+				<th:block th:if="${session.mvo != null && session.mvo.authority == '비즈니스계정'}">
+					<a href="/member/updateProfile"><strong>회원정보수정</strong></a>
+					<a th:href="@{/store/view/b/{userId}(userId=${session.mvo.userid})}"><strong>매장관리</strong></a>
+					<a href="/member/logout"><strong>로그아웃</strong></a>
 				</th:block>
 			</nav>
 		</header>

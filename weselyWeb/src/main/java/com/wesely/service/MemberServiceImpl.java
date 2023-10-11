@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.wesely.dao.BusinessDAO;
 import com.wesely.dao.CommunityDAO;
 import com.wesely.dao.MemberDAO;
-import com.wesely.vo.BusinessVO;
-import com.wesely.vo.CommunityVO;
 import com.wesely.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,12 +28,6 @@ public class MemberServiceImpl implements MemberService {
 	public void insert(MemberVO memberVO) {
 		log.info("{}의 insert호출 : {}", this.getClass().getName(), memberVO);
 		memberDAO.insert(memberVO);
-	}
-
-	@Override
-	public void insert(BusinessVO businessVO, String bno, String bname, String bdate) {
-		log.info("{}의 insert호출 : {}", this.getClass().getName(), businessVO);
-		businessDAO.insert(businessVO.getBno(), businessVO.getBname(), businessVO.getBdate());
 	}
 
 	// 회원 탈퇴
@@ -119,6 +111,8 @@ public class MemberServiceImpl implements MemberService {
 		log.info("{}의 emailCheck 리턴 : {}", this.getClass().getName(), emailcount);
 		return emailcount;
 	}
+	
+	
 
 	// 아이디 찾기
 	@Override

@@ -4,7 +4,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>아이디 찾기 페이지</title>
+	<title>사업자 인증 페이지</title>
 
 	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
 	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
@@ -55,11 +55,12 @@
 				<input id="bNum3" class="bNumber" type="text" size="2" maxlength="5" placeholder="00000">
 			</div>
 
-			<div class="name">
+			<div>
 				<label>대표자성명</label><br />
 				<input id="bname" type="text">
 			</div>
 
+			<!--
 			<div class="date">
 				<label>개업일자</label><br />
 				<div id="info_birth">
@@ -74,10 +75,16 @@
 					</select>
 				</div>
 			</div>
-
+			-->
+			
+			<div>
+				<label>상호명</label><br />
+				<input id="store" type="text" placeholder="사업자등록증에 등록된 정확한 상호명 기재">
+			</div>
+			
 			<!-- 사업자인증 화면으로 이동 -->
 			<div>
-				<input type="submit" value="사업자인증" class="Btn" />
+				<input type="submit" value="사업자 인증" class="Btn" />
 			</div>
 		</form>
 	</div>

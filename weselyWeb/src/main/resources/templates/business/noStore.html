@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>wesely</title>
+	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="/css/font.css" />
+	<link rel="stylesheet" href="/css/header.css" />
+	<link rel="stylesheet" href="/css/business/noStore.css" />
+
+
+<body>
+	<div class="wrapper">
+		<header>
+			<div class="logo">
+				<a href="/">
+					<img src="/images/weLogo.png" alt="Logo" />
+				</a>
+			</div>
+			<nav class="bar">
+				<a href="/store/"><strong>운동시설검색</strong></a>
+				<a href="/community/"><strong>커뮤니티</strong></a>
+				<a href="/"><strong>고객센터</strong></a>
+			</nav>
+			<nav class="login">
+				<th:block th:if="${session.mvo == null}">
+					<a href="/member/login"><strong>로그인</strong></a>
+					<a href="/member/join"><strong>회원가입</strong></a>
+				</th:block>
+				
+				<th:block th:if="${session.mvo != null && session.mvo.authority == '일반계정'}">
+					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
+					<a href="/member/logout"><strong>로그아웃</strong></a>
+				</th:block>
+
+				<th:block th:if="${session.mvo != null && session.mvo.authority == '비즈니스계정'}">
+					<a href="/member/updateProfile"><strong>회원정보수정</strong></a>
+					<a th:href="@{/store/view/b/{userId}(userId=${session.mvo.userid})}"><strong>매장관리</strong></a>
+					<a href="/member/logout"><strong>로그아웃</strong></a>
+				</th:block>
+			</nav>
+		</header>
+
+		<main>
+			<div class="modal">
+				<img src="/images/wesely_logo.PNG" alt="로고">
+				<div>
+					<p>아직 등록된 매장이 없습니다.</p>
+					<p>매장을 등록해 주세요.</p>
+				</div>
+				<button type="button" onclick="location.href='/business/insert'">매장 등록하러가기</button>
+			</div>
+		</main>
+	</div>
+</body>
+
+</html>

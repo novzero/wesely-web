@@ -10,7 +10,7 @@
 	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
-	<link rel="stylesheet" href="/css/member/updateProfile.css">
+	<link rel="stylesheet" href="/css/member/update.css">
 	<script src="/js/member/updateProfile.js" defer></script>
 
 </head>
@@ -41,10 +41,10 @@
 			</nav>
 		</header>
 
-		<!-- 프로필 수정 페이지 -->
+		<!-- 프로필 수정 메인폼 -->
 		<main>
 
-			<div id="updateProfile">
+			<div id="update">
 				<div>
 					<div class="title">프로필 수정
 						<img src="/images/wesely_logo.png" alt="wesely로고" width="50px" style="float: right;">
@@ -79,7 +79,7 @@
 					</div>
 				</div>
 
-
+--
 				<form action="/member/updateProfileOk" method="post" onsubmit="return formCheck()">
 
 					<div class="nickName">
@@ -88,18 +88,18 @@
 						<label for="nickname">닉네임</label>
 						<!-- 회원가입 시 닉네임을 설정하지 않았다면 이름이 기본으로 보여진다!! -->
 						<input type="text" id="nickname" th:value="${session.mvo.nickname}"  />
-						<span id="nickmessage" style="float: left; font-size: 13px;" />
+						<span id="nickmessage"/>
 					</div>
-					<div>
+					<div class="username">
 						<label for="username">이름</label>
 						<input type="text" id="username" name="username" th:placeholder="${session.mvo.username}"
 							readonly />
 					</div>
-					<div>
+					<div class="phone">
 						<label for="phone">전화번호</label>
 						<input type="text" id="phone" name="phone" th:placeholder="${session.mvo.phone}" readonly />
 					</div>
-					<div>
+					<div class="email">
 						<label for="email">이메일</label>
 						<input type="email" id="email" name="email" size="40" th:placeholder="${session.mvo.email}"
 							readonly />

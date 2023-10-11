@@ -3,18 +3,19 @@
 CREATE SEQUENCE wmember_idx_seq;
 CREATE TABLE wmember (
 	idx NUMBER PRIMARY KEY,
-	userid varchar2(50) NOT NULL,
-	password varchar2(200) NOT NULL,
-	uuid varchar2(200) NULL,
-	username varchar2(50) NOT NULL,
-	nickname varchar2(50),
-	authority varchar2(50) NOT NULL,
-	email varchar2(100),
-	phone varchar2(20)
+	userid varchar2(50) NOT NULL,		-- 유저아이디
+	password varchar2(200) NOT NULL,	-- 비밀번호
+	username varchar2(50) NOT NULL,		-- 유저이름
+	nickname varchar2(50),				-- 유저별명
+	authority varchar2(50) NOT NULL,	-- 계정유형
+	email varchar2(100),				-- 이메일
+	phone varchar2(20)					-- 전화번호
 );
 
 SELECT * FROM wmember;
 DELETE FROM wmember;
+
+DROP TABLE WMEMBER ;
 
 --===============================================================================
 -- 비즈니스회원 테이블
@@ -22,12 +23,13 @@ CREATE SEQUENCE bmember_id_seq;
 CREATE TABLE bmember(
 	idx NUMBER PRIMARY KEY,
 	ref NUMBER,
-	bno varchar2(100) NOT NULL,
-	bname varchar2(50) NOT NULL,
-	bdate varchar2(100) NOT NULL
+	bno varchar2(100) NOT NULL ,	-- 사업자번호
+	bname varchar2(50) NOT NULL ,	-- 대표자성명
+	store varchar2(100) NOT NULL	-- 대표자성명
 );
 DROP TABLE bmember;
 SELECT * FROM bmember;
+INSERT inTO bmember values(bmember_id_seq.nextval, '3808','1234567890','ddd','ddd');
 
 --===============================================================================
 

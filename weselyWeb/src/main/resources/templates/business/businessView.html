@@ -82,16 +82,6 @@
 				<a href="/community/"><strong>커뮤니티</strong></a>
 				<a href="/"><strong>고객센터</strong></a>
 			</nav>
-			<nav class="hello">
-				<th:block th:if="${session.mvo != null}">
-					<span>
-						<!-- 별명을 설정하지 않은 회원은 이름으로 표시된다. -->
-						<input type="text" th:value="${session.mvo.nickname}" disabled />
-						님 환영합니다.
-					</span>
-				</th:block>
-			</nav>
-
 			<nav class="login">
 				<th:block th:if="${session.mvo == null}">
 					<a href="/member/login"><strong>로그인</strong></a>
@@ -115,17 +105,22 @@
 		<main>
 			<section class="slide">
 				<ul class="slide__list">
-					<th:block th:if="${st.imgList != null and not #lists.isEmpty(st.imgList)}"
-						th:each="img : ${st.imgList}">
+					<!--
+					<li class="slide__item">
+						<img class="slideImg" src="/images/image123.png" alt="매장슬라이드이미지" />
+					</li>
+					<li class="slide__item">
+						<img class="slideImg" src="/images/exmainStore.png" alt="매장슬라이드이미지" />
+					</li>
+					<li class="slide__item">
+						<img class="slideImg" src="/images/exmainStore.png" alt="매장슬라이드이미지" />
+					</li>
+					-->
+					<th:block th:each="img : ${st.imgList}">
 						<li class="slide__item">
-							<img class="slideImg" th:src='|/static/images/upload/${img.uuid}_${img.fileName}|'
-								alt="슬라이드이미지" />
+							<img class="slideImg" th:src='|/static/images/upload/${img.uuid}_${img.fileName}|' />
 						</li>
 					</th:block>
-
-					<li class="slide__item" th:unless="${st.imgList != null and not #lists.isEmpty(st.imgList)}">
-						<img class="slideImg" src="/images/unpostImg.png" alt="매장이미지없음" />
-					</li>
 				</ul>
 
 
@@ -175,6 +170,10 @@
 				<!-- kakaoMap -->
 				<div class="mapImg" id="map"></div>
 
+				<div class="sysBtn">
+					<button type="button" th:attr="onclick='location.href=\'/business/update/' + ${st.id} + '\''">매장 수정</button>
+					<button type="button" onclick="location.herf='/business/update'">매장 삭제</button>
+				</div>
 				<div class="line"></div>
 			</section>
 
@@ -257,3 +256,7 @@
 </body>
 
 </html>
+
+<!--<script th:inline="javascript" />-->
+<!-- <i class="fas fa-arrow-left"></i> -->
+<!-- <i class="fas fa-arrow-right"></i> -->

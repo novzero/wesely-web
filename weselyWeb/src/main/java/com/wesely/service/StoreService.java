@@ -38,4 +38,6 @@ public interface StoreService {
 	// 10. 리뷰 삭제
 	boolean reviewDelete(Long id);
 
+	StoreVO findByUserId(String userid);
+
 }
