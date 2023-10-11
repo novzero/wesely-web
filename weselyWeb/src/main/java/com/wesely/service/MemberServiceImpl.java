@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.wesely.dao.BusinessDAO;
 import com.wesely.dao.CommunityDAO;
 import com.wesely.dao.MemberDAO;
-import com.wesely.vo.BusinessDataVO;
-import com.wesely.vo.CommunityVO;
 import com.wesely.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -113,6 +111,8 @@ public class MemberServiceImpl implements MemberService {
 		log.info("{}의 emailCheck 리턴 : {}", this.getClass().getName(), emailcount);
 		return emailcount;
 	}
+	
+	
 
 	// 아이디 찾기
 	@Override

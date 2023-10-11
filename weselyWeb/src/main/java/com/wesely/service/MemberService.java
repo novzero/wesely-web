@@ -1,6 +1,5 @@
 package com.wesely.service;
 
-import com.wesely.vo.BusinessDataVO;
 import com.wesely.vo.MemberVO;
 
 public interface MemberService {
