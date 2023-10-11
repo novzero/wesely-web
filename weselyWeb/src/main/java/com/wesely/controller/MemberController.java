@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wesely.service.MemberService;
-import com.wesely.vo.BusinessVO;
+import com.wesely.vo.BusinessDataVO;
 import com.wesely.vo.CommVO;
 import com.wesely.vo.MemberVO;
 
@@ -70,17 +70,6 @@ public class MemberController {
 	@GetMapping("/joinComplete")
 	public String joinCompleteGet(MemberVO memberVO, Model model) {
 		return "member/joinComplete";
-	}
-
-	@PostMapping("/businessJoinOk")
-	public String businessJoinOkPost(@ModelAttribute BusinessVO businessVO, @RequestParam String bno,
-			@RequestParam String bname, @RequestParam String bdate) {
-		log.info("businessJoinOkPost({})호출", businessVO);
-		if (businessVO != null) {
-			// 서비스를 호출하여 저장을 수행한다.
-			memberService.insert(businessVO, bno, bname, bdate);
-		}
-		return "redirect:/member/joinComplete";
 	}
 
 	// 아이디 중복확인

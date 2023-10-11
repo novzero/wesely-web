@@ -1,4 +1,4 @@
-//==========================================================
+s//==========================================================
 // '사업자 등록번호' 맨앞 3자리 입력 후 다음으로 이동
 //==========================================================
 $("#bNum1").on("keyup", function() {
@@ -133,49 +133,30 @@ function formCheck() {
 	};
 }
 
-//==========================================================
-// 사업자등록 확인
-//==========================================================
-/*
-$("#bNum3").keyup(function() {
-	var charLimit = $(this).attr("maxlength");
+var main = {
+    init : function () {
+        var _this = this;
+        $('#btn-movies-find').on('click', function () {
+            _this.find();
+        });
+    },
+    find : function () {
+        var keyword = $('#keyword').val();
 
-	var num1 = $("#bNum1").val();
-	var num2 = $("#bNum2").val();
-	var num3 = $("#bNum3").val();
+        $.ajax({
+            type: 'GET',
+            url: '/business/'+keyword,
+            dataType: 'json',
+            contentType:'application/json; charset=utf-8',
+        }).done(function(res) {
+            alert(JSON.stringify(res));
+        }).fail(function (error) {
+            alert(JSON.stringify(error));
+        });
+    }
+};
 
-	var bs_num = num1 + "" + num2 + "" + num3;
-
-	if (this.value.length == "5") {
-		check = {}
-
-		new Promise((succ, fail) => {
-			var data = { "b_no": ["" + bs_num + ""] };
-
-			$.ajax({
-
-				url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=cWmVuLnyCWjAF%2BsakpeaGd1%2BHNcyKmAx3sG3qC86fkW4s93tcNUvHQC33NxaJzIOLvDBaQX6nYOvoClzKrylsA%3D%3D",  // serviceKey 값을 xxxxxx에 입력
-				type: "POST",
-				data: JSON.stringify(data),
-				dataType: "JSON",
-				contentType: "application/json",
-				accept: "application/json",
-				success: function(result) {
-					
-					check.code = result.data[0].b_stt.cd;
-					check.b_no = result.data[0].b_no;
-					succ(result);
-				},
-				fail: function(result){
-					fail(errror);
-				}
-			});
-		})
-	}
-})
-
-
-*/
+main.init();
 
 
 
