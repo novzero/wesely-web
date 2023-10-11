@@ -112,7 +112,58 @@
 			textarea.style.height = textarea.scrollHeight + 'px';
 		}
 
-		function likePost() {
+
+$(function () {
+    $("#btnLike").click(function () {
+        let postId = $("#postId").val(); // 현재 게시글의 ID
+        let nickname2 = $("#nickname2").val(); // 현재 로그인한 사용자의 닉네임
+
+        const pushHeartBtn = $(".heartBtn");
+        if(pushHeartBtn.hasClass("liked")) { // 이미 좋아요한 상태인 경우, 좋아요 취소 처리
+            let form = new FormData();
+            form.append("ref", postId);
+            form.append("nickname", nickname2);
+
+            axios.delete('/goodDelete', { data: form })
+                .then(function (response) {
+                    if(response.data) {
+                        alert("좋아요 취소!");
+                        // 좋아요 취소 상태로 변경
+                        pushHeartBtn.html('<i class="fa-regular fa-heart"></i>');
+                        pushHeartBtn.css("color", "");
+                        pushHeartBtn.removeClass("liked");
+                    } else {
+                        alert("좋아요를 누르지 않으셨습니다.");
+                    }
+                })
+                .catch(function (error) { 
+                    alert("에러발생!! : " + error);
+                });
+            
+        } else { // 아직 좋아요하지 않은 상태인 경우, 좋아요 처리
+            let form = new FormData();
+            form.append("ref", postId);
+            form.append("nickname", nickname2);
+
+            axios.post('/community/goodInsert', form)
+                .then(function (response) {
+                    if(response.data) {
+                        alert("좋아요!");
+                        // 좋아요한 상태로 변경
+                        pushHeartBtn.html('<i class="fa-solid fa-heart"></i>');
+                        pushHeartBtn.css("color", "red");
+                        pushHeartBtn.addClass("liked");
+                    } else { 
+                        alert("이미 좋아요를 누르셨습니다.");
+                    }
+                })
+                .catch(function (error) { 
+                    alert("에러발생!! : " + error);
+                });
+        }
+    });
+});
+		/*function likePost() {
 			const pushHeartBtn = $(".heartBtn");
 			if (pushHeartBtn.hasClass("liked")) {
 				// 이미 좋아요한 상태인 경우
@@ -127,6 +178,7 @@
 			}
 		}
 
+*/
 		function likeComment(obj) {
 			if ($(obj).hasClass("liked")) {
 				// 이미 좋아요한 상태인 경우
@@ -140,31 +192,6 @@
 				$(obj).addClass("liked");
 			}
 		}
-// 좋아요 데이터 전송
-$(function () {
-    $("#btnLike").click(function () {
-        let postId = $("#postId").val(); // 현재 게시글의 ID
-        let nickname2 = $("#nickname2").val(); // 현재 로그인한 사용자의 닉네임
-
-        let form = new FormData();
-        form.append("ref", postId);
-        form.append("nickname", nickname2);
-
-        axios.post('/community/goodInsert', form)
-            .then(function (response) {
-                if(response.data) {
-                    alert("좋아요!");
-                } else {
-                    alert("이미 좋아요를 누르셨습니다.");
-                }
-                location.reload();
-            })
-            .catch(function (error) { 
-                alert("에러발생!! : " + error);
-            });
-    });
-  
-});
 
 	</script>
 </head>
