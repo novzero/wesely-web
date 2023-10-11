@@ -146,7 +146,7 @@ const render = () => {
   makeButton();
   makePagination();
   cloneElement();
-  autoplay({ duration: 3000 });
+  
 };
 
 render();
