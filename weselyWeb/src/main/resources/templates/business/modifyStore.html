@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/business/createStore.css" />
-	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>	
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 	<!-- Scripts -->
 	<script scr="javascript">
@@ -50,7 +50,7 @@
 					<a href="/member/login"><strong>로그인</strong></a>
 					<a href="/member/join"><strong>회원가입</strong></a>
 				</th:block>
-				
+
 				<th:block th:if="${session.mvo != null && session.mvo.authority == '일반계정'}">
 					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
 					<a href="/member/logout"><strong>로그아웃</strong></a>
@@ -69,6 +69,7 @@
 			<form action="/business/insertOk" onsubmit="return formCheck()" method="post" enctype="multipart/form-data">
 				<div class="fileWrapper">
 					<p class="titleText required">매장 사진<span class="subText"> 첫번째는 필수등록이며, 썸네일로 적용됩니다.</span></p>
+					<!--
 					<label for="storeImges1">
 						<input id="storeImges1" type="file" name="uploadFile" />
 					</label>
@@ -84,25 +85,51 @@
 					<label for="storeImges4">
 						<input id="storeImges4" type="file" name="uploadFile" />
 					</label>
+					-->
+					<th:block th:each="img, vs : ${st.imgList}">
+						<label class="addImgItem" th:for="'storeImges' + ${vs.count}">
+							<input type="file" th:id="'storeImges' + ${vs.count}" class="inputFile" name="uploadFile">
+							<span th:text="${img.fileName}"></span>
+							<div>
+								<img th:id="'img' + ${vs.count}" class="fileImg on" name="uploadFile"
+									th:src='|/static/images/upload/${img.uuid}_${img.fileName}|'>
+							</div>
+							</input>
+						</label>
+					</th:block>
+
+					<th:block th:if="${#lists.size(st.imgList)<4}">
+						<th:block th:each="num : ${#numbers.sequence(#lists.size(st.imgList)+1, 4)}">
+							<label class="addImgItem" for="'storeImges' + ${num}">
+								<input id="'storeImges' + ${num}" type="file" name="uploadFile">
+								<!-- 원하는 내용을 추가하세요 -->
+								</input>
+							</label>
+						</th:block>
+					</th:block>
 				</div>
 
 				<input th:if="${session.mvo.nickname == null}" type="text" th:value="${session.mvo.username}"
 					disabled />
 				<input id="userid" th:unless="${session.mvo.nickname == null}" th:value="${session.mvo.userid}"
 					type="hidden" name="userid" />
-				
+
 				<p class="titleText required">매장 이름</p>
-				<input class="addText" id="name" type="text" placeholder="매장이름" name="name">
+				<input class="addText" id="name" type="text" placeholder="매장이름" name="name" th:value="${st.name}">
 				<p class="titleText required">매장 주소</p>
-				<input class="addText" id="address" type="text" placeholder="매장주소" name="address">
+				<input class="addText" id="address" type="text" placeholder="매장주소" name="address"
+					th:value="${st.address}">
 				<p class="titleText">해쉬태그</p>
-				<input class="addText" id="hashTag" type="text" placeholder="해쉬태그" name="hashTag">
+				<input class="addText" id="hashTag" type="text" placeholder="해쉬태그" name="hashTag"
+					th:value="${st.hashTag}">
 				<p class="titleText">매장 운영시간</p>
-				<input class="addText" id="opening" type="text" placeholder="매장운영시간" name="opening">
+				<input class="addText" id="opening" type="text" placeholder="매장운영시간" name="opening"
+					th:value="${st.opening}">
 				<p class="titleText required">매장 전화번호</p>
-				<input class="addText" id="tel" type="text" placeholder="매장전화번호" name="tel">
+				<input class="addText" id="tel" type="text" placeholder="매장전화번호" name="tel" th:value="${st.tel}">
 				<p class="titleText">매장 소개(설명)</p>
-				<input class="addTextDes" id="dec" type="text" placeholder="매장설명" name="description">
+				<input class="addTextDes" id="dec" type="text" placeholder="매장설명" name="description"
+					th:value="${st.description}">
 				<div class="modalBtn">
 					<input class="btnCancle" type="button" value="취소" th:onclick="location.href='/'"></input>
 					<input class="btnAdd" type="submit" value="등록"></input>

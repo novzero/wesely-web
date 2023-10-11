@@ -87,10 +87,16 @@
 					<a href="/member/login"><strong>로그인</strong></a>
 					<a href="/member/join"><strong>회원가입</strong></a>
 				</th:block>
-				<th:block th:if="${session.mvo != null}">
+
+				<th:block th:if="${session.mvo != null && session.mvo.authority == '일반계정'}">
 					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
-					<a href="/logout"><strong>로그아웃</strong></a>
-					<a href="/"><strong>비즈니스 계정</strong></a>
+					<a href="/member/logout"><strong>로그아웃</strong></a>
+				</th:block>
+
+				<th:block th:if="${session.mvo != null && session.mvo.authority == '비즈니스계정'}">
+					<a href="/member/updateProfile"><strong>회원정보수정</strong></a>
+					<a th:href="@{/store/view/b/{userId}(userId=${session.mvo.userid})}"><strong>매장관리</strong></a>
+					<a href="/member/logout"><strong>로그아웃</strong></a>
 				</th:block>
 			</nav>
 		</header>
@@ -110,7 +116,6 @@
 						<img class="slideImg" src="/images/exmainStore.png" alt="매장슬라이드이미지" />
 					</li>
 					-->
-
 					<th:block th:each="img : ${st.imgList}">
 						<li class="slide__item">
 							<img class="slideImg" th:src='|/static/images/upload/${img.uuid}_${img.fileName}|' />
@@ -165,6 +170,10 @@
 				<!-- kakaoMap -->
 				<div class="mapImg" id="map"></div>
 
+				<div class="sysBtn">
+					<button type="button" th:attr="onclick='location.href=\'/business/update/' + ${st.id} + '\''">매장 수정</button>
+					<button type="button" onclick="location.herf='/business/update'">매장 삭제</button>
+				</div>
 				<div class="line"></div>
 			</section>
 
