@@ -2,7 +2,7 @@ package com.wesely.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.wesely.vo.BusinessVO;
+import com.wesely.vo.BusinessDataVO;
 
 @Mapper
 public interface BusinessDAO {
@@ -12,11 +12,11 @@ public interface BusinessDAO {
 
 	
 	// <!-- 삭제하기 : 사업자정보 삭제 -->
-	void delete(BusinessVO businessVO);
+	void delete(BusinessDataVO businessVO);
 	
 	// <!-- 1개 가져오기 -->
-	BusinessVO selectByBno(String bno);
-	BusinessVO selectByBname(String bname);
+	BusinessDataVO selectByBno(String bno);
+	BusinessDataVO selectByBname(String bname);
 	
 	// <!-- 동일한 사업자등록번호 개수 얻기 : 사업자등록번호 중복 확인 -->
 	int selectCountByBno(String bno);

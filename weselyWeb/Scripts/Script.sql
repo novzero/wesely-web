@@ -24,8 +24,7 @@ CREATE TABLE bmember(
 	idx NUMBER PRIMARY KEY,
 	ref NUMBER,
 	bno varchar2(100) NOT NULL,		-- 사업자번호
-	bname varchar2(50) NOT NULL,	-- 대표자성명
-	bdate varchar2(100) NOT NULL	-- 개업일자
+	bname varchar2(50) NOT NULL	-- 대표자성명
 );
 DROP TABLE bmember;
 SELECT * FROM bmember;
