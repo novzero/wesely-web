@@ -12,10 +12,8 @@
 
 
 .wrap input {
-	display: block;
 	width: 100%;
 	height: 35px;
-	margin-top: 10px;
 	margin-bottom: 5px;
 	border: 1px solid gainsboro;
 	border-radius: 7px;
@@ -25,16 +23,11 @@
 	font-size: 15px;
 }
 
-.wrap .email,
-.nickname {
-	margin-top: 10px;
-}
 
 input::placeholder {
 	color: lightgray;
 	font-size: 13px;
 }
-
 
 .wrap input:focus {
 	border-color: #4D54A5;
@@ -56,8 +49,39 @@ input::placeholder {
 	padding-left: 10px;
 }
 
-.wrap .joinBtn,
-.wrap .nextBtn {
+.userid,
+.email,
+.nickname,
+.Bno,
+.Bname,
+.Store {
+	margin-top: 10px;
+}
+
+/* 비밀번호 보기/숨기기 아이콘 */
+#pwIcon,
+#pw1Icon {
+	position: absolute;
+	margin-left: -30px;
+	margin-top: 7px;
+}
+
+/* 사업자 인증 버튼 */
+#cofirmBtn {
+	width: 100%;
+	height: 40px;
+	border-radius: 7px;
+	border: none;
+	color:#4D54A5;
+	font-weight: bold;
+	background-color: white;
+	border: 1px solid #4D54A5;
+	margin-top: 10px;
+	transition: all 0.3s;
+}
+
+/* 회원가입 버튼 */
+.wrap .joinBtn {
 	width: 100%;
 	height: 40px;
 	border-radius: 7px;
@@ -65,39 +89,35 @@ input::placeholder {
 	color: white;
 	font-weight: bold;
 	background-color: #4D54A5;
-	margin-top: 20px;
-	margin-bottom: 10px;
+	margin-top: 10px;
 	transition: all 0.3s;
 }
 
-.wrap .nextBtn {
+.joinBtn:hover,
+#cofirmBtn:hover {
+	transform: scale(1.03);
+}
+
+
+.wrap #cofirmBtn,
+.wrap .Bno,
+.wrap .Bname,
+.wrap .Store {
 	display: none;
-
 }
 
-.joinBtn:hover {
-	transform: scale(1.03);
+.Bno input::placeholder{
+	text-align: center;
+}
+.Bno input{
+	text-align: center;
 }
 
-.nextBtn:hover {
-	transform: scale(1.03);
-}
-
-#pwIcon,
-#pw1Icon {
-	position: absolute;
-	margin-left: 120px;
-	margin-top: -32px;
-}
-
-
+#bNum1 {width: 100px;}
+#bNum2 {width: 60px;}
+#bNum3 {width: 110px;}
 
 
 /*회원가입 약관*/
-a {
-	color: #4D54A5;
-}
-
-a:hover {
-	font-weight: bold;
-}
+a {color: #4D54A5;}
+a:hover {font-weight: bold;}

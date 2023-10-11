@@ -36,7 +36,7 @@ public class APIController {
 	// 해당 쿼리 파라미터가 없으면 기본값으로 12
 	@GetMapping(value = "/store")
 	public List<StoreVO> getList(@RequestParam(defaultValue = "12") int lastNum) {
-		
+
 		return storeService.selectMore(lastNum);
 	}
 
@@ -56,6 +56,7 @@ public class APIController {
 
 		return new ResponseEntity<>("All stores saved successfully", HttpStatus.OK);
 	}
+
 // -----------------------------------------------------------------------------------------
 	// 시설에 대한 리뷰저장
 	@PostMapping(value = "/reviewInsert")
@@ -72,7 +73,6 @@ public class APIController {
 		return result;
 	}
 
-	
 	// 리뷰 수정
 	@PutMapping(value = "/reviewUpdate")
 	@ResponseBody
@@ -88,34 +88,35 @@ public class APIController {
 		return result;
 	}
 
+	// 리뷰 삭제
+	@DeleteMapping(value = "/reviewDelete/{id}")
+	@ResponseBody
+	public boolean reviewDelete(@PathVariable("id") Long id) {
+		log.info("리뷰 삭제 호출 : {}", id);
+		boolean result = false;
+		try {
+			result = storeService.reviewDelete(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		log.info("리뷰 삭제 결과 : {}", result);
+		return result;
+	}
 
-	 // 리뷰 삭제
-    @DeleteMapping(value = "/reviewDelete/{id}")
-    @ResponseBody
-    public boolean reviewDelete(@PathVariable("id") Long id) {
-        log.info("리뷰 삭제 호출 : {}", id);
-        boolean result = false;
-        try {
-            result = storeService.reviewDelete(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        log.info("리뷰 삭제 결과 : {}", result);
-        return result;
-    }
-    
-    // 리뷰 수정위해 해당 리뷰 1개 가져오기
-    @GetMapping(value="/reviewByID/{id}")
-    @ResponseBody
-    public StoreReviewVO reviewByID(@PathVariable("id") Long id) {
-        log.info("해당 리뷰 1개 가져오기=== reviewByID 호출 : {}", id);
-        StoreReviewVO storeReviewVO = null;
-        try {
-        	storeReviewVO = storeService.getReview(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        log.info("reviewByID 결과 : {}", storeReviewVO);
-        return storeReviewVO;
-    }
+	// 리뷰 수정위해 해당 리뷰 1개 가져오기
+	@GetMapping(value = "/reviewByID/{id}")
+	@ResponseBody
+	public StoreReviewVO reviewByID(@PathVariable("id") Long id) {
+		log.info("해당 리뷰 1개 가져오기=== reviewByID 호출 : {}", id);
+		StoreReviewVO storeReviewVO = null;
+		try {
+			storeReviewVO = storeService.getReview(id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		log.info("reviewByID 결과 : {}", storeReviewVO);
+		return storeReviewVO;
+	}
+
+
 }

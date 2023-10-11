@@ -1,3 +1,5 @@
+// 사업자 정보 입력부분 js
+
 //==========================================================
 // '사업자 등록번호' 맨앞 3자리 입력 후 다음으로 이동
 //==========================================================
@@ -21,7 +23,8 @@ $("#bNum2").on("keyup", function() {
 //==========================================================
 
 
-
+/*
+// 개업일자 보류
 //==========================================================
 // '개업연도' 셀렉트 박스 option 목록 동적 생성
 //==========================================================
@@ -86,7 +89,7 @@ birthDay.addEventListener('focus', function() {
 
 	}
 });
-
+*/
 
 //==========================================================
 // 폼 체크
@@ -132,50 +135,6 @@ function formCheck() {
 		return false;
 	};
 }
-
-//==========================================================
-// 사업자등록 확인
-//==========================================================
-/*
-$("#bNum3").keyup(function() {
-	var charLimit = $(this).attr("maxlength");
-
-	var num1 = $("#bNum1").val();
-	var num2 = $("#bNum2").val();
-	var num3 = $("#bNum3").val();
-
-	var bs_num = num1 + "" + num2 + "" + num3;
-
-	if (this.value.length == "5") {
-		check = {}
-
-		new Promise((succ, fail) => {
-			var data = { "b_no": ["" + bs_num + ""] };
-
-			$.ajax({
-
-				url: "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=cWmVuLnyCWjAF%2BsakpeaGd1%2BHNcyKmAx3sG3qC86fkW4s93tcNUvHQC33NxaJzIOLvDBaQX6nYOvoClzKrylsA%3D%3D",  // serviceKey 값을 xxxxxx에 입력
-				type: "POST",
-				data: JSON.stringify(data),
-				dataType: "JSON",
-				contentType: "application/json",
-				accept: "application/json",
-				success: function(result) {
-					
-					check.code = result.data[0].b_stt.cd;
-					check.b_no = result.data[0].b_no;
-					succ(result);
-				},
-				fail: function(result){
-					fail(errror);
-				}
-			});
-		})
-	}
-})
-
-
-*/
 
 
 
