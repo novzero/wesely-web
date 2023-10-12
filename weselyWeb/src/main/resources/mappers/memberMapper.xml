@@ -11,6 +11,9 @@
 		(idx, userid, password, username, nickname, authority, email, phone)
 		values
 		(wmember_idx_seq.nextval, #{userid}, #{password}, #{username}, #{nickname}, #{authority}, #{email}, #{phone})
+		<selectKey keyProperty="ref" resultType="Integer">
+			select MAX(idx) from wmember
+		</selectKey>
 	</insert>
 	
 	<!-- 수정하기 : 회원 별명 수정 -->

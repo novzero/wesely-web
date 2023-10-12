@@ -302,7 +302,6 @@ $(function() {
 					// 사업자정보 유효성검사에 통과하였을 때
 					alert("사업자정보가 인증되었습니다.");
 					isBusinessConfirmed = true;
-					setBusinessInputsReadonly(true);
 					updateJoinButtonState();
 				} else if (data == 1) {
 					// 중복되는 사업자 번호가 존재할 때

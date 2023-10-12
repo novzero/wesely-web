@@ -1,14 +1,11 @@
 package com.wesely.service;
 
-import com.wesely.vo.BusinessVO;
 import com.wesely.vo.MemberVO;
 
 public interface MemberService {
 	// 회원가입
 	void insert(MemberVO memberVO);
 
-	// 비즈니스 회원가입
-	void insertBusiness(MemberVO memberVO, BusinessVO businessVO);
 
 	// 비즈니스 계정 사업자번호 유효성 검사
 	int bnoCheck(String bno) throws Exception;

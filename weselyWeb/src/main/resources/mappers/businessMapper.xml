@@ -6,7 +6,7 @@
 <mapper namespace="com.wesely.dao.BusinessDAO">
 
 	<!-- 저장하기 : 사업자 정보 저장 -->
-	<insert id="insert" parameterType="BusinessVO">
+	<insert id="insert" parameterType="MemberVO">
 		insert into bmember
 		(idx, ref, bno, bname, store)
 		values

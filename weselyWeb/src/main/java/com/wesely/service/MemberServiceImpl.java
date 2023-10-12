@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wesely.dao.BusinessDAO;
 import com.wesely.dao.CommunityDAO;
 import com.wesely.dao.MemberDAO;
-import com.wesely.vo.BusinessVO;
 import com.wesely.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,8 +40,22 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void insert(MemberVO memberVO) {
 		log.info("{}의 insert호출 : {}", this.getClass().getName(), memberVO);
-		memberDAO.insert(memberVO);
+		if (memberVO.getAuthority().equals("비즈니스계정")) {
+			// 비즈니스 계정인 경우 사업자 정보도 함께 저장
+
+			memberVO.setBno(memberVO.getBNum1() + memberVO.getBNum2() + memberVO.getBNum3());
+			
+			int idx = memberDAO.insert(memberVO);
+
+			memberVO.setRef(idx);
+			log.info("{}의 insert호출 : {}", this.getClass().getName(), memberVO);
+			businessDAO.insert(memberVO);
+
+		} else {
+			memberDAO.insert(memberVO);
+		}
 	}
+
 
 	// 회원 탈퇴
 	@Override
@@ -231,22 +244,6 @@ public class MemberServiceImpl implements MemberService {
 
 //==============================================================================================================
 //==============================================================================================================
-	
-	// 비즈니스회원정보 저장
-	@Override
-	public void insertBusiness(MemberVO memberVO, BusinessVO businessVO) {
-		log.info("{}의 insertBusiness 호출 : {}", this.getClass().getName(), memberVO);
-
-		// 일반 회원 정보 저장 후 idx 값을 가져옴
-		memberDAO.insert(memberVO);
-	    MemberVO insertedMember = memberDAO.selectByUserid(memberVO.getUserid());
-	    int idx = insertedMember.getIdx();
-		
-		// 사업자 등록번호 설정 및 ref로 일반회원 idx 설정 후 저장
-		businessVO.setRef(idx);
-		businessVO.setBno(businessVO.getBNum1() + businessVO.getBNum2() + businessVO.getBNum3());
-		businessDAO.insert(businessVO);
-	}
 
 	// 사업자번호 중복체크 + 사업자번호 검증
 	private static final String serviceKey = "hLHWpZv6BDxRiqMCB%2FXVu0aIlJq%2FiiIUl%2FFt%2BOH9wHYxyCM4FF3E5pwVZ%2B0OHlFC0by91hiA%2BXvyjnaJya%2BIsA%3D%3D";
