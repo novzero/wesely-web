@@ -92,20 +92,17 @@ $(function() {
 		} else {
 			$("#pwMsg").html(""); // 1자 미만이면 메세지 삭제
 		}
-
-		// Trigger input event on password confirmation field to update its message.
-		$("#password1").trigger('input');
 	});
 
-	// 비번확인 검사 | 입력할 때마다 검사
+	// 비밀번호 확인 검사 | 입력할 때마다 검사
 	$("#password1").on('input', function() {
 		var pw = $("#password").val();
-		var pw1 = $(".#password1").val();
+		var pw1 = $("#password1").val();
 
 		if (pw !== "" && pw === pw1) {
-			$("#pw1Msg").css('color', 'green').html("비번가 일치합니다.");
+			$("#pw1Msg").css('color', 'green').html("비밀번호가 일치합니다.");
 		} else if (pw !== "" || pw1 !== "") {
-			$("#pw1Msg").css('color', 'red').html("비번가 일치하지 않습니다.");
+			$("#pw1Msg").css('color', 'red').html("비밀번호가 일치하지 않습니다.");
 		} else {
 			$("#pw1Msg").html(""); // 둘 다 없을 경우 메시지 삭제
 		}
