@@ -56,13 +56,10 @@ public class MemberController {
 
 			// 서비스를 호출하여 저장을 수행한다.
 			memberService.insert(memberVO);
+
 		}
-		if (memberVO.getAuthority().equals("비즈니스계정")) {
-			return "member/businessJoin";
-		} else {
-			model.addAttribute("username", memberVO.getUsername());
-			return "member/joinComplete";
-		}
+		model.addAttribute("username", memberVO.getUsername());
+		return "member/joinComplete";
 	}
 
 	// 회원가입완료 처리
@@ -308,7 +305,6 @@ public class MemberController {
 			return "redirect:/member/delete";
 		}
 	}
-
 
 	// 커뮤니티 목록보기
 	@RequestMapping(value = { "/", "/list" })
