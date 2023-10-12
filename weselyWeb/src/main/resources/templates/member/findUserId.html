@@ -13,15 +13,15 @@
 	<link rel="stylesheet" href="/css/header.css" />
 	<style type="text/css">
 		#findIdform {
-			width: 300px;
+			width: 400px;
 			margin-right: auto;
 			margin-left: auto;
 			margin-top: 50px;
-			padding: 20px;
-			border: none;
+			padding: 50px;
 			text-align: center;
+			border: none;
 		}
-		
+
 		#findIdform .title {
 			color: #4D54A5;
 			font-weight: bold;
@@ -40,11 +40,8 @@
 		}
 
 		#findIdform input {
-			display: block;
 			width: 100%;
 			height: 35px;
-			margin-top: 15px;
-			margin-bottom: 15px;
 			border: 1px solid gainsboro;
 			border-radius: 7px;
 			padding: 0 20px;
@@ -53,25 +50,38 @@
 			font-size: 15px;
 		}
 
-
-		#findIdform .findIdBtn {
-			height: 40px;
-			border: none;
-			color: white;
-			font-weight: bold;
-			background-color: #4D54A5;
-			transition: all 0.3s;
+		#username,
+		#phone {
+			margin-top: 10px;
 		}
 
-		.findIdBtn:hover {
-			transform: scale(1.03);
+		input::placeholder {
+			color: lightgray;
+			font-size: 13px;
+		}
+
+		#findIdform .findIdBtn {
+			width: 100%;
+			height: 40px;
+			margin-top: 10px;
+			color: #4b4eba;
+			background-color: #fff;
+			border: 1px solid #4b4eba;
+			border-radius: 8px;
+			cursor: pointer;
+			transition: all ease-out 250ms;
+		}
+
+		#findIdform .findIdBtn:hover {
+			background-color: #4b4eba;
+			color: #fff;
 		}
 	</style>
 	<script>
 		function formCheck() {
 			let value = $("#username").val();
 			if (value == null || value.trim().length == 0) {
-				alert("사용자이름은  반드시 입력해야 합니다.");
+				alert("사용자이름은 반드시 입력해야 합니다.");
 				$("#userid").val("");
 				$("#userid").focus();
 				return false;
@@ -123,7 +133,7 @@
 					<td class="content">가입 시 입력하신 이름과 전화번호를 입력해주세요.</td>
 				</tr>
 				<tr>
-					<td><br/></td>
+					<td><br /></td>
 				</tr>
 
 				<tr>

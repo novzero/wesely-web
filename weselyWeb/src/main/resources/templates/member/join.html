@@ -56,9 +56,7 @@
 					</div>
 					<div class="authority">
 						<label for="authority">계정 유형</label>
-						<select id="authority" name="authority" onchange="showValue(this)"
-							style="width:100%; height: 35px; border: 1px solid gainsboro; border-radius: 7px; text-align: center;"
-							required>
+						<select id="authority" name="authority" />
 							<option selected disabled>계정 유형을 선택하세요.</option>
 							<option value="일반계정">일반 계정</option>
 							<option value="비즈니스계정">비즈니스 계정</option>
@@ -112,7 +110,6 @@
 						<input id="bNum3" class="bNumber" type="text" size="2" maxlength="5" placeholder="00000">
 						<div class="message" id="bnoMsg" />
 					</div>
-
 					<div class="Bname">
 						<label>대표자성명</label>
 						<input id="bname" type="text">
@@ -122,13 +119,13 @@
 						<input id="store" type="text" placeholder="사업자등록증에 등록된 정확한 상호명 기재">
 					</div>
 					<div>
-						<button type="button" id="cofirmBtn" >사업자 인증</button>
+						<input type="button" id="confirmBtn" value="사업자 인증" />
 					</div>
 				</div>
 
 				<!-- 회원가입 버튼 -->
 				<div>
-					<input type="submit" value="회원가입" class="joinBtn" />
+					<input type="submit" value="회원가입" id="joinBtn" />
 				</div>
 
 				<!-- 약관동의설명 -->

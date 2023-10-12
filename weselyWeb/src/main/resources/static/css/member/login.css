@@ -42,21 +42,26 @@
 #loginform .loginBtn {
 	width: 100%;
 	height: 40px;
-	border-radius: 7px;
-	border: none;
-	color: white;
-	font-weight: bold;
-	background-color: #4D54A5;
 	margin-top: 10px;
-	transition: all 0.3s;
+	color: #4b4eba;
+	background-color: #fff;
+	border: 1px solid #4b4eba;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all ease-out 250ms;
 }
 
-.loginBtn:hover {
-	transform: scale(1.03);
+#loginform .loginBtn:hover {
+	background-color: #4b4eba;
+	color: #fff;
 }
 
 #inputform a {
 	color: rgb(128, 128, 128);
 	font-size: 10px;
 	margin: auto;
+}
+
+a:hover {
+	font-weight: bold;
 }
