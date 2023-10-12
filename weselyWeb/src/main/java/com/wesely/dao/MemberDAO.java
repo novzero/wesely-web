@@ -12,6 +12,7 @@ public interface MemberDAO {
 	
 	// <!-- 저장하기 : 회원가입 -->
 	int insert(MemberVO memberVO);
+	int getLastInsertedIdx();
 	
 	
 	// <!-- 수정하기 : 회원정보 수정 -->

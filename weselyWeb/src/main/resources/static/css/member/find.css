@@ -1,0 +1,76 @@
+#wrap {
+	width: 400px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 50px;
+	padding: 50px;
+	text-align: center;
+	border: none;
+}
+
+.image {
+	width: 80%;
+	position: absolute;
+	left: 50%;
+	top: 25%;
+	transform: translate(-50%, -50%);
+}
+
+.title {
+	color: #4D54A5;
+	font-weight: bold;
+	font-size: 20px;
+	text-align: left;
+	margin-top: 70px;
+}
+
+
+.content {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	text-align: left;
+	font-size: 15px;
+}
+
+#wrap input {
+	width: 100%;
+	height: 35px;
+	border: 1px solid gainsboro;
+	border-radius: 7px;
+	padding: 0 20px;
+	/* 앞상하 뒷좌우 */
+	box-sizing: border-box;
+	font-size: 15px;
+	margin-bottom: 10px;
+}
+
+#wrap input:focus {
+	border-color: #4D54A5;
+	outline: none;
+}
+
+
+input::placeholder {
+	color: lightgray;
+	font-size: 13px;
+}
+
+#wrap .findIdBtn,
+#wrap .findPwBtn {
+	width: 100%;
+	height: 40px;
+	margin-top: 10px;
+	color: #4b4eba;
+	background-color: #fff;
+	border: 1px solid #4b4eba;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all ease-out 250ms;
+	font-size: 13px;
+}
+
+#wrap .findIdBtn:hover,
+#wrap .findPwBtn:hover {
+	background-color: #4b4eba;
+	color: #fff;
+}
