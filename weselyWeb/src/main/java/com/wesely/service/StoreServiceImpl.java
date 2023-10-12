@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import com.wesely.dao.StoreDAO;
 import com.wesely.dao.StoreImgDAO;
 import com.wesely.dao.StoreReviewDAO;
-import com.wesely.vo.CommunityImgVO;
 import com.wesely.vo.StoreImgVO;
 import com.wesely.vo.StoreReviewVO;
 import com.wesely.vo.StoreVO;
@@ -76,7 +75,7 @@ public class StoreServiceImpl implements StoreService {
 				double averageStar = storeReviewDAO.selectAverageStarByRef(id);
 				// 매장 사진리스트 가져온 것을 imgList라고 하자.
 				List<StoreImgVO> imgList = storeImgDAO.selectByRef(id);
-				
+
 				// 3. 리뷰를 VO에 넣어준다.
 				storeVO.setReviewList(reviewList);
 				// 4. 리뷰의 총 개수를 VO에 넣어준다.
@@ -104,7 +103,7 @@ public class StoreServiceImpl implements StoreService {
 			// 글 저장
 			storeDAO.insert(storeVO);
 			// 이미지 저장
-			for(StoreImgVO images : storeVO.getImgList()) {
+			for (StoreImgVO images : storeVO.getImgList()) {
 				storeImgDAO.insert(images);
 			}
 			return true;
@@ -119,43 +118,44 @@ public class StoreServiceImpl implements StoreService {
 	public boolean update(StoreVO storeVO, String delList, String filePath) {
 		log.info("update({},{},{}) 호출:", storeVO, delList, filePath);
 		boolean result = false;
-		// 글 존재하면 
+		// 글 존재하면
 		if (storeVO != null) {
 			// 수정
 			storeDAO.update(storeVO);
-			
-			// 파일저장 커뮤니티내용에있는 이미지리스트를 vo에 넣어서 
+
+			// 파일저장 커뮤니티내용에있는 이미지리스트를 vo에 넣어서
 			for (StoreImgVO vo : storeVO.getImgList()) {
-				vo.setRef(storeVO.getId());  // Set the correct 'ref' value for each image.
-	            // 수정 -> 실제로는 새로운 이미지 추가하는 동작임.
-	            storeImgDAO.modify(vo);
-	        
+				vo.setRef(storeVO.getId()); // Set the correct 'ref' value for each image.
+				// 수정 -> 실제로는 새로운 이미지 추가하는 동작임.
+				storeImgDAO.modify(vo);
+
 			}
 			// 삭제 파일을 삭제한다.
 			if (delList != null && delList.length() > 0) {
-				String[] delFile = delList.trim().split(" ");
+				String[] delFile = delList.trim().split(",");
 				if (delFile != null && delFile.length > 0) {
 					for (String s : delFile) {
 						// 파일 삭제
 						// 서버 저장된 파일삭제
 						StoreImgVO storeImgVO = storeImgDAO.selectById(Integer.parseInt(s));
 						log.info("삭제할 이미지 정보: {}", storeImgVO);
+
 						// 파일이름은 vo에 있는 uuid(랜덤명 wakwuefh223) + _ +파일명(pepe)
 						String fileName = storeImgVO.getUuid() + "_" + storeImgVO.getFileName();
+
 						// filePath (위치할 경로) fileName(파일이름) 을 file 에 담는다
 						File file = new File(filePath, fileName);
-						log.info("파일 경로" + file.getAbsolutePath());
-						log.info("삭제할 파일 경로: {}", file.getPath());
+
 						if (file.exists()) { // 파일이 존재하면
-	                        boolean deleteResult = file.delete();
-	                        log.info("{} 파일 삭제 결과: {}", file.getPath(), deleteResult);
-							
+							boolean deleteResult = file.delete();
+							log.info("{} 파일 삭제 결과: {}", file.getPath(), deleteResult);
+
 						} else {
-						    log.warn("삭제할 파일 {} 가 존재하지 않습니다.", file.getPath());
+							log.warn("삭제할 파일 {} 가 존재하지 않습니다.", file.getPath());
 						}
+
 						// db의 정보도 삭제
 						storeImgDAO.deleteById(Integer.parseInt(s));
-	                    
 					}
 					result = true;
 				}
@@ -168,11 +168,44 @@ public class StoreServiceImpl implements StoreService {
 
 	// 운동시설 삭제
 	@Override
-	public boolean delete(StoreVO storeVO, String delList) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean delete(int id, String filePath) {
+		StoreVO storeVO = storeDAO.findById(id);
+		log.info("delete({},{}) 호출", storeVO, filePath);
+		boolean result = false;
+		// ------------------------------------------------------------------------------------
+		try {
+			if (storeVO != null) {
+				// 1. 그 글에 해당하는 첨부 파일을 모두 삭제한다.
+				// 첨부 파일을 모두 읽어온다.
+				List<StoreImgVO> fileList = storeImgDAO.selectByRef(storeVO.getId());
+				// 첨부 파일이 있다면
+				if (fileList != null && fileList.size() > 0) {
+					for (StoreImgVO vo : fileList) {
+						// 실제 서버에 있는 파일을 지운다.
+						String fileName = vo.getUuid() + "_" + vo.getFileName();
+						File file = new File(filePath + fileName);
+						log.info("파일 경로 : " + file.getAbsolutePath());
+						if (file.exists()) { // 파일이 존재하면
+							log.info("파일이 있습니다.");
+							file.delete(); // 파일 삭제
+						} else {
+							log.info("파일이 없습니다.");
+						}
+						// DB에서 지운다.
+						storeImgDAO.deleteByRef(storeVO.getId());
+					}
+				}
+				// 2. 글을 삭제
+				storeDAO.delete(storeVO.getId());
+				result = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// ------------------------------------------------------------------------------------
+		log.info("delete({},{}) 리턴 : {}", storeVO, filePath, result);
+		return result;
 	}
-
 
 	// 현재위치의 운동시설 목록들 데이터저장
 	@Override
@@ -250,46 +283,43 @@ public class StoreServiceImpl implements StoreService {
 		log.info("reviewDelete 결과 : {}", result);
 		return result;
 	}
-	
+
 	// 비즈니스계정회원 아이디로 매장상세보기 가져오기
 	@Override
 	public StoreVO findByUserId(String userid) {
-		 log.info("findByUserId 호출 : {}", userid);
-		    StoreVO storeVO = null;
-		    try {
-				// 1. 해당 시설 id의 글을 읽어온다.
-		    	storeVO = storeDAO.findByUserId(userid);
-				
-		    	  // 2. 해당 글이 존재한다면 추가 정보들을 가져온다.
-		        if (storeVO != null) {
-		            int id = storeVO.getId();  // 가져온 매장의 ID
+		log.info("findByUserId 호출 : {}", userid);
+		StoreVO storeVO = null;
+		try {
+			// 1. 해당 시설 id의 글을 읽어온다.
+			storeVO = storeDAO.findByUserId(userid);
 
-		            // 리뷰들 모두 가져온 것을 reviewList 라고 하자.
-		            List<StoreReviewVO> reviewList = storeReviewDAO.selectListByRef(id);
-		            // 리뷰 총 개수 가져온 것을 totalReview라고 하자.
-		            int totalReview = storeReviewDAO.selectCountByRef(id);
-		            // 리뷰의 별점 평균을 가져온 것을 averageStar라고 하자.
-		            double averageStar = storeReviewDAO.selectAverageStarByRef(id);
-		            // 매장 사진리스트 가져온 것을 imgList라고 하자.
-		            List<StoreImgVO> imgList = storeImgDAO.selectByRef(id);
+			// 2. 해당 글이 존재한다면 추가 정보들을 가져온다.
+			if (storeVO != null) {
+				int id = storeVO.getId(); // 가져온 매장의 ID
 
-		            // 3. 위 정보들을 VO에 넣어준다.
-		            storeVO.setReviewList(reviewList);
-		            storeVO.setReviewCount(totalReview);
-		            storeVO.setAverageStar(averageStar);
-		            storeVO.setImgList(imgList); 
-		        }
-		        
-			} catch (Exception e) {
-				log.error(" Store 아이디 찾는데 문제 발생 " + userid, e);
-				e.printStackTrace();
+				// 리뷰들 모두 가져온 것을 reviewList 라고 하자.
+				List<StoreReviewVO> reviewList = storeReviewDAO.selectListByRef(id);
+				// 리뷰 총 개수 가져온 것을 totalReview라고 하자.
+				int totalReview = storeReviewDAO.selectCountByRef(id);
+				// 리뷰의 별점 평균을 가져온 것을 averageStar라고 하자.
+				double averageStar = storeReviewDAO.selectAverageStarByRef(id);
+				// 매장 사진리스트 가져온 것을 imgList라고 하자.
+				List<StoreImgVO> imgList = storeImgDAO.selectByRef(id);
+
+				// 3. 위 정보들을 VO에 넣어준다.
+				storeVO.setReviewList(reviewList);
+				storeVO.setReviewCount(totalReview);
+				storeVO.setAverageStar(averageStar);
+				storeVO.setImgList(imgList);
 			}
-			// -----------------------------------------------------------------------------
-			log.info("findByUserId 리턴 : {}", storeVO);
-			return storeVO;
-	}
 
-	
-	
+		} catch (Exception e) {
+			log.error(" Store 아이디 찾는데 문제 발생 " + userid, e);
+			e.printStackTrace();
+		}
+		// -----------------------------------------------------------------------------
+		log.info("findByUserId 리턴 : {}", storeVO);
+		return storeVO;
+	}
 
 }

@@ -74,7 +74,6 @@ public class BusinessController {
 				// 파일이 있다면
 				if (!file.isEmpty()) {
 					// 랜덤으로 절대 경로 설정
-					// uuid = uuid+1231231515#$@#. 문자열로 생성 중복값 피할려고 랜덤으로 덧붙임
 					String uuid = UUID.randomUUID().toString();
 					// 파일이름은 원본파일 이름을 가져온다.
 					String fileName = file.getOriginalFilename();
@@ -125,21 +124,21 @@ public class BusinessController {
 
 	// -----------------------------------------------------------------------------------------
 	// 스토어(운동시설) 수정
-	
+
 	// 수정 폼
 	@GetMapping(value = "/update/{storeId}")
 	public String updateForm(@PathVariable("storeId") int storeId, Model model) {
 		// 아이디값으로 찾아내 가져오기
 		StoreVO storeVo = storeService.findById(storeId);
-		
+
 		// 글이 없으면 없다고 만들라고 하는 페이지로 이동
 		if (storeVo == null) {
 			return "redirect:/business/noStore";
 		}
-		
+
 		// 존재하면 폼 띄워주기위해 가져오기
 		model.addAttribute("st", storeVo);
-		
+
 		return "/business/modifyStore";
 	}
 
@@ -148,26 +147,23 @@ public class BusinessController {
 	public String updateOkGet() {
 		return "/business/businessView";
 	}
-	
+
 	@PostMapping(value = "/updateOk")
-	public String updateStore(@ModelAttribute StoreVO storeVO,
-			@RequestParam(defaultValue = "") String delList, @RequestParam MultipartFile[] uploadFile,
+	public String updateStore(@ModelAttribute StoreVO storeVO, // 글내용
+			@RequestParam(defaultValue = "") String delList, // 삭제파일 id들
+			@RequestParam MultipartFile[] uploadFile, // 파일들
 			HttpServletRequest request, Model model) throws IOException {
-		log.info("수정하는 이미지 파일 , 컨트롤러 : {}{}{}",  storeVO, uploadFile);
+		log.info("수정하는 이미지 파일 , 컨트롤러 : {}{}{}", storeVO, uploadFile);
 		String userid = storeVO.getUserid();
 		// 내용은 받았지만 파일은 받지 않았다.
 		// 첨부파일 처리를 여기서 해준다.
-		// 파일이 존재하면
-		if (uploadFile != null && uploadFile.length > 0) {
+		if (uploadFile != null && uploadFile.length > 0) { // 파일이 존재하면
 			List<StoreImgVO> list = new ArrayList<>();
-			// 파일 저장 경로
-			String filePath = getFilePath();
+			String filePath = getFilePath(); // 파일 저장 경로
 			log.info("서버 절대 경로 : " + filePath);
-			for (MultipartFile file : uploadFile) {
-				// 파일이 있다면
-				if (!file.isEmpty()) {
-					// 랜덤으로 절대 경로 설정
-					// uuid = uuid+1231231515#$@#. 문자열로 생성 중복값 피할려고 랜덤으로 덧붙임
+			for (MultipartFile file : uploadFile) { // 반복한다.
+
+				if (!file.isEmpty()) { // 파일이 있다면
 					String uuid = UUID.randomUUID().toString();
 					// 파일이름은 원본파일 이름을 가져온다.
 					String fileName = file.getOriginalFilename();
@@ -177,11 +173,12 @@ public class BusinessController {
 					File newFile = new File(filePath + uuid + "_" + fileName);
 					// MultipartFile 객체의 내용(file)을 새롭게 생성한 File 객체(newFile)에 복사(저장) 합니다..
 					file.transferTo(newFile);
-					
+
 					StoreImgVO storeImgVO = new StoreImgVO();
 					storeImgVO.setUuid(uuid);
 					storeImgVO.setFileName(fileName);
 					storeImgVO.setContentType(contentType);
+					storeImgVO.setRef(storeVO.getId()); // ref값을 원본의 id로 넣는다.
 					// 받아온 정보들을 리스트에다가 추가해준다.
 					list.add(storeImgVO);
 				}
@@ -197,6 +194,34 @@ public class BusinessController {
 		return "redirect:/store/view/b/" + userid;
 	}
 
-
 	// 스토어(운동시설) 삭제
+//	@GetMapping(value = "/delete")
+//	public String deleteForm(@ModelAttribute StoreVO st, Model model) {
+//		StoreVO storeVO = storeService.findById(st.getId());
+//		if (storeVO == null) { // 글이 존재하지 않으면 리스트로
+//			return "redirect:/";
+//		}
+//		// 존재하면 내용보기로
+//		model.addAttribute("store", storeVO);
+//
+//		return "board/delete";
+//	}
+
+	// 삭제하기 완료
+	@GetMapping(value = "/deleteOk")
+	public String deleteOkGet() {
+		return "redirect:/store/";
+	}
+
+	@PostMapping(value = "/deleteOk")
+	public String deleteOkPost(@ModelAttribute StoreVO storeVO // 글 내용
+	) throws IOException {
+		// 서비스를 호출하여 실제로 DB에 삭제를 해주자!!!
+		if (storeService.delete(storeVO.getId(), getFilePath())) {
+			log.info("삭제 성공!!!!");
+		} else {
+			log.info("삭제 실패!!!!");
+		}
+		return "redirect:/store/";
+	}
 }

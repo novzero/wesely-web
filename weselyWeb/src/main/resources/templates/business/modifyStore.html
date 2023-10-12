@@ -10,17 +10,53 @@
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/business/createStore.css" />
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+		function deleteImage(inputId, labelId) {
+			// delList 필드에 삭제할 이미지의 ID를 추가합니다.
+			var imgId = $('#' + labelId).data('img-id');
+			var currentDelList = $('#delList').val();
+			if (currentDelList.length > 0) {
+				currentDelList += ',';
+			}
+			currentDelList += imgId;
+
+			$('#delList').val(currentDelList);
+
+			alert($('#delList').val());
+
+			// 해당 이미지와 관련된 input 필드와 label을 제거합니다.
+			$('#' + inputId).remove();
+			$('#' + labelId).remove();
+
+			// 새로운 file input 필드를 추가합니다.
+			var newInput = $('<input>')
+				.attr('type', 'file')
+				.attr('name', 'uploadFile');
+
+			$('.fileWrapper').append(newInput);
+		}
+	</script>
+
+
 
 	<!-- Scripts -->
 	<script scr="javascript">
 		function formCheck() {
-			let value = $("#storeImges").val(); // 내용 얻고
-			if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
-				alert('이미지는 반드시 입력해야 합니다.'); // 경고
-				$("#storeImges").val(""); // 입력값 삭제
-				$("#storeImges").focus(); // 커서 위치
-				return false;   // 전송 취소
+			let hasImage = false;
+			$('input[type="file"]').each(function () {
+				if ($(this).val()) {
+					hasImage = true;
+					return false; // break the loop
+				}
+			});
+
+			if (!hasImage) {
+				alert('이미지는 반드시 입력해야 합니다.');
+				return false;
 			}
+			
+			
 			value = $(".addText").val(); // 내용 얻고
 			if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
 				alert('내용은 반드시 입력해야 합니다.'); // 경고
@@ -69,32 +105,22 @@
 			<form action="/business/updateOk" onsubmit="return formCheck()" method="post" enctype="multipart/form-data">
 				<div class="fileWrapper">
 					<p class="titleText required">매장 사진<span class="subText"> 첫번째는 필수등록이며, 썸네일로 적용됩니다.</span></p>
-					<!--
-					<label for="storeImges1">
-						<input id="storeImges1" type="file" name="uploadFile" />
-					</label>
 
-					<label for="storeImges2">
-						<input id="storeImges2" type="file" name="uploadFile" />
-					</label>
-
-					<label for="storeImges3">
-						<input id="storeImges3" type="file" name="uploadFile" />
-					</label>
-
-					<label for="storeImges4">
-						<input id="storeImges4" type="file" name="uploadFile" />
-					</label>
-					-->
+					<!-- 각각의 이미지에 대해 '삭제' 버튼과 함께 id 값을 부여한 file input과 label을 생성합니다. -->
 					<th:block th:each="img, vs : ${st.imgList}">
-						<label class="addImgItem" th:for="'storeImges' + ${vs.count}">
+						<label class="addImgItem" th:id="'label' + ${vs.count}" th:for="'storeImges' + ${vs.count}"
+							th:data-img-id="${img.id}">
 							<input type="file" th:id="'storeImges' + ${vs.count}" class="inputFile" name="uploadFile">
+
+							<!--삭제버튼-->
+							<button type="button"
+								th:onclick="'deleteImage(\'storeImges' + ${vs.count} + '\', \'label' + ${vs.count} + '\');'">삭제</button>
+
 							<span th:text="${img.fileName}"></span>
 							<div>
 								<img th:id="'img' + ${vs.count}" class="fileImg on"
 									th:src='|/static/images/upload/${img.uuid}_${img.fileName}|'>
 							</div>
-							</input>
 						</label>
 					</th:block>
 
@@ -109,6 +135,7 @@
 					</th:block>
 				</div>
 
+				<input type="hidden" name="delList" id="delList" size="100" />
 				<input th:if="${session.mvo.nickname == null}" type="text" th:value="${session.mvo.username}"
 					disabled />
 				<input id="userid" th:unless="${session.mvo.nickname == null}" th:value="${session.mvo.userid}"

@@ -189,28 +189,34 @@
 
 				<!-- 리뷰 데이터가 있을 때 리뷰목록 출력 -->
 				<div th:if="${not #lists.isEmpty(st.reviewList)}">
+
 					<div th:each="review : ${st.reviewList}" class="reviewBox">
 						<div class="userInfo">
 							<img src="/images/userIcon.png" alt="유저이미지">
-							<span th:text="${review.nickname}"></span>
+							<span class="textColor active" th:if="${session.mvo.nickname} == ${review.nickname}" th:text="${review.nickname}"></span>
+							<span class="textColor" th:unless="${session.mvo.nickname} == ${review.nickname}" th:text="${review.nickname}"></span>
 						</div>
 
 						<div class="reviewContent">
 							<div class="star">
 								<span th:each="i : ${#numbers.sequence(1, review.star)}">⭐</span>
 							</div>
-							<p class="recontent" th:text="${review.content}"></p>
+							<p class="recontent textColor active" th:if="${session.mvo.nickname} == ${review.nickname}" th:text="${review.content}"></p>
+							<p class="recontent" th:unless="${session.mvo.nickname} == ${review.nickname}" th:text="${review.content}"></p>
 							<span class="time">[[${#dates.format(review.regdate,'yy.MM.dd(E) HH:mm')}]]</span>
-							<div class="bottomBtn">
-								<button class="btnDelete" th:onclick="sendDeleteRequest([[${review.id}]])">
-									<i class="fa-solid fa-xmark"></i>
-								</button>
-								<button class="btnModify" th:onclick="updateBtn([[${review.id}]])">
-									<i class="fa-solid fa-pencil"></i>
-								</button>
-							</div>
+							<th:block th:if="${session.mvo.nickname}==${review.nickname}">
+								<div class="bottomBtn">
+									<button class="btnDelete" th:onclick="sendDeleteRequest([[${review.id}]])">
+										<i class="fa-solid fa-xmark"></i>
+									</button>
+									<button class="btnModify" th:onclick="updateBtn([[${review.id}]])">
+										<i class="fa-solid fa-pencil"></i>
+									</button>
+								</div>
+							</th:block>
 						</div>
 					</div>
+
 				</div>
 
 				<!-- 리뷰 데이터가 없으면 아래 메시지 출력 -->

@@ -256,9 +256,14 @@ main {
 	font-size: 16px;
 }
 
-.userInfo span {
+.textColor {
 	color: #686868;
 	font-weight: 600;
+}
+
+.textColor.active {
+	color:#4b4eba;
+	font-weight: 500;
 }
 
 .userInfo img {

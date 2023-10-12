@@ -21,7 +21,7 @@ public interface StoreService {
 	boolean update(StoreVO storeVO, String delList, String filePath);
 
 	// 5. 삭제하기
-	boolean delete(StoreVO storeVO, String delList);
+	boolean delete(int id, String filePath);
 
 	// 6. 카카오에서 받은 데이터
 	StoreVO save(StoreVO storeVO);
