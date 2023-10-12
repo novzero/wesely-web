@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.wesely.service.BusinessService;
 import com.wesely.service.MemberService;
 import com.wesely.vo.CommVO;
 import com.wesely.vo.MemberVO;
@@ -318,5 +317,4 @@ public class MemberController {
 		return "comm/community";
 	}
 
-	
 }
