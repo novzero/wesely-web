@@ -3,10 +3,9 @@
 	margin-right: auto;
 	margin-left: auto;
 	margin-top: 50px;
-	padding: 50px;
-	border: none;
+	padding: 20px;
 	text-align: center;
-	font-size: 13px;
+	border: none;
 
 }
 
@@ -14,13 +13,20 @@
 .wrap input {
 	width: 100%;
 	height: 35px;
-	margin-bottom: 5px;
 	border: 1px solid gainsboro;
 	border-radius: 7px;
 	padding: 0 20px;
 	/* 앞상하 뒷좌우 */
 	box-sizing: border-box;
 	font-size: 15px;
+}
+
+.wrap select {
+	width: 100%;
+	height: 35px;
+	border: 1px solid gainsboro;
+	border-radius: 7px;
+	text-align: center;
 }
 
 
@@ -39,24 +45,19 @@ input::placeholder {
 	font-size: 14px;
 	color: #333;
 	text-align: left;
+	margin-top: 10px;
 	margin-bottom: 5px;
 }
 
 .wrap .message {
+	font-size: 13px;
 	width: 100%;
-	margin-bottom: 10px;
+	margin-top: 5px;
+	margin-bottom: 15px;
 	text-align: left;
 	padding-left: 10px;
 }
 
-.userid,
-.email,
-.nickname,
-.Bno,
-.Bname,
-.Store {
-	margin-top: 10px;
-}
 
 /* 비밀번호 보기/숨기기 아이콘 */
 #pwIcon,
@@ -67,57 +68,57 @@ input::placeholder {
 }
 
 /* 사업자 인증 버튼 */
-#cofirmBtn {
+#confirmBtn,
+.wrap #joinBtn {
 	width: 100%;
 	height: 40px;
-	border-radius: 7px;
-	border: none;
-	color:#4D54A5;
-	font-weight: bold;
-	background-color: white;
-	border: 1px solid #4D54A5;
-	margin-top: 10px;
-	transition: all 0.3s;
-}
-
-/* 회원가입 버튼 */
-.wrap .joinBtn {
-	width: 100%;
-	height: 40px;
-	border-radius: 7px;
-	border: none;
-	color: white;
-	font-weight: bold;
-	background-color: #4D54A5;
-	margin-top: 10px;
-	transition: all 0.3s;
-}
-
-.joinBtn:hover,
-#cofirmBtn:hover {
-	transform: scale(1.03);
+	margin-top: 20px;
+	color: #4b4eba;
+	background-color: #fff;
+	border: 1px solid #4b4eba;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all ease-out 250ms;
 }
 
 
-.wrap #cofirmBtn,
-.wrap .Bno,
-.wrap .Bname,
-.wrap .Store {
-	display: none;
+#joinBtn:hover,
+#confirmBtn:hover {
+	background-color: #4b4eba;
+	color: #fff;
 }
 
-.Bno input::placeholder{
+
+
+.Bno input::placeholder {
 	text-align: center;
 }
-.Bno input{
+.Store input::placeholder {
+	text-align: left;
+}
+
+.Bno input {
 	text-align: center;
 }
 
-#bNum1 {width: 100px;}
-#bNum2 {width: 60px;}
-#bNum3 {width: 110px;}
+#bNum1 {
+	width: 100px;
+}
+
+#bNum2 {
+	width: 80px;
+}
+
+#bNum3 {
+	width: 150px;
+}
 
 
 /*회원가입 약관*/
-a {color: #4D54A5;}
-a:hover {font-weight: bold;}
+a {
+	color: #4D54A5;
+}
+
+a:hover {
+	font-weight: bold;
+}
