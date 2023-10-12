@@ -1,0 +1,40 @@
+#info {
+	width: 400px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: 50px;
+	padding: 20px;
+	border: none;
+	text-align: center;
+}
+
+.title {
+	color: #4D54A5;
+	font-weight: bold;
+	font-size: 20px;
+	text-align: left;
+}
+.image{
+	margin-top: 20px;
+}
+.content{
+	font-size: 15px;
+	margin-top: 20px;
+}
+
+.loginBtn {
+	width: 100%;
+	height: 40px;
+	margin-top: 20px;
+	color: #4b4eba;
+	background-color: #fff;
+	border: 1px solid #4b4eba;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: all ease-out 250ms;
+}
+
+.loginBtn:hover {
+	background-color: #4b4eba;
+	color: #fff;
+}

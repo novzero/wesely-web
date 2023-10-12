@@ -45,7 +45,8 @@ public class MemberServiceImpl implements MemberService {
 
 			memberVO.setBno(memberVO.getBNum1() + memberVO.getBNum2() + memberVO.getBNum3());
 			
-			int idx = memberDAO.insert(memberVO);
+			memberDAO.insert(memberVO);
+			int idx = memberDAO.getLastInsertedIdx();
 
 			memberVO.setRef(idx);
 			log.info("{}의 insert호출 : {}", this.getClass().getName(), memberVO);

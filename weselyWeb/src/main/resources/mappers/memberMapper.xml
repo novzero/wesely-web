@@ -11,10 +11,12 @@
 		(idx, userid, password, username, nickname, authority, email, phone)
 		values
 		(wmember_idx_seq.nextval, #{userid}, #{password}, #{username}, #{nickname}, #{authority}, #{email}, #{phone})
-		<selectKey keyProperty="ref" resultType="Integer">
-			select MAX(idx) from wmember
-		</selectKey>
 	</insert>
+	
+	<!-- 가장 큰 idx값 조회 -->
+	<select id="getLastInsertedIdx" resultType="int">
+        SELECT MAX(idx) FROM wmember
+    </select>
 	
 	<!-- 수정하기 : 회원 별명 수정 -->
 	<update id="updateNickname"  parameterType="hashmap">

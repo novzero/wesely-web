@@ -13,7 +13,7 @@ CREATE TABLE wmember (
 );
 
 SELECT * FROM wmember;
-DELETE FROM wmember;
+DELETE FROM wmember ;
 
 DROP TABLE WMEMBER ;
 
@@ -22,7 +22,7 @@ DROP TABLE WMEMBER ;
 CREATE SEQUENCE bmember_id_seq;
 CREATE TABLE bmember(
 	idx NUMBER PRIMARY KEY,
-	ref NUMBER,
+	ref NUMBER NOT NULL ,
 	bno varchar2(100) NOT NULL ,	-- 사업자번호
 	bname varchar2(50) NOT NULL ,	-- 대표자성명
 	store varchar2(100) NOT NULL	-- 대표자성명
