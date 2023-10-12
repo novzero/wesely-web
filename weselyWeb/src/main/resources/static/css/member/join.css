@@ -100,6 +100,10 @@ input::placeholder {
 .Bno input {
 	text-align: center;
 }
+.Bname input,
+.Store input {
+	text-align: left;
+}
 
 #bNum1 {
 	width: 100px;

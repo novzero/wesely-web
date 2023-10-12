@@ -35,44 +35,6 @@ $(function() {
 		}
 	});
 
-	/*
-		// 비밀번호 유효성검사 | 영문/숫자/특수문자를 포함하여 8~20자
-		$("#password").on('input', function() {
-			var pw = $("#password").val();
-			var reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-			if (pw != null && pw.length >= 1) {
-				if (pw.length >= 8 && pw.length <= 20) {
-					if (!reg.test(pw)) {
-						$("#pwMsg").css('color', 'red').html("비밀번호는 영문/숫자/특수문자를 모두 포함해야합니다.");
-					} else {
-						$("#pwMsg").css('color', 'green').html("사용가능한 비밀번호입니다.");
-					}
-				} else {
-					$("#pwMsg").css('color', 'red').html("비밀번호는 8자~20자로 작성해야합니다.");
-				}
-			} else {
-				$("#pwMsg").html(""); // 1자 미만이면 메세지 삭제
-			}
-	
-		});
-	
-		// 비밀번호 확인 검사
-		function checkPasswordMatch() {
-			var pw = $("#password").val();
-			var pw1 = $("#password1").val();
-			if (pw1 != null && pw1.length >= 1) {
-				if (pw1 != pw) {
-					$("#pw1Msg").css('color', 'red').html("비밀번호가 일치하지 않습니다.");
-				} else {
-					$("#pw1Msg").css('color', 'green').html("비밀번호가 일치합니다.");
-				}
-			} else {
-				$("#pw1Msg").html(""); // 1자 미만이면 메세지 삭제
-			}
-	
-		};
-		$("#password1").on('input', checkPasswordMatch);
-	*/
 
 	// 비밀번호 유효성검사 | 영문/숫자/특수문자를 포함하여 8~20자
 	$("#password").on('input', function() {
@@ -109,25 +71,16 @@ $(function() {
 	});
 
 
-	// 비밀번호 보기/숨기기 구현
-	$("#pwIcon").on("click", function() {
-		if ($("#password").attr("type") == "password") {
-			$("#password").attr("type", "text");
-			$($(this)).attr('src', '/images/view.png');
-		} else {
-			$("#password").attr("type", "password");
-			$($(this)).attr('src', '/images/hide.png');
-		}
-	});
+	// 비밀번호 및 비밀번호확인 보기/숨기기 구현
+	$("#pwIcon, #pw1Icon").on("click", function() {
+		var targetInput = this.id === "pwIcon" ? "#password" : "#password1";
 
-	// 비밀번호확인 보기/숨기기 구현
-	$("#pw1Icon").on("click", function() {
-		if ($("#password1").attr("type") == "password") {
-			$("#password1").attr("type", "text");
-			$($(this)).attr('src', '/images/view.png');
+		if ($(targetInput).attr("type") == "password") {
+			$(targetInput).attr("type", "text");
+			$(this).attr('src', '/images/view.png');
 		} else {
-			$("#password1").attr("type", "password");
-			$($(this)).attr('src', '/images/hide.png');
+			$(targetInput).attr("type", "password");
+			$(this).attr('src', '/images/hide.png');
 		}
 	});
 
@@ -345,21 +298,41 @@ $(function() {
 				"bno": bno
 			},
 			success: function(data) {
-				if (data * 1 >= 1) {
+				if (data == 0) {
+					// 사업자정보 유효성검사에 통과하였을 때
+					alert("사업자정보가 인증되었습니다.");
+					isBusinessConfirmed = true;
+					setBusinessInputsReadonly(true);
+					updateJoinButtonState();
+				} else if (data == 1) {
+					// 중복되는 사업자 번호가 존재할 때
 					alert("이미 존재하는 사업자 번호입니다.");
 					isBusinessConfirmed = false;
+					updateJoinButtonState();
+					$("#bNum1").val("");
+					$("#bNum1").focus();
+				} else if (data == 2) {
+					// 중복되는 사업자 번호가 존재할 때
+					alert("사업자 번호가 유효하지 않습니다.");
+					isBusinessConfirmed = false;
+					updateJoinButtonState();
+					$("#bNum1").val("");
+					$("#bNum1").focus();
+				} else if (data == -1) {
+					// 중복되는 사업자 번호가 존재할 때
+					alert("사업자 번호 유효성 체크 오류 발생");
+					isBusinessConfirmed = false;
+					updateJoinButtonState();
 					$("#bNum1").val("");
 					$("#bNum1").focus();
 				} else {
-					alert("사업자정보 인증완료!")
-					$("#confirmMsg").css('color', 'green').html("사업자정보가 인증되었습니다.");
-					isBusinessConfirmed = true;
-					// 인증됐으면 사업자정보입력필드 비활성화
-					setBusinessInputsReadonly(true);
+					// 중복되는 사업자 번호가 존재할 때
+					alert("서버 오류 발생");
+					isBusinessConfirmed = false;
+					updateJoinButtonState();
+					$("#bNum1").val("");
+					$("#bNum1").focus();
 				}
-
-				// 회원가입버튼 상태변경 함수
-				updateJoinButtonState();
 			},
 			error: function() {
 				alert("에러!!!");
@@ -374,11 +347,12 @@ $(function() {
 		//  비즈니스 계정일 경우에만
 		if ($("#authority").val() === '비즈니스계정') {
 			// 회원가입버튼의 활성화 상태를 isBusinessConfirmed 값에 따라 결정
-			if (isBusinessConfirmed) {
-				$("#confirmBtn").css('display', 'none');  // 인증완료 -> 사업자인증버튼 숨기기
+			if (isBusinessConfirmed) {  // 인증완료 -> 사업자인증버튼 숨기기
+				$("#confirmBtn").css('display', 'none');
 				$("#joinBtn").css('display', 'block');  // 인증완료 -> 회원가입버튼 보여주기
 			} else {
-				$("#joinBtn").css('display', 'none');   // 인증안됨 -> 버튼 숨기기
+				$("#confirmBtn").css('display', 'block');
+				$("#joinBtn").css('display', 'none');  // 인증안됨 -> 버튼 숨기기
 			}
 
 		} else {

@@ -13,6 +13,7 @@ public interface MemberDAO {
 	// <!-- 저장하기 : 회원가입 -->
 	void insert(MemberVO memberVO);
 	
+	
 	// <!-- 수정하기 : 회원정보 수정 -->
 	void updateNickname(HashMap<String, String> map);
 	void updatePassword(MemberVO memberVO);

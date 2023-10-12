@@ -29,6 +29,7 @@ CREATE TABLE bmember(
 );
 DROP TABLE bmember;
 SELECT * FROM bmember;
+DELETE FROM bmember;
 INSERT inTO bmember values(bmember_id_seq.nextval, '3808','1234567890','ddd','ddd');
 
 --===============================================================================
