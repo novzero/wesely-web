@@ -1,5 +1,6 @@
 package com.wesely.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.wesely.dao.StoreDAO;
 import com.wesely.dao.StoreImgDAO;
 import com.wesely.dao.StoreReviewDAO;
+import com.wesely.vo.CommunityImgVO;
 import com.wesely.vo.StoreImgVO;
 import com.wesely.vo.StoreReviewVO;
 import com.wesely.vo.StoreVO;
@@ -112,19 +114,65 @@ public class StoreServiceImpl implements StoreService {
 		}
 	}
 
-	// 현재위치의 운동시설 데이터 수정
+	// 운동시설 데이터 수정
 	@Override
-	public boolean update(StoreVO storeVO) {
+	public boolean update(StoreVO storeVO, String delList, String filePath) {
+		log.info("update({},{},{}) 호출:", storeVO, delList, filePath);
+		boolean result = false;
+		// 글 존재하면 
+		if (storeVO != null) {
+			// 수정
+			storeDAO.update(storeVO);
+			
+			// 파일저장 커뮤니티내용에있는 이미지리스트를 vo에 넣어서 
+			for (StoreImgVO vo : storeVO.getImgList()) {
+				vo.setRef(storeVO.getId());  // Set the correct 'ref' value for each image.
+	            // 수정 -> 실제로는 새로운 이미지 추가하는 동작임.
+	            storeImgDAO.modify(vo);
+	        
+			}
+			// 삭제 파일을 삭제한다.
+			if (delList != null && delList.length() > 0) {
+				String[] delFile = delList.trim().split(" ");
+				if (delFile != null && delFile.length > 0) {
+					for (String s : delFile) {
+						// 파일 삭제
+						// 서버 저장된 파일삭제
+						StoreImgVO storeImgVO = storeImgDAO.selectById(Integer.parseInt(s));
+						log.info("삭제할 이미지 정보: {}", storeImgVO);
+						// 파일이름은 vo에 있는 uuid(랜덤명 wakwuefh223) + _ +파일명(pepe)
+						String fileName = storeImgVO.getUuid() + "_" + storeImgVO.getFileName();
+						// filePath (위치할 경로) fileName(파일이름) 을 file 에 담는다
+						File file = new File(filePath, fileName);
+						log.info("파일 경로" + file.getAbsolutePath());
+						log.info("삭제할 파일 경로: {}", file.getPath());
+						if (file.exists()) { // 파일이 존재하면
+	                        boolean deleteResult = file.delete();
+	                        log.info("{} 파일 삭제 결과: {}", file.getPath(), deleteResult);
+							
+						} else {
+						    log.warn("삭제할 파일 {} 가 존재하지 않습니다.", file.getPath());
+						}
+						// db의 정보도 삭제
+						storeImgDAO.deleteById(Integer.parseInt(s));
+	                    
+					}
+					result = true;
+				}
+			}
+		}
+		log.info("update 리턴: {}", result);
+		return result;
 
+	}
+
+	// 운동시설 삭제
+	@Override
+	public boolean delete(StoreVO storeVO, String delList) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 
-	// 현재위치의 운동시설 데이터 삭제
-	@Override
-	public boolean delete(StoreVO storeVO) {
-
-		return false;
-	}
 
 	// 현재위치의 운동시설 목록들 데이터저장
 	@Override
@@ -240,5 +288,8 @@ public class StoreServiceImpl implements StoreService {
 			log.info("findByUserId 리턴 : {}", storeVO);
 			return storeVO;
 	}
+
+	
+	
 
 }

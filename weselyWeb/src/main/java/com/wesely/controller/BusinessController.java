@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -138,7 +139,6 @@ public class BusinessController {
 		
 		// 존재하면 폼 띄워주기위해 가져오기
 		model.addAttribute("st", storeVo);
-		log.info("리뷰 수정 폼 : {}", storeVo);
 		
 		return "/business/modifyStore";
 	}
@@ -146,7 +146,55 @@ public class BusinessController {
 	// 수정하기 완료
 	@GetMapping(value = "/updateOk")
 	public String updateOkGet() {
-		return "redirect:/community/list";
+		return "/business/businessView";
+	}
+	
+	@PostMapping(value = "/updateOk")
+	public String updateStore(@ModelAttribute StoreVO storeVO,
+			@RequestParam(defaultValue = "") String delList, @RequestParam MultipartFile[] uploadFile,
+			HttpServletRequest request, Model model) throws IOException {
+		log.info("수정하는 이미지 파일 , 컨트롤러 : {}{}{}",  storeVO, uploadFile);
+		String userid = storeVO.getUserid();
+		// 내용은 받았지만 파일은 받지 않았다.
+		// 첨부파일 처리를 여기서 해준다.
+		// 파일이 존재하면
+		if (uploadFile != null && uploadFile.length > 0) {
+			List<StoreImgVO> list = new ArrayList<>();
+			// 파일 저장 경로
+			String filePath = getFilePath();
+			log.info("서버 절대 경로 : " + filePath);
+			for (MultipartFile file : uploadFile) {
+				// 파일이 있다면
+				if (!file.isEmpty()) {
+					// 랜덤으로 절대 경로 설정
+					// uuid = uuid+1231231515#$@#. 문자열로 생성 중복값 피할려고 랜덤으로 덧붙임
+					String uuid = UUID.randomUUID().toString();
+					// 파일이름은 원본파일 이름을 가져온다.
+					String fileName = file.getOriginalFilename();
+					// 파일 속성도 원본파일 속성을 가져온다.
+					String contentType = file.getContentType();
+					// 파일 중복제거를 위한 키 _ 파일 이름
+					File newFile = new File(filePath + uuid + "_" + fileName);
+					// MultipartFile 객체의 내용(file)을 새롭게 생성한 File 객체(newFile)에 복사(저장) 합니다..
+					file.transferTo(newFile);
+					
+					StoreImgVO storeImgVO = new StoreImgVO();
+					storeImgVO.setUuid(uuid);
+					storeImgVO.setFileName(fileName);
+					storeImgVO.setContentType(contentType);
+					// 받아온 정보들을 리스트에다가 추가해준다.
+					list.add(storeImgVO);
+				}
+			}
+			storeVO.setImgList(list);
+		}
+		// 서비스 호출해서 DB에 저장하기
+		if (storeService.update(storeVO, delList, getFilePath())) {
+			log.info("수정 성공");
+		} else {
+			log.info("수정 실패");
+		}
+		return "redirect:/store/view/b/" + userid;
 	}
 
 

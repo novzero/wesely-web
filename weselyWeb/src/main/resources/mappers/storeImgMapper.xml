@@ -18,7 +18,7 @@
 	</insert>
 	<insert id="modify" parameterType="StoreImgVO">
 		insert into 
-			StoreImgVO
+			StoreImg
 		values
 			(StoreImg_id_seq.nextval, #{ref},#{uuid},#{fileName},#{contentType})
 	</insert>

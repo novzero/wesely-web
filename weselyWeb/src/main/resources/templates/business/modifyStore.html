@@ -66,7 +66,7 @@
 
 		<!-- 👇여기부터 시설상세페이지 -->
 		<main>
-			<form action="/business/insertOk" onsubmit="return formCheck()" method="post" enctype="multipart/form-data">
+			<form action="/business/updateOk" onsubmit="return formCheck()" method="post" enctype="multipart/form-data">
 				<div class="fileWrapper">
 					<p class="titleText required">매장 사진<span class="subText"> 첫번째는 필수등록이며, 썸네일로 적용됩니다.</span></p>
 					<!--
@@ -91,7 +91,7 @@
 							<input type="file" th:id="'storeImges' + ${vs.count}" class="inputFile" name="uploadFile">
 							<span th:text="${img.fileName}"></span>
 							<div>
-								<img th:id="'img' + ${vs.count}" class="fileImg on" name="uploadFile"
+								<img th:id="'img' + ${vs.count}" class="fileImg on"
 									th:src='|/static/images/upload/${img.uuid}_${img.fileName}|'>
 							</div>
 							</input>
@@ -113,6 +113,7 @@
 					disabled />
 				<input id="userid" th:unless="${session.mvo.nickname == null}" th:value="${session.mvo.userid}"
 					type="hidden" name="userid" />
+				<input id="id" th:value="${st.id}" type="hidden" name="id" />
 
 				<p class="titleText required">매장 이름</p>
 				<input class="addText" id="name" type="text" placeholder="매장이름" name="name" th:value="${st.name}">
