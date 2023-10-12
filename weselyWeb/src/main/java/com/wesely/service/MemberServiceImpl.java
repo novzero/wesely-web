@@ -1,14 +1,27 @@
 package com.wesely.service;
 
+import java.net.URI;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONArray;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wesely.dao.BusinessDAO;
 import com.wesely.dao.CommunityDAO;
 import com.wesely.dao.MemberDAO;
+import com.wesely.vo.BusinessVO;
 import com.wesely.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +37,7 @@ public class MemberServiceImpl implements MemberService {
 	@Autowired
 	CommunityDAO communityDAO;
 
+	// 일반회원정보 저장
 	@Override
 	public void insert(MemberVO memberVO) {
 		log.info("{}의 insert호출 : {}", this.getClass().getName(), memberVO);
@@ -111,8 +125,6 @@ public class MemberServiceImpl implements MemberService {
 		log.info("{}의 emailCheck 리턴 : {}", this.getClass().getName(), emailcount);
 		return emailcount;
 	}
-	
-	
 
 	// 아이디 찾기
 	@Override
@@ -191,7 +203,8 @@ public class MemberServiceImpl implements MemberService {
 			} catch (Exception e) {
 				// 예외 처리
 				log.error("닉네임 변경 중 오류 발생: {}", e.getMessage());
-				//========================================= 여기서 왜 자꾸 오류가 발생하는 것이냐!!!!!!!!!!!!!!!!!
+				// ========================================= 여기서 왜 자꾸 오류가 발생하는
+				// 것이냐!!!!!!!!!!!!!!!!!
 			}
 		}
 		return result;
@@ -214,6 +227,79 @@ public class MemberServiceImpl implements MemberService {
 			}
 		}
 		return result;
+	}
+
+//==============================================================================================================
+//==============================================================================================================
+	
+	// 비즈니스회원정보 저장
+	@Override
+	public void insertBusiness(MemberVO memberVO, BusinessVO businessVO) {
+		log.info("{}의 insertBusiness 호출 : {}", this.getClass().getName(), memberVO);
+
+		// 일반 회원 정보 저장 후 idx 값을 가져옴
+		memberDAO.insert(memberVO);
+	    MemberVO insertedMember = memberDAO.selectByUserid(memberVO.getUserid());
+	    int idx = insertedMember.getIdx();
+		
+		// 사업자 등록번호 설정 및 ref로 일반회원 idx 설정 후 저장
+		businessVO.setRef(idx);
+		businessVO.setBno(businessVO.getBNum1() + businessVO.getBNum2() + businessVO.getBNum3());
+		businessDAO.insert(businessVO);
+	}
+
+	// 사업자번호 중복체크 + 사업자번호 검증
+	private static final String serviceKey = "hLHWpZv6BDxRiqMCB%2FXVu0aIlJq%2FiiIUl%2FFt%2BOH9wHYxyCM4FF3E5pwVZ%2B0OHlFC0by91hiA%2BXvyjnaJya%2BIsA%3D%3D";
+
+	@Override
+	public int bnoCheck(String bno) throws Exception {
+		log.info("{}의 bnoCheck 호출 : {}", this.getClass().getName(), bno);
+		int result = businessDAO.selectCountByBno(bno);
+		log.info("{}의 bnoCheck 리턴 : {}", this.getClass().getName(), result);
+		if (result == 0) {
+			String url = "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=" + serviceKey;
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Content-type", "application/json; charset=utf-8");
+
+			JSONObject jsonObject = new JSONObject();
+			JSONArray jsonArray = new JSONArray();
+			jsonArray.put(bno);
+			jsonObject.put("b_no", jsonArray);
+
+			String body = jsonObject.toString();
+
+			HttpEntity<String> requestEntity = new HttpEntity<>(body, headers);
+
+			RestTemplate restTemplate = new RestTemplate();
+			ResponseEntity<String> responseEntity = restTemplate.exchange(new URI(url), HttpMethod.POST, requestEntity,
+					String.class);
+
+			HttpStatus httpStatus = (HttpStatus) responseEntity.getStatusCode();
+
+			String response = responseEntity.getBody();
+
+			ObjectMapper mapper = new ObjectMapper();
+			Map<String, Object> map = mapper.readValue(response, new TypeReference<Map<String, Object>>() {
+			});
+
+			if (httpStatus == HttpStatus.OK) {
+				if (map.containsKey("match_cnt") && map.get("match_cnt") instanceof Integer
+						&& (Integer) map.get("match_cnt") == 1) {
+					System.out.println("유효");
+					result = 0;
+				} else {
+					System.out.println("없음");
+					result = 2;
+				}
+			} else {
+				System.out.println("API 호출 실패: " + httpStatus);
+				result = -1;
+			}
+		}
+
+		return result;
+
 	}
 
 }
