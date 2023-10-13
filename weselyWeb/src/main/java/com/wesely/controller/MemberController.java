@@ -51,7 +51,7 @@ public class MemberController {
 			// 닉네임이 비어있을 경우
 			if (memberVO.getNickname().equals("")) {
 				// 닉네임 자리에 이름을 넣어준다.
-				memberVO.setNickname(memberVO.getUsername());
+				memberVO.setNickname(memberVO.getUserid());
 			}
 
 			// 서비스를 호출하여 저장을 수행한다.

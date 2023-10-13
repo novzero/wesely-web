@@ -55,8 +55,8 @@
 					<div class="profileImage" colspan="2">
 						<label for="profileimage">프로필 사진</label>
 						<button id="btn-modal">
-							<img src="${pageContext.request.contextPath}/member/photoView.do" class="profile-photo" width="80" height="80"
-								style="border-radius: 70%; overflow: hidden;" />
+							<img src="${pageContext.request.contextPath}/member/photoView.do" class="profile-photo"
+								width="100" height="100" style="border-radius: 70%; overflow: hidden;" />
 						</button>
 					</div>
 				</div>
@@ -65,30 +65,42 @@
 				<div id="modal" class="modal-overlay">
 					<div class="modal-window">
 						<div class="title">
-							<h2>프로필 사진 등록</h2>
+							프로필 사진 등록
 						</div>
 						<div class="close-area">X</div>
 						<div class="content">
-							<img src = "${pageContext.request.contextPath}/member/photoView.do" class="profile-photo" style="width: 80px; height: 80px;">
-							<input type="hidden" name="userid" th:value="${session.mvo.userid}" />
-							<input type="file" id="upload" accept="image/gif, image/png, image/jpeg" />
+							<!-- 이미지 미리보기 div-->
+							<div class="image">
+								<img src="${pageContext.request.contextPath}/member/photoView.do" class="profile-photo"
+									style="width: 150px; height: 150px;">
+							</div>
+							<div class="fileBtn">
+								<input type="hidden" name="userid" th:value="${session.mvo.userid}" />
+								<input type="file" id="upload" accept="image/gif, image/png, image/jpeg" />
+							</div>
 						</div>
 						<div class="ModalBtn">
-							<button type="button" id="photo_submit" value="등록" />
+							<input type="submit" id="photo_submit" value="등록" />
 						</div>
 					</div>
 				</div>
+				<script>
+					document.querySelector('.image').addEventListener('click', function () {
+						document.querySelector('#upload').click();
+					});
 
---
+				</script>
+
+
 				<form action="/member/updateProfileOk" method="post" onsubmit="return formCheck()">
 
 					<div class="nickName">
 						<input type="hidden" id="userid" name="userid" th:value="${session.mvo.userid}" />
 
 						<label for="nickname">닉네임</label>
-						<!-- 회원가입 시 닉네임을 설정하지 않았다면 이름이 기본으로 보여진다!! -->
-						<input type="text" id="nickname" th:value="${session.mvo.nickname}"  />
-						<span id="nickmessage"/>
+						<!-- 회원가입 시 닉네임을 설정하지 않았다면 아이디가 기본으로 보여진다!! -->
+						<input type="text" id="nickname" name="nickname" th:value="${session.mvo.nickname}" />
+						<span id="nickmessage" />
 					</div>
 					<div class="username">
 						<label for="username">이름</label>

@@ -206,8 +206,11 @@ public class MemberServiceImpl implements MemberService {
 		if (dbVO != null) {
 			// 게시판의 정보를 변경
 			HashMap<String, String> map = new HashMap<>();
+			// 기존 닉네임이 null 이면 아이디로 저장.
+			String oldNickname = (dbVO.getNickname() == null || dbVO.getNickname().isEmpty()) ? dbVO.getUserid() : dbVO.getNickname();
 			map.put("newNickname", memberVO.getNickname());
-			map.put("oldNickname", dbVO.getNickname());
+			map.put("oldNickname", oldNickname);
+			map.put("userid", memberVO.getUserid());
 
 			try {
 				communityDAO.updateNickname(map);
@@ -217,8 +220,7 @@ public class MemberServiceImpl implements MemberService {
 			} catch (Exception e) {
 				// 예외 처리
 				log.error("닉네임 변경 중 오류 발생: {}", e.getMessage());
-				// ========================================= 여기서 왜 자꾸 오류가 발생하는
-				// 것이냐!!!!!!!!!!!!!!!!!
+				
 			}
 		}
 		return result;

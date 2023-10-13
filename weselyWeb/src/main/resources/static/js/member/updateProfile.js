@@ -27,21 +27,24 @@ $(function() {
 	});
 })
 
-$("#photo_submit").click(function(){
+
+
+// 등록버튼 눌렀을 때
+$("#photo_submit").click(function() {
 	// 업로드한 이미지 여부 확인
-	if($("#upload").val() == ''){
+	if ($("#upload").val() == '') {
 		alert("프로필 사진을 선택해주세요.");
 		$(".profile-photo").attr("src", photo_path);
 		return;
 	}
-	
+
 	//파일 전송
 	let form_data = new FormData();
 	form_data.append("upload", my_photo); // 사용자가 업로드한 이미지
-	
-	
-	
+
 })
+
+
 
 
 // ========================================================================================================
@@ -89,26 +92,9 @@ $(function() {
 // 폼체크
 // ========================================================================================================
 function formCheck() {
-	/*
-	let value = $("#nickname").val();
-	if (value == null || value.trim().length == 0) {
-		alert("닉네임은 반드시 입력해야 합니다.");
-		$("#nickname").val("");
-		$("#nickname").focus();
-		return false;
-	} else if ($("#nickmessage").css('color') != 'rgb(0, 128, 0)') {
-		alert("닉네임을 확인해주세요.");
-		$("#nickname").val("");
-		$("#nickname").focus();
-		return false;
-	} else if (window.confirm("회원정보를 수정하시겠습니까? 다시 로그인해야합니다.")) {
-		location.href = "/member/login";
-	} else {
-		return false;
-	};
-	*/
 
-	if ($("#nickmessage").css('color') == 'rgb(125, 0, 0)') {
+	var value = $("#nickmessage").val();
+	if ($("#nickmessage").css('color') == 'rgb(255, 0, 0)') {
 		alert("닉네임을 확인해주세요.");
 		$("#nickname").val("");
 		$("#nickname").focus();
@@ -143,7 +129,11 @@ function isModalOn() {
 	return modal.style.display === "flex"
 }
 function modalOff() {
+	resetImage();
 	modal.style.display = "none"
+}
+function resetImage() {
+	imageElement.src = "${pageContext.request.contextPath}/member/photoView.do";
 }
 const btnModal = document.getElementById("btn-modal")
 btnModal.addEventListener("click", e => {
@@ -152,16 +142,22 @@ btnModal.addEventListener("click", e => {
 })
 const closeBtn = modal.querySelector(".close-area")
 closeBtn.addEventListener("click", e => {
-	modalOff()
+	resetImage();
+	imageElement.src = "";
+	modalOff();
 })
 modal.addEventListener("click", e => {
 	const evTarget = e.target
 	if (evTarget.classList.contains("modal-overlay")) {
+		resetImage();
+		imageElement.src = "";
 		modalOff()
 	}
 })
 window.addEventListener("keyup", e => {
 	if (isModalOn() && e.key === "Escape") {
+		resetImage();
+		imageElement.src = "";
 		modalOff()
 	}
 })
