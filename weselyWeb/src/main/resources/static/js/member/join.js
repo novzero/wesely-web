@@ -258,23 +258,23 @@ $(function() {
 	}
 
 	// 비즈니스 정보 입력 필드 비활성화 설정 함수
-	function setBusinessInputsReadonly(isDisabled) {
+	function setBusinessInputsReadonly(isReadonly) {
 		var bNumInputs = document.querySelectorAll('.bNumber');
 		for (var i = 0; i < bNumInputs.length; i++) {
-			bNumInputs[i].disabled = isDisabled;
-			bNumInputs[i].style.backgroundColor = isDisabled ? '#F2F2F2' : '';
-			bNumInputs[i].style.color = isDisabled ? '#808080' : '';
+			bNumInputs[i].readOnly  = isReadonly;
+			bNumInputs[i].style.backgroundColor = isReadonly ? '#F2F2F2' : '';
+			bNumInputs[i].style.color = isReadonly ? '#808080' : '';
 
 		}
 		var bnameField = document.querySelector('#bname');
-		bnameField.disabled = isDisabled;
-		bnameField.style.backgroundColor = isDisabled ? '#F2F2F2' : '';
-		bnameField.style.color = isDisabled ? '#808080' : '';
+		bnameField.readOnly  = isReadonly;
+		bnameField.style.backgroundColor = isReadonly ? '#F2F2F2' : '';
+		bnameField.style.color = isReadonly ? '#808080' : '';
 
 		var storeField = document.querySelector('#store');
-		storeField.disabled = isDisabled;
-		storeField.style.backgroundColor = isDisabled ? '#F2F2F2' : '';
-		storeField.style.color = isDisabled ? '#808080' : '';
+		storeField.readOnly  = isReadonly;
+		storeField.style.backgroundColor = isReadonly ? '#F2F2F2' : '';
+		storeField.style.color = isReadonly ? '#808080' : '';
 	}
 
 
@@ -302,8 +302,8 @@ $(function() {
 					// 사업자정보 유효성검사에 통과하였을 때
 					alert("사업자정보가 인증되었습니다.");
 					isBusinessConfirmed = true;
-					setBusinessInputsReadonly(true);
 					updateJoinButtonState();
+					setBusinessInputsReadonly(true);
 				} else if (data == 1) {
 					// 중복되는 사업자 번호가 존재할 때
 					alert("이미 존재하는 사업자 번호입니다.");
