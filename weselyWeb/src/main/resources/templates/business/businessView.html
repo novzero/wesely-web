@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/store/placeView.css" />
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script src="/js/store/placeView.js" defer></script>
+	<script defer src="/js/store/placeView.js"></script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
 	<script defer src="/js/store/storeSlide.js"></script>
@@ -105,24 +105,12 @@
 		<main>
 			<section class="slide">
 				<ul class="slide__list">
-					<!--
-					<li class="slide__item">
-						<img class="slideImg" src="/images/image123.png" alt="매장슬라이드이미지" />
-					</li>
-					<li class="slide__item">
-						<img class="slideImg" src="/images/exmainStore.png" alt="매장슬라이드이미지" />
-					</li>
-					<li class="slide__item">
-						<img class="slideImg" src="/images/exmainStore.png" alt="매장슬라이드이미지" />
-					</li>
-					-->
 					<th:block th:each="img : ${st.imgList}">
 						<li class="slide__item">
 							<img class="slideImg" th:src='|/static/images/upload/${img.uuid}_${img.fileName}|' />
 						</li>
 					</th:block>
 				</ul>
-
 
 				<div class="buttons"></div>
 				<div class="paginations"></div>
@@ -135,8 +123,13 @@
 				</div>
 
 				<ul class="storeInfo">
-					<li class="indexBall">
-						<p th:text="${st.address}"></p>
+					<li class="indexBall flex">
+						주소
+						<div class="space">
+							<p th:text="${st.address}"></p>
+						</div>
+					</li>
+
 					<li class="indexBall flex">
 						영업시간
 						<div class="space">
@@ -167,15 +160,16 @@
 					</li>
 				</ul>
 
-				<!-- kakaoMap -->				
+				<!-- kakaoMap -->
 				<div class="mapImg" id="map"></div>
-				
+
 				<!--👇 여기부터는 매장수정, 삭제 버튼-->
 				<form action="/business/deleteOk" method="post">
 					<div class="sysBtn">
 						<input type="hidden" name="id" th:value="${st.id}" />
 						<!--매장수정-->
-						<button type="button" th:attr="onclick='location.href=\'/business/update/' + ${st.id} + '\''">매장 수정</button>
+						<button type="button" th:attr="onclick='location.href=\'/business/update/' + ${st.id} + '\''">매장
+							수정</button>
 						<!--매장삭제-->
 						<button type="submit" onclick="alert('매장이 삭제되었습니다.');">매장 삭제</button>
 					</div>
@@ -244,18 +238,6 @@
 					<i class="fa-solid fa-star"></i>
 					<i class="fa-solid fa-star"></i>
 					<i class="fa-solid fa-star"></i>
-					<!-- 별점 value 담기 -->
-					<input type="hidden" id="starRating" name="star" />
-					<!-- 유저닉네임 value 담기 -->
-					<input th:if="${session.mvo == null}" type="hidden" id="nickname" name="nickname" value="닉네임없음" />
-					<input th:unless="${session.mvo == null}" type="hidden" id="nickname" name="nickname"
-						th:value="${session.mvo.nickname}" />
-					<!-- 원본 시설글의 고유 id 담기 -->
-					<input type="hidden" id="ref" name="ref" th:value="${st.id}" />
-					<!-- 댓글의 고유 id 담기 -->
-					<input type="hidden" id="reviewID" name="id" th:value="0" />
-					<!-- 유저프로필 value 담기 -->
-					<input type="hidden" id="userProfile" name="userProfile" value="유저프로필사진" />
 				</div>
 				<textarea class="reviewTextBox" name="content" required></textarea>
 				<div class="modalBtn">
@@ -263,9 +245,20 @@
 					<input type="submit" id='submitBtn' value="등록" />
 					<input type="button" id="modifyBtn" style="display: none" onclick="sendPutRequest()" value="수정" />
 				</div>
+				<!-- 별점 value 담기 -->
+				<input type="hidden" id="starRating" name="star" />
+				<!-- 유저닉네임 value 담기 -->
+				<input th:if="${session.mvo == null}" type="hidden" id="nickname" name="nickname" value="닉네임없음" />
+				<input th:unless="${session.mvo == null}" type="hidden" id="nickname" name="nickname"
+					th:value="${session.mvo.nickname}" />
+				<!-- 원본 시설글의 고유 id 담기 -->
+				<input type="hidden" id="ref" name="ref" th:value="${st.id}" />
+				<!-- 댓글의 고유 id 담기 -->
+				<input type="hidden" id="reviewID" name="id" th:value="0" />
+				<!-- 유저프로필 value 담기 -->
+				<input type="hidden" id="userProfile" name="userProfile" value="유저프로필사진" />
 			</form>
 		</section>
-
 
 		<div class="overlay"></div>
 	</div>

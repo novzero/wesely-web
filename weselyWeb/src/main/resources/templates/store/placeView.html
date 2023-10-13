@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/store/placeView.css" />
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script src="/js/store/placeView.js" defer></script>
+	<script defer src="/js/store/placeView.js"></script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
 	<script defer src="/js/store/storeSlide.js"></script>
@@ -83,7 +83,7 @@
 				<a href="/"><strong>고객센터</strong></a>
 			</nav>
 			<nav class="hello">
-				<th:block th:if="${session.mvo != null}">
+				<th:block th:if="${session != null && session.mvo != null}">
 					<span>
 						<!-- 별명을 설정하지 않은 회원은 이름으로 표시된다. -->
 						<input type="text" th:value="${session.mvo.nickname}" disabled />
@@ -113,6 +113,7 @@
 
 		<!-- 👇여기부터 시설상세페이지 -->
 		<main>
+			<!-- 매장 슬라이드 이미지들 -->
 			<section class="slide">
 				<ul class="slide__list">
 					<th:block th:if="${st.imgList != null and not #lists.isEmpty(st.imgList)}"
@@ -133,6 +134,7 @@
 				<div class="paginations"></div>
 			</section>
 
+			<!-- 매장 정보 -->
 			<section class="storeContent">
 				<div class="storeTitle">
 					<h2 th:text="${st.name}"></h2>
@@ -140,8 +142,13 @@
 				</div>
 
 				<ul class="storeInfo">
-					<li class="indexBall">
-						<p th:text="${st.address}"></p>
+					<li class="indexBall flex">
+						주소
+						<div class="space">
+							<p th:text="${st.address}"></p>
+						</div>
+					</li>
+
 					<li class="indexBall flex">
 						영업시간
 						<div class="space">
@@ -178,6 +185,7 @@
 				<div class="line"></div>
 			</section>
 
+			<!-- 리뷰 목록-->
 			<section class="storeReview">
 				<div class="storeReviewTitleBox">
 					<div>
@@ -193,18 +201,26 @@
 					<div th:each="review : ${st.reviewList}" class="reviewBox">
 						<div class="userInfo">
 							<img src="/images/userIcon.png" alt="유저이미지">
-							<span class="textColor active" th:if="${session.mvo.nickname} == ${review.nickname}" th:text="${review.nickname}"></span>
-							<span class="textColor" th:unless="${session.mvo.nickname} == ${review.nickname}" th:text="${review.nickname}"></span>
+							<span class="textColor active"
+								th:if="${session.mvo != null && session.mvo.nickname == review.nickname}"
+								th:text="${review.nickname}"></span>
+							<span class="textColor"
+								th:unless="${session.mvo != null && session.mvo.nickname == review.nickname}"
+								th:text="${review.nickname}"></span>
 						</div>
 
 						<div class="reviewContent">
 							<div class="star">
 								<span th:each="i : ${#numbers.sequence(1, review.star)}">⭐</span>
 							</div>
-							<p class="recontent textColor active" th:if="${session.mvo.nickname} == ${review.nickname}" th:text="${review.content}"></p>
-							<p class="recontent" th:unless="${session.mvo.nickname} == ${review.nickname}" th:text="${review.content}"></p>
+							<p class="recontent textColor active"
+								th:if="${session.mvo != null && session.mvo.nickname == review.nickname}"
+								th:text="${review.content}"></p>
+							<p class="recontent"
+								th:unless="${session.mvo != null && session.mvo.nickname == review.nickname}"
+								th:text="${review.content}"></p>
 							<span class="time">[[${#dates.format(review.regdate,'yy.MM.dd(E) HH:mm')}]]</span>
-							<th:block th:if="${session.mvo.nickname}==${review.nickname}">
+							<th:block th:if="${session.mvo != null && session.mvo.nickname == review.nickname}">
 								<div class="bottomBtn">
 									<button class="btnDelete" th:onclick="sendDeleteRequest([[${review.id}]])">
 										<i class="fa-solid fa-xmark"></i>
@@ -226,6 +242,7 @@
 			</section>
 		</main>
 
+		<!--리뷰모달-->
 		<section class="reviewModal" id="myModal">
 			<h2><span>[[${st.name}]]</span> 이용은 어떠셨나요?</h2>
 			<form id="reviewForm" onsubmit="return postReview();">
@@ -235,18 +252,6 @@
 					<i class="fa-solid fa-star"></i>
 					<i class="fa-solid fa-star"></i>
 					<i class="fa-solid fa-star"></i>
-					<!-- 별점 value 담기 -->
-					<input type="hidden" id="starRating" name="star" />
-					<!-- 유저닉네임 value 담기 -->
-					<input th:if="${session.mvo == null}" type="hidden" id="nickname" name="nickname" value="닉네임없음" />
-					<input th:unless="${session.mvo == null}" type="hidden" id="nickname" name="nickname"
-						th:value="${session.mvo.nickname}" />
-					<!-- 원본 시설글의 고유 id 담기 -->
-					<input type="hidden" id="ref" name="ref" th:value="${st.id}" />
-					<!-- 댓글의 고유 id 담기 -->
-					<input type="hidden" id="reviewID" name="id" th:value="0" />
-					<!-- 유저프로필 value 담기 -->
-					<input type="hidden" id="userProfile" name="userProfile" value="유저프로필사진" />
 				</div>
 				<textarea class="reviewTextBox" name="content" required></textarea>
 				<div class="modalBtn">
@@ -254,9 +259,21 @@
 					<input type="submit" id='submitBtn' value="등록" />
 					<input type="button" id="modifyBtn" style="display: none" onclick="sendPutRequest()" value="수정" />
 				</div>
+				
+				<!-- 별점 value 담기 -->
+				<input type="hidden" id="starRating" name="star" />
+				<!-- 유저닉네임 value 담기 -->
+				<input th:if="${session.mvo == null}" type="hidden" id="nickname" name="nickname" value="닉네임없음" />
+				<input th:unless="${session.mvo == null}" type="hidden" id="nickname" name="nickname"
+					th:value="${session.mvo.nickname}" />
+				<!-- 원본 시설글의 고유 id 담기 -->
+				<input type="hidden" id="ref" name="ref" th:value="${st.id}" />
+				<!-- 댓글의 고유 id 담기 -->
+				<input type="hidden" id="reviewID" name="id" th:value="0" />
+				<!-- 유저프로필 value 담기 -->
+				<input type="hidden" id="userProfile" name="userProfile" value="유저프로필사진" />
 			</form>
 		</section>
-
 
 		<div class="overlay"></div>
 	</div>

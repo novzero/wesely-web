@@ -56,7 +56,8 @@ public class BusinessController {
 	// 운동시설 저장하기
 	@PostMapping(value = "/insertOk")
 	public String insertOkPost(@ModelAttribute StoreVO storeVO, @RequestParam MultipartFile[] uploadFile,
-			HttpServletRequest request, Model model, HttpSession session) throws IOException {
+			@RequestParam List<Integer> iorder, HttpServletRequest request, Model model, HttpSession session)
+			throws IOException {
 		MemberVO member = (MemberVO) session.getAttribute("mvo");
 		String userid = member.getUserid();
 
@@ -70,6 +71,7 @@ public class BusinessController {
 			String filePath = getFilePath();
 			log.info("서버 절대 경로 : " + filePath);
 			// 업로드된 파일을 파일에 담아 반복수행한다.
+			int index = 0;
 			for (MultipartFile file : uploadFile) {
 				// 파일이 있다면
 				if (!file.isEmpty()) {
@@ -87,9 +89,17 @@ public class BusinessController {
 					storeImgVO.setUuid(uuid);
 					storeImgVO.setFileName(fileName);
 					storeImgVO.setContentType(contentType);
+
+					// iOrder 값을 설정합니다.
+					if (index < iorder.size()) {
+						storeImgVO.setIorder(iorder.get(index));
+						index++;
+					}
+
 					// 받아온 정보들을 리스트에다가 추가해준다.
 					list.add(storeImgVO);
 				}
+
 			}
 			storeVO.setImgList(list);
 		}
@@ -150,47 +160,55 @@ public class BusinessController {
 
 	@PostMapping(value = "/updateOk")
 	public String updateStore(@ModelAttribute StoreVO storeVO, // 글내용
-			@RequestParam(defaultValue = "") String delList, // 삭제파일 id들
-			@RequestParam MultipartFile[] uploadFile, // 파일들
-			HttpServletRequest request, Model model) throws IOException {
-		log.info("수정하는 이미지 파일 , 컨트롤러 : {}{}{}", storeVO, uploadFile);
-		String userid = storeVO.getUserid();
-		// 내용은 받았지만 파일은 받지 않았다.
-		// 첨부파일 처리를 여기서 해준다.
-		if (uploadFile != null && uploadFile.length > 0) { // 파일이 존재하면
-			List<StoreImgVO> list = new ArrayList<>();
-			String filePath = getFilePath(); // 파일 저장 경로
-			log.info("서버 절대 경로 : " + filePath);
-			for (MultipartFile file : uploadFile) { // 반복한다.
+	        @RequestParam(defaultValue = "") String delList, // 삭제파일 id들
+	        @RequestParam MultipartFile[] uploadFile, // 파일들
+	        @RequestParam String[] iorder, // 이미지 순서들
+	        HttpServletRequest request, Model model) throws IOException {
+	    log.info("수정하는 이미지 파일 , 컨트롤러 : {}{}{}", storeVO, uploadFile);
+	    String userid = storeVO.getUserid();
+	    
+	    if (uploadFile != null && uploadFile.length > 0) { 
+	        List<StoreImgVO> list = new ArrayList<>();
+	        String filePath = getFilePath(); 
 
-				if (!file.isEmpty()) { // 파일이 있다면
-					String uuid = UUID.randomUUID().toString();
-					// 파일이름은 원본파일 이름을 가져온다.
-					String fileName = file.getOriginalFilename();
-					// 파일 속성도 원본파일 속성을 가져온다.
-					String contentType = file.getContentType();
-					// 파일 중복제거를 위한 키 _ 파일 이름
-					File newFile = new File(filePath + uuid + "_" + fileName);
-					// MultipartFile 객체의 내용(file)을 새롭게 생성한 File 객체(newFile)에 복사(저장) 합니다..
-					file.transferTo(newFile);
+	        for (int i=0; i<uploadFile.length; i++) { 
+	            MultipartFile file = uploadFile[i];
 
-					StoreImgVO storeImgVO = new StoreImgVO();
-					storeImgVO.setUuid(uuid);
-					storeImgVO.setFileName(fileName);
-					storeImgVO.setContentType(contentType);
-					storeImgVO.setRef(storeVO.getId()); // ref값을 원본의 id로 넣는다.
-					// 받아온 정보들을 리스트에다가 추가해준다.
-					list.add(storeImgVO);
-				}
-			}
-			storeVO.setImgList(list);
-		}
-		// 서비스 호출해서 DB에 저장하기
-		if (storeService.update(storeVO, delList, getFilePath())) {
+	            if (!file.isEmpty()) { 
+	                String uuid = UUID.randomUUID().toString();
+	                String fileName = file.getOriginalFilename();
+	                String contentType = file.getContentType();
+
+	                File newFile = new File(filePath + uuid + "_" + fileName);
+	                file.transferTo(newFile);
+
+	                StoreImgVO storeImgVO = new StoreImgVO();
+	                storeImgVO.setUuid(uuid);
+	                storeImgVO.setFileName(fileName);
+	                storeImgVO.setContentType(contentType);
+	                
+	                // ref값을 원본의 id로 넣는다.
+	                storeImgVO.setRef(storeVO.getId()); 
+	             // Convert to int only if necessary
+	                if (iorder[i] != null && !iorder[i].isEmpty()) {
+	                	storeImgVO.setIorder(Integer.parseInt(iorder[i]));
+	                }
+
+	    			list.add(storeImgVO);
+	    		}
+	        }
+
+	        storeVO.setImgList(list);  // 리스트를 VO에 저장한다.
+	    }
+
+	if(storeService.update(storeVO,delList,
+
+	getFilePath())) {
 			log.info("수정 성공");
 		} else {
 			log.info("수정 실패");
 		}
+
 		return "redirect:/store/view/b/" + userid;
 	}
 

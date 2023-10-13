@@ -109,7 +109,8 @@ CREATE TABLE storeImg(
 	ref NUMBER NOT NULL, -- 원본글 번호
 	uuid varchar2(200) NOT NULL, -- 중복처리위한 키
 	fileName varchar2(200) NOT NULL, -- 원본 파일명
-	contentType varchar2(200) NOT NULL -- 파일 종류
+	contentType varchar2(200) NOT NULL, -- 파일 종류
+	iorder NUMBER  -- 이미지 순서
 );
 
 SELECT store_id_seq.nextval,store_id_seq.currval  FROM dual;
@@ -131,6 +132,7 @@ CREATE TABLE storeReview(
 );
 
 DROP TABLE store;
+DROP TABLE storeImg;
 SELECT * FROM store;
 SELECT * FROM storeReview;
 SELECT * FROM storeImg;

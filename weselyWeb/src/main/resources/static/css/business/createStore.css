@@ -40,9 +40,22 @@ label {
 	margin-top: 10px;
 }
 
+.inputFile {
+	display: none;
+}
+
 .fileImg {
 	width: 200px;
 	height: 200px;
+}
+
+.btnFileDelete {
+	width: 50px;
+	height: 30px;
+	background-color: #fff;
+	border: 1px solid red;
+	border-radius: 10px;
+	cursor: pointer;
 }
 
 .addText {

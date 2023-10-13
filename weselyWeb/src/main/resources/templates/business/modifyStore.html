@@ -23,48 +23,42 @@
 
 			$('#delList').val(currentDelList);
 
-			alert($('#delList').val());
-
-			// 해당 이미지와 관련된 input 필드와 label을 제거합니다.
-			$('#' + inputId).remove();
-			$('#' + labelId).remove();
-
-			// 새로운 file input 필드를 추가합니다.
+			// 해당 label 요소를 찾아서 대체합니다.
 			var newInput = $('<input>')
 				.attr('type', 'file')
-				.attr('name', 'uploadFile');
+				.attr('name', 'uploadFile')
+				.attr('id', inputId);  // input 태그에 id 값을 부여
 
-			$('.fileWrapper').append(newInput);
+			// iorder value는 기존 label의 iorder 값과 동일하게 설정합니다.
+			var iorderValue = $('#' + labelId).find('[name="iorder"]').val();
+			var newIOrderInput = $('<input>')
+				.attr('type', 'hidden')
+				.attr('name', 'iorder')
+				.val(iorderValue);
+
+			$('#' + labelId).empty().append(newInput, newIOrderInput);
 		}
 	</script>
 
 
-
-	<!-- Scripts -->
 	<script scr="javascript">
 		function formCheck() {
-			let hasImage = false;
-			$('input[type="file"]').each(function () {
-				if ($(this).val()) {
-					hasImage = true;
-					return false; // break the loop
-				}
-			});
+			let emptyFound = false;
 
-			if (!hasImage) {
-				alert('이미지는 반드시 입력해야 합니다.');
-				return false;
-			}
-			
-			
+	
+
+			// 이미지 체크 후 추가적인 유효성 검사를 여기에 진행할 수 있습니다.
+
 			value = $(".addText").val(); // 내용 얻고
 			if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
 				alert('내용은 반드시 입력해야 합니다.'); // 경고
 
 				return false;   // 전송 취소
-			}
-			return true;
+			};
+
+			return !emptyFound;
 		}
+
 	</script>
 </head>
 
@@ -106,19 +100,23 @@
 				<div class="fileWrapper">
 					<p class="titleText required">매장 사진<span class="subText"> 첫번째는 필수등록이며, 썸네일로 적용됩니다.</span></p>
 
-					<!-- 각각의 이미지에 대해 '삭제' 버튼과 함께 id 값을 부여한 file input과 label을 생성합니다. -->
+					<!-- 각각의 이미지에 대해 '삭제' 버튼과 함께 id값을 부여한 file input과 label을 생성합니다. -->
 					<th:block th:each="img, vs : ${st.imgList}">
 						<label class="addImgItem" th:id="'label' + ${vs.count}" th:for="'storeImges' + ${vs.count}"
 							th:data-img-id="${img.id}">
-							<input type="file" th:id="'storeImges' + ${vs.count}" class="inputFile" name="uploadFile">
 
-							<!--삭제버튼-->
-							<button type="button"
-								th:onclick="'deleteImage(\'storeImges' + ${vs.count} + '\', \'label' + ${vs.count} + '\');'">삭제</button>
-
+							<!-- 기존 이미지 삭제버튼 -->
+							<button type="button" class="btnFileDelete"
+								th:onclick="'deleteImage(\'storeImges' + ${vs.count} + '\', \'label' + ${vs.count} + '\');'">
+								삭제
+							</button>
+							<input type="hidden" name="iorder" th:value="${img.iorder}" />
+							<!--
 							<span th:text="${img.fileName}"></span>
+							-->
+
 							<div>
-								<img th:id="'img' + ${vs.count}" class="fileImg on"
+								<img class="fileImg on" th:id="'img' + ${vs.count}"
 									th:src='|/static/images/upload/${img.uuid}_${img.fileName}|'>
 							</div>
 						</label>
@@ -126,10 +124,11 @@
 
 					<th:block th:if="${#lists.size(st.imgList)<4}">
 						<th:block th:each="num : ${#numbers.sequence(#lists.size(st.imgList)+1, 4)}">
-							<label class="addImgItem" for="'storeImges' + ${num}">
-								<input id="'storeImges' + ${num}" type="file" name="uploadFile">
-								<!-- 원하는 내용을 추가하세요 -->
-								</input>
+							<label class="addImgItem" th:for="'storeImges' + ${num}" th:id="'label' + ${num}">
+								<input th:id="'storeImges' + ${num}" type="file" name="uploadFile"
+									class="uploadFile"></input>
+								<!-- 숨겨진 입력 필드를 추가하여 이미지 순서 정보를 저장합니다. -->
+								<input type="hidden" name="iorder" th:value="${num}" />
 							</label>
 						</th:block>
 					</th:block>
