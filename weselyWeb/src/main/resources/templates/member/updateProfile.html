@@ -52,44 +52,48 @@
 				</div>
 
 				<div>
-					<div class="profileImage" colspan="2">
+					<!--
+					<div class="profileImage">
 						<label for="profileimage">프로필 사진</label>
 						<button id="btn-modal">
-							<img src="${pageContext.request.contextPath}/member/photoView.do" class="profile-photo"
+							<img src="/src/main/resources/static/images/Profile.png" class="profile-photo"
 								width="100" height="100" style="border-radius: 70%; overflow: hidden;" />
 						</button>
 					</div>
-				</div>
+					-->
 
-				<!-- 모달창 -->
-				<div id="modal" class="modal-overlay">
-					<div class="modal-window">
-						<div class="title">
-							프로필 사진 등록
-						</div>
-						<div class="close-area">X</div>
-						<div class="content">
+					<!-- 이미지 미리보기 버튼 : 클릭 시 모달 창 열림 -->
+					<div class="preview-button" id="preview-btn">
+						<img src="/images/Profile.png" alt="프로필 사진" id="profile-image" />
+					</div>
+
+					<!-- 모달창 -->
+					<div class="modal-overlay" id="modal">
+						<div class="modal-window">
+							<div class="title">
+								프로필 사진 등록
+							</div>
+							<!-- 모달 닫기 버튼 -->
+							<span class="close-button">&times;</span>
+
+							<!-- 파일 선택 -->
+							<input type="file" id="upload" style="display: none;"
+								accept="image/gif, image/png, image/jpeg">
+
 							<!-- 이미지 미리보기 div-->
-							<div class="image">
-								<img src="${pageContext.request.contextPath}/member/photoView.do" class="profile-photo"
-									style="width: 150px; height: 150px;">
-							</div>
-							<div class="fileBtn">
-								<input type="hidden" name="userid" th:value="${session.mvo.userid}" />
-								<input type="file" id="upload" accept="image/gif, image/png, image/jpeg" />
-							</div>
-						</div>
-						<div class="ModalBtn">
-							<input type="submit" id="photo_submit" value="등록" />
+							<label for="upload">
+								<div id="image-preview" style="cursor: pointer;">
+									<img src="/images/Profile.png" alt="" class="modal-photo" style="width: 100px; height: 100px;">
+								</div>
+							</label>
+							
+							<!-- 등록 버튼 -->
+							<input type="submit-button" id="photo_submit" value="등록" />
 						</div>
 					</div>
-				</div>
-				<script>
-					document.querySelector('.image').addEventListener('click', function () {
-						document.querySelector('#upload').click();
-					});
 
-				</script>
+				</div>
+
 
 
 				<form action="/member/updateProfileOk" method="post" onsubmit="return formCheck()">

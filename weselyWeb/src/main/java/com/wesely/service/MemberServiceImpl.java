@@ -1,8 +1,10 @@
 package com.wesely.service;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
@@ -15,12 +17,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wesely.dao.BusinessDAO;
 import com.wesely.dao.CommunityDAO;
 import com.wesely.dao.MemberDAO;
+import com.wesely.dao.MemberImgDAO;
+import com.wesely.vo.MemberImgVO;
 import com.wesely.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +49,7 @@ public class MemberServiceImpl implements MemberService {
 			// 비즈니스 계정인 경우 사업자 정보도 함께 저장
 
 			memberVO.setBno(memberVO.getBNum1() + memberVO.getBNum2() + memberVO.getBNum3());
-			
+
 			memberDAO.insert(memberVO);
 			int idx = memberDAO.getLastInsertedIdx();
 
@@ -56,7 +61,6 @@ public class MemberServiceImpl implements MemberService {
 			memberDAO.insert(memberVO);
 		}
 	}
-
 
 	// 회원 탈퇴
 	@Override
@@ -207,7 +211,8 @@ public class MemberServiceImpl implements MemberService {
 			// 게시판의 정보를 변경
 			HashMap<String, String> map = new HashMap<>();
 			// 기존 닉네임이 null 이면 아이디로 저장.
-			String oldNickname = (dbVO.getNickname() == null || dbVO.getNickname().isEmpty()) ? dbVO.getUserid() : dbVO.getNickname();
+			String oldNickname = (dbVO.getNickname() == null || dbVO.getNickname().isEmpty()) ? dbVO.getUserid()
+					: dbVO.getNickname();
 			map.put("newNickname", memberVO.getNickname());
 			map.put("oldNickname", oldNickname);
 			map.put("userid", memberVO.getUserid());
@@ -220,7 +225,7 @@ public class MemberServiceImpl implements MemberService {
 			} catch (Exception e) {
 				// 예외 처리
 				log.error("닉네임 변경 중 오류 발생: {}", e.getMessage());
-				
+
 			}
 		}
 		return result;
@@ -246,6 +251,25 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 //==============================================================================================================
+	@Autowired
+	MemberImgDAO memberImgDAO;
+
+	@Override
+	public void saveImage(MemberVO memberVO) {
+		log.info("{}의 saveImage 호출 : {}", this.getClass().getName(), memberVO);
+
+		MultipartFile imageFile = memberVO.getImageFile();
+
+		// MemberImgVO 객체 생성 및 필드 설정
+		MemberImgVO memberImg = new MemberImgVO();
+		memberImg.setUuid(UUID.randomUUID().toString()); // UUID 생성 또는 다른 고유 식별자 사용 가능
+		memberImg.setFileName(imageFile.getOriginalFilename());
+		memberImg.setContentType(imageFile.getContentType());
+
+		// 데이터베이스에 이미지 정보 저장하기 위해 DAO 호출
+		memberImgDAO.insert(memberImg);
+	};
+
 //==============================================================================================================
 
 	// 사업자번호 중복체크 + 사업자번호 검증

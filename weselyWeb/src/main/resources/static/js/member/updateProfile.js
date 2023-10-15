@@ -8,7 +8,7 @@ $(function() {
 		my_photo = this.files[0];
 		if (!my_photo) {
 			$(".profile-photo").attr("src", photo_path);
-			return
+			return;
 		}
 		if (my_photo.size > 1024 * 1024) {
 			alert(Math.round(my_photo.size / 1024 / 1024) + 'MB(1MB까지만 업로드 가능)');
@@ -19,11 +19,12 @@ $(function() {
 
 		// 이미지 미리보기
 		let reader = new FileReader();
-		reader.readAsDataURL(my_photo);
 
 		reader.onload = function() {
 			$(".profile-photo").attr("src", reader.result);
 		};
+
+		reader.readAsDataURL(my_photo);
 	});
 })
 
@@ -40,11 +41,92 @@ $("#photo_submit").click(function() {
 
 	//파일 전송
 	let form_data = new FormData();
-	form_data.append("upload", my_photo); // 사용자가 업로드한 이미지
+	form_data.append("image", my_photo); // 사용자가 업로드한 이미지
 
+	// Ajax 요청 보내기
+	$.ajax({
+		url: "/upload-image",
+		type: "POST",
+		data: form_data,
+		processData: false,
+		contentType: false,
+		success: function(response) {
+			// 성공적으로 요청 처리됨
+			console.log(response);
+
+			alert("이미지 업로드 성공");
+			closeModal();
+			location.reload();
+		},
+		error: function(xhr, status, error) {
+			// 요청 실패 상태 처리하기
+			console.error(error);
+			alert("이미지 업로드 실패");
+		}
+	});
+})
+
+// ========================================================================================================
+// 모달창
+
+const previewButton = document.getElementById('preview-btn');
+const modal = document.getElementById('modal');
+const closeButton = modal.querySelector('.close-button');
+const upload = document.getElementById('upload');
+const imagePreview = document.getElementById('image-preview');
+const submitButton = modal.querySelector('.submit-button');
+
+// 프로필 사진 클릭 시 모달 열기
+previewButton.addEventListener('click', () => {
+	modal.style.display = 'block';
+});
+
+// 모달 닫기 버튼 클릭 시 모달 닫기
+closeButton.addEventListener('click', () => {
+	modal.style.display = 'none';
+});
+
+function modalOn() {
+	modal.style.display = "flex"
+}
+function isModalOn() {
+	return modal.style.display === "flex"
+}
+function modalOff() {
+	resetImage();
+	modal.style.display = "none"
+}
+function closeModal() {
+	resetImage();
+	modalOff();
+}
+
+// 이미지 초기화
+function resetImage() {
+	imageElement.src = "${pageContext.request.contextPath}/member/photoView.do";
+}
+document.querySelector('.image').addEventListener('click', function() {
+	document.querySelector('#upload').click();
+});
+
+const closeBtn = modal.querySelector(".close-area")
+closeBtn.addEventListener("click", function(e) {
+	closeModal();
+})
+modal.addEventListener("click", function(e) {
+	const evTarget = e.target
+	if (evTarget.classList.contains("modal-overlay")) {
+		closeModal();
+	}
+})
+window.addEventListener("keyup", function(e) {
+	if (isModalOn() && e.key === "Escape") {
+		closeModal();
+	}
 })
 
 
+// ========================================================================================================
 
 
 // ========================================================================================================
@@ -93,8 +175,12 @@ $(function() {
 // ========================================================================================================
 function formCheck() {
 
-	var value = $("#nickmessage").val();
-	if ($("#nickmessage").css('color') == 'rgb(255, 0, 0)') {
+	if ($("#nickname").val() == null || $("#nickname").val().trim().length == 0) {
+		alert("닉네임을 입력해주세요.");
+		$("#nickname").val("");
+		$("#nickname").focus();
+		return false;
+	} else if ($("#nickmessage").css('color') == 'rgb(255, 0, 0)') {
 		alert("닉네임을 확인해주세요.");
 		$("#nickname").val("");
 		$("#nickname").focus();
@@ -117,47 +203,4 @@ function deleteMember() {
 	}
 }
 
-// ========================================================================================================
-// 모달창
-// ========================================================================================================
 
-const modal = document.getElementById("modal")
-function modalOn() {
-	modal.style.display = "flex"
-}
-function isModalOn() {
-	return modal.style.display === "flex"
-}
-function modalOff() {
-	resetImage();
-	modal.style.display = "none"
-}
-function resetImage() {
-	imageElement.src = "${pageContext.request.contextPath}/member/photoView.do";
-}
-const btnModal = document.getElementById("btn-modal")
-btnModal.addEventListener("click", e => {
-	modal.style.display = "flex"
-	modalOn()
-})
-const closeBtn = modal.querySelector(".close-area")
-closeBtn.addEventListener("click", e => {
-	resetImage();
-	imageElement.src = "";
-	modalOff();
-})
-modal.addEventListener("click", e => {
-	const evTarget = e.target
-	if (evTarget.classList.contains("modal-overlay")) {
-		resetImage();
-		imageElement.src = "";
-		modalOff()
-	}
-})
-window.addEventListener("keyup", e => {
-	if (isModalOn() && e.key === "Escape") {
-		resetImage();
-		imageElement.src = "";
-		modalOff()
-	}
-})
