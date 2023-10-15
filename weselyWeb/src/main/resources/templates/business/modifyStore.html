@@ -34,6 +34,7 @@
 			var newIOrderInput = $('<input>')
 				.attr('type', 'hidden')
 				.attr('name', 'iorder')
+				.removeAttr('disabled')
 				.val(iorderValue);
 
 			$('#' + labelId).empty().append(newInput, newIOrderInput);
@@ -98,7 +99,7 @@
 		<main>
 			<form action="/business/updateOk" onsubmit="return formCheck()" method="post" enctype="multipart/form-data">
 				<div class="fileWrapper">
-					<p class="titleText required">매장 사진<span class="subText"> 첫번째는 필수등록이며, 썸네일로 적용됩니다.</span></p>
+					<p class="titleText required">매장 사진<span class="subText">매장사진은 한 장이 필수등록이며 첫번째 사진이 썸네일로 적용됩니다.</span></p>
 
 					<!-- 각각의 이미지에 대해 '삭제' 버튼과 함께 id값을 부여한 file input과 label을 생성합니다. -->
 					<th:block th:each="num : ${#numbers.sequence(1, 4)}">
@@ -111,8 +112,9 @@
 									th:onclick="'deleteImage(\'storeImges' + ${num} + '\', \'label' + ${num} + '\');'">
 									삭제
 								</button>
-								<input type="hidden" name="iorder" th:value="${img.iorder}" />
-
+								
+								<input type="hidden" name="iorder" th:value="${img.iorder}" disabled/>
+								
 								<div>
 									<img class="fileImg on" th:id="'img' + ${num}"
 										th:src='|/static/images/upload/${img.uuid}_${img.fileName}|'>
@@ -129,7 +131,6 @@
 							</label>
 						</th:block>
 					</th:block>
-
 
 				</div>
 

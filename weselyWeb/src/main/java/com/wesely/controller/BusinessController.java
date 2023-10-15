@@ -56,8 +56,12 @@ public class BusinessController {
 
 	// 운동시설 저장하기
 	@PostMapping(value = "/insertOk")
-	public String insertOkPost(@ModelAttribute StoreVO storeVO, @RequestParam MultipartFile[] uploadFile,
-			@RequestParam List<Integer> iorder, HttpServletRequest request, Model model, HttpSession session)
+	public String insertOkPost(@ModelAttribute StoreVO storeVO,
+			@RequestParam MultipartFile[] uploadFile,
+			@RequestParam List<Integer> iorder,
+			HttpServletRequest request,
+			Model model,
+			HttpSession session)
 			throws IOException {
 		MemberVO member = (MemberVO) session.getAttribute("mvo");
 		String userid = member.getUserid();
@@ -193,51 +197,33 @@ public class BusinessController {
 	    String filePath = getFilePath();
 	    log.info("서버 절대 경로 : " + filePath);
 
-		// 파일과 그에 해당하는 iorder 값을 함께 보관하는 클래스 정의
-		class FileAndOrder {
-			public MultipartFile file;
-			public Integer order;
+		// 'uploadFile' 배열과 'iorders' 리스트에 대해 동시에 반복
+		for (int i = 0; i < uploadFile.length; ++i) {
+			MultipartFile file = uploadFile[i];
+			
+			if (!file.isEmpty()) { // 파일이 있으면
+				String uuid=UUID.randomUUID().toString();
+				String fileName=file.getOriginalFilename();
+				File newFile=new File(filePath+uuid+"_"+fileName);
 
-			public FileAndOrder(MultipartFile file, Integer order) {
-				this.file = file;
-				this.order = order;
+				file.transferTo(newFile);
+
+				StoreImgVO storeImgVO=new StoreImgVO();
+				storeImgVO.setUuid(uuid);
+				storeImgVO.setFileName(fileName);
+				storeImgVO.setContentType(file.getContentType());
+
+				// ref값을 원본의 id로 넣는다.
+				storeImgVO.setRef(storeVO.getId());
+				
+	            // set the correct order using the map
+				storeImgVO.setIorder(iorder.get(i)); // 기존의 순서값 사용
+
+			    list.add(storeImgVO);
 			}
 		}
 
-		// 업로드 파일과 그에 대응하는 iorder 값을 함께 저장할 리스트 생성
-		List<FileAndOrder> filesWithOrders = new ArrayList<>();
-
-		for (int i = 0; i < uploadFile.length; i++) {
-		    if (!uploadFile[i].isEmpty()) { // 파일이 있으면
-		        filesWithOrders.add(new FileAndOrder(uploadFile[i], iorder.get(i))); // 리스트에 추가
-		    }
-		}
-
-		if (!filesWithOrders.isEmpty()) { 
-		    for (FileAndOrder fao : filesWithOrders) {
-
-		        MultipartFile file = fao.file;
-
-		        String uuid=UUID.randomUUID().toString();
-		        String fileName=file.getOriginalFilename();
-		        File newFile=new File(filePath+uuid+"_"+fileName);
-
-		        file.transferTo(newFile);
-
-		        StoreImgVO storeImgVO=new StoreImgVO();
-	            storeImgVO.setUuid(uuid);
-	            storeImgVO.setFileName(fileName);
-	            storeImgVO.setContentType(file.getContentType());
-
-	            // ref값을 원본의 id로 넣는다.
-		 	    storeImgVO.setRef(storeVO.getId());
-	            
-	            // set the correct order using the map
-		 	    storeImgVO.setIorder(fao.order); // 기존의 순서값 사용
-		 	    list.add(storeImgVO);
-		    }
-		    storeVO.setImgList(list);
-	      }
+		storeVO.setImgList(list);
 
 		if (storeService.update(storeVO, delList, getFilePath())) {
 			    log.info("수정 성공");
@@ -247,6 +233,7 @@ public class BusinessController {
 
 		return "redirect:/store/view/b/" + userid;
 	}
+
 
 	// 삭제하기 완료
 	@GetMapping(value = "/deleteOk")
