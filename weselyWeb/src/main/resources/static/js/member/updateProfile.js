@@ -69,10 +69,22 @@ $("#photo_submit").click(function() {
 // ========================================================================================================
 // 모달창
 
-const modal = document.getElementById("modal") // 모달창
-const modalPhotoElement = document.querySelector(".modal-photo"); //모달창 내부 프로필사진
-const uploadBtn = document.getElementById(".profile-photo");	// 프로필사진 버튼
-const uploadInput = document.getElementById("upload");
+const previewButton = document.getElementById('preview-btn');
+const modal = document.getElementById('modal');
+const closeButton = modal.querySelector('.close-button');
+const upload = document.getElementById('upload');
+const imagePreview = document.getElementById('image-preview');
+const submitButton = modal.querySelector('.submit-button');
+
+// 프로필 사진 클릭 시 모달 열기
+previewButton.addEventListener('click', () => {
+	modal.style.display = 'block';
+});
+
+// 모달 닫기 버튼 클릭 시 모달 닫기
+closeButton.addEventListener('click', () => {
+	modal.style.display = 'none';
+});
 
 function modalOn() {
 	modal.style.display = "flex"
