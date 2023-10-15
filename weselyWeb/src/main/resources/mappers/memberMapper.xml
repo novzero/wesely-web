@@ -25,6 +25,8 @@
 		set
 			nickname = #{newNickname}
 		where
+			userid = #{userid}
+			and
 			nickname=#{oldNickname}
 	</update>
 	

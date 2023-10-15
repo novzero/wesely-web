@@ -46,6 +46,8 @@
 		set
 			nickname = #{newNickname}
 		where
+			userid = #{userid}
+			and
 			nickName = #{oldNickname}
 	</update>
 	<!-- 아이디로 찾기 -->
