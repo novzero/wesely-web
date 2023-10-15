@@ -1,6 +1,5 @@
 package com.wesely.service;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
@@ -273,36 +272,42 @@ public class MemberServiceImpl implements MemberService {
 //==============================================================================================================
 
 	// 사업자번호 중복체크 + 사업자번호 검증
+
+	// api 서비스키 할당
 	private static final String serviceKey = "hLHWpZv6BDxRiqMCB%2FXVu0aIlJq%2FiiIUl%2FFt%2BOH9wHYxyCM4FF3E5pwVZ%2B0OHlFC0by91hiA%2BXvyjnaJya%2BIsA%3D%3D";
 
 	@Override
 	public int bnoCheck(String bno) throws Exception {
 		log.info("{}의 bnoCheck 호출 : {}", this.getClass().getName(), bno);
+		// 사업자번호 중복체크
 		int result = businessDAO.selectCountByBno(bno);
 		log.info("{}의 bnoCheck 리턴 : {}", this.getClass().getName(), result);
+		// 중복되지 않은 경우에 사업자번호 유효성 검증을 진행한다.
 		if (result == 0) {
 			String url = "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=" + serviceKey;
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Content-type", "application/json; charset=utf-8");
 
-			JSONObject jsonObject = new JSONObject();
-			JSONArray jsonArray = new JSONArray();
-			jsonArray.put(bno);
-			jsonObject.put("b_no", jsonArray);
+			JSONObject jsonObject = new JSONObject(); // JSON 객체 생성
+			JSONArray jsonArray = new JSONArray(); // JSON 배열 생성
+			jsonArray.put(bno); // 사업자번호 추가
+			jsonObject.put("b_no", jsonArray); // JSON 배열 추가
 
-			String body = jsonObject.toString();
+			String body = jsonObject.toString(); // JSON 문자열로 변환
 
 			HttpEntity<String> requestEntity = new HttpEntity<>(body, headers);
-
+			// RestTemplate 객체 생성
 			RestTemplate restTemplate = new RestTemplate();
-			ResponseEntity<String> responseEntity = restTemplate.exchange(new URI(url), HttpMethod.POST, requestEntity,
+			// API 호출
+			ResponseEntity<String> responseEntity = 
+					restTemplate.exchange(new URI(url), HttpMethod.POST, requestEntity,
 					String.class);
 
 			HttpStatus httpStatus = (HttpStatus) responseEntity.getStatusCode();
 
 			String response = responseEntity.getBody();
-
+			// JSON 문자열을 맵으로 변환
 			ObjectMapper mapper = new ObjectMapper();
 			Map<String, Object> map = mapper.readValue(response, new TypeReference<Map<String, Object>>() {
 			});
