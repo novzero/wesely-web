@@ -45,7 +45,7 @@
 		function formCheck() {
 			let emptyFound = false;
 
-	
+
 
 			// 이미지 체크 후 추가적인 유효성 검사를 여기에 진행할 수 있습니다.
 
@@ -101,37 +101,36 @@
 					<p class="titleText required">매장 사진<span class="subText"> 첫번째는 필수등록이며, 썸네일로 적용됩니다.</span></p>
 
 					<!-- 각각의 이미지에 대해 '삭제' 버튼과 함께 id값을 부여한 file input과 label을 생성합니다. -->
-					<th:block th:each="img, vs : ${st.imgList}">
-						<label class="addImgItem" th:id="'label' + ${vs.count}" th:for="'storeImges' + ${vs.count}"
-							th:data-img-id="${img.id}">
+					<th:block th:each="num : ${#numbers.sequence(1, 4)}">
+						<th:block th:each="img : ${st.imgList}" th:if="${img.iorder == num}">
+							<label class="addImgItem" th:id="'label' + ${num}" th:for="'storeImges' + ${num}"
+								th:data-img-id="${img.id}">
 
-							<!-- 기존 이미지 삭제버튼 -->
-							<button type="button" class="btnFileDelete"
-								th:onclick="'deleteImage(\'storeImges' + ${vs.count} + '\', \'label' + ${vs.count} + '\');'">
-								삭제
-							</button>
-							<input type="hidden" name="iorder" th:value="${img.iorder}" />
-							<!--
-							<span th:text="${img.fileName}"></span>
-							-->
+								<!-- 기존 이미지 삭제버튼 -->
+								<button type="button" class="btnFileDelete"
+									th:onclick="'deleteImage(\'storeImges' + ${num} + '\', \'label' + ${num} + '\');'">
+									삭제
+								</button>
+								<input type="hidden" name="iorder" th:value="${img.iorder}" />
 
-							<div>
-								<img class="fileImg on" th:id="'img' + ${vs.count}"
-									th:src='|/static/images/upload/${img.uuid}_${img.fileName}|'>
-							</div>
-						</label>
-					</th:block>
+								<div>
+									<img class="fileImg on" th:id="'img' + ${num}"
+										th:src='|/static/images/upload/${img.uuid}_${img.fileName}|'>
+								</div>
+							</label>
+						</th:block>
 
-					<th:block th:if="${#lists.size(st.imgList)<4}">
-						<th:block th:each="num : ${#numbers.sequence(#lists.size(st.imgList)+1, 4)}">
-							<label class="addImgItem" th:for="'storeImges' + ${num}" th:id="'label' + ${num}">
-								<input th:id="'storeImges' + ${num}" type="file" name="uploadFile"
-									class="uploadFile"></input>
+						<!-- 해당 iorder 값이 imgList에 없으면 비어있는 input 태그 출력 -->
+						<th:block th:if="${#lists.contains(st.imgList.![iorder], num) == false}">
+							<label class="addImgItem" th:for="'storeImges' + ${num}" th:id='|label${num}|'>
+								<input th:id='|storeImges${num}|' type="file" name="uploadFile" class="uploadFile"></input>
 								<!-- 숨겨진 입력 필드를 추가하여 이미지 순서 정보를 저장합니다. -->
-								<input type="hidden" name="iorder" th:value="${num}" />
+								<input type="hidden" name="iorder" th:value='${num}' />
 							</label>
 						</th:block>
 					</th:block>
+
+
 				</div>
 
 				<input type="hidden" name="delList" id="delList" size="100" />
@@ -159,7 +158,7 @@
 					th:value="${st.description}">
 				<div class="modalBtn">
 					<input class="btnCancle" type="button" value="취소" th:onclick="location.href='/'"></input>
-					<input class="btnAdd" type="submit" value="등록"></input>
+					<input class="btnAdd" type="submit" value="수정"></input>
 				</div>
 			</form>
 		</main>

@@ -3,7 +3,9 @@ package com.wesely.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,47 +63,67 @@ public class BusinessController {
 		String userid = member.getUserid();
 
 		log.info("컨트롤러 ?: {}{}{}", storeVO, uploadFile);
-		// 내용은 받았지만 파일은 받지 않았다.
+
 		// 첨부파일들을 리스트 에 담아준다.
 		List<StoreImgVO> list = new ArrayList<>();
+
+		// 파일과 그에 해당하는 iorder 값을 함께 보관하는 클래스 정의
+		class FileAndOrder {
+			public MultipartFile file;
+			public Integer order;
+
+			public FileAndOrder(MultipartFile file, Integer order) {
+				this.file = file;
+				this.order = order;
+			}
+		}
+
+		// 업로드 파일과 그에 대응하는 iorder 값을 함께 저장할 리스트 생성
+		List<FileAndOrder> filesWithOrders = new ArrayList<>();
+
+		for (int i = 0; i < uploadFile.length; i++) {
+			if (!uploadFile[i].isEmpty()) { // 파일이 있으면
+				filesWithOrders.add(new FileAndOrder(uploadFile[i], iorder.get(i))); // 리스트에 추가
+			}
+		}
+
 		// 파일이 존재하면
-		if (uploadFile != null && uploadFile.length > 0) {
+		if (!filesWithOrders.isEmpty()) {
 			// 파일 저장 경로
 			String filePath = getFilePath();
 			log.info("서버 절대 경로 : " + filePath);
-			// 업로드된 파일을 파일에 담아 반복수행한다.
-			int index = 0;
-			for (MultipartFile file : uploadFile) {
-				// 파일이 있다면
-				if (!file.isEmpty()) {
-					// 랜덤으로 절대 경로 설정
-					String uuid = UUID.randomUUID().toString();
-					// 파일이름은 원본파일 이름을 가져온다.
-					String fileName = file.getOriginalFilename();
-					// 파일 속성도 원본파일 속성을 가져온다.
-					String contentType = file.getContentType();
-					// 파일 중복제거를 위한 키 _ 파일 이름
-					File newFile = new File(filePath + uuid + "_" + fileName);
-					// MultipartFile 객체의 내용(file)을 새롭게 생성한 File 객체(newFile)에 복사(저장) 합니다..
-					file.transferTo(newFile);
-					StoreImgVO storeImgVO = new StoreImgVO();
-					storeImgVO.setUuid(uuid);
-					storeImgVO.setFileName(fileName);
-					storeImgVO.setContentType(contentType);
 
-					// iOrder 값을 설정합니다.
-					if (index < iorder.size()) {
-						storeImgVO.setIorder(iorder.get(index));
-						index++;
-					}
+			for (FileAndOrder fao : filesWithOrders) {
 
-					// 받아온 정보들을 리스트에다가 추가해준다.
-					list.add(storeImgVO);
-				}
+				MultipartFile file = fao.file;
 
+				// 랜덤으로 절대 경로 설정
+				String uuid = UUID.randomUUID().toString();
+				// 파일이름은 원본파일 이름을 가져온다.
+				String fileName = file.getOriginalFilename();
+				// 파일 속성도 원본파일 속성을 가져온다.
+				String contentType = file.getContentType();
+
+				// 파일 중복제거를 위한 키 _ 파일 이름
+				File newFile = new File(filePath + uuid + "_" + fileName);
+
+				// MultipartFile 객체의 내용(file)을 새롭게 생성한 File 객체(newFile)에 복사(저장) 합니다..
+				file.transferTo(newFile);
+
+				StoreImgVO storeImgVO = new StoreImgVO();
+				storeImgVO.setUuid(uuid);
+				storeImgVO.setFileName(fileName);
+				storeImgVO.setContentType(contentType);
+
+				storeImgVO.setIorder(fao.order); // 기존의 순서값 사용
+
+				// 받아온 정보들을 리스트에다가 추가해준다.
+				list.add(storeImgVO);
 			}
+
 			storeVO.setImgList(list);
 		}
+
 		if (storeService.insert(storeVO)) {
 			log.info("저장 성공");
 		} else {
@@ -152,78 +173,80 @@ public class BusinessController {
 		return "/business/modifyStore";
 	}
 
-	// 수정하기 완료
+	// 수정하기 완료 Get
 	@GetMapping(value = "/updateOk")
 	public String updateOkGet() {
 		return "/business/businessView";
 	}
 
+	// 수정하기 완료 Post
 	@PostMapping(value = "/updateOk")
-	public String updateStore(@ModelAttribute StoreVO storeVO, // 글내용
-	        @RequestParam(defaultValue = "") String delList, // 삭제파일 id들
-	        @RequestParam MultipartFile[] uploadFile, // 파일들
-	        @RequestParam String[] iorder, // 이미지 순서들
-	        HttpServletRequest request, Model model) throws IOException {
-	    log.info("수정하는 이미지 파일 , 컨트롤러 : {}{}{}", storeVO, uploadFile);
+	public String updateStore(@ModelAttribute StoreVO storeVO,
+	                          @RequestParam(defaultValue = "") String delList,
+	                          @RequestParam MultipartFile[] uploadFile,
+	                          @RequestParam List<Integer> iorder,
+	                          HttpServletRequest request, Model model) throws IOException {
+	    log.info("수정하는 이미지 파일 , 컨트롤러 : {}{}{}", storeVO, uploadFile, iorder);
 	    String userid = storeVO.getUserid();
-	    
-	    if (uploadFile != null && uploadFile.length > 0) { 
-	        List<StoreImgVO> list = new ArrayList<>();
-	        String filePath = getFilePath(); 
 
-	        for (int i=0; i<uploadFile.length; i++) { 
-	            MultipartFile file = uploadFile[i];
+	    List<StoreImgVO> list = new ArrayList<>();
+	    String filePath = getFilePath();
+	    log.info("서버 절대 경로 : " + filePath);
 
-	            if (!file.isEmpty()) { 
-	                String uuid = UUID.randomUUID().toString();
-	                String fileName = file.getOriginalFilename();
-	                String contentType = file.getContentType();
+		// 파일과 그에 해당하는 iorder 값을 함께 보관하는 클래스 정의
+		class FileAndOrder {
+			public MultipartFile file;
+			public Integer order;
 
-	                File newFile = new File(filePath + uuid + "_" + fileName);
-	                file.transferTo(newFile);
+			public FileAndOrder(MultipartFile file, Integer order) {
+				this.file = file;
+				this.order = order;
+			}
+		}
 
-	                StoreImgVO storeImgVO = new StoreImgVO();
-	                storeImgVO.setUuid(uuid);
-	                storeImgVO.setFileName(fileName);
-	                storeImgVO.setContentType(contentType);
-	                
-	                // ref값을 원본의 id로 넣는다.
-	                storeImgVO.setRef(storeVO.getId()); 
-	             // Convert to int only if necessary
-	                if (iorder[i] != null && !iorder[i].isEmpty()) {
-	                	storeImgVO.setIorder(Integer.parseInt(iorder[i]));
-	                }
+		// 업로드 파일과 그에 대응하는 iorder 값을 함께 저장할 리스트 생성
+		List<FileAndOrder> filesWithOrders = new ArrayList<>();
 
-	    			list.add(storeImgVO);
-	    		}
-	        }
+		for (int i = 0; i < uploadFile.length; i++) {
+		    if (!uploadFile[i].isEmpty()) { // 파일이 있으면
+		        filesWithOrders.add(new FileAndOrder(uploadFile[i], iorder.get(i))); // 리스트에 추가
+		    }
+		}
 
-	        storeVO.setImgList(list);  // 리스트를 VO에 저장한다.
-	    }
+		if (!filesWithOrders.isEmpty()) { 
+		    for (FileAndOrder fao : filesWithOrders) {
 
-	if(storeService.update(storeVO,delList,
+		        MultipartFile file = fao.file;
 
-	getFilePath())) {
-			log.info("수정 성공");
+		        String uuid=UUID.randomUUID().toString();
+		        String fileName=file.getOriginalFilename();
+		        File newFile=new File(filePath+uuid+"_"+fileName);
+
+		        file.transferTo(newFile);
+
+		        StoreImgVO storeImgVO=new StoreImgVO();
+	            storeImgVO.setUuid(uuid);
+	            storeImgVO.setFileName(fileName);
+	            storeImgVO.setContentType(file.getContentType());
+
+	            // ref값을 원본의 id로 넣는다.
+		 	    storeImgVO.setRef(storeVO.getId());
+	            
+	            // set the correct order using the map
+		 	    storeImgVO.setIorder(fao.order); // 기존의 순서값 사용
+		 	    list.add(storeImgVO);
+		    }
+		    storeVO.setImgList(list);
+	      }
+
+		if (storeService.update(storeVO, delList, getFilePath())) {
+			    log.info("수정 성공");
 		} else {
-			log.info("수정 실패");
+			    log.info("수정 실패");
 		}
 
 		return "redirect:/store/view/b/" + userid;
 	}
-
-	// 스토어(운동시설) 삭제
-//	@GetMapping(value = "/delete")
-//	public String deleteForm(@ModelAttribute StoreVO st, Model model) {
-//		StoreVO storeVO = storeService.findById(st.getId());
-//		if (storeVO == null) { // 글이 존재하지 않으면 리스트로
-//			return "redirect:/";
-//		}
-//		// 존재하면 내용보기로
-//		model.addAttribute("store", storeVO);
-//
-//		return "board/delete";
-//	}
 
 	// 삭제하기 완료
 	@GetMapping(value = "/deleteOk")

@@ -20,4 +20,5 @@ public class StoreVO {
 	private int reviewCount; // 리뷰의 개수 -- 목록보기
 	private List<StoreReviewVO> reviewList; // 리뷰목록 -- 내용보기
 	private Double averageStar; // 별점 평균값
+
 }

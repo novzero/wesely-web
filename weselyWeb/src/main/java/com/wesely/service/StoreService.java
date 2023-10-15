@@ -39,5 +39,7 @@ public interface StoreService {
 	boolean reviewDelete(Long id);
 
 	StoreVO findByUserId(String userid);
-
+	
+	// 12. 이미지 순서 변경
+	boolean updateImageOrder(int id, int newOrder);
 }

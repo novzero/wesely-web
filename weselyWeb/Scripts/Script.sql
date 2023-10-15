@@ -133,6 +133,7 @@ CREATE TABLE storeReview(
 
 DROP TABLE store;
 DROP TABLE storeImg;
+DROP TABLE storeReview;
 SELECT * FROM store;
 SELECT * FROM storeReview;
 SELECT * FROM storeImg;

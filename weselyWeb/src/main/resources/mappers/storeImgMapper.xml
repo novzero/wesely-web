@@ -16,7 +16,7 @@
     values
         (StoreImg_id_seq.nextval,store_id_seq.currval, #{uuid},#{fileName},#{contentType}, #{iorder})
 	</insert>
-
+	<!-- 스토어 이미지 수정 (새로등록) -->
 	<insert id="modify" parameterType="StoreImgVO">
     insert into 
         StoreImg
@@ -35,4 +35,8 @@
 	<select id="selectById" parameterType="int" resultType="StoreImgVO">
 		select * from StoreImg where id=#{id}
 	</select>
+	<!-- 6. 이미지 순서 iorder 변경 -->
+	<update id="updateIorder" parameterType="map">
+   		UPDATE StoreImg SET iorder = #{newOrder} WHERE id = #{id}
+	</update>
 </mapper>

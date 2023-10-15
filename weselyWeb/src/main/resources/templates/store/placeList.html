@@ -42,7 +42,7 @@
 				console.log(result[0]);
 				console.log(result[0].region_1depth_name);
 				console.log(result[0].region_3depth_name);
-
+				console.log(result);
 
 				// 현재 위치 표시 00시 00구 00동
 				document.getElementById('currentLocation').innerText = result[0].region_1depth_name + " " + result[0].region_2depth_name + " " + result[0].region_3depth_name;
@@ -97,7 +97,7 @@
 				opening: "",
 				tel: place.phone,
 				description: "",
-				hashTag: ""
+				hashTag: ""			
 			};
 
 			fetch('/api/addStores', {
@@ -176,7 +176,7 @@
 							<p id="currentLocation"></p>
 						</div>
 						<div class="searchBtn">
-							<button th:onclick="location.href='/store/search'">시설검색</button>
+							<button th:onclick="location.href='/store/search'">지도로 시설검색</button>
 							<img src="/images/icon_search.png" alt="서치아이콘" />
 						</div>
 					</div>
@@ -220,6 +220,7 @@
 					console.log(data);
 					let content = "";
 					data.forEach(store => {
+						console.log(store);
 						let imgSrc;
 						if (store.imgList.length > 0) {
 							imgSrc = `/static/images/upload/${store.imgList[0].uuid}_${store.imgList[0].fileName}`;

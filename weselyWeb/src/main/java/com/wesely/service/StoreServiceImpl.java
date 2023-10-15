@@ -1,6 +1,7 @@
 package com.wesely.service;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,12 +47,13 @@ public class StoreServiceImpl implements StoreService {
 				storeVO.setAverageStar(storeReviewDAO.selectAverageStarByRef(storeVO.getId()));
 				// 반복중인 storeVO ID에 해당하는 이미지를 가져온다.
 				List<StoreImgVO> images = storeImgDAO.selectByRef(storeVO.getId());
+
 				log.info("selectMore 이미지 : {}", images);
+
 				// 가져온걸 이미지리스트에 집어넣는다.
 				storeVO.setImgList(images);
 			}
 		}
-		log.info("selectMore 리턴 : {}", list);
 
 		return list;
 	}
@@ -94,7 +96,7 @@ public class StoreServiceImpl implements StoreService {
 		return storeVO;
 	}
 
-	// 현재위치의 운동시설 데이터 저장
+	// 비즈니스 운동시설 데이터 저장
 	@Override
 	public boolean insert(StoreVO storeVO) {
 		log.info(" 비즈니스 시설 등록 -- insert 호출 : {}", storeVO);
@@ -113,23 +115,46 @@ public class StoreServiceImpl implements StoreService {
 		}
 	}
 
+	@Override
+	public boolean updateImageOrder(int id, int newOrder) {
+	    log.info("updateImageOrder 호출 : {}, {}", id, newOrder);
+	    boolean result = false;
+	    
+	    try {
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("id", id);
+	        params.put("newOrder", newOrder);
+
+	        storeImgDAO.updateIorder(params);
+	        
+	        result = true;
+	    } catch (Exception e) {
+	        log.error("이미지 순서 변경 중 문제 발생 : {}, {}", id, newOrder, e);
+	        e.printStackTrace();
+	    }
+	    
+	    log.info("updateImageOrder 결과 : {}", result);
+	    return result;
+	}
+
+	
 	// 운동시설 데이터 수정
 	@Override
 	public boolean update(StoreVO storeVO, String delList, String filePath) {
-		log.info("update({},{},{}) 호출:", storeVO, delList, filePath);
+		log.info("update서비스({},{},{}) 호출:", storeVO, delList, filePath);
 		boolean result = false;
 		// 글 존재하면
 		if (storeVO != null) {
 			// 수정
 			storeDAO.update(storeVO);
 
-			// 파일저장 커뮤니티내용에있는 이미지리스트를 vo에 넣어서
+			// 파일저장 / 이미지리스트를 vo에 넣어서
 			for (StoreImgVO vo : storeVO.getImgList()) {
 				vo.setRef(storeVO.getId()); // Set the correct 'ref' value for each image.
 				// 수정 -> 실제로는 새로운 이미지 추가하는 동작임.
 				storeImgDAO.modify(vo);
-
 			}
+			
 			// 삭제 파일을 삭제한다.
 			if (delList != null && delList.length() > 0) {
 				String[] delFile = delList.trim().split(",");
@@ -139,10 +164,7 @@ public class StoreServiceImpl implements StoreService {
 						// 서버 저장된 파일삭제
 						StoreImgVO storeImgVO = storeImgDAO.selectById(Integer.parseInt(s));
 						log.info("삭제할 이미지 정보: {}", storeImgVO);
-
-						// 파일이름은 vo에 있는 uuid(랜덤명 wakwuefh223) + _ +파일명(pepe)
 						String fileName = storeImgVO.getUuid() + "_" + storeImgVO.getFileName();
-
 						// filePath (위치할 경로) fileName(파일이름) 을 file 에 담는다
 						File file = new File(filePath, fileName);
 
@@ -207,7 +229,7 @@ public class StoreServiceImpl implements StoreService {
 		return result;
 	}
 
-	// 현재위치의 운동시설 목록들 데이터저장
+	// kakaoMap api 현재위치의 운동시설 목록들 데이터저장
 	@Override
 	public StoreVO save(StoreVO store) {
 		// Create a map with the name and address of the store
