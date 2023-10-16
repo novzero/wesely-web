@@ -78,6 +78,7 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
+	// 로그인
 	@Override
 	public MemberVO login(MemberVO vo) {
 		log.info("{}의 login호출 : {}", this.getClass().getName(), vo);
@@ -90,9 +91,11 @@ public class MemberServiceImpl implements MemberService {
 					memberVO = mvo;
 				} else {
 					// 비밀번호가 일치하지 않는다
+					throw new Exception("비밀번호가 일치하지 않습니다.");
 				}
 			} else {
 				// 아이디가 없다
+				 throw new Exception("아이디가 존재하지 않습니다.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
