@@ -58,6 +58,12 @@ public class StoreServiceImpl implements StoreService {
 		return list;
 	}
 
+	// 여러 개의 kakaoID에 해당하는 운동시설 찾기
+	@Override
+	public List<StoreVO> findStoresByIds(List<String> ids) {
+		return storeDAO.selectByKakaoIds(ids);
+	}
+
 	// 운동시설 상세보기
 	@Override
 	public StoreVO findById(int id) {
@@ -117,27 +123,26 @@ public class StoreServiceImpl implements StoreService {
 
 	@Override
 	public boolean updateImageOrder(int id, int newOrder) {
-	    log.info("updateImageOrder 호출 : {}, {}", id, newOrder);
-	    boolean result = false;
-	    
-	    try {
-	        Map<String, Object> params = new HashMap<>();
-	        params.put("id", id);
-	        params.put("newOrder", newOrder);
+		log.info("updateImageOrder 호출 : {}, {}", id, newOrder);
+		boolean result = false;
 
-	        storeImgDAO.updateIorder(params);
-	        
-	        result = true;
-	    } catch (Exception e) {
-	        log.error("이미지 순서 변경 중 문제 발생 : {}, {}", id, newOrder, e);
-	        e.printStackTrace();
-	    }
-	    
-	    log.info("updateImageOrder 결과 : {}", result);
-	    return result;
+		try {
+			Map<String, Object> params = new HashMap<>();
+			params.put("id", id);
+			params.put("newOrder", newOrder);
+
+			storeImgDAO.updateIorder(params);
+
+			result = true;
+		} catch (Exception e) {
+			log.error("이미지 순서 변경 중 문제 발생 : {}, {}", id, newOrder, e);
+			e.printStackTrace();
+		}
+
+		log.info("updateImageOrder 결과 : {}", result);
+		return result;
 	}
 
-	
 	// 운동시설 데이터 수정
 	@Override
 	public boolean update(StoreVO storeVO, String delList, String filePath) {
@@ -154,7 +159,7 @@ public class StoreServiceImpl implements StoreService {
 				// 수정 -> 실제로는 새로운 이미지 추가하는 동작임.
 				storeImgDAO.modify(vo);
 			}
-			
+
 			// 삭제 파일을 삭제한다.
 			if (delList != null && delList.length() > 0) {
 				String[] delFile = delList.trim().split(",");

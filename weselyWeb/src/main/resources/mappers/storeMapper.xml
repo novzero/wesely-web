@@ -52,5 +52,14 @@
     <select id="findByUserId" parameterType="string" resultType="StoreVO">
     	select * from store where userid=#{userid}
 	</select>
+	
+	<!-- 여러 개의 카카오ID에 해당하는 운동시설 찾기 -->
+	<select id="selectByKakaoIds" parameterType="list" resultType="StoreVO">
+   	 	select * from store where kakaoId in 
+    	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+        	#{item}
+    	</foreach>
+	</select>
+	
 
 </mapper>

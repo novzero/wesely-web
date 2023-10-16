@@ -42,4 +42,8 @@ public interface StoreService {
 	
 	// 12. 이미지 순서 변경
 	boolean updateImageOrder(int id, int newOrder);
+	
+	// 여러 개의 kakaoID로 운동시설 정보 조회하기 
+	List<StoreVO> findStoresByIds(List<String> ids);
+
 }

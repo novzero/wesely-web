@@ -109,6 +109,7 @@ CREATE TABLE store(
 	tel varchar2(30), -- 매장번호
 	description varchar2(2000), -- 매장설명
 	hashTag varchar2(50)-- 매장해쉬태그
+	
 );
 
 -- 3. 이미지 테이블에 사용할 시퀀스
@@ -124,7 +125,6 @@ CREATE TABLE storeImg(
 );
 
 SELECT store_id_seq.nextval,store_id_seq.currval  FROM dual;
-INSERT INTO storeImg values (storeImg_id_seq.nextval, '3808', 'e2ff4d1b-b89d-423e-9f11-197573a4c515','1.png','image/png' );
 
 
 -- 5. 리뷰 테이블에 사용할 시퀀스
@@ -144,6 +144,7 @@ CREATE TABLE storeReview(
 DROP TABLE store;
 DROP TABLE storeImg;
 DROP TABLE storeReview;
+
 SELECT * FROM store;
 SELECT * FROM storeReview;
 SELECT * FROM storeImg;

@@ -3,9 +3,7 @@ package com.wesely.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,12 +54,8 @@ public class BusinessController {
 
 	// 운동시설 저장하기
 	@PostMapping(value = "/insertOk")
-	public String insertOkPost(@ModelAttribute StoreVO storeVO,
-			@RequestParam MultipartFile[] uploadFile,
-			@RequestParam List<Integer> iorder,
-			HttpServletRequest request,
-			Model model,
-			HttpSession session)
+	public String insertOkPost(@ModelAttribute StoreVO storeVO, @RequestParam MultipartFile[] uploadFile,
+			@RequestParam List<Integer> iorder, HttpServletRequest request, Model model, HttpSession session)
 			throws IOException {
 		MemberVO member = (MemberVO) session.getAttribute("mvo");
 		String userid = member.getUserid();
@@ -161,10 +155,25 @@ public class BusinessController {
 	// 스토어(운동시설) 수정
 
 	// 수정 폼
-	@GetMapping(value = "/update/{storeId}")
-	public String updateForm(@PathVariable("storeId") int storeId, Model model) {
+	@GetMapping(value = "/update/{storeId}/{userid}")
+	public String updateForm(@PathVariable("storeId") int storeId,
+			@PathVariable("userid") String userid,
+			Model model,
+			HttpSession session) {
 		// 아이디값으로 찾아내 가져오기
 		StoreVO storeVo = storeService.findById(storeId);
+		MemberVO member = (MemberVO) session.getAttribute("mvo");
+		
+		if (member == null || !member.getUserid().equals(userid)) {
+			log.info("접근하는 아이디" + userid);
+			log.info("로그인 된 본인 id : " + member.getUserid());
+			return "error/403"; // 본인 id로 다른 비즈니스 스토어 수정폼에 접근할 수 없음
+		}
+
+		if ("일반계정".equals(member.getAuthority())) {
+
+			return "error/403"; // 일반 계정은 이 페이지에 접근할 수 없음
+		}
 
 		// 글이 없으면 없다고 만들라고 하는 페이지로 이동
 		if (storeVo == null) {
@@ -185,55 +194,52 @@ public class BusinessController {
 
 	// 수정하기 완료 Post
 	@PostMapping(value = "/updateOk")
-	public String updateStore(@ModelAttribute StoreVO storeVO,
-	                          @RequestParam(defaultValue = "") String delList,
-	                          @RequestParam MultipartFile[] uploadFile,
-	                          @RequestParam List<Integer> iorder,
-	                          HttpServletRequest request, Model model) throws IOException {
-	    log.info("수정하는 이미지 파일 , 컨트롤러 : {}{}{}", storeVO, uploadFile, iorder);
-	    String userid = storeVO.getUserid();
+	public String updateStore(@ModelAttribute StoreVO storeVO, @RequestParam(defaultValue = "") String delList,
+			@RequestParam MultipartFile[] uploadFile, @RequestParam List<Integer> iorder, HttpServletRequest request,
+			Model model) throws IOException {
+		log.info("수정하는 이미지 파일 , 컨트롤러 : {}{}{}", storeVO, uploadFile, iorder);
+		String userid = storeVO.getUserid();
 
-	    List<StoreImgVO> list = new ArrayList<>();
-	    String filePath = getFilePath();
-	    log.info("서버 절대 경로 : " + filePath);
+		List<StoreImgVO> list = new ArrayList<>();
+		String filePath = getFilePath();
+		log.info("서버 절대 경로 : " + filePath);
 
 		// 'uploadFile' 배열과 'iorders' 리스트에 대해 동시에 반복
 		for (int i = 0; i < uploadFile.length; ++i) {
 			MultipartFile file = uploadFile[i];
-			
+
 			if (!file.isEmpty()) { // 파일이 있으면
-				String uuid=UUID.randomUUID().toString();
-				String fileName=file.getOriginalFilename();
-				File newFile=new File(filePath+uuid+"_"+fileName);
+				String uuid = UUID.randomUUID().toString();
+				String fileName = file.getOriginalFilename();
+				File newFile = new File(filePath + uuid + "_" + fileName);
 
 				file.transferTo(newFile);
 
-				StoreImgVO storeImgVO=new StoreImgVO();
+				StoreImgVO storeImgVO = new StoreImgVO();
 				storeImgVO.setUuid(uuid);
 				storeImgVO.setFileName(fileName);
 				storeImgVO.setContentType(file.getContentType());
 
 				// ref값을 원본의 id로 넣는다.
 				storeImgVO.setRef(storeVO.getId());
-				
-	            // set the correct order using the map
+
+				// set the correct order using the map
 				storeImgVO.setIorder(iorder.get(i)); // 기존의 순서값 사용
 
-			    list.add(storeImgVO);
+				list.add(storeImgVO);
 			}
 		}
 
 		storeVO.setImgList(list);
 
 		if (storeService.update(storeVO, delList, getFilePath())) {
-			    log.info("수정 성공");
+			log.info("수정 성공");
 		} else {
-			    log.info("수정 실패");
+			log.info("수정 실패");
 		}
 
 		return "redirect:/store/view/b/" + userid;
 	}
-
 
 	// 삭제하기 완료
 	@GetMapping(value = "/deleteOk")

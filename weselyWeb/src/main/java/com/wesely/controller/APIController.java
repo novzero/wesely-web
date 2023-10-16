@@ -57,6 +57,12 @@ public class APIController {
 		return new ResponseEntity<>("All stores saved successfully", HttpStatus.OK);
 	}
 
+	// 운동시설 kakaoID 리스트로 운동시설 정보 조회
+	@PostMapping(value = "/getStoresByIds")
+	public List<StoreVO> getStoresByIds(@RequestBody List<String> ids) {
+		return storeService.findStoresByIds(ids);
+	}
+
 // -----------------------------------------------------------------------------------------
 	// 시설에 대한 리뷰저장
 	@PostMapping(value = "/reviewInsert")
@@ -117,6 +123,5 @@ public class APIController {
 		log.info("reviewByID 결과 : {}", storeReviewVO);
 		return storeReviewVO;
 	}
-
 
 }

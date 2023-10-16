@@ -168,8 +168,8 @@
 					<div class="sysBtn">
 						<input type="hidden" name="id" th:value="${st.id}" />
 						<!--매장수정-->
-						<button type="button" th:attr="onclick='location.href=\'/business/update/' + ${st.id} + '\''">매장
-							수정</button>
+						<button type="button" th:onclick="'window.location.href=\'' + @{/business/update/{storeId}/{userid}(storeId=${st.id},userid=${session.mvo.userid})} + '\''">매장 수정</button>
+
 						<!--매장삭제-->
 						<button type="submit" onclick="alert('매장이 삭제되었습니다.');">매장 삭제</button>
 					</div>
