@@ -13,6 +13,7 @@ CREATE TABLE wmember (
 );
 
 SELECT * FROM wmember;
+
 DELETE FROM wmember ;
 
 DROP TABLE WMEMBER ;

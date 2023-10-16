@@ -306,8 +306,7 @@ $(function() {
 					setBusinessInputsReadonly(true);
 				} else if (data == 1) {
 					// 중복되는 사업자 번호가 존재할 때
-					alert("이미 존재하는 사업자 번호입니다.");
-					isBusinessConfirmed = false;
+					alert("이미 존재하는 사업자 번호입니다."); 
 					updateJoinButtonState();
 					$("#bNum1").val("");
 					$("#bNum1").focus();
@@ -319,7 +318,7 @@ $(function() {
 					$("#bNum1").val("");
 					$("#bNum1").focus();
 				} else if (data == -1) {
-					// 중복되는 사업자 번호가 존재할 때
+					// api 호출 실패했을 때
 					alert("사업자 번호 유효성 체크 오류 발생");
 					isBusinessConfirmed = false;
 					updateJoinButtonState();
