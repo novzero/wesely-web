@@ -185,8 +185,8 @@ function formCheck() {
 		$("#nickname").val("");
 		$("#nickname").focus();
 		return false;
-	} else if (window.confirm("회원정보를 수정하시겠습니까? 다시 로그인해야합니다.")) {
-		location.href = "/member/login";
+	} else if (window.confirm("회원정보를 수정하시겠습니까?")) {
+		location.reload();
 	} else {
 		return false;
 	};
