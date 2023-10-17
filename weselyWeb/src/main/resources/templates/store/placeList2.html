@@ -42,7 +42,7 @@
 
 				console.log(result[0].region_1depth_name);
 				console.log(result[0].region_3depth_name);
-				
+
 
 				// 현재 위치 표시 00시 00구 00동
 				document.getElementById('currentLocation').innerText =
@@ -78,6 +78,7 @@
 						// Flatten the array of arrays into a single array
 						allPlaces = [].concat(...results);
 						console.log(allPlaces);
+						sendLocation(loc)
 						// Extract the id of each place and send to server
 						sendKakaoIds(allPlaces.map(place => (place.id)));
 					})
@@ -85,6 +86,53 @@
 			}
 		};
 
+		function sendLocation(loc) {
+			console.log(loc);
+			fetch('/api/getStoreByLoc', {
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				body: loc
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+					let content = "";
+					data.forEach(store => {
+						let imgSrc;
+						if (store.imgList.length > 0) {
+							imgSrc = `/ static / images / upload / ${store.imgList[0].uuid}_${store.imgList[0].fileName} `;
+						} else {
+							console.log('imgList is empty');
+							imgSrc = '/images/unpostImg.png';
+						}
+						content += `
+						<div class="placeItem" id="placeItem">
+							<a href="/store/view/${store.id}">
+								<div class="hoverImgBox">
+									<img src="${imgSrc}" alt="시설이미지" />
+								</div>
+								<div class="placeTextBox">
+									<div class="storeTitle">
+										<span>${store.name}</span>
+										<span>⭐ ${store.averageStar}</span>
+									</div>
+									<p class="storeLocation">${store.address}</p>
+                                	<!-- 👇해시태그 리스트도 동적으로 생성하려면 추가적인 처리가 필요합니다 -->
+									<!--이 부분은 store 객체의 구조와 데이터 형태에 따라 달라집니다-->
+									<div class="hashTagList">
+									<p class="hashTag">#헬스장</p>
+									<p class="hashTag">#에너지 넘치는</p>
+									</div>
+								</div >
+							</a >
+               			</div >`;
+					});
+					const storeListElement = document.getElementById('mainContent');
+					// 모든 HTML 문자열을 한 번에 innerHTML 에 할당
+					storeListElement.innerHTML = content;
+				})
+				.catch((e) => console.log(e));
+		}
 
 		function sendKakaoIds(kakaoPlaces) {
 			console.log(kakaoPlaces);

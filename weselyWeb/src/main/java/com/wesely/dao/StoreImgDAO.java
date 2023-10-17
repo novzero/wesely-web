@@ -30,4 +30,5 @@ public interface StoreImgDAO {
 	// 이미지 순서 변경
 	void updateIorder(Map<String, Object> params);
 
+	
 }

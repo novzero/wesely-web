@@ -88,9 +88,38 @@ public class StoreServiceImpl implements StoreService {
 		log.info("findStoresByIds 리턴 : {}", storesFromDb);
 		return storesFromDb;
 	}
-	
+
+	@Override
+	public List<StoreVO> findStoresByLoc(String loc) {
+		List<StoreVO> storesFromDb = null;
+		log.info("findStoresByLoc 호출 : {}", loc);
+		try {
+			// 요청받은 Loc(현재위치)에 대한 정보를 DB에서 조회합니다.
+			storesFromDb = storeDAO.selectByLoc(loc);
+
+			// 각 시설에 대한 리뷰 개수와 별점평균 그리고 시설이미지리스트를 추가로 설정한다.
+			if (storesFromDb != null) {
+				for (StoreVO storeVO : storesFromDb) {
+					// 리뷰개수
+					storeVO.setReviewCount(storeReviewDAO.selectCountByRef(storeVO.getId()));
+					// 별점평균
+					storeVO.setAverageStar(storeReviewDAO.selectAverageStarByRef(storeVO.getId()));
+					// 반복중인 storeVO ID에 해당하는 이미지를 가져온다.
+					List<StoreImgVO> images = storeImgDAO.selectByRef(storeVO.getId());
+					// 가져온걸 이미지리스트에 집어넣는다.
+					storeVO.setImgList(images);
+				}
+			}
+		} catch (Exception e) {
+			log.error(" findStoresByLoc 문제 발생 " + e);
+			e.printStackTrace();
+		}
+		// 조회된 결과를 반환합니다.
+		log.info("findStoresByLoc 리턴 : {}", storesFromDb);
+		return storesFromDb;
+	}
+
 	// kakao (( 운동시설 상세보기 ))
-	
 
 	// db에 있는 store 운동시설 상세보기
 	@Override

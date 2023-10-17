@@ -61,7 +61,10 @@
         	#{item}
     	</foreach>
 	</select>
-
 	
+	<!-- 현재위치 (Loc)으로 해당하는 운동시설 찾기 -->
+	<select id="selectByLoc" parameterType="string" resultType="StoreVO">
+    	select * from store where region=#{region}
+	</select>
 
 </mapper>

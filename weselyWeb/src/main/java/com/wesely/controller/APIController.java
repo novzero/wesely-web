@@ -77,6 +77,20 @@ public class APIController {
 		log.info("kakaoID로 db 조회 결과: {}", storeList);
 		return storeList;
 	}
+	
+	// 현재위치loc으로 운동시설 정보 조회
+		@PostMapping(value = "/getStoreByLoc")
+		public List<StoreVO> getStoreByLoc(@RequestBody String loc) {
+			log.info("Loc현재위치로 db 조회 호출 : {}", loc);
+			List<StoreVO> storeList = null;
+			try {
+				storeList = storeService.findStoresByLoc(loc);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			log.info("Loc현재위치로 db 조회 결과: {}", storeList);
+			return storeList;
+		}
 
 // -----------------------------------------------------------------------------------------
 	// 시설에 대한 리뷰저장
