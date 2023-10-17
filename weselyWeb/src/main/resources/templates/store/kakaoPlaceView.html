@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/store/placeView.css" />
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script defer src="/js/store/placeView.js"></script>
+	<script defer src="/js/store/kakaoView.js"></script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
 	<script defer src="/js/store/storeSlide.js"></script>
@@ -117,7 +117,7 @@
 			<section class="slide">
 				<ul class="slide__list">
 					<li class="slide__item">
-						<img class="slideImg" src="/images/unpostImg.png" alt="매장이미지없음"/>
+						<img class="slideImg" src="/images/unpostImg.png" alt="매장이미지없음" />
 					</li>
 				</ul>
 
@@ -128,6 +128,7 @@
 
 			<!-- 매장 정보 -->
 			<section class="storeContent">
+
 				<div class="storeTitle">
 					<h2 th:text="${st.place_name}"></h2>
 					<p>⭐평점 0</p>
@@ -200,19 +201,29 @@
 					<input type="submit" id='submitBtn' value="등록" />
 					<input type="button" id="modifyBtn" style="display: none" onclick="sendPutRequest()" value="수정" />
 				</div>
-				
+				<!-- 카카오ID 담기 -->
+				<input type="hidden" id="kakaoId" name="kakaoId" th:value="${st.id}" />
+				<!-- 위치정보 텍스트 담기 -->
+				<input type="hidden" id="region" name="region" th:value="${st.loc}" />
+				<!-- 유저ID 담기 -->
+				<input type="hidden" id="userid" name="userid" th:value="${session.mvo.userid}" />
+				<!-- 시설 주소 -->
+				<input type="hidden" id="address" name="address" th:value="${st.address_name}" />
+				<!-- 매장명 -->
+				<input type="hidden" id="name" name="name" th:value="${st.place_name}" />
+				<!-- 시설 전화번호 -->
+				<input type="hidden" id="tel" name="tel" th:value="${st.phone}" />
+				<!-- 해쉬태그 -->
+				<input type="hidden" id="hashTag" name="hashTag" th:value="${st.hashTag}" />				
 				<!-- 별점 value 담기 -->
 				<input type="hidden" id="starRating" name="star" />
 				<!-- 유저닉네임 value 담기 -->
 				<input th:if="${session.mvo == null}" type="hidden" id="nickname" name="nickname" value="닉네임없음" />
 				<input th:unless="${session.mvo == null}" type="hidden" id="nickname" name="nickname"
 					th:value="${session.mvo.nickname}" />
+
 				<!-- /////이걸 어떻게 해야할까?/// 원본 시설글의 고유 id 담기 -->
 				<input type="hidden" id="ref" name="ref" th:value="${st.id}" />
-				<!-- 카카오ID 담기 -->
-				<input type="hidden" id="kakaoId" name="kakaoId" th:value="${st.id}" />
-				<!-- 위치정보 텍스트 담기 -->
-				<input type="hidden" id="region" name="region" th:value="${st.loc}" />
 				<!-- 댓글의 고유 id 담기 -->
 				<input type="hidden" id="reviewID" name="id" th:value="0" />
 				<!-- 유저프로필 value 담기 -->

@@ -52,16 +52,19 @@ public class APIController {
 	// JSON 형태의 운동시설 리스트 정보를 'stores' 리스트 객체로 변환
 	@PostMapping(value = "/addStores")
 	public ResponseEntity<?> addStores(@RequestBody List<StoreVO> stores) {
+		log.info("시설 추가 addStores 호출 : {}", stores);
+		StoreVO storeList = null;
 		for (StoreVO store : stores) {
 			try {
 				// db에 없는 시설만 저장
-				this.storeService.save(store);
+				storeList = storeService.save(store);
 			} catch (Exception e) {
-				log.error("시설저장중 발생 에러", e);
+				log.info("시설저장중 발생 에러", e);
 			}
 		}
-
-		return new ResponseEntity<>("All stores saved successfully", HttpStatus.OK);
+		int refId = storeList.getId();
+		log.info("시설 추가 addStores 리턴 : {}", storeList);
+		return ResponseEntity.ok(refId);
 	}
 
 	// 운동시설 kakaoID 리스트로 운동시설 정보 조회

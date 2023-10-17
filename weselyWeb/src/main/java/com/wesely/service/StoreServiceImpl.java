@@ -1,7 +1,6 @@
 package com.wesely.service;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -295,16 +294,20 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public StoreVO save(StoreVO store) {
 		// Create a map with the name and address of the store
+		log.info("kakao 저장서비스 save 호출: {}", store);
 		Map<String, Object> params = new HashMap<>();
+		String id = store.getKakaoId();
 		params.put("name", store.getName());
 		params.put("address", store.getAddress());
-
+		StoreVO savedStore = null;
 		// DB에 중복되는 시설명과 시설주소가 있는지 확인
 		if (storeDAO.selectByNameAndAddress(params) == null) {
 			// 만약 없다면 저장
 			storeDAO.insert(store);
+			savedStore = storeDAO.findByKakaoId(id);
 		}
-		return store;
+		log.info("kakao 저장서비스 save 리턴: {}", savedStore);
+		return savedStore;
 	}
 
 	// id로 리뷰 찾기

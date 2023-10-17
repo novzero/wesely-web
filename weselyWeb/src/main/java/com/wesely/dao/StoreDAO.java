@@ -46,4 +46,6 @@ public interface StoreDAO {
 		// 10. region 지역(현재위치)에 해당하는 운동시설 찾기
 		List<StoreVO> selectByLoc(String loc); 
 		
+		StoreVO findByKakaoId(String kakaoId);
+		
 }

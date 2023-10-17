@@ -29,7 +29,7 @@
 		insert into 
 			store 
 		values 
-			(store_id_seq.nextval,#{userid},#{name},#{address},#{opening},#{tel},#{description},#{hashTag},#{kakaoId},#{region,jdbcType=VARCHAR})
+			(store_id_seq.nextval,#{userid},#{name},#{address},#{opening},#{tel},#{description},#{hashTag},'','')
 	</insert>
 	<!-- 5. 수정하기 -->
 	<update id="update" parameterType="StoreVO">
@@ -65,6 +65,10 @@
 	<!-- 현재위치 (Loc)으로 해당하는 운동시설 찾기 -->
 	<select id="selectByLoc" parameterType="string" resultType="StoreVO">
     	select * from store where region=#{region}
+	</select>
+	
+	<select id="findByKakaoId" parameterType="string" resultType="StoreVO">
+    	select * from store where kakaoId=#{kakaoId}
 	</select>
 
 </mapper>
