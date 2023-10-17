@@ -245,18 +245,16 @@ public class MemberController {
 	public String updateProfilePost(@ModelAttribute MemberVO vo, HttpSession session) {
 		log.info("받은값 : {} ", vo);
 		if (memberService.updateNickname(vo)) {
-			MemberVO dbVO = memberService.findUserId(vo);
+			// 닉네임 업데이트가 성공했다면
+			 // 업데이트된 회원 정보 가져오기
+	        MemberVO dbVO = memberService.findUserById(vo.getUserid());
+	        log.info("닉네임이 변경된 회원 정보 : {}", dbVO);
+
 			// 세션정보 바꿈
-			session.setAttribute("mvo", dbVO);
+			session.removeAttribute("mvo"); // 기존 세션에서 "mvo" 속성 제거
+			session.setAttribute("mvo", dbVO); // 새로운 "mvo" 속성 추가
 
-			// 로그인 정보 확인을 위한 로그 출력
-			MemberVO loggedInMember = (MemberVO) session.getAttribute("mvo"); //여기서 에러 난다..
-			log.info("업데이트된 세션 정보 : {}", loggedInMember);	
-
-			// 기존 세션에서 로그인 정보만 갱신하여 저장
-//			MemberVO loggedInMember = (MemberVO)session.getAttribute("mvo");
-//			loggedInMember.setNickname(dbVO.getNickname());
-			return "redirect:/";
+			return "redirect:/member/updateProfile";
 		} else {
 			return "redirect:/member/updateProfile";
 		}
