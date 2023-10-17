@@ -100,7 +100,7 @@
 					data.forEach(store => {
 						let imgSrc;
 						if (store.imgList.length > 0) {
-							imgSrc = `/ static / images / upload / ${store.imgList[0].uuid}_${store.imgList[0].fileName} `;
+							imgSrc = `/static/images/upload/${store.imgList[0].uuid}_${store.imgList[0].fileName}`;
 						} else {
 							console.log('imgList is empty');
 							imgSrc = '/images/unpostImg.png';
@@ -181,7 +181,7 @@
 							// place 객체를 이용해 HTML 생성
 							content += `
                  	<div class="placeItem" id="placeItem" onclick="selectPlace(this)" data-place='${place}'>
-                   		<a href="/store/view/ka/${place.id}">
+                   		<a href="/store/view/ka/${place.id}?data=${encodeURIComponent(JSON.stringify(place))}">
                       		<div class="hoverImgBox">
                          		<img src="/images/unpostImg.png" alt="${place.place_name}" />
                       		</div>
