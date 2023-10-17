@@ -114,7 +114,7 @@ CREATE TABLE store(
 	region varchar2(100) -- 위치 예) 중구문화동
 );
 
-insert into store values (store_id_seq.nextval, 'test', '선화동아임일리터','ㅁㄴㅇㄻㄴㅇㄹ','운영시간9:00', '000000', '설명이다', '#hasttag#coffe', '1122826292','중구선화동');
+insert into store values (store_id_seq.nextval, 'test', '탄방동아임일리터','ㅁㄴㅇㄻㄴㅇㄹ','운영시간9:00', '000000', '설명이다', '#hasttag#coffe', '1122826292','서구탄방동');
 
 -- 3. 이미지 테이블에 사용할 시퀀스
 CREATE SEQUENCE storeImg_id_seq;
