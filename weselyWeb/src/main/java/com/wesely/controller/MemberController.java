@@ -248,7 +248,15 @@ public class MemberController {
 			MemberVO dbVO = memberService.findUserId(vo);
 			// 세션정보 바꿈
 			session.setAttribute("mvo", dbVO);
-			return "redirect:/member/login";
+
+			// 로그인 정보 확인을 위한 로그 출력
+			MemberVO loggedInMember = (MemberVO) session.getAttribute("mvo"); //여기서 에러 난다..
+			log.info("업데이트된 세션 정보 : {}", loggedInMember);	
+
+			// 기존 세션에서 로그인 정보만 갱신하여 저장
+//			MemberVO loggedInMember = (MemberVO)session.getAttribute("mvo");
+//			loggedInMember.setNickname(dbVO.getNickname());
+			return "redirect:/";
 		} else {
 			return "redirect:/member/updateProfile";
 		}
