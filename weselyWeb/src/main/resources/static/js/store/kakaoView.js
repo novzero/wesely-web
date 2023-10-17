@@ -96,6 +96,7 @@ function postReview() {
 	fetch(storeUrl, storeOptions)
 		.then(response => response.json())
 		.then(data => {
+			console.log(data.value)
 			refId = data;
 			//multipart/form-data 형식으로 데이터를 보내는 것은 가능합니다. 이 형식은 주로 파일 업로드와 같이 바이너리 데이터를 전송할 때 사용되며, 폼 필드와 그 값을 함께 보낼 수 있습니다.
 			//JavaScript에서 FormData 객체를 사용하면 간단하게 multipart/form-data 형식으로 데이터를 만들어 낼 수 있습니다. 

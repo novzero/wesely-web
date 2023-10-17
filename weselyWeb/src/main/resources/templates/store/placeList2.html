@@ -53,7 +53,7 @@
 				// 현재 위치 00시 00동으로 검색
 				let region = result[0].region_1depth_name + result[0].region_3depth_name;
 				const loc = result[0].region_2depth_name + result[0].region_3depth_name;
-				var searchKeywords = ['요가', '헬스', '필라테스'];
+				var searchKeywords = ['요가', '헬스', '필라테스', '수영', '복싱', '클라이밍', '주짓수'];
 
 				var searchPromises = searchKeywords.map(keyword => {
 					return new Promise((resolve, reject) => {
@@ -76,12 +76,12 @@
 
 				Promise.all(searchPromises)
 					.then(results => {
-						// Flatten the array of arrays into a single array
+						// 배열에 새로운 배열 추가하기
 						allPlaces = [].concat(...results);
 						console.log(allPlaces);
-						sendLocation(loc)
 						// Extract the id of each place and send to server
 						sendKakaoIds(allPlaces.map(place => (place.id)));
+						sendLocation(loc)
 					})
 					.catch(error => console.error(error));
 			}
@@ -128,9 +128,9 @@
 							</a >
                			</div >`;
 					});
-					const storeListElement = document.getElementById('mainContent');
+					const kakaoListElement = document.getElementById('mainContent');
 					// 모든 HTML 문자열을 한 번에 innerHTML 에 할당
-					storeListElement.innerHTML = content;
+					kakaoListElement.innerHTML = content;
 				})
 				.catch((e) => console.log(e));
 		}
