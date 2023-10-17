@@ -202,6 +202,14 @@ public class MemberServiceImpl implements MemberService {
 		log.info("findPassword({}) 리턴 : {}", VO, memberVO);
 		return memberVO;
 	}
+	
+	// 아이디로 회원정보 조회
+	public MemberVO findUserById(String userId) {
+	    log.info("{}의 findUserById 호출 : {}", this.getClass().getName(), userId);
+	    MemberVO memberVO = memberDAO.selectByUserid(userId);
+	    log.info("{}의 findUserById 리턴 : {}", this.getClass().getName(), memberVO);
+	    return memberVO;
+	}
 
 	// 닉네임 변경
 	public boolean updateNickname(MemberVO memberVO) {

@@ -1,7 +1,5 @@
 package com.wesely.service;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import com.wesely.vo.MemberVO;
 
 public interface MemberService {
@@ -44,6 +42,9 @@ public interface MemberService {
 
 	// 비밀번호 찾기
 	MemberVO findPassword(MemberVO VO);
+	
+	// 아이디로 회원정보 찾기
+	MemberVO findUserById(String userId);
 	
 	// 이미지 저장
 	void saveImage(MemberVO memberVO);
