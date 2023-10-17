@@ -29,7 +29,7 @@
 		insert into 
 			store 
 		values 
-			(store_id_seq.nextval,#{userid},#{name},#{address},#{opening},#{tel},#{description},#{hashTag})
+			(store_id_seq.nextval,#{userid},#{name},#{address},#{opening},#{tel},#{description},#{hashTag},#{kakaoId},#{region,jdbcType=VARCHAR})
 	</insert>
 	<!-- 5. 수정하기 -->
 	<update id="update" parameterType="StoreVO">
@@ -55,11 +55,13 @@
 	
 	<!-- 여러 개의 카카오ID에 해당하는 운동시설 찾기 -->
 	<select id="selectByKakaoIds" parameterType="list" resultType="StoreVO">
-   	 	select * from store where kakaoId in 
-    	<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+    	select * from store 
+    	where kakaoId in 
+    	<foreach item="item" index="index" collection="list" open="(" close=")" separator=",">
         	#{item}
     	</foreach>
 	</select>
+
 	
 
 </mapper>

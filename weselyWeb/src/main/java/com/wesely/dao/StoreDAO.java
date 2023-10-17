@@ -40,7 +40,10 @@ public interface StoreDAO {
 		// 8. 비즈니스계정 : 아이디로 시설정보가져오기
 		StoreVO findByUserId(String userid);
 		
-		// 여러 개의 카카오ID에 해당하는 운동시설 찾기
+		// 9. 여러 개의 카카오ID에 해당하는 운동시설 찾기
 		List<StoreVO> selectByKakaoIds(List<String> ids);
 
+		// 10. region 지역(현재위치)에 해당하는 운동시설 찾기
+		
+		
 }

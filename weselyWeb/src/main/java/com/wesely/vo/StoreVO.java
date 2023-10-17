@@ -15,6 +15,8 @@ public class StoreVO {
 	private String description; // 매장설명
 	private String hashTag; // 매장해쉬태그
 	private List<StoreImgVO> imgList;// 매장슬라이드이미지(4)
+	private String kakaoId; // kakaoId
+	private String region; // 위치 예)중구 문화동 
 	
 	//추가
 	private int reviewCount; // 리뷰의 개수 -- 목록보기

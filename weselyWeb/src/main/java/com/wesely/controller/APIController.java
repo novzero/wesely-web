@@ -39,7 +39,14 @@ public class APIController {
 
 		return storeService.selectMore(lastNum);
 	}
+	
+	@GetMapping(value = "/stores")
+	public List<StoreVO> getStoreList(@RequestParam(defaultValue = "12") int lastNum) {
 
+		return storeService.selectMore(lastNum);
+	}
+
+	
 	// 운동시설 정보를 데이터베이스에 저장
 	// @RequestBody : HTTP 요청 본문(Body)을 자바 객체로 변환하여 해당 메소드의 매개변수에 바인딩
 	// JSON 형태의 운동시설 리스트 정보를 'stores' 리스트 객체로 변환
@@ -60,7 +67,15 @@ public class APIController {
 	// 운동시설 kakaoID 리스트로 운동시설 정보 조회
 	@PostMapping(value = "/getStoresByIds")
 	public List<StoreVO> getStoresByIds(@RequestBody List<String> ids) {
-		return storeService.findStoresByIds(ids);
+		log.info("kakaoID로 db 조회 호출 : {}", ids);
+		List<StoreVO> storeList = null;
+		try {
+			storeList = storeService.findStoresByIds(ids);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		log.info("kakaoID로 db 조회 결과: {}", storeList);
+		return storeList;
 	}
 
 // -----------------------------------------------------------------------------------------

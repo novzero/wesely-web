@@ -109,9 +109,12 @@ CREATE TABLE store(
 	opening varchar2(300), -- 매장운영시간
 	tel varchar2(30), -- 매장번호
 	description varchar2(2000), -- 매장설명
-	hashTag varchar2(50)-- 매장해쉬태그
-	
+	hashTag varchar2(50), -- 매장해쉬태그
+	kakaoId varchar2(50), -- kakaoId
+	region varchar2(100) -- 위치 예) 중구문화동
 );
+
+insert into store values (store_id_seq.nextval, 'test123', '매장이다','ㅁㄴㅇㄻㄴㅇㄹ','운영시간9:00', '000000', 'asodfjhjsk설명', '#hasttag미미미', '1122826292');
 
 -- 3. 이미지 테이블에 사용할 시퀀스
 CREATE SEQUENCE storeImg_id_seq;
@@ -149,5 +152,7 @@ DROP TABLE storeReview;
 SELECT * FROM store;
 SELECT * FROM storeReview;
 SELECT * FROM storeImg;
+
+SELECT * FROM store WHERE kakaoId IN (1122826292,1122826293);
 
 

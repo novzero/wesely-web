@@ -21,7 +21,7 @@
 	<script>
 		let latitude;
 		let longitude;
-
+		var locationDB;
 		// 장소 검색 객체를 생성합니다
 		var ps = new kakao.maps.services.Places();
 
@@ -40,15 +40,14 @@
 			if (status === kakao.maps.services.Status.OK) {
 
 				console.log(result[0]);
-				console.log(result[0].region_1depth_name);
-				console.log(result[0].region_3depth_name);
-				console.log(result);
 
 				// 현재 위치 표시 00시 00구 00동
 				document.getElementById('currentLocation').innerText = result[0].region_1depth_name + " " + result[0].region_2depth_name + " " + result[0].region_3depth_name;
 
 				// 현재 위치 00시 00동으로 검색
 				let region = result[0].region_1depth_name + result[0].region_3depth_name;
+				// 00구 00동 으로 db에 넣을 것
+				locationDB = result[0].region_2depth_name + result[0].region_3depth_name;
 
 				/*
 				// and 연산만 지원해서 안됨
@@ -79,16 +78,20 @@
 
 		function placesSearchCB(data, status, pagination) {
 			if (status === kakao.maps.services.Status.OK) {
+				console.log(data);
 
 				data.forEach(place => {
-					console.log(place);
-					saveToDatabase(place);
+					console.log(place.id);
+					saveToDatabase(place, locationDB);
+
 				});
+
 			}
 		}
 
 		// 넘어온 시설정보 데이터저장
-		function saveToDatabase(place) {
+		function saveToDatabase(place, locationDB) {
+			
 			const store = {
 				// id: place.id,
 				userid: "",
@@ -97,7 +100,9 @@
 				opening: "",
 				tel: place.phone,
 				description: "",
-				hashTag: ""
+				hashTag: "",
+				kakaoId: place.id,
+				region: locationDB
 			};
 
 			fetch('/api/addStores', {
@@ -112,6 +117,7 @@
 					console.error(error);
 				});
 		}
+
 	</script>
 </head>
 
@@ -182,11 +188,13 @@
 					</div>
 				</div>
 
+
 				<div class="mainContent" id="mainContent">
+					<!--
 					<div class="placeItem" id="placeItem">
 						<a href="/store/view">
 							<div class="hoverImgBox">
-								<img src="/images/teni.png" alt="시설이미지" />
+								<img src="/images/unpostImg.png" alt="시설이미지" />
 							</div>
 							<div class="placeTextBox">
 								<div class="storeTitle">
@@ -201,6 +209,7 @@
 							</div>
 						</a>
 					</div>
+					-->
 				</div>
 			</div>
 
@@ -212,6 +221,7 @@
 	</div>
 
 	<script>
+
 		function storeMore() {
 			lastNum += 12;
 			fetch('/api/store?lastNum=' + lastNum)
@@ -223,32 +233,32 @@
 						console.log(store);
 						let imgSrc;
 						if (store.imgList.length > 0) {
-							imgSrc = `/static/images/upload/${store.imgList[0].uuid}_${store.imgList[0].fileName}`;
+							imgSrc = `/ static / images / upload / ${store.imgList[0].uuid}_${store.imgList[0].fileName} `;
 						} else {
 							console.log('imgList is empty');
 							imgSrc = '/images/unpostImg.png';
 						}
 						content += `
-                    <div class="placeItem" id="placeItem">
-                        <a href="/store/view/${store.id}">
-                            <div class="hoverImgBox">         
-                              <img src="${imgSrc}" alt="시설이미지" />
-                            </div>
-                            <div class="placeTextBox">
-                                <div class="storeTitle">
-                                    <span>${store.name}</span>
-                                    <span>⭐ ${store.averageStar}</span>
-                                </div>
-                                <p class="storeLocation">${store.address}</p>
+				<div class="placeItem" id="placeItem">
+					<a href="/store/view/${store.id}">
+						<div class="hoverImgBox">
+							<img src="${imgSrc}" alt="시설이미지" />
+						</div>
+						<div class="placeTextBox">
+							<div class="storeTitle">
+								<span>${store.name}</span>
+								<span>⭐ ${store.averageStar}</span>
+							</div>
+							<p class="storeLocation">${store.address}</p>
                                 <!-- 👇해시태그 리스트도 동적으로 생성하려면 추가적인 처리가 필요합니다 -->
-                                <!-- 이 부분은 store 객체의 구조와 데이터 형태에 따라 달라집니다 -->
-                                <div class="hashTagList">
-                                    <p class="hashTag">#헬스장</p>
-                                    <p class="hashTag">#에너지 넘치는</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>`;
+								<!--이 부분은 store 객체의 구조와 데이터 형태에 따라 달라집니다-->
+							<div class="hashTagList">
+								<p class="hashTag">#헬스장</p>
+								<p class="hashTag">#에너지 넘치는</p>
+							</div>
+						</div >
+					</a >
+               </div >`;
 					});
 					const storeListElement = document.getElementById('mainContent');
 					// 모든 HTML 문자열을 한 번에 innerHTML 에 할당
@@ -256,6 +266,7 @@
 				})
 				.catch((e) => console.log(e));
 		}
+
 	</script>
 </body>
 
