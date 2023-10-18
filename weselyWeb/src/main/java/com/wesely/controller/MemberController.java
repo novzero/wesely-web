@@ -260,8 +260,7 @@ public class MemberController {
 			log.info("닉네임이 변경된 회원 정보 : {}", dbVO);
 
 			// 세션정보 바꿈
-			session.removeAttribute("mvo"); // 기존 세션에서 "mvo" 속성 제거
-			session.setAttribute("mvo", dbVO); // 새로운 "mvo" 속성 추가
+			session.setAttribute("mvo", dbVO);
 
 			return "redirect:/member/updateProfile";
 		} else {
