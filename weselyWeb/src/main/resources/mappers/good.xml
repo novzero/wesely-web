@@ -15,8 +15,8 @@
 	</insert>
 	<!-- 좋아요 삭제  --> 
 	<delete id="deleteGood" parameterType="goodVO">
-		DELETE FROM good
-		WHERE nickname = #{nickname}
+  		DELETE FROM good
+  		WHERE nickname = #{nickname} AND ref = #{ref}
 	</delete>
 	<!-- 좋아요 눌렀는지 확인 -->
 	<select id="goodCheck" parameterType="map" resultType="int">
