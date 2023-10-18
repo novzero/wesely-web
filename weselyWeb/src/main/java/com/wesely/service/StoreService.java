@@ -40,13 +40,16 @@ public interface StoreService {
 
 	// 11. 유저아이디찾기
 	StoreVO findByUserId(String userid);
-	
+
 	// 12. 이미지 순서 변경
 	boolean updateImageOrder(int id, int newOrder);
-	
-	// 13. 여러 개의 kakaoID로 운동시설 정보 조회하기 
+
+	// 13. 여러 개의 kakaoID로 운동시설 정보 조회하기
 	List<StoreVO> findStoresByIds(List<String> ids);
-	
+
 	// 14. 현재위치받아 운동시설 조회하기 (예) 중구대흥동
 	List<StoreVO> findStoresByLoc(String loc);
+
+	// 15. 메인화면에서 사용할 랜덤으로 12개 얻기
+	List<StoreVO> getAllSlides();
 }

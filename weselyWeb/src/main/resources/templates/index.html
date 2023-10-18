@@ -121,133 +121,22 @@
 
 				<div class="slideShow">
 					<ul class="slide__list">
-						<!-- 이 클래스에 on이 붙으면 설명나옴 -->
-						<li class="slide__item">
-							<a>
-								<img class="slide__image" src="/images/teni.png" />
-							</a>
-							<div class="slideBoxText on">
-								<h2>나다운핏짐</h2>
-								<div class="slideBoxTextSub">
-									<p>평점 <span>4.7</span></p>
-									<p>중구 대흥동</p>
-								</div>
-							</div>
-						</li>
 
-						<li class="slide__item">
-							<a>
-								<img class="slide__image" src="/images/KakaoTalk_20230908_174957696_01.png" />
+						<li class="slide__item" th:each="store : ${st}">
+							<a th:href="@{/store/view/{id}(id=${store.id})}">
+								<img class="slide__image"
+									th:src="${store.imgList != null and not #lists.isEmpty(store.imgList) ? '/static/images/upload/' + store.imgList[0].uuid + '_' + store.imgList[0].fileName : '/images/unpostImg.png'}"
+									alt="슬라이드이미지" />
 							</a>
 							<div class="slideBoxText on">
-								<h2>나다운핏짐</h2>
+								<h2>[[${store.name}]]</h2>
 								<div class="slideBoxTextSub">
-									<p>평점 <span>4.7</span></p>
-									<p>중구 대흥동</p>
+									<p>평점 <span>[[${store.averageStar}]]</span></p>
+									<p>[[${store.region}]]</p>
 								</div>
 							</div>
 						</li>
-
-						<li class="slide__item">
-							<a>
-								<img class="slide__image" src="/images/exmainStore.png" />
-							</a>
-							<div class="slideBoxText on">
-								<h2>나다운핏짐</h2>
-								<div class="slideBoxTextSub">
-									<p>평점 <span>4.7</span></p>
-									<p>중구 대흥동</p>
-								</div>
-							</div>
-						</li>
-
-						<li class="slide__item">
-							<a>
-								<img class="slide__image" src="/images/exmainStore.png" />
-							</a>
-							<div class="slideBoxText on">
-								<h2>나다운핏짐</h2>
-								<div class="slideBoxTextSub">
-									<p>평점 <span>4.7</span></p>
-									<p>중구 대흥동</p>
-								</div>
-							</div>
-						</li>
-						<li class="slide__item">
-							<a>
-								<img class="slide__image" src="/images/exmainStore.png" />
-							</a>
-							<div class="slideBoxText on">
-								<h2>나다운핏짐</h2>
-								<div class="slideBoxTextSub">
-									<p>평점 <span>4.7</span></p>
-									<p>중구 대흥동</p>
-								</div>
-							</div>
-						</li>
-						<li class="slide__item">
-							<a>
-								<img class="slide__image" src="/images/exmainStore.png" />
-							</a>
-							<div class="slideBoxText on">
-								<h2>나다운핏짐</h2>
-								<div class="slideBoxTextSub">
-									<p>평점 <span>4.7</span></p>
-									<p>중구 대흥동</p>
-								</div>
-							</div>
-						</li>
-						<li class="slide__item">
-							<a>
-								<img class="slide__image" src="/images/exmainStore.png" />
-							</a>
-							<div class="slideBoxText on">
-								<h2>나다운핏짐</h2>
-								<div class="slideBoxTextSub">
-									<p>평점 <span>4.7</span></p>
-									<p>중구 대흥동</p>
-								</div>
-							</div>
-						</li>
-
-						<li class="slide__item">
-							<a>
-								<img class="slide__image" src="/images/exmainStore.png" />
-							</a>
-							<div class="slideBoxText on">
-								<h2>나다운핏짐</h2>
-								<div class="slideBoxTextSub">
-									<p>평점 <span>4.7</span></p>
-									<p>중구 대흥동</p>
-								</div>
-							</div>
-						</li>
-
-						<li class="slide__item">
-							<a>
-								<img class="slide__image" src="/images/exmainStore.png" />
-							</a>
-							<div class="slideBoxText on">
-								<h2>나다운핏짐</h2>
-								<div class="slideBoxTextSub">
-									<p>평점 <span>4.7</span></p>
-									<p>중구 대흥동</p>
-								</div>
-							</div>
-						</li>
-
-						<li class="slide__item">
-							<a>
-								<img class="slide__image" src="/images/exmainStore.png" />
-							</a>
-							<div class="slideBoxText on">
-								<h2>나다운핏짐</h2>
-								<div class="slideBoxTextSub">
-									<p>평점 <span>4.7</span></p>
-									<p>중구 대흥동</p>
-								</div>
-							</div>
-						</li>
+						<!--
 
 						<li class="slide__item">
 							<a>
@@ -261,8 +150,7 @@
 								</div>
 							</div>
 						</li>
-
-
+                     -->
 					</ul>
 				</div>
 			</section>

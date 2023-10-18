@@ -32,7 +32,7 @@ public class StoreController {
 	@RequestMapping(value = "/")
 	public String getList() {
 
-		return "/store/placeList2";
+		return "/store/placeList";
 	}
 
 	// 운동시설 상세보기 : 일반계정

@@ -53,7 +53,7 @@
     	select * from store where userid=#{userid}
 	</select>
 	
-	<!-- 여러 개의 카카오ID에 해당하는 운동시설 찾기 -->
+	<!-- 9. 여러 개의 카카오ID에 해당하는 운동시설 찾기 -->
 	<select id="selectByKakaoIds" parameterType="list" resultType="StoreVO">
     	select * from store 
     	where kakaoId in 
@@ -62,13 +62,23 @@
     	</foreach>
 	</select>
 	
-	<!-- 현재위치 (Loc)으로 해당하는 운동시설 찾기 -->
+	<!-- 10. 현재위치 (Loc)으로 해당하는 운동시설 찾기 -->
 	<select id="selectByLoc" parameterType="string" resultType="StoreVO">
     	select * from store where region=#{region}
 	</select>
 	
+	<!-- 11. 한 개의 kakaoId에 해당하는 운동시설 찾기  -->
 	<select id="findByKakaoId" parameterType="string" resultType="StoreVO">
     	select * from store where kakaoId=#{kakaoId}
 	</select>
-
+	
+	<!-- 12. 메인화면에서 사용할 랜덤으로 12개 얻기 -->
+    <select id="selectRandomSlide" resultType="StoreVO">
+      select *
+        from (
+          select * from store 
+          order by dbms_random.value
+        )
+        where <![CDATA[rownum <= 12]]>
+    </select>
 </mapper>
