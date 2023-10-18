@@ -109,6 +109,12 @@ public class MemberController {
 		return count + "";
 	}
 
+	// 회원약관
+	@GetMapping(value = "/agreement")
+	public String agreement() {
+		return "/member/agreement";
+	}
+
 	// 로그인 폼 처리하기
 	@GetMapping(value = "/login")
 	public String login(HttpServletRequest request, Model model) {
@@ -131,11 +137,6 @@ public class MemberController {
 		return "/member/login";
 	}
 
-	// 회원약관
-	@GetMapping(value = "/agreement")
-	public String agreement() {
-		return "/member/agreement";
-	}
 
 	// 로그인 처리하기
 	@GetMapping(value = "/loginOk")
@@ -144,8 +145,7 @@ public class MemberController {
 	}
 
 	@PostMapping(value = "/loginOk")
-	public String loginOkPost(@ModelAttribute MemberVO memberVO, HttpServletRequest request,
-			HttpServletResponse response, HttpSession session) {
+	public String loginOkPost(@ModelAttribute MemberVO memberVO, HttpServletResponse response, HttpSession session) {
 		if (memberVO != null) {
 			// 서비스를 호출하여 로그인을 수행한다.
 			MemberVO dbVO = memberService.login(memberVO);
