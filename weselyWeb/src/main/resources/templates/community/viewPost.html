@@ -2,182 +2,217 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>post상세보기</title>
-	<link rel="stylesheet" href="/css/font.css" />
-	<link rel="stylesheet" href="/css/header.css" />
-	<link rel="stylesheet" href="/css/view.css">
+   <meta charset="UTF-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <title>post상세보기</title>
+   <link rel="stylesheet" href="/css/font.css" />
+   <link rel="stylesheet" href="/css/header.css" />
+   <link rel="stylesheet" href="/css/view.css">
 
-	<!-- fontawesome 아이콘 -->
-	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
-	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
-	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
-	<script defer src="/js/comm/commSlide.js"></script>
-	<script th:inline="javascript">
+   <!-- fontawesome 아이콘 -->
+   <script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
+   <script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
+   <script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
+   <script defer src="/js/comm/commSlide.js"></script>
+   <script th:inline="javascript">
 
+      $(function () {
+         $("#btnAddPost").click(function () {
+            //alert($(this).val)
+            let buttonTitle = $(this).val();
+            if (buttonTitle == "등록") {
+               // 입력 내용 얻기
+               let ref = $("#ref").val();
+               let content = $("#content").val();
+               let name = $("#nickname").val();
+
+               //alert(content); // 읽어왔는지 확인
+               let form = new FormData();// 폼만들기
+
+               form.append("content", content);
+               form.append("ref", ref);
+               form.append("name", name);
+
+               // Ajax를 통해 데이터를 서버로 보내 저장을 수행한다.
+               axios.post('/community/commentInsert', form)
+                  .then(function (response) {
+                     //alert("성공!!! : " + JSON.stringify(response));
+                     location.reload();
+                  })
+                  .catch(function (error) { // 에러 발생했을때
+                     alert("에러발생!! : " + error);
+                  })
+                  .finally(function () { // 항상 실행되는 영역
+
+                  });
+            } else if (buttonTitle == "댓글 수정") {
+               // 입력 내용 얻기
+               let id = $("#id").val();
+               let content = $("#content").val();
+               let form = new FormData(); // 폼을 만든다.
+               //alert(content)
+               // 폼에 내용을 추가한다.
+               form.append("id", id);
+               form.append("content", content);
+
+               // Ajax를 통해 데이터를 서버로 보내 저장을 수행한다.
+               axios.put('/community/commentUpdate', form)
+                  .then(function (response) { // 성공 했을떄
+                     //alert("성공!!! : " + JSON.stringify(response));
+                     location.reload();
+                  })
+                  .catch(function (error) { // 에러 발생했을때
+                     alert("에러발생!! : " + error);
+                  })
+                  .finally(function () { // 항상 실행되는 영역
+
+                  });
+            } else if (buttonTitle == "댓글 삭제") {
+               // 입력 내용 얻기
+               let id = $("#id").val();
+               let form = new FormData(); // 폼을 만든다.
+
+               // Ajax를 통해 데이터를 서버로 보내 저장을 수행한다.
+               axios.delete('/community/commentDelete?id=' + id)
+                  .then(function (response) { // 성공 했을떄
+                     // alert("성공!!! : " + JSON.stringify(response));
+                     location.reload();
+                  })
+                  .catch(function (error) { // 에러 발생했을때
+                     alert("에러발생!! : " + error);
+                  })
+                  .finally(function () { // 항상 실행되는 영역
+                  });
+            }
+         });
+      });
+      function updateForm(id, name) {
+         $("#btnAddPost").val("댓글 수정");
+         $("#id").val(id);
+         $("#content").val($("#content" + id).html());
+
+      }
+      function deleteForm(id, name) {
+         // 취소 버튼을 보이게 한다.
+         $("#btnAddPost").val("댓글 삭제");
+         $("#id").val(id);
+         $("#content").val($("#content" + id).html());
+      }
+
+
+
+      $(function () {
+         $("#ok").click(function () {
+            alert("정말 삭제하시겠습니까? 삭제게시물은 복구할 수 없습니다.")
+         })
+      });
+      // 댓글작성창 높이 조절
+      function autoResize(textarea) {
+         textarea.style.height = 'auto';
+         textarea.style.height = textarea.scrollHeight + 'px';
+      }
+// 좋아요 설정
 		$(function () {
-			$("#btnAddPost").click(function () {
-				//alert($(this).val)
-				let buttonTitle = $(this).val();
-				if (buttonTitle == "등록") {
-					// 입력 내용 얻기
-					let ref = $("#ref").val();
-					let content = $("#content").val();
-					let name = $("#nickname").val();
+			let postId = $("#postId").val(); // 현재 게시글의 ID가져옴
+			let nickname2 = $("#nickname2").val(); // 현재 로그인한 사용자의 닉네임가져옴
+			const pushHeartBtn = $(".heartBtn"); // 좋아요 버튼 참조
 
-					//alert(content); // 읽어왔는지 확인
-					let form = new FormData();// 폼만들기
+			function setLikeState(isLiked) {
+				if (isLiked) {  // 좋아요한 경우
+					pushHeartBtn.html('<i class="fa-solid fa-heart"></i>'); // 하트 채우기
+					pushHeartBtn.css("color", "red"); // 하트 빨간색으로
+					pushHeartBtn.addClass("liked"); // liked 클래스 추가해서 상태표시
+				} else {  // 아직 안 누른 경우
+					pushHeartBtn.html('<i class="fa-regular fa-heart"></i>'); // 빈하트
+					pushHeartBtn.css("color", ""); // 색갈 빼기
+					pushHeartBtn.removeClass("liked"); // liked 클래스 제거해서 상태표시
+				}
+				//  변경된 상태랑 좋아요 개수를 저장하는 함수  
+				// 게시물 id , 사용자 닉네임
+				saveLikeData(postId, nickname2, loadLikeData(postId, nickname2).likeCount, isLiked); 
+			}
+			// 버튼클릭했을때
+			$("#btnLike").click(function () {
+				// 폼 데이터객체 생성
+				let form = new FormData();
+				form.append("ref", postId); // ref 라는 이름으로 postid값 추가
+				form.append("nickname", nickname2); // 위와 동일
 
-					form.append("content", content);
-					form.append("ref", ref);
-					form.append("name", name);
+					 // 이미 좋아요한 상태인 경우, 좋아요 취소 처리
+				if (pushHeartBtn.hasClass("liked")) {
 
-					// Ajax를 통해 데이터를 서버로 보내 저장을 수행한다.
-					axios.post('/community/commentInsert', form)
+					axios.delete(`/community/goodDelete/${postId}/${nickname2}`)
 						.then(function (response) {
-							//alert("성공!!! : " + JSON.stringify(response));
-							location.reload();
-						})
-						.catch(function (error) { // 에러 발생했을때
-							alert("에러발생!! : " + error);
-						})
-						.finally(function () { // 항상 실행되는 영역
 
+							if (response.data) {
+								alert("좋아요 취소!");
+								setLikeState(false);
+
+								axios.get('/community/countGood/' + postId)
+									.then(response => {
+										$("#likeCount").text("좋아요 " + response.data + "개");
+										saveLikeData(response.data, false);  // 변경된 개수 저장
+									});
+							} else {
+								alert("좋아요를 누르지 않으셨습니다.");
+							}
+						})
+						.catch(function (error) {
+							alert("에러발생!! : " + error);
 						});
-				} else if (buttonTitle == "댓글 수정") {
-					// 입력 내용 얻기
-					let id = $("#id").val();
-					let content = $("#content").val();
-					let form = new FormData(); // 폼을 만든다.
-					//alert(content)
-					// 폼에 내용을 추가한다.
-					form.append("id", id);
-					form.append("content", content);
 
-					// Ajax를 통해 데이터를 서버로 보내 저장을 수행한다.
-					axios.put('/community/commentUpdate', form)
-						.then(function (response) { // 성공 했을떄
-							//alert("성공!!! : " + JSON.stringify(response));
-							location.reload();
+				} else { // 아직 좋아요하지 않은 상태인 경우, 좋아요 처리
+
+					axios.post('/community/goodInsert', form)
+						.then(function (response) {
+							if (response.data) {
+								alert("좋아요!");
+								setLikeState(true);
+
+								axios.get('/community/countGood/' + postId)
+									.then(response => {
+										$("#likeCount").text("좋아요 " + response.data + "개");
+										saveLikeData(response.data, true);  // 변경된 개수 저장
+									});
+							} else {
+								alert("이미 좋아요를 누르셨습니다.");
+							}
 						})
-						.catch(function (error) { // 에러 발생했을때
+						.catch(function (error) {
 							alert("에러발생!! : " + error);
-						})
-						.finally(function () { // 항상 실행되는 영역
-
-						});
-				} else if (buttonTitle == "댓글 삭제") {
-					// 입력 내용 얻기
-					let id = $("#id").val();
-					let form = new FormData(); // 폼을 만든다.
-
-					// Ajax를 통해 데이터를 서버로 보내 저장을 수행한다.
-					axios.delete('/community/commentDelete?id=' + id)
-						.then(function (response) { // 성공 했을떄
-							// alert("성공!!! : " + JSON.stringify(response));
-							location.reload();
-						})
-						.catch(function (error) { // 에러 발생했을때
-							alert("에러발생!! : " + error);
-						})
-						.finally(function () { // 항상 실행되는 영역
 						});
 				}
 			});
+
+			// 페이지 로드 시 초기 상태 설정
+			// 게시글 아이디, 닉네임을 전달
+			const initialData = loadLikeData(postId, nickname2);  
+			setLikeState(initialData.isLiked);
+
+			axios.get('/community/countGood/' + postId)
+				.then(response => {
+					$("#likeCount").text("좋아요 " + response.data + "개");
+					 // 현재 페이지 게시물 ID와 닉네임으로 로그인한 사용자의 좋아요 상태 저장
+					saveLikeData(postId, nickname2, response.data, initialData.isLiked); 
+				});
 		});
-		function updateForm(id, name) {
-			$("#btnAddPost").val("댓글 수정");
-			$("#id").val(id);
-			$("#content").val($("#content" + id).html());
 
-		}
-		function deleteForm(id, name) {
-			// 취소 버튼을 보이게 한다.
-			$("#btnAddPost").val("댓글 삭제");
-			$("#id").val(id);
-			$("#content").val($("#content" + id).html());
+		function saveLikeData(postId, nickname, likeCount, isLiked) {
+			localStorage.setItem('likeCount_' + postId + '_' + nickname, likeCount);
+			localStorage.setItem('isLiked_' + postId + '_' + nickname, isLiked);
 		}
 
+		// 좋아요 개수와 상태 불러오기
+		function loadLikeData(postId, nickname) {
+			const likeCount = localStorage.getItem('likeCount_' + postId + '_' + nickname);
+			const isLiked = localStorage.getItem('isLiked_' + postId + '_' + nickname);
 
-
-		$(function () {
-			$("#ok").click(function () {
-				alert("정말 삭제하시겠습니까? 삭제게시물은 복구할 수 없습니다.")
-			})
-		});
-		// 댓글작성창 높이 조절
-		function autoResize(textarea) {
-			textarea.style.height = 'auto';
-			textarea.style.height = textarea.scrollHeight + 'px';
+			return {
+				likeCount: likeCount ? parseInt(likeCount) : 0,
+				isLiked: isLiked === 'true'
+			};
 		}
 
-
-$(function () {
-    $("#btnLike").click(function () {
-        let postId = $("#postId").val(); // 현재 게시글의 ID
-        let nickname2 = $("#nickname2").val(); // 현재 로그인한 사용자의 닉네임
-        const pushHeartBtn = $(".heartBtn");
-        if(pushHeartBtn.hasClass("liked")) { // 이미 좋아요한 상태인 경우, 좋아요 취소 처리
-            let form = new FormData();
-            form.append("ref", postId);
-            form.append("nickname", nickname2);
-
-            axios.delete('/goodDelete', { data: form })
-                .then(function (response) {
-                    if(response.data) {
-                        alert("좋아요 취소!");
-                        // 좋아요 취소 상태로 변경
-                        pushHeartBtn.html('<i class="fa-regular fa-heart"></i>');
-                        pushHeartBtn.css("color", "");
-                        pushHeartBtn.removeClass("liked");
-                    } else {
-                        alert("좋아요를 누르지 않으셨습니다.");
-                    }
-                })
-                .catch(function (error) { 
-                    alert("에러발생!! : " + error);
-                });
-           
-        } else { // 아직 좋아요하지 않은 상태인 경우, 좋아요 처리
-            let form = new FormData();
-            form.append("ref", postId);
-            form.append("nickname", nickname2);
-
-            axios.post('/community/goodInsert', form)
-                .then(function (response) {
-                    if(response.data) {
-                        alert("좋아요!");
-                        // 좋아요한 상태로 변경
-                        pushHeartBtn.html('<i class="fa-solid fa-heart"></i>');
-                        pushHeartBtn.css("color", "red");
-                        pushHeartBtn.addClass("liked");
-                    } else { 
-                        alert("이미 좋아요를 누르셨습니다.");
-                    }
-                })
-                .catch(function (error) { 
-                    alert("에러발생!! : " + error);
-                });
-        }
-    });
-});
-		/*function likePost() {
-			const pushHeartBtn = $(".heartBtn");
-			if (pushHeartBtn.hasClass("liked")) {
-				// 이미 좋아요한 상태인 경우
-				pushHeartBtn.html('<i class="fa-regular fa-heart"></i>');
-				pushHeartBtn.css("color", "");
-				pushHeartBtn.removeClass("liked");
-			} else {
-				// 좋아요하지 않은 상태인 경우
-				pushHeartBtn.html('<i class="fa-solid fa-heart"></i>');
-				pushHeartBtn.css("color", "red");
-				pushHeartBtn.addClass("liked");
-			}
-		}
-
-*/
 		function likeComment(obj) {
 			if ($(obj).hasClass("liked")) {
 				// 이미 좋아요한 상태인 경우
@@ -192,147 +227,145 @@ $(function () {
 			}
 		}
 
-	</script>
+   </script>
 </head>
 
 <body>
-	[[${community}]]
-	<div class="wrapper">
-		<header>
-			<div class="logo">
-				<a href="/">
-					<img src="/images/weLogo.png" alt="Logo" />
-				</a>
-			</div>
-			<nav class="bar">
-				<a href="/store/"><strong>운동시설검색</strong></a>
-				<a href="/community/"><strong>커뮤니티</strong></a>
-				<a href="/"><strong>고객센터</strong></a>
-			</nav>
-			<nav class="login">
-				<th:block th:if="${session.mvo == null}">
-					<a href="/member/login"><strong>로그인</strong></a>
-					<a href="/member/join"><strong>회원가입</strong></a>
-				</th:block>
-				<th:block th:if="${session.mvo != null}">
-					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
-					<a href="/member/logout"><strong>로그아웃</strong></a>
-					<a href="/"><strong>비즈니스 계정</strong></a>
-				</th:block>
-			</nav>
-		</header>
+   <div class="wrapper">
+      <header>
+         <div class="logo">
+            <a href="/">
+               <img src="/images/weLogo.png" alt="Logo" />
+            </a>
+         </div>
+         <nav class="bar">
+            <a href="/store/"><strong>운동시설검색</strong></a>
+            <a href="/community/"><strong>커뮤니티</strong></a>
+            <a href="/"><strong>고객센터</strong></a>
+         </nav>
+         <nav class="login">
+            <th:block th:if="${session.mvo == null}">
+               <a href="/member/login"><strong>로그인</strong></a>
+               <a href="/member/join"><strong>회원가입</strong></a>
+            </th:block>
+            <th:block th:if="${session.mvo != null}">
+               <a href="/member/updateProfile"><strong>마이페이지</strong></a>
+               <a href="/member/logout"><strong>로그아웃</strong></a>
+               <a href="/"><strong>비즈니스 계정</strong></a>
+            </th:block>
+         </nav>
+      </header>
 
-		<section class="mainIconBox">
-			<div class="currentPlace">
-				<img src="/images/ic.png" alt="마커아이콘" />
-				<p>대전광역시 중구 대흥동</p>
-			</div>
-		</section>
+      <section class="mainIconBox">
+         <div class="currentPlace">
+            <img src="/images/ic.png" alt="마커아이콘" />
+            <p>대전광역시 중구 대흥동</p>
+         </div>
+      </section>
 
-		<main>
-			<div class="postBox">
-				<div class="userInfo">
-					<img src="/images/Profile.png">
-					<p>[[${community.nickname}]]</p>
-					<th:block th:if="${session.mvo.nickname == community.nickname}">
-						<input type="button" value="수정" class="updateBtn"
-							th:onclick="|location.href='@{update(id=${community.id},p=${cv.p},s=${cv.s},b=${cv.b})}'|" />
-						<input id="ok" type="button" value="삭제" class="deleteBtn"
-							th:onclick="|location.href='@{delete(id=${community.id},p=${cv.p},s=${cv.s},b=${cv.b})}'|" />
-					</th:block>
-				</div>
+      <main>
+         <div class="postBox">
+            <div class="userInfo">
+               <img src="/images/Profile.png">
+               <p>[[${community.nickname}]]</p>
+               <th:block th:if="${session.mvo.nickname == community.nickname}">
+                  <input type="button" value="수정" class="updateBtn"
+                     th:onclick="|location.href='@{update(id=${community.id},p=${cv.p},s=${cv.s},b=${cv.b})}'|" />
+                  <input id="ok" type="button" value="삭제" class="deleteBtn"
+                     th:onclick="|location.href='@{delete(id=${community.id},p=${cv.p},s=${cv.s},b=${cv.b})}'|" />
+               </th:block>
+            </div>
 
-				<div class="postContent">
-					<div class="slide">
-						<ul class="slide__list">
-							<th:block th:each="img : ${community.imgList}">
-								<li class="slide__item">
-									<img class="slideImg"
-										th:src='|/static/images/upload/${img.uuid}_${img.fileName}|' />
-								</li>
-							</th:block>
-						</ul>
-						<div class="buttons"></div>
-						<div class="paginations"></div>
-					</div>
-					<p class="postText">
-						[[${community.contents}]]
-					</p>
-				</div>
-			</div>
+            <div class="postContent">
+               <div class="slide">
+                  <ul class="slide__list">
+                     <th:block th:each="img : ${community.imgList}">
+                        <li class="slide__item">
+                           <img class="slideImg"
+                              th:src='|/static/images/upload/${img.uuid}_${img.fileName}|' />
+                        </li>
+                     </th:block>
+                  </ul>
+                  <div class="buttons"></div>
+                  <div class="paginations"></div>
+               </div>
+               <p class="postText">
+                  [[${community.contents}]]
+               </p>
+            </div>
+         </div>
 
-			<div class="commentsBox">
-				<p class="totalLike">
-					좋아요 <strong>74</strong>개
-				</p>
-				<br />
+         <div class="commentsBox">
+            <p id="likeCount" class="totalLike">
+            </p>
+            <br />
 
-				<div class="btnList">
-					<div>			
-						<input type="text" id="postId" th:value="${community.id}" />
-						<input type="text" id="nickname2" th:value="${session.mvo.nickname}" />
-						<button id="btnLike" class="heartBtn" onclick="likePost()">
-							<i class="fa-regular fa-heart"></i>
-						</button>
-						<!-- <img src="static/images/heart_icon.png" alt="좋아요아이콘"> -->
-					</div>
-					</th:block>
+            <div class="btnList">
+               <div>         
+                  <input type="hidden" id="postId" th:value="${community.id}" />
+                  <input type="hidden" id="nickname2" th:value="${session.mvo.nickname}" />
+                  <button id="btnLike" class="heartBtn" onclick="likePost()">
+                     <i class="fa-regular fa-heart"></i>
+                  </button>
+                  <!-- <img src="static/images/heart_icon.png" alt="좋아요아이콘"> -->
+               </div>
+               </th:block>
 
 
-				</div>
-				<input type="hidden" id="commentCount" th:value="${community.commentCount}">
-				<br />
-				<p class="totalComments">
-					댓글 <strong>[[${community.commentCount}]]</strong>개
-					<!--댓글 <strong>[[${#lists.size(community.commentList)}]]</strong>개-->
-				</p>
-				<th:block th:each="c : ${community.commentList}">
-					<div class="commentList">
-						<div class="commentItem">
-							<div class="commentLine">
-								<div class="userInfo">
-									<img src="/images/Profile.png">
-									<p>[[${c.name}]] &nbsp;</p>
-									<p> [[${c.content}]]</p>
-								</div>
-							</div>
-							<button type="button" class="btnCommentLike" onclick="likeComment(this)">
-								<i class="fa-regular fa-heart"></i>
-							</button>
+            </div>
+            <input type="hidden" id="commentCount" th:value="${community.commentCount}">
+            <br />
+            <p class="totalComments">
+               댓글 <strong>[[${community.commentCount}]]</strong>개
+               <!--댓글 <strong>[[${#lists.size(community.commentList)}]]</strong>개-->
+            </p>
+            <th:block th:each="c : ${community.commentList}">
+               <div class="commentList">
+                  <div class="commentItem">
+                     <div class="commentLine">
+                        <div class="userInfo">
+                           <img src="/images/Profile.png">
+                           <p>[[${c.name}]] &nbsp;</p>
+                           <p> [[${c.content}]]</p>
+                        </div>
+                     </div>
+                     <button type="button" class="btnCommentLike" onclick="likeComment(this)">
+                        <i class="fa-regular fa-heart"></i>
+                     </button>
 
-							<th:block th:if="${session.mvo.nickname == c.name}">
-								<div class="bottomBtn">
-									<button class="btnDelete" th:onclick="deleteForm([[${c.id}]],'[(${c.name})]')">
-										<i class="fa-solid fa-xmark"></i>
-									</button>
-									<button class="btnModify" th:onclick="updateForm([[${c.id}]],'[(${c.name})]')">
-										<i class="fa-solid fa-pencil"></i>
-									</button>
-								</div>
-								<!--
-								<button class="commentUpdate"
-									th:onclick="updateForm([[${c.id}]],'[(${c.name})]')">수정</button>
-								<button class="commentDelete"
-									th:onclick="deleteForm([[${c.id}]],'[(${c.name})]')">삭제</button>
-							-->
-							</th:block>
+                     <th:block th:if="${session.mvo.nickname == c.name}">
+                        <div class="bottomBtn">
+                           <button class="btnDelete" th:onclick="deleteForm([[${c.id}]],'[(${c.name})]')">
+                              <i class="fa-solid fa-xmark"></i>
+                           </button>
+                           <button class="btnModify" th:onclick="updateForm([[${c.id}]],'[(${c.name})]')">
+                              <i class="fa-solid fa-pencil"></i>
+                           </button>
+                        </div>
+                        <!--
+                        <button class="commentUpdate"
+                           th:onclick="updateForm([[${c.id}]],'[(${c.name})]')">수정</button>
+                        <button class="commentDelete"
+                           th:onclick="deleteForm([[${c.id}]],'[(${c.name})]')">삭제</button>
+                     -->
+                     </th:block>
 
-						</div>
-					</div>
-				</th:block>
-				<th:block th:if="${session.mvo!=null}">
-					<div class="addCommentBox">
-						<input type="hidden" id="id" value="0">
-						<input type="hidden" id="ref" th:value="${community.id}">
-						<input type="hidden" id="nickname" th:value="${session.mvo.nickname}">
-						<textarea placeholder="댓글 작성" class="commentForm" id="content" onkeyup="autoResize(this)"
-							onkeydown="autoResize(this)"></textarea>
-						<input type="button" id="btnAddPost" class="btnAddPost" value="등록"></input>
-					</div>
-				</th:block>
-			</div>
-		</main>
-	</div>
+                  </div>
+               </div>
+            </th:block>
+            <th:block th:if="${session.mvo!=null}">
+               <div class="addCommentBox">
+                  <input type="hidden" id="id" value="0">
+                  <input type="hidden" id="ref" th:value="${community.id}">
+                  <input type="hidden" id="nickname" th:value="${session.mvo.nickname}">
+                  <textarea placeholder="댓글 작성" class="commentForm" id="content" onkeyup="autoResize(this)"
+                     onkeydown="autoResize(this)"></textarea>
+                  <input type="button" id="btnAddPost" class="btnAddPost" value="등록"></input>
+               </div>
+            </th:block>
+         </div>
+      </main>
+   </div>
 </body>
 
 </html>

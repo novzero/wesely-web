@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -315,32 +316,43 @@ public class CommunityController {
 	}
 
 	// 좋아요 저장했을때 호출 주소
-	@PostMapping(value = "/goodInsert")
-	@ResponseBody
-	public boolean goodInsert(@ModelAttribute GoodVO go) {
-		log.info("좋아요 저장 호출 : {}", go);
-		boolean result = false;
-		try {
-			result = communityService.goodInsert(go);
-		} catch (Exception e) {
-			e.printStackTrace();
+		@PostMapping(value = "/goodInsert")
+		@ResponseBody
+		public boolean goodInsert(@ModelAttribute GoodVO go) {
+			log.info("좋아요 저장 호출 : {}", go);
+			boolean result = false;
+			try {
+				result = communityService.goodInsert(go);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			log.info("좋아요 저장 리턴 : {}", result);
+			return result;
 		}
-		log.info("좋아요 저장 리턴 : {}", result);
-		return result;
-	}
-	// 좋아요 삭제했을때 호출 주소
-	@DeleteMapping(value = "/goodDelete")
-	@ResponseBody
-	public boolean goodDelete(@ModelAttribute GoodVO go) {
-		log.info("좋아요 삭제 호출 : {}", go);
-		boolean result = false;
-		try {
-			result = communityService.goodDelete(go);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		log.info("좋아요 삭제 리턴 : {}", result);
-		return result;
-	}	
+		// 좋아요 삭제했을때 호출 주소
+		@DeleteMapping(value = "/goodDelete/{ref}/{nickname}")
+		@ResponseBody
+		public boolean goodDelete(@PathVariable int ref, @PathVariable String nickname) {
+		    GoodVO go = new GoodVO();
+		    go.setRef(ref);
+		    go.setNickname(nickname);
 
+		    log.info("좋아요 삭제 호출 : {}", go);
+		    boolean result = false;
+		    try {
+		        result = communityService.goodDelete(go);
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		    
+		    log.info("좋아요 삭제 리턴 : {}", result);
+
+		    return result;
+		}  	
+		
+		@GetMapping("/countGood/{postId}")
+	    @ResponseBody  // 이 어노테이션이 있어야 데이터만 리턴 가능합니다.
+	    public int countGood(@PathVariable("postId") int postId) {
+	        return communityService.countGood(postId);
+	    }
 }
