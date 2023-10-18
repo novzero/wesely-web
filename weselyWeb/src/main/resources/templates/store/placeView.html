@@ -19,14 +19,6 @@
 		/*<![CDATA[*/
 		var user = [[${session.mvo}]];
 
-		window.onload = function () {
-			// 세션에 정보없을 때 로그인페이지로 이동
-			if (!user) {
-				location.replace("/member/login");
-			}
-			kakaoMap();
-		};
-
 		// 카카오 맵 띄우기
 		function kakaoMap() {
 			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 

@@ -12,10 +12,7 @@
 	<script>
 		// 더보기버튼 클릭시 12개씩 가져오기 위해 초기 Num0셋팅
 		let lastNum = 0;
-		window.onload = function () {
-			//storeMore();
-			//placesSearchCB();
-		}
+		
 	</script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
@@ -62,7 +59,7 @@
 								// data 배열의 각 요소에 대해 loc 속성 추가
 								data.forEach(item => {
 									item.loc = loc;
-									item.hashTag = '#'+item.category_name.split('>').join('#');
+									item.hashTag = '#' + item.category_name.split('>').join('#');
 								});
 								resolve(data);
 
@@ -79,9 +76,9 @@
 						// 배열에 새로운 배열 추가하기
 						allPlaces = [].concat(...results);
 						console.log(allPlaces);
-						// Extract the id of each place and send to server
+						// 서버로 보내 조회하고 가져오기
 						sendKakaoIds(allPlaces.map(place => (place.id)));
-						sendLocation(loc)
+						sendLocation(loc);
 					})
 					.catch(error => console.error(error));
 			}
@@ -99,6 +96,9 @@
 					console.log(data);
 					let content = "";
 					data.forEach(store => {
+						// kakaoId 값이 존재하면 다음 항목으로 건너뛰기
+						if (store.kakaoId) return;
+
 						let imgSrc;
 						if (store.imgList.length > 0) {
 							imgSrc = `/static/images/upload/${store.imgList[0].uuid}_${store.imgList[0].fileName}`;
@@ -128,9 +128,12 @@
 							</a >
                			</div >`;
 					});
-					const kakaoListElement = document.getElementById('mainContent');
+					const storeListElement = document.getElementById('mainContent');
 					// 모든 HTML 문자열을 한 번에 innerHTML 에 할당
-					kakaoListElement.innerHTML = content;
+					//storeListElement.innerHTML += content;
+					storeListElement.insertAdjacentHTML('afterbegin', content);
+
+
 				})
 				.catch((e) => console.log(e));
 		}
@@ -145,7 +148,9 @@
 				.then(response => response.json())
 				.then(data => {
 					console.log(data);
+
 					allPlaces.forEach(place => {
+						console.log(place)
 						let store = data.find(s => s.kakaoId === place.id);
 						let content = "";
 						if (store) {
@@ -173,7 +178,7 @@
                             			<!-- 이 부분은 store 객체의 구조와 데이터 형태에 따라 달라집니다 -->
                             			<!-- 예: #헬스장, #에너지 넘치는 등 -->
                             			<div class="hashTagList">
-                                			<p class="hashTag">${store.hashTag}</p>
+                                			<p class="hashTag">${store.hashTag}이건db꺼</p>
                             			</div>
                         			</div >
                     			</a >
@@ -206,6 +211,8 @@
 						const storeListElement = document.getElementById('mainContent');
 						// 모든 HTML 문자열을 한 번에 innerHTML 에 할당
 						storeListElement.innerHTML += content;
+						// 모든 작업이 완료된 후 로딩화면 숨기기
+						 document.getElementById('loading').style.display = 'none';
 					});
 				})
 				.catch((e) => console.log(e));
@@ -215,7 +222,10 @@
 </head>
 
 <body>
-
+	<div id="loading"
+		style="position:fixed; top:0; left:0; width:100%; height:100%; background:white; display:flex; justify-content:center; align-items:center; z-index: 100;">
+		<h1>Loading...</h1>
+	</div>
 	<div class="wrapper">
 		<header>
 			<div class="logo">
