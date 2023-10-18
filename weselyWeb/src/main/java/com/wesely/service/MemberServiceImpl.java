@@ -86,6 +86,8 @@ public class MemberServiceImpl implements MemberService {
 		try {
 			// 넘어온 아이디가 존재하는지 판단
 			MemberVO mvo = memberDAO.selectByUserid(vo.getUserid());
+			log.info("{}의 selectByUserid호출 : {}", this.getClass().getName(), vo);
+			
 			if (mvo != null) { // 지정 아이디의 회원이 있다면
 				if (mvo.getPassword().equals(vo.getPassword())) {
 					memberVO = mvo;
@@ -98,6 +100,7 @@ public class MemberServiceImpl implements MemberService {
 				 throw new Exception("아이디가 존재하지 않습니다.");
 			}
 		} catch (Exception e) {
+			log.error("로그인 실패: {}", e.getMessage());
 			e.printStackTrace();
 		}
 		log.info("login({}) 리턴", vo, memberVO);
