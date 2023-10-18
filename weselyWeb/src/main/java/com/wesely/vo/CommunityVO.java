@@ -30,5 +30,5 @@ public class CommunityVO {
 	private List<CommentVO> commentList; // 댓글목록 - 내용보기
 	private Date sysdate; // 댓글 작성날짜
 	private List<CommunityImgVO>imgList;// 이미지 
-
+	private int goodCount; //좋아요 개수 - 목록보기
 }

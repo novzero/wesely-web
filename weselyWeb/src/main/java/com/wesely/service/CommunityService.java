@@ -45,5 +45,6 @@ public interface CommunityService {
 	//좋아요 확인
 	int goodCheck(Map<String, Object>map);
 	
-	
+	// 좋아요 개수 가져오기
+	int countGood(int ref);
 }
