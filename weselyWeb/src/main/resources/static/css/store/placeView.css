@@ -118,11 +118,6 @@ main {
 	width: 60%;
 }
 
-.liBox {
-	position: relative;
-	border: 1px solid red;
-}
-
 .space {
 	margin-left: 20px;
 }

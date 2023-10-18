@@ -9,6 +9,7 @@
 	<link rel="stylesheet" href="css/font.css" />
 	<link rel="stylesheet" href="css/header.css" />
 	<link rel="stylesheet" href="css/main.css" />
+	<link rel="stylesheet" href="css/loadingSpinner.css" />
 	<!-- 제이쿼리 -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<!-- 아이콘 -->
@@ -18,8 +19,13 @@
 </head>
 
 <body>
+	<div id="overlay"></div>
+	<div id="loading">
+		<div class="dots"></div>
+		<div class="dots"></div>
+		<div class="dots"></div>
+	</div>
 	<div class="wrapper">
-
 		<header>
 			<div class="logo">
 				<a href="/">
@@ -33,12 +39,12 @@
 			</nav>
 
 			<nav class="hello">
-				<th:block th:if = "${session.mvo != null}">
+				<th:block th:if="${session.mvo != null}">
 					<span>
-						<input type="text" th:value="${session.mvo.nickname}" disabled/>
+						<input type="text" th:value="${session.mvo.nickname}" disabled />
 						님 환영합니다.
 					</span>
-				</th:block>	
+				</th:block>
 			</nav>
 
 			<nav class="login">
@@ -46,7 +52,7 @@
 					<a href="/member/login"><strong>로그인</strong></a>
 					<a href="/member/join"><strong>회원가입</strong></a>
 				</th:block>
-				
+
 				<th:block th:if="${session.mvo != null && session.mvo.authority == '일반계정'}">
 					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
 					<a href="/member/logout"><strong>로그아웃</strong></a>
@@ -75,7 +81,7 @@
 
 							<!-- js 미세먼지농도에 따른 표정아이콘 이미지경로변경-->
 							<div class="dustBox">
-								<img src="" id="weatherImage" alt="미세먼지 표정아이콘" />
+								<img src="/images/great.png" id="weatherImage" alt="미세먼지 표정아이콘" />
 								<p class="dust">미세먼지 </p>
 							</div>
 						</div>
@@ -118,7 +124,7 @@
 						<!-- 이 클래스에 on이 붙으면 설명나옴 -->
 						<li class="slide__item">
 							<a>
-								<img class="slide__image" src="/images/panda-bear-gd69cd903a_1280.jpg" />
+								<img class="slide__image" src="/images/teni.png" />
 							</a>
 							<div class="slideBoxText on">
 								<h2>나다운핏짐</h2>

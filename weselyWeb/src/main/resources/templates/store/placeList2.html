@@ -7,12 +7,13 @@
 	<title>Document</title>
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
+	<link rel="stylesheet" href="/css/loadingSpinner.css" />
 	<link rel="stylesheet" href="/css/store/placeList.css" />
 	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
 	<script>
 		// 더보기버튼 클릭시 12개씩 가져오기 위해 초기 Num0셋팅
 		let lastNum = 0;
-		
+
 	</script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
@@ -212,7 +213,8 @@
 						// 모든 HTML 문자열을 한 번에 innerHTML 에 할당
 						storeListElement.innerHTML += content;
 						// 모든 작업이 완료된 후 로딩화면 숨기기
-						 document.getElementById('loading').style.display = 'none';
+						document.getElementById('overlay').style.display = 'none';
+						document.getElementById('loading').style.display = 'none';
 					});
 				})
 				.catch((e) => console.log(e));
@@ -222,9 +224,11 @@
 </head>
 
 <body>
-	<div id="loading"
-		style="position:fixed; top:0; left:0; width:100%; height:100%; background:white; display:flex; justify-content:center; align-items:center; z-index: 100;">
-		<h1>Loading...</h1>
+	<div id="overlay"></div>
+	<div id="loading">
+		<div class="dots"></div>
+		<div class="dots"></div>
+		<div class="dots"></div>
 	</div>
 	<div class="wrapper">
 		<header>
