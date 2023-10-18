@@ -175,15 +175,16 @@ main {
 	grid-template-columns: repeat(4, 1fr);
 	gap: 16px;
 	width: 100%;
+	
 }
 
 .placeItem {
-	height: 400px;
+	height: 410px;
 	cursor: pointer;
 }
 
 .hoverImgBox {
-	height: 74%;
+	height: 76%;
 	overflow: hidden;
 	border-radius: 10px;
 	border: 1px solid #cdcdcd;
