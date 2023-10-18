@@ -9,15 +9,15 @@
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/store/placeList.css" />
 	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
 	<script>
 		// 더보기버튼 클릭시 12개씩 가져오기 위해 초기 Num0셋팅
 		let lastNum = 0;
 		window.onload = function () {
-			storeMore();
+			kakaoMap();
 		}
 	</script>
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
 	<script>
 		let latitude;
 		let longitude;
@@ -91,7 +91,7 @@
 
 		// 넘어온 시설정보 데이터저장
 		function saveToDatabase(place, locationDB) {
-			
+
 			const store = {
 				// id: place.id,
 				userid: "",
