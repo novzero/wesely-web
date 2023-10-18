@@ -152,6 +152,15 @@ public class MemberController {
 			if (dbVO != null) { // 로그인에 성공했다면
 				// 세션에 회원정보를 저장을 한다.
 				session.setAttribute("mvo", dbVO);
+
+				// 이전 페이지 정보 가져오기
+				Object prevPageObj = session.getAttribute("prevPage");
+
+				if (prevPageObj != null) { // 만약 이전 페이지 정보가 있다면
+					session.removeAttribute("prevPage"); // 세션에서 제거하고
+					return "redirect:" + prevPageObj.toString(); // 그 페이지로 리다이렉트합니다.
+				}
+
 				// 아이디 자동저장 처리
 				Cookie cookie = null;
 				if (memberVO.isSaveID()) { // 자동저장이라면
@@ -246,9 +255,9 @@ public class MemberController {
 		log.info("받은값 : {} ", vo);
 		if (memberService.updateNickname(vo)) {
 			// 닉네임 업데이트가 성공했다면
-			 // 업데이트된 회원 정보 가져오기
-	        MemberVO dbVO = memberService.findUserById(vo.getUserid());
-	        log.info("닉네임이 변경된 회원 정보 : {}", dbVO);
+			// 업데이트된 회원 정보 가져오기
+			MemberVO dbVO = memberService.findUserById(vo.getUserid());
+			log.info("닉네임이 변경된 회원 정보 : {}", dbVO);
 
 			// 세션정보 바꿈
 			session.removeAttribute("mvo"); // 기존 세션에서 "mvo" 속성 제거

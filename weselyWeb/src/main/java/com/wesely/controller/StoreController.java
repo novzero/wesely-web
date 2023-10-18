@@ -16,6 +16,7 @@ import com.wesely.service.StoreService;
 import com.wesely.vo.MemberVO;
 import com.wesely.vo.StoreVO;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,15 +37,28 @@ public class StoreController {
 
 	// 운동시설 상세보기 : 일반계정
 	@GetMapping(value = "/view/{id}")
-	public String view(@PathVariable("id") int id, Model model) {
+	public String view(@PathVariable("id") int id, Model model, HttpSession session, HttpServletRequest request) {
 		StoreVO store = storeService.findById(id);
 
-		if (store != null) {
-			log.info("운동시설 상세보기==================================");
-			log.info("findById 호출 : {}", id);
-			model.addAttribute("st", store);
-			return "/store/placeView";
-		} else {
+		log.info("view 운동시설 상세보기 호출 : {}", id);
+		try {
+			// 로그인이 되어있지 않을 때 로그인페이지로 이동
+			if (session.getAttribute("mvo") == null) {
+				String prevPage = request.getRequestURL().toString();
+				session.setAttribute("prevPage", prevPage); // 현재 요청 URI를 세션에 저장
+
+				return "redirect:/member/login";
+			}
+			
+			if (store != null) {
+				model.addAttribute("st", store);
+
+				log.info("view 운동시설 상세보기 리턴 : {}", store);
+				return "/store/placeView";
+			} else {
+				return "redirect:/store/";
+			}
+		} catch (Exception e) {
 			return "redirect:/store/";
 		}
 	}
@@ -74,11 +88,25 @@ public class StoreController {
 		}
 	}
 
-	// 운동시설 상세보기 : 카카오 API
+	// 운동시설 상세보기 : 카카오 API 데이터 => db에 저장되지않은 데이터 상세보기
 	@GetMapping(value = "/view/ka/{id}")
-	public String kakaoView(@PathVariable("id") String id, @RequestParam("data") String placeDataJson, Model model) {
+	public String kakaoView(@PathVariable("id") String id, @RequestParam("data") String placeDataJson, Model model,
+			HttpSession session, HttpServletRequest request) {
 		log.info("카카오상세보기 호출 {}", placeDataJson);
+
 		try {
+			// 로그인이 되어있지 않을 때 로그인페이지로 이동
+			if (session.getAttribute("mvo") == null) {
+				String prevPage = request.getRequestURL().toString();
+				// 요청 URI는 경로(path)만을 나타내며, 쿼리 스트링(?data=...)은 별도로 처리
+				if (request.getQueryString() != null) {
+					prevPage += "?" + request.getQueryString();
+				}
+				session.setAttribute("prevPage", prevPage); // 현재 요청 URI를 세션에 저장
+
+				return "redirect:/member/login";
+			}
+
 			// JSON 문자열을 Java 객체로 변환
 			ObjectMapper objectMapper = new ObjectMapper();
 			Map<String, Object> place = objectMapper.readValue(placeDataJson, new TypeReference<Map<String, Object>>() {
