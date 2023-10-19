@@ -19,6 +19,7 @@ function formCheck() {
 		$("#password").val("").focus();
 		return false;
 	}
+	
 };
 
 function shakeAndHighlight(element) {
