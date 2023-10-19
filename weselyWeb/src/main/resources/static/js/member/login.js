@@ -12,7 +12,6 @@ function formCheck() {
 		$("#userid").val("").focus();
 		return false;
 	}
-
 	if (!password || password.indexOf(" ") > -1) {
 		// 입력값이 없거나 공백이 존재할 경우 애니메이션 적용
 		shakeAndHighlight(passwordField);
