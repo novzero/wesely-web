@@ -18,7 +18,6 @@ function formCheck() {
 		$("#password").val("").focus();
 		return false;
 	}
-	
 };
 
 

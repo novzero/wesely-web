@@ -66,6 +66,7 @@ $("#photo_submit").click(function() {
 		}
 	});
 })
+*/
 
 // ========================================================================================================
 // 모달창
@@ -94,38 +95,29 @@ function isModalOn() {
 	return modal.style.display === "flex"
 }
 function modalOff() {
-	resetImage();
 	modal.style.display = "none"
 }
 function closeModal() {
-	resetImage();
 	modalOff();
 }
 
-// 이미지 초기화
-function resetImage() {
-	imageElement.src = "${pageContext.request.contextPath}/member/photoView.do";
-}
-document.querySelector('.image').addEventListener('click', function() {
-	document.querySelector('#upload').click();
-});
 
-const closeBtn = modal.querySelector(".close-area")
-closeBtn.addEventListener("click", function(e) {
+closeButton.addEventListener("click", function() {
 	closeModal();
 })
-modal.addEventListener("click", function(e) {
+modal.addEventListener("click", function() {
 	const evTarget = e.target
 	if (evTarget.classList.contains("modal-overlay")) {
 		closeModal();
 	}
 })
-window.addEventListener("keyup", function(e) {
+window.addEventListener("keyup", function() {
 	if (isModalOn() && e.key === "Escape") {
 		closeModal();
 	}
 })
-*/
+
+
 
 // ========================================================================================================
 
@@ -174,16 +166,16 @@ $(function() {
 // 폼체크
 // ========================================================================================================
 function formCheck() {
+	var nicknameField = document.getElementById("nickname");
+	var nickname = nicknameField.value.trim();
 
-	if ($("#nickname").val() == null || $("#nickname").val().trim().length == 0) {
-		alert("닉네임을 입력해주세요.");
-		$("#nickname").val("");
-		$("#nickname").focus();
+	if (!nickname || nickname.indexOf(" ") > -1) {
+		shakeAndHighlight(nicknameField);
+		$("#nickname").val("").focus();
 		return false;
 	} else if ($("#nickmessage").css('color') == 'rgb(255, 0, 0)') {
-		alert("닉네임을 확인해주세요.");
-		$("#nickname").val("");
-		$("#nickname").focus();
+		shakeAndHighlight(nicknameField);
+		$("#nickname").val("").focus();
 		return false;
 	} else if (window.confirm("회원정보를 수정하시겠습니까?")) {
 		location.reload();
@@ -199,5 +191,40 @@ function deleteMember() {
 		location.href = "redirect:/member/updateProfile";
 	}
 }
+// ========================================================================================================
+// shake&하이라이팅 효과
+// ========================================================================================================
 
+function shakeAndHighlight(element) {
+	element.classList.add("invalid");
+
+	var originalBorderColor = getComputedStyle(element).borderColor;
+
+	var animationKeyframes = [
+		{ transform: 'translateX(-5px)' },
+		{ transform: 'translateX(5px)' },
+		{ transform: 'translateX(-5px)' },
+		{ transform: 'translateX(5px)' },
+		{ transform: 'translateX(-5px)' },
+		{ transform: 'translateX(0)' }
+	];
+
+	var animationOptions = {
+		duration: 200,
+		easing: "ease-in-out",
+	};
+
+	element.animate(animationKeyframes, animationOptions);
+
+	setTimeout(function() {
+		element.style.borderColor = "red";
+	}, 0);
+
+	// 입력창에 텍스트가 변경될 때마다 원래 색으로 복원
+	element.addEventListener("input", function() {
+		element.classList.remove("invalid");
+		element.style.transform = "none";
+		element.style.borderColor = originalBorderColor;
+	});
+};
 
