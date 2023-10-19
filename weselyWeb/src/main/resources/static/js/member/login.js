@@ -21,6 +21,7 @@ function formCheck() {
 	
 };
 
+
 function shakeAndHighlight(element) {
 	element.classList.add("invalid");
 
