@@ -46,6 +46,9 @@ public interface StoreDAO {
 		// 10. region 지역(현재위치)에 해당하는 운동시설 찾기
 		List<StoreVO> selectByLoc(String loc); 
 		
+		// 11. 한 개의 kakaoId에 해당하는 운동시설 찾기 
 		StoreVO findByKakaoId(String kakaoId);
 		
+		// 12. 메인화면에서 사용할 랜덤으로 12개 얻기
+		List<StoreVO> selectRandomSlide();
 }

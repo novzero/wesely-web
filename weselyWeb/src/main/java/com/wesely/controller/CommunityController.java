@@ -32,6 +32,7 @@ import com.wesely.vo.Paging;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.val;
 import lombok.extern.slf4j.Slf4j;
 
@@ -165,7 +166,7 @@ public class CommunityController {
 					File newFile = new File(filePath + uuid + "_" + fileName);
 					// MultipartFile 객체의 내용(file)을 새롭게 생성한 File 객체(newFile)에 복사(저장) 합니다..
 					file.transferTo(newFile);
-					
+
 					CommunityImgVO communityImgVO = new CommunityImgVO();
 					communityImgVO.setUuid(uuid);
 					communityImgVO.setFileName(fileName);
@@ -218,34 +219,57 @@ public class CommunityController {
 	// 서버경로
 	private String getFilePath() throws IOException {
 		// 리소스 로더를 사용하여 서버의 루트 경로("/")에 접근하고, 그 경로에 "static/images/upload/"를 추가합니다.
-	    // 이렇게 하면 업로드된 이미지가 저장될 폴더의 절대 경로가 생성됩니다.
-	    String filePath = resourceLoader.getResource("/").getURI().toString() + "static/images/upload/";
-	    
-	    // getResource 메소드는 'file:/' 형태의 프리픽스를 포함한 URI 문자열을 반환하므로, 
-	    // 실제 파일 시스템 경로만 얻기 위해 앞의 6개 문자('file:/')를 제거합니다.
-	    filePath = filePath.substring(6);
+		// 이렇게 하면 업로드된 이미지가 저장될 폴더의 절대 경로가 생성됩니다.
+		String filePath = resourceLoader.getResource("/").getURI().toString() + "static/images/upload/";
 
-	    // 지정된 경로에 해당하는 File 객체를 생성합니다. 
-	    File f = new File(filePath); 
+		// getResource 메소드는 'file:/' 형태의 프리픽스를 포함한 URI 문자열을 반환하므로,
+		// 실제 파일 시스템 경로만 얻기 위해 앞의 6개 문자('file:/')를 제거합니다.
+		filePath = filePath.substring(6);
 
-	     // 만약 해당 폴더가 존재하지 않으면 폴더를 생성합니다. 
-	     if (!f.exists())
-	         f.mkdirs(); 
+		// 지정된 경로에 해당하는 File 객체를 생성합니다.
+		File f = new File(filePath);
 
-	     // 완성된 파일 저장 경로를 반환합니다.
-	     return filePath;
+		// 만약 해당 폴더가 존재하지 않으면 폴더를 생성합니다.
+		if (!f.exists())
+			f.mkdirs();
+
+		// 완성된 파일 저장 경로를 반환합니다.
+		return filePath;
 	}
 
 	// 커뮤니티 상세보기
 	@GetMapping(value = "/view")
-	public String view(@ModelAttribute CommVO cv, Model model) {
+	public String view(@ModelAttribute CommVO cv, Model model, HttpSession session, HttpServletRequest request) {
 		CommunityVO vo = communityService.selectById(cv.getId(), cv.getMode());
-		// 상세내용이 없으면 목록보기로 돌려보냄
-		if (vo == null) {
-			return "redirect:/community/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
+
+		log.info("커뮤니티 상세보기 호출 {}", vo);
+
+		try {
+			// 로그인이 되어있지 않을 때 로그인페이지로 이동
+			if (session.getAttribute("mvo") == null) {
+				String prevPage = request.getRequestURL().toString();
+				// 요청 URI는 경로(path)만을 나타내며, 쿼리 스트링(?id=...)은 별도로 처리
+				if (request.getQueryString() != null) {
+					prevPage += "?" + request.getQueryString();
+				}
+				session.setAttribute("prevPage", prevPage); // 현재 요청 URI를 세션에 저장
+
+				return "redirect:/member/login";
+			}
+
+			// 상세내용이 없으면 목록보기로 돌려보냄
+			if (vo == null) {
+				return "redirect:/community/list?p=1&b=" + cv.getB() + "&s=" + cv.getS();
+			}
+
+			model.addAttribute("community", vo);
+			model.addAttribute("cv", cv);
+
+		} catch (Exception e) {
+
+			log.info("커뮤니티 상세보기 에러", e);
+			return "redirect:/community/";
 		}
-		model.addAttribute("community", vo);
-		model.addAttribute("cv", cv);
 		return "community/viewPost";
 	}
 
@@ -316,43 +340,44 @@ public class CommunityController {
 	}
 
 	// 좋아요 저장했을때 호출 주소
-		@PostMapping(value = "/goodInsert")
-		@ResponseBody
-		public boolean goodInsert(@ModelAttribute GoodVO go) {
-			log.info("좋아요 저장 호출 : {}", go);
-			boolean result = false;
-			try {
-				result = communityService.goodInsert(go);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			log.info("좋아요 저장 리턴 : {}", result);
-			return result;
+	@PostMapping(value = "/goodInsert")
+	@ResponseBody
+	public boolean goodInsert(@ModelAttribute GoodVO go) {
+		log.info("좋아요 저장 호출 : {}", go);
+		boolean result = false;
+		try {
+			result = communityService.goodInsert(go);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		// 좋아요 삭제했을때 호출 주소
-		@DeleteMapping(value = "/goodDelete/{ref}/{nickname}")
-		@ResponseBody
-		public boolean goodDelete(@PathVariable int ref, @PathVariable String nickname) {
-		    GoodVO go = new GoodVO();
-		    go.setRef(ref);
-		    go.setNickname(nickname);
+		log.info("좋아요 저장 리턴 : {}", result);
+		return result;
+	}
 
-		    log.info("좋아요 삭제 호출 : {}", go);
-		    boolean result = false;
-		    try {
-		        result = communityService.goodDelete(go);
-		    } catch (Exception e) {
-		        e.printStackTrace();
-		    }
-		    
-		    log.info("좋아요 삭제 리턴 : {}", result);
+	// 좋아요 삭제했을때 호출 주소
+	@DeleteMapping(value = "/goodDelete/{ref}/{nickname}")
+	@ResponseBody
+	public boolean goodDelete(@PathVariable int ref, @PathVariable String nickname) {
+		GoodVO go = new GoodVO();
+		go.setRef(ref);
+		go.setNickname(nickname);
 
-		    return result;
-		}  	
-		
-		@GetMapping("/countGood/{postId}")
-	    @ResponseBody  // 이 어노테이션이 있어야 데이터만 리턴 가능합니다.
-	    public int countGood(@PathVariable("postId") int postId) {
-	        return communityService.countGood(postId);
-	    }
+		log.info("좋아요 삭제 호출 : {}", go);
+		boolean result = false;
+		try {
+			result = communityService.goodDelete(go);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		log.info("좋아요 삭제 리턴 : {}", result);
+
+		return result;
+	}
+
+	@GetMapping("/countGood/{postId}")
+	@ResponseBody // 이 어노테이션이 있어야 데이터만 리턴 가능합니다.
+	public int countGood(@PathVariable("postId") int postId) {
+		return communityService.countGood(postId);
+	}
 }

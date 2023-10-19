@@ -10,15 +10,19 @@
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/store/placeView.css" />
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-	<script defer src="/js/store/placeView.js"></script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
+	<script defer src="/js/store/placeView.js"></script>
 	<script defer src="/js/store/storeSlide.js"></script>
+	<script>
+		window.onload = function () {
+			kakaoMap();
+		};
+	</script>
 	<!-- Scripts -->
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 		var user = [[${session.mvo}]];
-
 		// 카카오 맵 띄우기
 		function kakaoMap() {
 			var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -251,7 +255,7 @@
 					<input type="submit" id='submitBtn' value="등록" />
 					<input type="button" id="modifyBtn" style="display: none" onclick="sendPutRequest()" value="수정" />
 				</div>
-				
+
 				<!-- 별점 value 담기 -->
 				<input type="hidden" id="starRating" name="star" />
 				<!-- 유저닉네임 value 담기 -->

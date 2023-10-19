@@ -7,21 +7,21 @@
 	<title>Document</title>
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
+	<link rel="stylesheet" href="/css/loadingSpinner.css" />
 	<link rel="stylesheet" href="/css/store/placeList.css" />
 	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
 	<script>
 		// 더보기버튼 클릭시 12개씩 가져오기 위해 초기 Num0셋팅
 		let lastNum = 0;
-		window.onload = function () {
-			storeMore();
-		}
+
 	</script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
 	<script>
 		let latitude;
 		let longitude;
-		var locationDB;
+		var allPlaces;  // 전역변수로 선언
+		var loc;
 		// 장소 검색 객체를 생성합니다
 		var ps = new kakao.maps.services.Places();
 
@@ -36,93 +36,205 @@
 
 		var geocoder = new kakao.maps.services.Geocoder();
 
+		// 
 		var callback = function (result, status) {
 			if (status === kakao.maps.services.Status.OK) {
-
-				console.log(result[0]);
+				loc = result[0].region_2depth_name + result[0].region_3depth_name;
 
 				// 현재 위치 표시 00시 00구 00동
-				document.getElementById('currentLocation').innerText = result[0].region_1depth_name + " " + result[0].region_2depth_name + " " + result[0].region_3depth_name;
-
-				// 현재 위치 00시 00동으로 검색
-				let region = result[0].region_1depth_name + result[0].region_3depth_name;
-				// 00구 00동 으로 db에 넣을 것
-				locationDB = result[0].region_2depth_name + result[0].region_3depth_name;
-
-				/*
-				// and 연산만 지원해서 안됨
-				ps.keywordSearch(region + " 수영 요가 헬스 필라테스", placesSearchCB, {
-						page: 1, size: 15
-				});
-				*/
-				/*
-				for(s  of "수영,요가,헬스,필라테스".split(",")){
-					ps.keywordSearch(region + s, placesSearchCB, {
-						page: 1, size: 15
-					});
-				}
-				*/
-
-				ps.keywordSearch(region + '요가', placesSearchCB, {
-					page: 1, size: 15
-				});
-				ps.keywordSearch(region + '헬스', placesSearchCB, {
-					page: 1, size: 15
-				});
-				ps.keywordSearch(region + '필라테스', placesSearchCB, {
-					page: 1, size: 15
-				});
-
+				document.getElementById('currentLocation').innerText =
+					result[0].region_1depth_name + " " +
+					result[0].region_2depth_name + " " +
+					result[0].region_3depth_name;
+				startSearch(result);
 			}
 		};
 
-		function placesSearchCB(data, status, pagination) {
-			if (status === kakao.maps.services.Status.OK) {
-				console.log(data);
+		function startSearch(result) {
+			let region = result[0].region_1depth_name + result[0].region_3depth_name;
+			var searchKeywords = ['요가', '헬스', '필라테스', '주짓수', '클라이밍', '수영', '복싱', '발레', '폴댄스'];
 
-				data.forEach(place => {
-					console.log(place.id);
-					saveToDatabase(place, locationDB);
+			var searchPromises = searchKeywords.map(keyword => {
+				return new Promise((resolve, reject) => {
+					ps.keywordSearch(region + keyword, (data, status) => {
+						// 키워드 검색 결과가 존재한다면
+						if (status === kakao.maps.services.Status.OK) {
+							data.forEach(item => {
+								
+								// item.address_name에서 필요한 부분만 추출
+								let addressParts = item.address_name.split(' ');
+								item.loc = addressParts[1] + addressParts[2]; // 예) 중구대흥동, 서구탄방동
 
+								item.hashTag = '#' + item.category_name.split('>').join('#');
+							});
+							resolve(data);
+						}
+						// 키워드 검색 결과가 없다면
+						else if (status === kakao.maps.services.Status.ZERO_RESULT) {
+							console.log(`사용자 주변에 '${keyword}' 운동종목은 검색결과가 없습니다.`);
+							resolve(data);
+						} else {
+							reject(status);
+						}
+					}, {page: 1, size: 15});
 				});
+			});
 
-			}
+
+			Promise.all(searchPromises)
+				.then(results => {
+					// 배열에 새로운 배열 추가하기
+					allPlaces = [].concat(...results);
+					console.log(allPlaces);
+					// 서버로 보내 조회하고 가져오기
+					sendKakaoIds(allPlaces.map(place => (place.id)));
+					sendLocation(loc);
+				})
+				.catch(error => console.error(error));
 		}
 
-		// 넘어온 시설정보 데이터저장
-		function saveToDatabase(place, locationDB) {
-			
-			const store = {
-				// id: place.id,
-				userid: "",
-				name: place.place_name,
-				address: place.address_name,
-				opening: "",
-				tel: place.phone,
-				description: "",
-				hashTag: "",
-				kakaoId: place.id,
-				region: locationDB
-			};
-
-			fetch('/api/addStores', {
+		function sendLocation(loc) {
+			fetch('/api/getStoreByLoc', {
 				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify([store])
+				headers: {'Content-Type': 'application/json'},
+				body: loc
 			})
-				.then(console.log('저장완료'))
-				.catch(error => {
-					console.error(error);
-				});
+				.then(response => response.json())
+				.then(data => {
+					let content = "";
+					data.forEach(store => {
+						// kakaoId 값이 존재하면 다음 항목으로 건너뛰기
+						if (store.kakaoId) return;
+
+						let imgSrc;
+						if (store.imgList.length > 0) {
+							imgSrc = `/static/images/upload/${store.imgList[0].uuid}_${store.imgList[0].fileName}`;
+						} else {
+							console.log('imgList is empty');
+							imgSrc = '/images/unpostImg.png';
+						}
+						content += `
+						<div class="placeItem" id="placeItem">
+							<a href="/store/view/${store.id}">
+								<div class="hoverImgBox">
+									<img src="${imgSrc}" alt="시설이미지" />
+								</div>
+								<div class="placeTextBox">
+									<div class="storeTitle">
+										<span>${store.name}</span>
+										<span>⭐ ${store.averageStar}</span>
+									</div>
+									<p class="storeLocation">${store.address}</p>
+                                	<!-- 👇해시태그 리스트도 동적으로 생성하려면 추가적인 처리가 필요합니다 -->
+									<!--이 부분은 store 객체의 구조와 데이터 형태에 따라 달라집니다-->
+									<div class="hashTagList">
+									<p class="hashTag">#헬스장</p>
+									<p class="hashTag">#에너지 넘치는</p>
+									</div>
+								</div >
+							</a >
+               			</div >`;
+					});
+					const storeListElement = document.getElementById('mainContent');
+					// 모든 HTML 문자열을 한 번에 innerHTML 에 할당
+					//storeListElement.innerHTML += content;
+					storeListElement.insertAdjacentHTML('afterbegin', content);
+
+
+				})
+				.catch((e) => console.log(e));
 		}
 
+		function sendKakaoIds(kakaoPlaces) {
+			console.log(kakaoPlaces);
+			fetch('/api/getStoresByIds', {
+				method: 'POST',
+				headers: {'Content-Type': 'application/json'},
+				body: JSON.stringify(kakaoPlaces)
+			})
+				.then(response => response.json())
+				.then(data => {
+					console.log(data);
+
+					allPlaces.forEach(place => {
+						let store = data.find(s => s.kakaoId === place.id);
+						let content = "";
+						if (store) {
+							let imgSrc;
+							if (store.imgList.length > 0) {
+								imgSrc = `/static/images/upload/${store.imgList[0].uuid}_${store.imgList[0].fileName}`;
+							} else {
+								imgSrc = '/images/unpostImg.png';
+							}
+
+							// store 객체를 이용해 HTML 생성
+							content += `
+                			<div class="placeItem" id="placeItem">
+                    			<a href="/store/view/${store.id}">
+                        			<div class="hoverImgBox">
+                            			<img src="${imgSrc}" alt="시설이미지" />
+                        			</div>
+                        			<div class="placeTextBox">
+                            			<div class="storeTitle">
+                                			<span>${place.place_name}</span>
+                                			<span>⭐ ${store.averageStar}</span>
+                            			</div>
+                            			<p class="storeLocation">${place.address_name}</p>
+                            			<!-- 해시태그 리스트 동적으로 생성 -->
+                            			<!-- 이 부분은 store 객체의 구조와 데이터 형태에 따라 달라집니다 -->
+                            			<!-- 예: #헬스장, #에너지 넘치는 등 -->
+                            			<div class="hashTagList">
+                                			<p class="hashTag">${store.hashTag}</p>
+                            			</div>
+                        			</div >
+                    			</a >
+                			</div>`;
+						} else {
+							// place 객체를 이용해 HTML 생성
+							content += `
+                 	<div class="placeItem" id="placeItem" onclick="selectPlace(this)" data-place='${place}'>
+                   		<a href="/store/view/ka/${place.id}?data=${encodeURIComponent(JSON.stringify(place))}">
+                      		<div class="hoverImgBox">
+                         		<img src="/images/unpostImg.png" alt="${place.place_name}" />
+                      		</div>
+                      		<div class="placeTextBox">
+                          		<div class="storeTitle">
+                              		<span>${place.place_name}</span>
+                              		<span>⭐ 0</span> 
+                          		</div>
+                          		<p class='storeLocation'>${place.address_name}</p> 
+                          	
+                          	 	<!-- 카카오 API에서 제공하는 카테고리 정보로 해시태그 리스트 동적으로 생성 -->
+                             	<!-- 예: #스포츠,레저, #요가,필라테스, #요가원 -->
+                          		<div class="hashTagList">
+                              		<p class="hashTag">${place.hashTag}</p>
+                          		</div>
+                      		</div >
+                   	 	</a>
+                 	</div>`;
+						}
+
+						const storeListElement = document.getElementById('mainContent');
+						// 모든 HTML 문자열을 한 번에 innerHTML 에 할당
+						storeListElement.innerHTML += content;
+						// 모든 작업이 완료된 후 로딩화면 숨기기
+						document.getElementById('overlay').style.display = 'none';
+						document.getElementById('loading').style.display = 'none';
+					});
+				})
+				.catch((e) => console.log(e));
+
+		}
 	</script>
 </head>
 
 <body>
-
+	<div id="overlay"></div>
+	<div id="loading">
+		<div class="dots"></div>
+		<div class="dots"></div>
+		<div class="dots"></div>
+	</div>
 	<div class="wrapper">
 		<header>
 			<div class="logo">
@@ -190,26 +302,7 @@
 
 
 				<div class="mainContent" id="mainContent">
-					<!--
-					<div class="placeItem" id="placeItem">
-						<a href="/store/view">
-							<div class="hoverImgBox">
-								<img src="/images/unpostImg.png" alt="시설이미지" />
-							</div>
-							<div class="placeTextBox">
-								<div class="storeTitle">
-									<span>(매장명)</span>
-									<span>⭐평점 0</span>
-								</div>
-								<p class="storeLocation">(매장위치정보)</p>
-								<div class="hashTagList">
-									<p class="hashTag">#</p>
-									<p class="hashTag">#</p>
-								</div>
-							</div>
-						</a>
-					</div>
-					-->
+
 				</div>
 			</div>
 
@@ -219,55 +312,6 @@
 			</button>
 		</main>
 	</div>
-
-	<script>
-
-		function storeMore() {
-			lastNum += 12;
-			fetch('/api/store?lastNum=' + lastNum)
-				.then(response => response.json())
-				.then(data => {
-					console.log(data);
-					let content = "";
-					data.forEach(store => {
-						console.log(store);
-						let imgSrc;
-						if (store.imgList.length > 0) {
-							imgSrc = `/ static / images / upload / ${store.imgList[0].uuid}_${store.imgList[0].fileName} `;
-						} else {
-							console.log('imgList is empty');
-							imgSrc = '/images/unpostImg.png';
-						}
-						content += `
-				<div class="placeItem" id="placeItem">
-					<a href="/store/view/${store.id}">
-						<div class="hoverImgBox">
-							<img src="${imgSrc}" alt="시설이미지" />
-						</div>
-						<div class="placeTextBox">
-							<div class="storeTitle">
-								<span>${store.name}</span>
-								<span>⭐ ${store.averageStar}</span>
-							</div>
-							<p class="storeLocation">${store.address}</p>
-                                <!-- 👇해시태그 리스트도 동적으로 생성하려면 추가적인 처리가 필요합니다 -->
-								<!--이 부분은 store 객체의 구조와 데이터 형태에 따라 달라집니다-->
-							<div class="hashTagList">
-								<p class="hashTag">#헬스장</p>
-								<p class="hashTag">#에너지 넘치는</p>
-							</div>
-						</div >
-					</a >
-               </div >`;
-					});
-					const storeListElement = document.getElementById('mainContent');
-					// 모든 HTML 문자열을 한 번에 innerHTML 에 할당
-					storeListElement.innerHTML = content;
-				})
-				.catch((e) => console.log(e));
-		}
-
-	</script>
 </body>
 
 </html>

@@ -11,10 +11,15 @@
 	<link rel="stylesheet" href="/css/store/placeView.css" />
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script defer src="/js/store/kakaoView.js"></script>
+	<script defer src="/js/store/storeSlide.js"></script>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
-	<script defer src="/js/store/storeSlide.js"></script>
 	<!-- Scripts -->
+	<script>
+		window.onload = function () {
+			kakaoMap();
+		};
+	</script>
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 		var user = [[${session.mvo}]];
@@ -206,7 +211,7 @@
 				<!-- 시설 전화번호 -->
 				<input type="hidden" id="tel" name="tel" th:value="${st.phone}" />
 				<!-- 해쉬태그 -->
-				<input type="hidden" id="hashTag" name="hashTag" th:value="${st.hashTag}" />				
+				<input type="hidden" id="hashTag" name="hashTag" th:value="${st.hashTag}" />
 				<!-- 별점 value 담기 -->
 				<input type="hidden" id="starRating" name="star" />
 				<!-- 유저닉네임 value 담기 -->

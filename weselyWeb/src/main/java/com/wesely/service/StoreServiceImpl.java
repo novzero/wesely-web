@@ -118,8 +118,6 @@ public class StoreServiceImpl implements StoreService {
 		return storesFromDb;
 	}
 
-	// kakao (( 운동시설 상세보기 ))
-
 	// db에 있는 store 운동시설 상세보기
 	@Override
 	public StoreVO findById(int id) {
@@ -177,6 +175,7 @@ public class StoreServiceImpl implements StoreService {
 		}
 	}
 
+	// 비즈니스 운동시설 수정폼에서 이미지 순서 수정
 	@Override
 	public boolean updateImageOrder(int id, int newOrder) {
 		log.info("updateImageOrder 호출 : {}, {}", id, newOrder);
@@ -407,6 +406,35 @@ public class StoreServiceImpl implements StoreService {
 		// -----------------------------------------------------------------------------
 		log.info("findByUserId 리턴 : {}", storeVO);
 		return storeVO;
+	}
+
+	// 메인화면에서 사용할 슬라이드 랜덤으로 12개 얻기
+	@Override
+	public List<StoreVO> getAllSlides() {
+		log.info("getAllSlides 호출 {}");
+		List<StoreVO> list = null;
+
+		try {
+			list = storeDAO.selectRandomSlide();
+			if (list != null) {
+				for (StoreVO storeVO : list) {
+					// 별점평균
+					storeVO.setAverageStar(storeReviewDAO.selectAverageStarByRef(storeVO.getId()));
+					// 반복중인 storeVO ID에 해당하는 이미지를 가져온다.
+					List<StoreImgVO> images = storeImgDAO.selectByRef(storeVO.getId());
+
+					log.info("getAllSlides 이미지 : {}", images);
+
+					// 가져온걸 이미지리스트에 집어넣는다.
+					storeVO.setImgList(images);
+				}
+			}
+		} catch (Exception e) {
+			log.error("getAllSlides 문제 발생 ", e);
+			e.printStackTrace();
+		}
+		log.info("getAllSlides 리턴 {}", list);
+		return list;
 	}
 
 }
