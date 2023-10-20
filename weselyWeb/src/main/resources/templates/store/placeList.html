@@ -52,7 +52,7 @@
 
 		function startSearch(result) {
 			let region = result[0].region_1depth_name + result[0].region_3depth_name;
-			var searchKeywords = ['요가', '헬스', '필라테스', '주짓수', '클라이밍', '수영', '복싱', '발레', '폴댄스'];
+			var searchKeywords = ['요가', '헬스', '필라테스', '주짓수', '클라이밍', '수영', '복싱', '발레', '폴댄스', '골프', '스케이트'];
 
 			var searchPromises = searchKeywords.map(keyword => {
 				return new Promise((resolve, reject) => {
@@ -128,8 +128,7 @@
                                 	<!-- 👇해시태그 리스트도 동적으로 생성하려면 추가적인 처리가 필요합니다 -->
 									<!--이 부분은 store 객체의 구조와 데이터 형태에 따라 달라집니다-->
 									<div class="hashTagList">
-									<p class="hashTag">#헬스장</p>
-									<p class="hashTag">#에너지 넘치는</p>
+									<p class="hashTag">#${store.hashTag}</p>
 									</div>
 								</div >
 							</a >
@@ -193,6 +192,7 @@
 							// place 객체를 이용해 HTML 생성
 							content += `
                  	<div class="placeItem" id="placeItem" onclick="selectPlace(this)" data-place='${place}'>
+						 <!-- 인코딩한 파라미터로 전달 -->
                    		<a href="/store/view/ka/${place.id}?data=${encodeURIComponent(JSON.stringify(place))}">
                       		<div class="hoverImgBox">
                          		<img src="/images/unpostImg.png" alt="${place.place_name}" />
@@ -250,7 +250,7 @@
 			<nav class="hello">
 				<th:block th:if="${session.mvo != null}">
 					<span>
-						<!-- 별명을 설정하지 않은 회원은 이름으로 표시된다. -->
+						<!-- 별명을 설정하지 않은 회원은 아이디로 표시된다. -->
 						<input type="text" th:value="${session.mvo.nickname}" disabled />
 						님 환영합니다.
 					</span>
