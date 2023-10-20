@@ -94,6 +94,17 @@ CREATE TABLE good(
 );
 SELECT * FROM good;
 DROP TABLE good;
+
+-- 댓글 좋아요 테이블
+CREATE SEQUENCE cgood_id_seq; 
+CREATE TABLE cgood(
+	id NUMBER PRIMARY KEY, -- 키필드
+	nickname varchar2(100) NOT NULL, -- 유저별명
+	REF NUMBER NOT NULL, -- 원본글 번호
+	whether NUMBER DEFAULT 0 -- 좋아요 여부
+);
+SELECT * FROM good;
+DROP TABLE good;
 --===============================================================================
 
 -- ✅ 리뷰가 작성가능한 시설섹션을 만들자

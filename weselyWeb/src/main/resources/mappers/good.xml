@@ -22,4 +22,5 @@
 	<select id="goodCheck" parameterType="map" resultType="int">
     SELECT COUNT(*) FROM good WHERE nickname = #{nickname} AND ref = #{ref}
 	</select>
+	
 </mapper>

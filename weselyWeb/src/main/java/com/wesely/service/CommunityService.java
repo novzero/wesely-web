@@ -2,6 +2,7 @@ package com.wesely.service;
 
 import java.util.Map;
 
+import com.wesely.vo.CGoodVO;
 import com.wesely.vo.CommentVO;
 import com.wesely.vo.CommunityVO;
 import com.wesely.vo.GoodVO;
@@ -47,4 +48,16 @@ public interface CommunityService {
 	
 	// 좋아요 개수 가져오기
 	int countGood(int ref);
+	
+	//댓글 좋아요 등록
+	boolean cgoodInsert(CGoodVO cGoodVO);
+	
+	//댓글 좋아요 삭제
+	boolean cgoodDelete(CGoodVO cGoodVO);
+	
+	//댓글 좋아요 확인
+	int cgoodCheck(Map<String, Object>map);
+	
+	//댓글 좋아요 개수 가져오기
+	int ccountGood(int ref);
 }
