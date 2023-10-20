@@ -12,7 +12,9 @@ import com.wesely.dao.CommentDAO;
 import com.wesely.dao.CommunityDAO;
 import com.wesely.dao.CommunityImgDAO;
 import com.wesely.dao.MemberDAO;
+import com.wesely.dao.cgoodDAO;
 import com.wesely.dao.goodDAO;
+import com.wesely.vo.CGoodVO;
 //github.com/novzero/wesely-web.git
 import com.wesely.vo.CommentVO;
 import com.wesely.vo.CommunityImgVO;
@@ -35,13 +37,16 @@ public class CommunityServiceImpl implements CommunityService {
 
    @Autowired
    private CommunityImgDAO communityImgDAO;
-
-
+   
    @Autowired
    private MemberDAO memberDAO;
    
    @Autowired
    private goodDAO goodDAO;
+   
+   @Autowired
+   private cgoodDAO cgoodDAO;
+   
    // 1개 얻어 조회수 증가
    @Override
    public CommunityVO selectById(int id, int mode) {
@@ -315,5 +320,41 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public int countGood(int ref) {
 		return goodDAO.CountGood(ref);
+	}
+
+	// 댓글 좋아요 등록
+	@Override
+	public boolean cgoodInsert(CGoodVO cGoodVO) {
+		log.info("cgoodInsert 호출 : {}", cGoodVO);
+		boolean result = false;
+		if(cGoodVO.getNickname()!= null && cGoodVO.getNickname().trim().length() > 0) {
+			cgoodDAO.CommInsertGood(cGoodVO);
+			
+			result = true;
+		}
+		log.info("cgoodInsert 리턴 : {}", cGoodVO);
+		return result;
+	}
+	// 댓글 좋아요 삭제
+	@Override
+	public boolean cgoodDelete(CGoodVO cGoodVO) {
+		 log.info("cgoodDelete 호출 : {}", cGoodVO);
+		    boolean result = false;
+		    if(cGoodVO != null) {
+		        cgoodDAO.CommDeleteGood(cGoodVO);  // 여기도 GoodVO 객체 전체 전달
+		        result = true;
+		    }
+		    log.info("cgoodDelete 리턴 : {}", result);
+		    return result;
+	}
+	// 댓글 좋아요 체크확인
+	@Override
+	public int cgoodCheck(Map<String, Object> map) {
+		return cgoodDAO.CommGoodCheck(map);
+	}
+	// 댓글 좋아요 개수 가져오기
+	@Override
+	public int ccountGood(int ref) {
+		return cgoodDAO.CommCountGood(ref);
 	}
 }
