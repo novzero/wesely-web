@@ -22,7 +22,6 @@ public class MemberVO {
 	private String email;
 	private String phone;
 	private String authority;
-	private boolean saveID;
 
 	// 이미지 파일 필드
 	private MultipartFile imageFile;

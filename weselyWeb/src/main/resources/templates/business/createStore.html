@@ -9,15 +9,15 @@
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/business/createStore.css" />
-	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>	
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 	<!-- Scripts -->
-	<script scr="javascript">
+	<script src="javascript">
 		function formCheck() {
-			let value = $("#storeImges").val(); // 내용 얻고
+			let value = $("#storeImges1").val(); // 내용 얻고
 			if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
 				alert('이미지는 반드시 입력해야 합니다.'); // 경고
-				$("#storeImges").val(""); // 입력값 삭제
+				$("#storeImges1").val(""); // 입력값 삭제
 				$("#storeImges").focus(); // 커서 위치
 				return false;   // 전송 취소
 			}
@@ -28,6 +28,17 @@
 				return false;   // 전송 취소
 			}
 			return true;
+		}
+
+		function updateRegion() {
+			// 매장 주소 입력 필드에서 값 가져오기
+			var address = document.getElementById('address').value;
+
+			// 주소 분리
+			var addressParts = address.split(' ');
+
+			// 시설 위치 입력 필드에 값 설정
+			document.getElementById('region').value = addressParts[1] + ' ' + addressParts[2];
 		}
 	</script>
 </head>
@@ -50,7 +61,7 @@
 					<a href="/member/login"><strong>로그인</strong></a>
 					<a href="/member/join"><strong>회원가입</strong></a>
 				</th:block>
-				
+
 				<th:block th:if="${session.mvo != null && session.mvo.authority == '일반계정'}">
 					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
 					<a href="/member/logout"><strong>로그아웃</strong></a>
@@ -90,28 +101,37 @@
 					</label>
 				</div>
 
-				<input th:if="${session.mvo.nickname == null}" type="text" th:value="${session.mvo.username}"
-					disabled />
+				<!-- 유저 아이디 -->
 				<input id="userid" th:unless="${session.mvo.nickname == null}" th:value="${session.mvo.userid}"
 					type="hidden" name="userid" />
-				
+				<!-- 카카오 아이디 : 비워두기 -->
+				<input class="addText" id="kakaoId" type="hidden" name="kakaoId" value="">
+				<!-- 시설 위치 담기 -->
+				<input class="addText" id="region" type="hidden" name="region" value="">
+
 				<p class="titleText required">매장 이름</p>
 				<input class="addText" id="name" type="text" placeholder="매장이름" name="name">
+
 				<p class="titleText required">매장 주소</p>
-				<input class="addText" id="address" type="text" placeholder="매장주소" name="address">
+				<input class="addText" id="address" type="text" placeholder="매장주소" name="address"
+					onchange="updateRegion()">
+
 				<p class="titleText">해쉬태그</p>
 				<input class="addText" id="hashTag" type="text" placeholder="해쉬태그" name="hashTag">
+
 				<p class="titleText">매장 운영시간</p>
 				<input class="addText" id="opening" type="text" placeholder="매장운영시간" name="opening">
+
 				<p class="titleText required">매장 전화번호</p>
 				<input class="addText" id="tel" type="text" placeholder="매장전화번호" name="tel">
+
 				<p class="titleText">매장 소개(설명)</p>
-				<input class="addTextDes" id="dec" type="text" placeholder="매장설명" name="description">
-				<input class="addTextDes" id="kakaoId" type="hidden"  name="kakaoId" value="">
-				<input class="addTextDes" id="region" type="hidden"  name="region" value="">
+				<input class="addText" id="dec" type="text" placeholder="매장설명" name="description">
+
 				<div class="modalBtn">
-					<input class="btnCancle" type="button" value="취소" th:onclick="location.href='/'"></input>
-					<input class="btnAdd" type="submit" value="등록"></input>
+					<input class="btnCancle" type="button" value="취소"
+						th:onclick="location.href='/store/view/b/'+[[${session.mvo.userid}]]"></input>
+					<input class="btnAdd" type="submit" value="등록" onclick="return formCheck()"></input>
 				</div>
 			</form>
 		</main>

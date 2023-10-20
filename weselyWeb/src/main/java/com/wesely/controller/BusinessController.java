@@ -54,8 +54,12 @@ public class BusinessController {
 
 	// 운동시설 저장하기
 	@PostMapping(value = "/insertOk")
-	public String insertOkPost(@ModelAttribute StoreVO storeVO, @RequestParam MultipartFile[] uploadFile,
-			@RequestParam List<Integer> iorder, HttpServletRequest request, Model model, HttpSession session)
+	public String insertOkPost(@ModelAttribute StoreVO storeVO,
+			@RequestParam MultipartFile[] uploadFile,
+			@RequestParam List<Integer> iorder,
+			HttpServletRequest request,
+			Model model,
+			HttpSession session)
 			throws IOException {
 		MemberVO member = (MemberVO) session.getAttribute("mvo");
 		String userid = member.getUserid();

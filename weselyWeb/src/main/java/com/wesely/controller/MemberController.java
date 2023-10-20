@@ -118,25 +118,9 @@ public class MemberController {
 	// 로그인 폼 처리하기
 	@GetMapping(value = "/login")
 	public String login(HttpServletRequest request, Model model) {
-		// 쿠키에 저장된 사용자아이디가 있으면 읽어서 간다.
-		Cookie[] cookies = request.getCookies();
-		String userid = null;
-		// userid변수에 쿠키에 userid가 있다면 읽어서 대입하자
-		if (cookies != null && cookies.length > 0) {
-			// 반복문으로 userid 라는 쿠키를 찾고 변수에 대입한다.
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("userid")) {
-					userid = cookie.getValue();
-					break;
-				}
-			}
-		}
-		// 모델에 쿠키값을 저장한다.
-		model.addAttribute("userid", userid);
 		// 로그인 폼으로 포워딩 한다.
 		return "/member/login";
 	}
-
 
 	// 로그인 처리하기
 	@GetMapping(value = "/loginOk")
@@ -145,7 +129,8 @@ public class MemberController {
 	}
 
 	@PostMapping(value = "/loginOk")
-	public String loginOkPost(@ModelAttribute MemberVO memberVO, HttpServletResponse response, HttpSession session) {
+	public String loginOkPost(@ModelAttribute MemberVO memberVO, HttpServletResponse response, HttpSession session,
+			Model model) {
 		if (memberVO != null) {
 			// 서비스를 호출하여 로그인을 수행한다.
 			MemberVO dbVO = memberService.login(memberVO);
@@ -160,18 +145,6 @@ public class MemberController {
 					session.removeAttribute("prevPage"); // 세션에서 제거하고
 					return "redirect:" + prevPageObj.toString(); // 그 페이지로 리다이렉트합니다.
 				}
-
-				// 아이디 자동저장 처리
-				Cookie cookie = null;
-				if (memberVO.isSaveID()) { // 자동저장이라면
-					cookie = new Cookie("userid", dbVO.getUserid());
-					cookie.setMaxAge(60 * 60 * 24 * 7); // 유효기간 일주일(60초*60분*24시간*7일)
-				} else { // 자동저장이 아니라면
-					cookie = new Cookie("userid", "");
-					cookie.setMaxAge(0); // 유효기간은 없음
-				}
-				// 쿠키를 저장
-				response.addCookie(cookie);
 
 			} else {// 로그인에 실패했다면 로그인 폼으로 다시 보낸다.
 				return "/member/login";
