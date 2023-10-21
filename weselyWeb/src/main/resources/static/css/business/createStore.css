@@ -10,6 +10,45 @@ main {
 	margin: 0 auto;
 }
 
+.popupAddress {
+	width: 100%;
+	padding: 12px 10px;
+	margin: 10px 0;
+
+	text-align: left;
+	color: #4b4eba;
+	background-color: #fff;
+	border-radius: 8px;
+	outline: none;
+	cursor: pointer;
+}
+
+.detailAddress.not {
+	width: 100%;
+	padding: 12px 10px;
+	margin: 10px 0;
+
+	text-align: left;
+	color: #000;
+	background-color: #ededed;
+	border-radius: 8px;
+	outline: none;
+	cursor: not-allowed;
+}
+
+.detailAddress {
+	width: 100%;
+	padding: 12px 10px;
+	margin: 10px 0;
+
+	text-align: left;
+	color: #000;
+	background-color: #fff;
+	border-radius: 8px;
+	outline: none;
+	cursor: text;
+}
+
 .fileWrapper {
 	display: flex;
 	flex-direction: column;
@@ -30,7 +69,8 @@ main {
 	font-size: 14px;
 
 	padding-left: 10px;
-	color: #777777;;
+	color: #777777;
+	;
 }
 
 .on {
