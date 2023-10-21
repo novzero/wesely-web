@@ -3,6 +3,7 @@ package com.wesely.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.wesely.dao.CommentDAO;
+import com.wesely.dao.cgoodDAO;
 import com.wesely.service.CommunityService;
 import com.wesely.vo.CGoodVO;
 import com.wesely.vo.CommVO;
@@ -383,32 +385,33 @@ public class CommunityController {
 	public int countGood(@PathVariable("postId") int postId) {
 		return communityService.countGood(postId);
 	}
+
 	// 댓글 좋아요 저장했을때 호출 주소
 	@PostMapping(value = "/commgoodInsert")
 	@ResponseBody
 	public boolean CommGoodInsert(@RequestBody Map<String, Object> params) {
 		int ref = (int) params.get("ref");
-	    String nickname = (String)params.get("nickname");
+		String nickname = (String) params.get("nickname");
 
-	    CGoodVO go = new CGoodVO();
-	    go.setRef(ref);
-	    go.setNickname(nickname);
+		CGoodVO go = new CGoodVO();
+		go.setRef(ref);
+		go.setNickname(nickname);
 
-	    log.info("댓글좋아요 저장 호출 : {}", go);
-	    
-	    boolean result = false;
-	    
-	    try {
-	        result = communityService.cgoodInsert(go);
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    
-	    log.info("댓글좋아요 저장 리턴 : {}", result);
-	    
-	    return result;
+		log.info("댓글좋아요 저장 호출 : {}", go);
+
+		boolean result = false;
+
+		try {
+			result = communityService.cgoodInsert(go);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		log.info("댓글좋아요 저장 리턴 : {}", result);
+
+		return result;
 	}
-	
+
 	// 댓글 좋아요 삭제했을때 호출 주소
 	@DeleteMapping(value = "/commgoodDelete/{ref}/{nickname}")
 	@ResponseBody
@@ -416,7 +419,7 @@ public class CommunityController {
 		CGoodVO go = new CGoodVO();
 		go.setRef(ref);
 		go.setNickname(nickname);
-		
+
 		log.info("댓글좋아요 삭제 호출 : {}", go);
 		boolean result = false;
 		try {
@@ -424,15 +427,29 @@ public class CommunityController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		log.info("댓글좋아요 삭제 리턴 : {}", result);
-		
+
 		return result;
 	}
-	
-	@GetMapping("/commcountGood/{postId}")
+	// 댓글 좋아요 여부 체크
+	@GetMapping("/CommGoodCheck")
+	@ResponseBody
+	public int checkCommentGood(@RequestParam("ref") int commentId, @RequestParam("nickname") String nickname) {
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("ref", commentId);
+		map.put("nickname", nickname);
+
+
+		int isLiked = communityService.cgoodCheck(map);
+
+		return isLiked;
+	}
+
+	@GetMapping("/commcountGood/{commentID}")
 	@ResponseBody // 이 어노테이션이 있어야 데이터만 리턴 가능합니다.
-	public int CommcountGood(@PathVariable("postId") int postId) {
-		return communityService.ccountGood(postId);
+	public int CommcountGood(@PathVariable("commentID") int commentID) {
+		return communityService.ccountGood(commentID);
 	}
 }

@@ -111,234 +111,237 @@
 			textarea.style.height = 'auto';
 			textarea.style.height = textarea.scrollHeight + 'px';
 		}
-		// 좋아요 설정
-		$(function () {
-			let postId = $("#postId").val(); // 현재 게시글의 ID가져옴
-			let nickname2 = $("#nickname2").val(); // 현재 로그인한 사용자의 닉네임가져옴
-			const pushHeartBtn = $(".heartBtn"); // 좋아요 버튼 참조
 
-			function setLikeState(isLiked) {
-				if (isLiked) {  // 좋아요한 경우
-					pushHeartBtn.html('<i class="fa-solid fa-heart"></i>'); // 하트 채우기
-					pushHeartBtn.css("color", "red"); // 하트 빨간색으로
-					pushHeartBtn.addClass("liked"); // liked 클래스 추가해서 상태표시
-				} else {  // 아직 안 누른 경우
-					pushHeartBtn.html('<i class="fa-regular fa-heart"></i>'); // 빈하트
-					pushHeartBtn.css("color", ""); // 색갈 빼기
-					pushHeartBtn.removeClass("liked"); // liked 클래스 제거해서 상태표시
-				}
-				//  변경된 상태랑 좋아요 개수를 저장하는 함수  
-				// 게시물 id , 사용자 닉네임
-				saveLikeData(postId, nickname2, loadLikeData(postId, nickname2).likeCount, isLiked);
-			}
-			// 버튼클릭했을때
-			$("#btnLike").click(function () {
-				// 폼 데이터객체 생성
-				let form = new FormData();
-				form.append("ref", postId); // ref 라는 이름으로 postid값 추가
-				form.append("nickname", nickname2); // 위와 동일
 
-				// 이미 좋아요한 상태인 경우, 좋아요 취소 처리
-				if (pushHeartBtn.hasClass("liked")) {
-
-					axios.delete(`/community/goodDelete/${postId}/${nickname2}`)
-						.then(function (response) {
-
-							if (response.data) {
-								alert("좋아요 취소!");
-								setLikeState(false);
-
-								axios.get('/community/countGood/' + postId)
-									.then(response => {
-										$("#likeCount").text("좋아요 " + response.data + "개");
-										saveLikeData(response.data, false);  // 변경된 개수 저장
-									});
-							} else {
-								alert("좋아요를 누르지 않으셨습니다.");
-							}
-						})
-						.catch(function (error) {
-							alert("에러발생!! : " + error);
-						});
-
-				} else { // 아직 좋아요하지 않은 상태인 경우, 좋아요 처리
-
-					axios.post('/community/goodInsert', form)
-						.then(function (response) {
-							if (response.data) {
-								alert("좋아요!");
-								setLikeState(true);
-
-								axios.get('/community/countGood/' + postId)
-									.then(response => {
-										$("#likeCount").text("좋아요 " + response.data + "개");
-										saveLikeData(response.data, true);  // 변경된 개수 저장
-									});
-							} else {
-								alert("이미 좋아요를 누르셨습니다.");
-							}
-						})
-						.catch(function (error) {
-							alert("에러발생!! : " + error);
-						});
-				}
-			});
-
-			// 페이지 로드 시 초기 상태 설정
-			// 게시글 아이디, 닉네임을 전달
-			const initialData = loadLikeData(postId, nickname2);
-			setLikeState(initialData.isLiked);
-
-			axios.get('/community/countGood/' + postId)
-				.then(response => {
-					$("#likeCount").text("좋아요 " + response.data + "개");
-					// 현재 페이지 게시물 ID와 닉네임으로 로그인한 사용자의 좋아요 상태 저장
-					saveLikeData(postId, nickname2, response.data, initialData.isLiked);
-				});
-		});
-
-		function saveLikeData(postId, nickname, likeCount, isLiked) {
-			localStorage.setItem('likeCount_' + postId + '_' + nickname, likeCount);
-			localStorage.setItem('isLiked_' + postId + '_' + nickname, isLiked);
-		}
-
-		// 좋아요 개수와 상태 불러오기
-		function loadLikeData(postId, nickname) {
-			const likeCount = localStorage.getItem('likeCount_' + postId + '_' + nickname);
-			const isLiked = localStorage.getItem('isLiked_' + postId + '_' + nickname);
+		// 게시글 좋아요 개수와 상태 불러오기
+		function loadPostLikeData(postId, nickname) {
+			// 게시글 좋아요 개수 가져오기
+			const likeCount = localStorage.getItem('post_likeCount_' + postId + '_' + nickname);
+			// 게시글 좋아요 눌렀는지 상태가져오기
+			const isLiked = localStorage.getItem('post_isLiked_' + postId + '_' + nickname);
 
 			return {
+				// 좋아요 기본값 0으로
 				likeCount: likeCount ? parseInt(likeCount) : 0,
+				// 좋아요 눌렀으면 true 아니면 false 
 				isLiked: isLiked === 'true'
 			};
 		}
 
-		/*
-				function likeComment(obj) {
-					if ($(obj).hasClass("liked")) {
-						// 이미 좋아요한 상태인 경우
-						$(obj).html('<i class="fa-regular fa-heart"></i>');
-						$(obj).css("color", "");
-						$(obj).removeClass("liked");
+		// 게시글 좋아요 데이터 저장
+		function savePostLikeData(postId, nickname, likeCount, isLiked) {
+			// 로컬에 좋아요 개수 저장
+			localStorage.setItem('post_likeCount_' + postId + '_' + nickname, likeCount);
+			// 로컬에 좋아요 상태 저장
+			localStorage.setItem('post_isLiked_' + postId + '_' + nickname, isLiked);
+		}
+
+		// 댓글 좋아요 개수와 상태 불러오기
+		function loadCommentLikeData(commentId, nickname) {
+			// 댓글 좋아요 개수 가져오기
+			const count = localStorage.getItem('comment_count_' + '_' + commentId + '_' + nickname);
+			// 댓글 좋아요 상태 가져오기
+			const isLiked = localStorage.getItem('comment_isliked_' + commentId + '_' + nickname);
+
+			return {
+				// 댓글 좋아요 기본값 0
+				count: count ? parseInt(count) : 0,
+				// 좋아요 눌렀으면 true 아니면 false
+				isLiked: isLiked === 'true'
+			};
+		}
+
+		// 댓글 좋아요 데이터 저장
+		function saveCommentLikeData(commentId, nickname, count, isliked) {
+			// 로컬에 댓글 좋아요 개수 저장
+			localStorage.setItem("comment_count_" + commentId + "_" + nickname, count);
+			// 로컬에 댓글 좋아요 상태 저장
+			localStorage.setItem("comment_isliked_" + commentId + "_" + nickname, isliked);
+		}
+
+		$(document).ready(function () {
+			// 현재 게시글의 ID 가져옴
+			let postId = $("#postId").val(); 
+			// 현재 로그인한 사용자의 닉네임 가져옴
+			let nickname2 = $("#nickname2").val(); 
+			// 댓글 작성자 닉네임 가져옴
+			let commentNickname = $("#cnickname2").val();
+			function setLikeState(heartBtn, isLiked) {
+				if (isLiked) {  // 좋아요한 경우
+					heartBtn.html('<i class="fa-solid fa-heart"></i>'); // 하트 채우기
+					heartBtn.css("color", "red"); // 하트 빨간색으로 변경하기 
+					heartBtn.addClass("liked"); // liked 클래스 추가해서 상태표시하기 
+				} else {  // 아직 안누른 경우
+					heartBtn.html('<i class="fa-regular fa-heart"></i>');  // 빈하트로 변경하기 
+					heartBtn.css("color", "");  // 색갈 제거하기 
+					heartBtn.removeClass("liked");  // liked 클래스 제거해서 상태표시하기 
+				}
+			}
+			// 게시글 좋아요 개수 가져오기
+			axios.get('/community/countGood/' + postId)
+				.then(response => {
+					// 좋아요 개수 화면에 표시
+					$("#likeCount").text("좋아요 " + response.data + "개");
+				})
+				.catch(function (error) {
+					alert('에러 발생!! : ' + error);
+				});
+			// 
+			$(".heartBtn").each(function () {
+				const pushHeartBtn = $(this);
+				// 게시글 초기 좋아요 상태 데이터 불러오기
+				let initialPostData = loadPostLikeData(postId, nickname2);
+				// 불러온 데이터 바탕으로 하트버튼 모양 설정
+				setLikeState(pushHeartBtn, initialPostData.isLiked);
+				// 로컬에 초기 데이터 저장
+				savePostLikeData(postId, nickname2,
+					initialPostData.likeCount,
+					initialPostData.isLiked);
+				// 하트버튼 클릭했을때
+				pushHeartBtn.click(function () {
+					//새로 폼 만들고
+					let form = new FormData();
+					
+					form.append("ref", postId);
+					form.append("nickname", nickname2);
+					// 좋아요 눌려있고
+					if (pushHeartBtn.hasClass("liked")) {
+						axios.delete(`/community/goodDelete/${postId}/${nickname2}`)
+							.then(function (response) {
+								// 좋아요 삭제됬으면
+								if (response.data) {
+									alert("좋아요 취소!");
+									// 하트버튼 모양 상태 false
+									setLikeState(pushHeartBtn, false);
+									axios.get('/community/countGood/' + postId)
+										.then(response => {
+											$("#likeCount").text("좋아요 " + response.data + "개");
+											savePostLikeData(postId, nickname2, response.data, false);
+										});
+								} else {
+									alert("좋아요를 누르지 않으셨습니다.");
+								}
+							})
+							.catch(function (error) {
+								alert('에러 발생!! : ' + error);
+							});
+					// 좋아요 안눌러졌으면
 					} else {
-						// 좋아요하지 않은 상태인 경우
-						$(obj).html('<i class="fa-solid fa-heart"></i>');
-						$(obj).css("color", "red");
-						$(obj).addClass("liked");
+						// 좋아요 저장 해라
+						axios.post('/community/goodInsert', form)
+							.then(function (response) {
+								if (response.data) {
+									alert('좋아요!');
+									setLikeState(pushHeartBtn, true);
+									axios.get('/community/countGood/' + postId)
+										.then(response => {
+											$("#likeCount").text("좋아요 " + response.data + "개");
+											savePostLikeData(postId, nickname2, response.data, true);
+										});
+								} else {
+									alert('이미 좋아요를 누르셨습니다.');
+								}
+							})
+							.catch(function (error) {
+								alert('에러 발생!! : ' + error);
+							});
 					}
-				}
-		*/
-		// 댓글 좋아요
-		$(function () {
-			$(".btnCommentLike").click(function () {
-
-				let commentId = $(this).data("comment-id"); // 현재 클릭된 댓글의 ID 가져옴
-				let nickname2 = $("#cnickname2").val(); // 현재 로그인한 사용자의 닉네임 가져옴
-				const pushHeartBtn = $(this); // 현재 클릭된 버튼 참조
-
-				function setLikeState(isLiked) {
-					if (isLiked) {  // 좋아요한 경우
-						pushHeartBtn.html('<i class="fa-solid fa-heart"></i>'); // 하트 채우기
-						pushHeartBtn.css("color", "red"); // 하트 빨간색으로
-						pushHeartBtn.addClass("liked"); // liked 클래스 추가해서 상태표시
-					} else {  // 아직 안 누른 경우
-						pushHeartBtn.html('<i class="fa-regular fa-heart"></i>'); // 빈하트
-						pushHeartBtn.css("color", ""); // 색갈 제거하기
-						pushHeartBtn.removeClass("liked"); // liked 클래스 제거해서 상태표시
-
-					}
-					saveLikeData(commentId, nickname2, loadLikeData(commentId, nickname2).likeCount, isLiked);
-					updateCommentLikeCount(commentId);
-				}
-
-				let form = new FormData();  // 폼 데이터 객체 생성
-
-				form.append("ref", commentId);  // ref라는 이름으로 commentId값 추가하기 
-				form.append("nickname", nickname2);  // 위와 동일
-
-				if (pushHeartBtn.hasClass("liked")) {    	// 이미 좋아요한 상태인 경우, 좋아요 취소 처리
-
-					axios.delete(`/community/commgoodDelete/${commentId}/${nickname2}`)
-						.then(function (response) {
-
-							if (response.data) {
-								alert("좋아요 취소!");
-								setLikeState(false);
-							} else {
-								alert("좋아요를 누르지 않으셨습니다.");
-							}
-						})
-						.catch(function (error) {
-							alert('에러 발생!! : ' + error);
-						});
-
-				} else {
-
-
-					axios.post('/community/commgoodInsert', {ref: Number(commentId), nickname: nickname2})
-						.then(function (response) {
-
-							if (response.data) {
-								alert('좋아요!');
-								setLikeState(true);
-							} else {
-								alert('이미 좋아요를 누르셨습니다.');
-							}
-
-						})
-						.catch(function (error) {
-							alert('에러 발생!! : ' + error);
-						});
-				}
+				});
 
 			});
 
-		});
+			// 댓글 좋아요 개수 , 상태 확인 함수
+			function updateCommentLikeCount(commentID, nickname) {
+				// 댓글 좋아요 개수 요청
+				axios.get('/community/commcountGood/' + commentID)
+					.then(response => {
+						// 댓글 좋아요 개수 출력
+						$("#clikeCount_" + commentID).text("좋아요 " + response.data + "개"); 
 
-		$(".btnCommentLike").each(function () {
-			let commentID = $(this).data('comment-id');
-			let initialData = loadLikeData(commentID, nickname2);
-			setLikeState($(this), commentID, nickname2, initialData.isLiked);
-			updateCommentLikeCount(commentID);
-		});
+						// 좋아요 상태도 업데이트
+						axios.get('/community/CommGoodCheck', {
+							params: {
+								ref: commentID,
+								nickname: nickname
+							}
+						})
+							.then(function (response) {
+								// 좋아요 수가0보다 크면 좋아요를 누른상태
+								const isLiked = response.data > 0;
+									
+								const pushHeartBtn = $(".btnCommentLike[data-comment-id='" + commentID + "']");
+								setLikeState(pushHeartBtn, isLiked);
 
-
-		function saveLikeData(postid, commentid, nickname, count, isLiked) {
-			localStorage.setItem('count_' + postid + '_' + commentid + '_' + nickname, count);
-			localStorage.setItem('isLiked_' + postid + '_' + commentid + '_' + nickname, isLiked);
-
-		}
-
-		function loadLikeData(postid, commentid, nickname) {
-			const count = localStorage.getItem('count_' + postid + '_' + commentid + '_' + nickname);
-			const isLiked = localStorage.getItem('isLiked_' + postid + '_' + commentid + '_' + nickname);
-
-			return {
-				count: count ? parseInt(count) : 0,
-				isLiked: isLiked === 'true'
+								// saveCommentLikeData 대신 서버에 저장된 데이터를 사용하므로 이 부분은 필요 없습니다.
+							})
+							.catch(function (error) {
+								console.log(error);
+							});
+					})
+					.catch(error => console.log(error));
 			}
-		}
-
-		function updateCommentLikeCount(commentID) {
-			axios.get('/community/commcountGood/' + commentID)
-				.then(response => {
-					$("#clikeCount_" + commentID).text("좋아요 " + response.data + "개");
+			// 댓글 좋아요 또다른 함수 실행
+			$(".btnCommentLike").each(function () {
+				const pushHeartBtn = $(this);
+				// 댓글의 아이디 가져오기
+				let commentID = pushHeartBtn.data('comment-id');
+				// 현재 사용자가 해당 댓글 좋아요 했는지 요청
+				axios.get('/community/CommGoodCheck', {
+					params: {
+						ref: commentID,
+						nickname: commentNickname
+					}
 				})
-				.catch(error => console.log(error));
-		}
+					.then(function (response) {
+						const isLiked = response.data > 0;
+						setLikeState(pushHeartBtn, isLiked);
 
+						// 처음 페이지 로드 시에는 좋아요 개수도 업데이트합니다.
+						updateCommentLikeCount(commentID, commentNickname);
+					})
+					.catch(function (error) {
+						console.log(error);
+					});
+
+				pushHeartBtn.click(function () {
+					if (pushHeartBtn.hasClass('liked')) { // 좋아요를 이미 누른 경우
+						axios.delete(`/community/commgoodDelete/${commentID}/${commentNickname}`)
+							.then(function (response) {
+								if (response.data) {
+									alert("좋아요 취소!");
+									setLikeState(pushHeartBtn, false);
+									// 상태 업데이트 추가
+									updateCommentLikeCount(commentID, commentNickname); 
+								} else {
+									alert("좋아요를 누르지 않으셨습니다.");
+								}
+							})
+							.catch(function (error) {
+								alert('에러 발생!! : ' + error);
+							});
+
+					} else { // 좋아요를 아직 누르지 않은 경우
+						axios.post('/community/commgoodInsert', {ref: Number(commentID), nickname: commentNickname})
+							.then(function (response) {
+								if (response.data) {
+									alert("좋아요!");
+									setLikeState(pushHeartBtn, true);
+									updateCommentLikeCount(commentID, commentNickname); // 상태 업데이트 추가 및 닉네임 추가
+								} else {
+									alert("이미 좋아요를 누르셨습니다.");
+								}
+							})
+							.catch(function (error) {
+								alert('에러 발생!! : ' + error);
+							});
+					}
+				});
+			});
+		});
 	</script>
 </head>
 
 <body>
-	[[${community}]]
-<br />------------------------------------------- <br />
-	[[${community.commentList}]]
-<br />------------------------------------------- <br />
-	[[${community.commentList[0].id}]]
-<br />------------------------------------------- <br />
-	
-	
 	<div class="wrapper">
 		<header>
 			<div class="logo">
@@ -412,7 +415,7 @@
 					<div>
 						<input type="hidden" id="postId" th:value="${community.id}" />
 						<input type="hidden" id="nickname2" th:value="${session.mvo.nickname}" />
-						<button id="btnLike" class="heartBtn" onclick="likePost()">
+						<button id="btnLike" class="heartBtn">
 							<i class="fa-regular fa-heart"></i>
 						</button>
 						<!-- <img src="static/images/heart_icon.png" alt="좋아요아이콘"> -->
@@ -437,15 +440,13 @@
 									<p> [[${c.content}]]</p>
 								</div>
 							</div>
-							<input type="text" id="cpostId" th:value="${community.id}" />
-							<input type="text" id="cId" th:value="${c.id}" />
-							<input type="text" id="cnickname2" th:value="${session.mvo.nickname}" />
-
-
+							<input type="hidden" id="cpostId" th:value="${community.id}" />
+							<input type="hidden" id="cId" th:value="${c.id}" />
+							<input type="hidden" id="cnickname2" th:value="${session.mvo.nickname}" />
 							<button type="button" id="cbtnLike" th:data-comment-id="${c.id}" class="btnCommentLike">
 								<i class="fa-regular fa-heart"></i>
 							</button>
-							<p id="clikeCount" class="ctotalLike" style="text-align: right;"></p>
+							<p th:id="'clikeCount_' + ${c.id}" class='ctotalLike' style='text-align: right;'></p>
 
 
 							<th:block th:if="${session.mvo.nickname == c.name}">
