@@ -42,24 +42,62 @@
 	</script>
 
 
-	<script scr="javascript">
-		function formCheck() {
-			let emptyFound = false;
+	<script>
+		function checkInput(input) {
+			if (input.val().trim() === '') {  // 입력값이 없을 경우
+				input.removeClass('off');
+				input.addClass('on');
 
+				return false;
 
-
-			// 이미지 체크 후 추가적인 유효성 검사를 여기에 진행할 수 있습니다.
-
-			value = $(".addText").val(); // 내용 얻고
-			if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
-				alert('내용은 반드시 입력해야 합니다.'); // 경고
-
-				return false;   // 전송 취소
-			};
-
-			return !emptyFound;
+			} else {  // 그렇지 않으면
+				input.removeClass('on');
+				input.addClass('off');  // 경고 보더 숨기기
+				return true;
+			}
 		}
 
+		function formCheck() {
+			let isValid = true;
+			// 입력 필드 값 변경 시
+			$('.requiredData').change(function () {
+				checkInput($(this));
+			});
+			// 모든 입력 필드에 대하여
+			$('.requiredData').each(function () {
+				if (!checkInput($(this))) {  // 만약 현재 입력 필드의 값이 비어있다면
+					isValid = false;  // 전체 폼의 유효성을 '무효'로 설정
+				}
+			});
+
+			let value = $("#storeImges1").val();
+			if (value == null || value.trim().length == 0) { // 첫번째 이미지가 없다면
+				alert('첫번째 이미지는 필수등록입니다. 썸네일로 들어갈 이미지를 선택해주세요.'); // 경고
+				$(".label").removeClass('off');
+				$(".label").addClass('on');
+				return false;   // 전송 취소
+			} else if (value !== null) {
+				$(".label").removeClass('on');
+				$(".label").addClass('off');
+			}
+			if (!isValid) {  // 만약 전체 폼의 유효성이 '무효'라면
+				alert('필수입력란을 확인해주세요.');  // 경고 메시지 출력
+				return false;  // 폼 제출 취소
+			}
+
+			return true;
+		}
+
+		function updateRegion() {
+			// 매장 주소 입력 필드에서 값 가져오기
+			var address = document.getElementById('address').value;
+
+			// 주소 분리
+			var addressParts = address.split(' ');
+
+			// 시설 위치 입력 필드에 값 설정
+			document.getElementById('region').value = addressParts[1] + ' ' + addressParts[2];
+		}
 	</script>
 </head>
 
@@ -99,12 +137,13 @@
 		<main>
 			<form action="/business/updateOk" onsubmit="return formCheck()" method="post" enctype="multipart/form-data">
 				<div class="fileWrapper">
-					<p class="titleText required">매장 사진<span class="subText">매장사진은 한 장이 필수등록이며 첫번째 사진이 썸네일로 적용됩니다.</span></p>
+					<p class="titleText required">매장 사진<span class="subText">매장사진은 한 장이 필수등록이며 첫번째 사진이 썸네일로
+							적용됩니다.</span></p>
 
 					<!-- 각각의 이미지에 대해 '삭제' 버튼과 함께 id값을 부여한 file input과 label을 생성합니다. -->
 					<th:block th:each="num : ${#numbers.sequence(1, 4)}">
 						<th:block th:each="img : ${st.imgList}" th:if="${img.iorder == num}">
-							<label class="addImgItem" th:id="'label' + ${num}" th:for="'storeImges' + ${num}"
+							<label class="label off" th:id="'label' + ${num}" th:for="'storeImges' + ${num}"
 								th:data-img-id="${img.id}">
 
 								<!-- 기존 이미지 삭제버튼 -->
@@ -112,11 +151,11 @@
 									th:onclick="'deleteImage(\'storeImges' + ${num} + '\', \'label' + ${num} + '\');'">
 									삭제
 								</button>
-								
-								<input type="hidden" name="iorder" th:value="${img.iorder}" disabled/>
-								
+
+								<input type="hidden" name="iorder" th:value="${img.iorder}" disabled />
+
 								<div>
-									<img class="fileImg on" th:id="'img' + ${num}"
+									<img class="fileImg" th:id="'img' + ${num}"
 										th:src='|/static/images/upload/${img.uuid}_${img.fileName}|'>
 								</div>
 							</label>
@@ -124,8 +163,9 @@
 
 						<!-- 해당 iorder 값이 imgList에 없으면 비어있는 input 태그 출력 -->
 						<th:block th:if="${#lists.contains(st.imgList.![iorder], num) == false}">
-							<label class="addImgItem" th:for="'storeImges' + ${num}" th:id='|label${num}|'>
-								<input th:id='|storeImges${num}|' type="file" name="uploadFile" class="uploadFile"></input>
+							<label class="label off" th:for="'storeImges' + ${num}" th:id='|label${num}|'>
+								<input th:id='|storeImges${num}|' type="file" name="uploadFile"
+									class="uploadFile"></input>
 								<!-- 숨겨진 입력 필드를 추가하여 이미지 순서 정보를 저장합니다. -->
 								<input type="hidden" name="iorder" th:value='${num}' />
 							</label>
@@ -142,20 +182,22 @@
 				<input id="id" th:value="${st.id}" type="hidden" name="id" />
 
 				<p class="titleText required">매장 이름</p>
-				<input class="addText" id="name" type="text" placeholder="매장이름" name="name" th:value="${st.name}">
+				<input class="requiredData addText off" id="name" type="text" placeholder="매장이름" name="name"
+					th:value="${st.name}">
 				<p class="titleText required">매장 주소</p>
-				<input class="addText" id="address" type="text" placeholder="매장주소" name="address"
+				<input class="requiredData addText off" id="address" type="text" placeholder="매장주소" name="address"
 					th:value="${st.address}">
 				<p class="titleText">해쉬태그</p>
-				<input class="addText" id="hashTag" type="text" placeholder="해쉬태그" name="hashTag"
+				<input class="requiredData addText off" id="hashTag" type="text" placeholder="해쉬태그" name="hashTag"
 					th:value="${st.hashTag}">
 				<p class="titleText">매장 운영시간</p>
-				<input class="addText" id="opening" type="text" placeholder="매장운영시간" name="opening"
+				<input class="addText off" id="opening" type="text" placeholder="매장운영시간" name="opening"
 					th:value="${st.opening}">
 				<p class="titleText required">매장 전화번호</p>
-				<input class="addText" id="tel" type="text" placeholder="매장전화번호" name="tel" th:value="${st.tel}">
+				<input class="requiredData addText off" id="tel" type="text" placeholder="매장전화번호" name="tel"
+					th:value="${st.tel}">
 				<p class="titleText">매장 소개(설명)</p>
-				<input class="addTextDes" id="dec" type="text" placeholder="매장설명" name="description"
+				<input class="addTextDes off" id="dec" type="text" placeholder="매장설명" name="description"
 					th:value="${st.description}">
 				<div class="modalBtn">
 					<input class="btnCancle" type="button" value="취소" th:onclick="location.href='/'"></input>

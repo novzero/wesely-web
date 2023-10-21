@@ -9,24 +9,53 @@
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
 	<link rel="stylesheet" href="/css/business/createStore.css" />
-	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 	<!-- Scripts -->
-	<script src="javascript">
-		function formCheck() {
-			let value = $("#storeImges1").val(); // 내용 얻고
-			if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
-				alert('이미지는 반드시 입력해야 합니다.'); // 경고
-				$("#storeImges1").val(""); // 입력값 삭제
-				$("#storeImges").focus(); // 커서 위치
-				return false;   // 전송 취소
-			}
-			value = $(".addText").val(); // 내용 얻고
-			if (value == null || value.trim().length == 0) { // 없거나 빈칸들로만  입력되었다면
-				alert('내용은 반드시 입력해야 합니다.'); // 경고
+	<script>
+		function checkInput(input) {
+			if (input.val().trim() === '') {  // 입력값이 없을 경우
+				input.removeClass('off');
+				input.addClass('on');
 
-				return false;   // 전송 취소
+				return false;
+
+			} else {  // 그렇지 않으면
+				input.removeClass('on');
+				input.addClass('off');  // 경고 보더 숨기기
+				return true;
 			}
+		}
+
+		function formCheck() {
+			let isValid = true;
+			// 입력 필드 값 변경 시
+			$('.requiredData').change(function () {
+				checkInput($(this));
+			});
+			// 모든 입력 필드에 대하여
+			$('.requiredData').each(function () {
+				if (!checkInput($(this))) {  // 만약 현재 입력 필드의 값이 비어있다면
+					isValid = false;  // 전체 폼의 유효성을 '무효'로 설정
+				}
+			});
+
+			let value = $("#storeImges1").val();
+			if (value == null || value.trim().length == 0) { // 첫번째 이미지가 없다면
+				alert('첫번째 이미지는 필수등록입니다. 썸네일로 들어갈 이미지를 선택해주세요.'); // 경고
+				$(".label").removeClass('off');
+				$(".label").addClass('on');
+				return false;   // 전송 취소
+			}else if(value !== null){
+				$(".label").removeClass('on');
+				$(".label").addClass('off');
+			}
+			if (!isValid) {  // 만약 전체 폼의 유효성이 '무효'라면
+				alert('필수입력란을 확인해주세요.');  // 경고 메시지 출력
+				return false;  // 폼 제출 취소
+			}
+
 			return true;
 		}
 
@@ -80,23 +109,23 @@
 			<form action="/business/insertOk" onsubmit="return formCheck()" method="post" enctype="multipart/form-data">
 				<div class="fileWrapper">
 					<p class="titleText required">매장 사진<span class="subText"> 첫번째는 필수등록이며, 썸네일로 적용됩니다.</span></p>
-					<label for="storeImges1">
+					<label for="storeImges1" class="label off">
 						<input id="storeImges1" type="file" name="uploadFile" />
 						<input type="hidden" name="iorder" value='1' />
 					</label>
 
-					<label for="storeImges2">
-						<input id="storeImges2" type="file" name="uploadFile" />
+					<label for="storeImges2" class="off">
+						<input class="storeImage" id="storeImges2" type="file" name="uploadFile" />
 						<input type="hidden" name="iorder" value='2' />
 					</label>
 
-					<label for="storeImges3">
-						<input id="storeImges3" type="file" name="uploadFile" />
+					<label for="storeImges3" class="off">
+						<input class="storeImage" id="storeImges3" type="file" name="uploadFile" />
 						<input type="hidden" name="iorder" value='3' />
 					</label>
 
-					<label for="storeImges4">
-						<input id="storeImges4" type="file" name="uploadFile" />
+					<label for="storeImges4" class="off">
+						<input class="storeImage" id="storeImges4" type="file" name="uploadFile" />
 						<input type="hidden" name="iorder" value='4' />
 					</label>
 				</div>
@@ -109,24 +138,24 @@
 				<!-- 시설 위치 담기 -->
 				<input class="addText" id="region" type="hidden" name="region" value="">
 
-				<p class="titleText required">매장 이름</p>
-				<input class="addText" id="name" type="text" placeholder="매장이름" name="name">
+				<p class="titleText required">매장 이름<span class="wranText">(필수)</span></p>
+				<input class="requiredData addText off" id="name" type="text" placeholder="매장이름" name="name">
 
-				<p class="titleText required">매장 주소</p>
-				<input class="addText" id="address" type="text" placeholder="매장주소" name="address"
+				<p class="titleText required">매장 주소<span class="wranText">(필수)</span></p>
+				<input class="requiredData addText off" id="address" type="text" placeholder="매장주소" name="address"
 					onchange="updateRegion()">
 
-				<p class="titleText">해쉬태그</p>
-				<input class="addText" id="hashTag" type="text" placeholder="해쉬태그" name="hashTag">
+				<p class="titleText required">해쉬태그<span class="wranText">(필수)</span></p>
+				<input class="requiredData addText off" id="hashTag" type="text" placeholder="해쉬태그" name="hashTag">
 
 				<p class="titleText">매장 운영시간</p>
-				<input class="addText" id="opening" type="text" placeholder="매장운영시간" name="opening">
+				<input class="addText off" id="opening" type="text" placeholder="매장운영시간" name="opening">
 
-				<p class="titleText required">매장 전화번호</p>
-				<input class="addText" id="tel" type="text" placeholder="매장전화번호" name="tel">
+				<p class="titleText required">매장 전화번호<span class="wranText">(필수)</span></p>
+				<input class="requiredData addText off" id="tel" type="text" placeholder="매장전화번호" name="tel">
 
-				<p class="titleText">매장 소개(설명)</p>
-				<input class="addText" id="dec" type="text" placeholder="매장설명" name="description">
+				<p class="titleText">매장 소개</p>
+				<input class="addText off" id="dec" type="text" placeholder="매장설명" name="description">
 
 				<div class="modalBtn">
 					<input class="btnCancle" type="button" value="취소"

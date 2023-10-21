@@ -26,6 +26,22 @@ main {
 	padding-left: 10px;
 }
 
+.wranText {
+	font-size: 14px;
+
+	padding-left: 10px;
+	color: #777777;;
+}
+
+.on {
+	border: 1px solid red;
+
+}
+
+.off {
+	border: 1px solid #CDCDCD;
+}
+
 form {
 	width: 100%;
 }
@@ -34,7 +50,7 @@ label {
 	padding: 10px 10px;
 	color: #4b4eba;
 	background-color: #fff;
-	border: 1px solid #CDCDCD;
+
 	border-radius: 8px;
 	cursor: pointer;
 	margin-top: 10px;
@@ -65,7 +81,6 @@ label {
 
 	color: #000;
 	background-color: #fff;
-	border: 1px solid #CDCDCD;
 	border-radius: 8px;
 	outline: none;
 	transition: all ease-out 250ms;
