@@ -332,6 +332,7 @@ public class CommunityServiceImpl implements CommunityService {
 			
 			result = true;
 		}
+		
 		log.info("cgoodInsert 리턴 : {}", cGoodVO);
 		return result;
 	}
