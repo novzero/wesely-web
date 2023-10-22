@@ -9,7 +9,7 @@
 		insert into 
 			MemberImg
 		values
-			(MemberImg_id_seq.nextval,MemberImg_id_seq.currval, #{uuid},#{fileName},#{contentType})
+			(MemberImg_id_seq.nextval,#{ref}, #{uuid},#{fileName},#{contentType})
 	</insert>
 	
 	<!-- 수정 -->
@@ -24,5 +24,6 @@
 	<delete id="delete" parameterType="MemberImgVO">
 		delete from MemberImg where ref=#{ref}
 	</delete>
+	
 	
 </mapper>

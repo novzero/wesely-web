@@ -42,6 +42,7 @@ public class MemberServiceImpl implements MemberService {
 	CommunityDAO communityDAO;
 	@Autowired
 	CommentDAO commentDAO;
+	MemberImgDAO memberImgDAO;
 
 	// 일반회원정보 저장
 	@Override
@@ -271,8 +272,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 //==============================================================================================================
-	@Autowired
-	MemberImgDAO memberImgDAO;
 
 	@Override
 	public void saveImage(MemberVO memberVO) {
@@ -285,6 +284,9 @@ public class MemberServiceImpl implements MemberService {
 		memberImg.setUuid(UUID.randomUUID().toString()); // UUID 생성 또는 다른 고유 식별자 사용 가능
 		memberImg.setFileName(imageFile.getOriginalFilename());
 		memberImg.setContentType(imageFile.getContentType());
+		
+		int idx = memberDAO.getLastInsertedIdx();
+		memberImg.setRef(idx);
 
 		// 데이터베이스에 이미지 정보 저장하기 위해 DAO 호출
 		memberImgDAO.insert(memberImg);
