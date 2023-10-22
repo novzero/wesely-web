@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wesely.dao.BusinessDAO;
+import com.wesely.dao.CommentDAO;
 import com.wesely.dao.CommunityDAO;
 import com.wesely.dao.MemberDAO;
 import com.wesely.dao.MemberImgDAO;
@@ -39,6 +40,8 @@ public class MemberServiceImpl implements MemberService {
 	BusinessDAO businessDAO;
 	@Autowired
 	CommunityDAO communityDAO;
+	@Autowired
+	CommentDAO commentDAO;
 
 	// 일반회원정보 저장
 	@Override
@@ -226,11 +229,15 @@ public class MemberServiceImpl implements MemberService {
 			// 기존 닉네임이 null 이면 아이디로 저장.
 			String oldNickname = (dbVO.getNickname() == null || dbVO.getNickname().isEmpty()) ? dbVO.getUserid()
 					: dbVO.getNickname();
+			String oldName = oldNickname;
 			map.put("newNickname", memberVO.getNickname());
 			map.put("oldNickname", oldNickname);
 			map.put("userid", memberVO.getUserid());
+			map.put("newName", memberVO.getNickname());
+			map.put("oldName", oldName);
 
 			try {
+				commentDAO.updateName(map);
 				communityDAO.updateNickname(map);
 				memberDAO.updateNickname(map);
 				// 회원정보변경

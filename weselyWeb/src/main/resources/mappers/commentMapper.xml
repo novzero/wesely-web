@@ -28,6 +28,15 @@
 		where
 			id=#{id}
 	</update>
+	<!-- 수정하기 : 회원 별명 수정 -->
+	<update id="updateName"  parameterType="hashmap">
+		update 
+			comm 
+		set
+			name = #{newName}
+		where
+			Name = #{oldName}
+	</update>
 	<!-- 5. 댓글 1개 삭제 -->
 	<delete id="delete" parameterType="int">
 		delete from comm where id=#{id}

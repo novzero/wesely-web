@@ -22,6 +22,9 @@
 </head>
 
 <body>
+	
+	
+	
 	<div id="overlay"></div>
 	<div id="loading">
 		<div class="dots"></div>
@@ -162,48 +165,24 @@
 						<h3>우리 동네 사람들의 커뮤니티</h3>
 					</div>
 
-					<div class="communityList">
+					<div class="communityList">				
 						<div class="communityItem" th:each="cc : ${cv}">
+							<a th:href="@{/community/view?id={id}(id=${cc.id},mode=1)}">
 							<div class="commItemBox">
 								<img class="slide__image"
 									th:src="${cc.imgList != null and not #lists.isEmpty(cc.imgList) ? '/static/images/upload/' + cc.imgList[0].uuid + '_' + cc.imgList[0].fileName : '/images/exComm.png'}"
 									alt="커뮤니티카드사진" />
 								<div class="commTextArea">
 									<p class="commContent">
-										[[${cc.contents}]]dddddddddddddddddddddddddddddddddddddddddddddddddddd
+										[[${cc.contents}]]
 									</p>
 									<div class="commUserNameBox">
 										<sapn class="userName">[[${cc.nickname}]]</sapn><span> 님</span>
 									</div>
 								</div>
 							</div>
-						</div>
-
-						<div class="communityItem">
-							<div class="commItemBox">
-								<img src="/images/exComm.png" alt="커뮤니티카드사진">
-								<div class="commTextArea">
-									<p class="commContent">
-										Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus repudiandae,
-										obcaecati dolor
-										repellendus ipsum, voluptates labore acc
-										text ellipsis를 설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고
-										적어둔다.text ellipsis를
-										설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text
-										ellipsis를 설정하기 위해 찾아본적이 정말
-										여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text ellipsis를 설정하기 위해 찾아본적이
-										정말 여러번인데 이제는 그만 찾아보고
-										척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.
-									</p>
-
-									<div class="commUserNameBox">
-										<sapn class="userName">Xxxzzz</sapn><span> 님</span>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
+							</a>
+						</div>						
 					</div>
 				</div>
 				<button type="button" class="btnMoreView" onclick="location.href='/community/'">더보러가기</button>
