@@ -6,6 +6,7 @@
 
 .wrapper {
   width: 100%;
+  height: 100%;
 }
 
 header {
@@ -48,16 +49,14 @@ header {
 }
 
 .hello{
+	width: fit-content;
 	margin-right: 20px;	
 }
 
-.hello input {
+.hello span {
 	color: #494b7c;
 	font-size: 18px;
-	background: none;
-	border: none;
-	width: 105px;
-	text-align: right;
+	user-select: none;
 }
 
 .login {

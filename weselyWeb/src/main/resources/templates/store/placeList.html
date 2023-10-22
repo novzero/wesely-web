@@ -60,7 +60,7 @@
 						// 키워드 검색 결과가 존재한다면
 						if (status === kakao.maps.services.Status.OK) {
 							data.forEach(item => {
-								
+
 								// item.address_name에서 필요한 부분만 추출
 								let addressParts = item.address_name.split(' ');
 								item.loc = addressParts[1] + addressParts[2]; // 예) 중구대흥동, 서구탄방동
@@ -249,11 +249,8 @@
 			</nav>
 			<nav class="hello">
 				<th:block th:if="${session.mvo != null}">
-					<span>
-						<!-- 별명을 설정하지 않은 회원은 아이디로 표시된다. -->
-						<input type="text" th:value="${session.mvo.nickname}" disabled />
-						님 환영합니다.
-					</span>
+					<!-- 별명을 설정하지 않은 회원은 아이디로 표시된다. -->
+					<span>[[${session.mvo.nickname}]] </span> 님 환영합니다.
 				</th:block>
 			</nav>
 
@@ -294,8 +291,10 @@
 							<p id="currentLocation"></p>
 						</div>
 						<div class="searchBtn">
-							<button th:onclick="location.href='/store/search'">지도로 시설검색</button>
-							<img src="/images/icon_search.png" alt="서치아이콘" />
+							<button type="button" th:onclick="location.href='/store/search'">
+								지도로 시설검색
+								<i class="fa-solid fa-magnifying-glass"></i>
+							</button>
 						</div>
 					</div>
 				</div>
@@ -305,11 +304,12 @@
 
 				</div>
 			</div>
-
+			<!--
 			<button class="btnSeeMore" id="loadMoreButton" onclick="storeMore()">
 				<span>시설 더보기</span>
 				<i class="fa-solid fa-chevron-down"></i>
 			</button>
+			-->
 		</main>
 	</div>
 </body>

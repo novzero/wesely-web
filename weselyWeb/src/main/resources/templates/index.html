@@ -16,6 +16,9 @@
 	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
 	<script defer src="js/main.js"></script>
 	<script defer src="js/mainSlide.js"></script>
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
+	<script src="/js/locationApi.js"></script>
 </head>
 
 <body>
@@ -37,13 +40,10 @@
 				<a href="/community/"><strong>커뮤니티</strong></a>
 				<a href="/"><strong>고객센터</strong></a>
 			</nav>
-
 			<nav class="hello">
 				<th:block th:if="${session.mvo != null}">
-					<span>
-						<input type="text" th:value="${session.mvo.nickname}" disabled />
-						님 환영합니다.
-					</span>
+					<!-- 별명을 설정하지 않은 회원은 아이디로 표시된다. -->
+					<span>[[${session.mvo.nickname}]] </span> 님 환영합니다.
 				</th:block>
 			</nav>
 
@@ -74,7 +74,7 @@
 
 						<!-- js 현재위치, 현재 기온, 어제의 평균기온과 비교한 텍스트 -->
 						<div class="weatherText">
-							<p class="currentLocation">대전광역시 중구</p>
+							<p class="currentLocation" id="currentLocation"></p>
 							<span class="temp"></span><span> °C</span>
 							<p class="compareTempText"></p>
 

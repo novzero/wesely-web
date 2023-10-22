@@ -58,19 +58,32 @@
 				<a href="/community/"><strong>커뮤니티</strong></a>
 				<a href="/"><strong>고객센터</strong></a>
 			</nav>
+			<nav class="hello">
+				<th:block th:if="${session.mvo != null}">
+					<!-- 별명을 설정하지 않은 회원은 아이디로 표시된다. -->
+					<span>[[${session.mvo.nickname}]] </span> 님 환영합니다.
+				</th:block>
+			</nav>
+
 			<nav class="login">
 				<th:block th:if="${session.mvo == null}">
 					<a href="/member/login"><strong>로그인</strong></a>
 					<a href="/member/join"><strong>회원가입</strong></a>
 				</th:block>
-				<th:block th:if="${session.mvo != null}">
+
+				<th:block th:if="${session.mvo != null && session.mvo.authority == '일반계정'}">
 					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
 					<a href="/member/logout"><strong>로그아웃</strong></a>
-					<a href="/"><strong>비즈니스 계정</strong></a>
+				</th:block>
+
+				<th:block th:if="${session.mvo != null && session.mvo.authority == '비즈니스계정'}">
+					<a href="/member/updateProfile"><strong>회원정보수정</strong></a>
+					<a th:href="@{/store/view/b/{userId}(userId=${session.mvo.userid})}"><strong>매장관리</strong></a>
+					<a href="/member/logout"><strong>로그아웃</strong></a>
 				</th:block>
 			</nav>
 		</header>
-
+		
 		<main>
 			<div class="mainTitle">
 				<div class="mainTextBox">
@@ -90,9 +103,7 @@
 					<div class="addImgWrapper">
 						<label class="addImgItem" for="inputFile1">
 							<input type="file" accept=".png, .jpeg" id="inputFile1" class="inputFile" name="uploadFile">
-							<img id="imagePreview"
-								src=""
-								class="image-box" />
+							<img id="imagePreview" src="" class="image-box" />
 							<ion-icon name="add-outline" class="addIcon" id="addIcon"></ion-icon>
 							<div id="addImg">
 								사진추가
@@ -101,9 +112,7 @@
 						</label>
 
 						<label class="addImgItem" for="inputFile2">
-							<img id="imagePreview2"
-								src=""
-								class="image-box" />
+							<img id="imagePreview2" src="" class="image-box" />
 							<input type="file" accept=".png, .jpeg" id="inputFile2" class="inputFile" name="uploadFile">
 							<ion-icon name="add-outline" class="addIcon" id="addIcon2"></ion-icon>
 							<div id="addImg2">
@@ -113,9 +122,7 @@
 						</label>
 
 						<label class="addImgItem" for="inputFile3">
-							<img id="imagePreview3"
-								src=""
-								class="image-box" />
+							<img id="imagePreview3" src="" class="image-box" />
 							<input type="file" accept=".png, .jpeg" id="inputFile3" class="inputFile" name="uploadFile">
 							<ion-icon name="add-outline" class="addIcon" id="addIcon3"></ion-icon>
 							<div id="addImg3">
@@ -125,9 +132,7 @@
 						</label>
 
 						<label class="addImgItem" for="inputFile4">
-							<img id="imagePreview4"
-								src=""
-								class="image-box" />
+							<img id="imagePreview4" src="" class="image-box" />
 							<input type="file" accept=".png, .jpeg" id="inputFile4" class="inputFile" name="uploadFile">
 							<ion-icon name="add-outline" class="addIcon" id="addIcon4"></ion-icon>
 							<div id="addImg4">
@@ -157,7 +162,7 @@
 		const addImg = document.querySelector('#addImg');
 		fileDOM.addEventListener('change', () => {
 			const imageSrc = URL.createObjectURL(fileDOM.files[0]);
-			preview.src = imageSrc;			
+			preview.src = imageSrc;
 			addIcon.style.display = 'none';
 			addImg.style.display = 'none';
 		});

@@ -18,7 +18,6 @@
 </head>
 
 <body>
-
 	<div class="wrapper">
 		<header>
 			<div class="logo">
@@ -31,51 +30,63 @@
 				<a href="/community/"><strong>커뮤니티</strong></a>
 				<a href="/"><strong>고객센터</strong></a>
 			</nav>
+			<nav class="hello">
+				<th:block th:if="${session.mvo != null}">
+					<!-- 별명을 설정하지 않은 회원은 아이디로 표시된다. -->
+					<span>[[${session.mvo.nickname}]] </span> 님 환영합니다.
+				</th:block>
+			</nav>
+
 			<nav class="login">
 				<th:block th:if="${session.mvo == null}">
 					<a href="/member/login"><strong>로그인</strong></a>
 					<a href="/member/join"><strong>회원가입</strong></a>
 				</th:block>
-				<th:block th:if="${session.mvo != null}">
+
+				<th:block th:if="${session.mvo != null && session.mvo.authority == '일반계정'}">
 					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
 					<a href="/member/logout"><strong>로그아웃</strong></a>
-					<a href="/"><strong>비즈니스 계정</strong></a>
+				</th:block>
+
+				<th:block th:if="${session.mvo != null && session.mvo.authority == '비즈니스계정'}">
+					<a href="/member/updateProfile"><strong>회원정보수정</strong></a>
+					<a th:href="@{/store/view/b/{userId}(userId=${session.mvo.userid})}"><strong>매장관리</strong></a>
+					<a href="/member/logout"><strong>로그아웃</strong></a>
 				</th:block>
 			</nav>
 		</header>
 
+		<main>
+			<div id="loginform">
+				<img src="/images/wesely_logo.png" alt="wesely로고" width="50px">
 
+				<form action="/member/loginOk" method="post" onsubmit="return formCheck()">
 
+					<div id="inputform">
+						<!-- 아이디 입력 폼 -->
+						<div>
+							<label for="userid">아이디</label>
+							<input type="text" id="userid" name="userid" />
+						</div>
+						<!-- 비밀번호 입력 폼 -->
+						<div>
+							<label for="password">비밀번호</label>
+							<input type="password" id="password" name="password" />
+						</div>
 
-		<div id="loginform">
-			<img src="/images/wesely_logo.png" alt="wesely로고" width="50px">
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
-			<form action="/member/loginOk" method="post" onsubmit="return formCheck()">
-
-				<div id="inputform">
-					<!-- 아이디 입력 폼 -->
-					<div>
-						<label for="userid">아이디</label>
-						<input type="text" id="userid" name="userid" />
+						<!-- 아이디/비밀번호 찾기 링크 보이기 & 전송 폼  -->
+						<div class="question">
+							<input type="submit" value="로그인" class="loginBtn" />
+							<a href="/member/findUserId">아이디를 잊으셨나요?</a><br />
+							<a href="/member/findPassword">비밀번호를 잊으셨나요?</a>
+						</div>
 					</div>
-					<!-- 비밀번호 입력 폼 -->
-					<div>
-						<label for="password">비밀번호</label>
-						<input type="password" id="password" name="password" />
-					</div>
 
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-
-					<!-- 아이디/비밀번호 찾기 링크 보이기 & 전송 폼  -->
-					<div>
-						<input type="submit" value="로그인" class="loginBtn" />
-						<a href="/member/findUserId">아이디를 잊으셨나요?</a><br />
-						<a href="/member/findPassword">비밀번호를 잊으셨나요?</a>
-					</div>
-				</div>
-
-			</form>
-		</div>
+				</form>
+			</div>
+		</main>
 	</div>
 </body>
 
