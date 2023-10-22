@@ -174,98 +174,99 @@
 
 					<div class="communityList">
 						<div class="communityItem" th:each="cc : ${cv}">
-							<div class="commItemBox">
-								<img class="commImg"
-									th:src="${cc.imgList != null and not #lists.isEmpty(cc.imgList) ? '/static/images/upload/' + cc.imgList[0].uuid + '_' + cc.imgList[0].fileName : '/images/exComm.png'}"
-									alt="커뮤니티카드사진" />
-								<div class="commTextArea">
-									<p class="commContent">
-										[[${cc.contents}]]
-									</p>
-									<div class="commUserNameBox">
-										<sapn class="userName">[[${cc.nickname}]]</sapn><span> 님</span>
+							<a th:href="@{/community/view?id={id}(id=${cc.id},mode=1)}">
+								<div class="commItemBox">
+									<img class="commImg"
+										th:src="${cc.imgList != null and not #lists.isEmpty(cc.imgList) ? '/static/images/upload/' + cc.imgList[0].uuid + '_' + cc.imgList[0].fileName : '/images/exComm.png'}"
+										alt="커뮤니티카드사진" />
+									<div class="commTextArea">
+										<p class="commContent">
+											[[${cc.contents}]]
+										</p>
+										<div class="commUserNameBox">
+											<sapn class="userName">[[${cc.nickname}]]</sapn><span> 님</span>
+										</div>
 									</div>
+								</div>
+							</a>
+						</div>
+					</div>
+
+					<div class="communityItem">
+						<div class="commItemBox">
+							<img class="commImg" src="/images/exComm.png" alt="커뮤니티카드사진">
+							<div class="commTextArea">
+								<p class="commContent">
+									내 동네 커뮤니티가 아직 없습니다. 첫 글을 작성해보세요!
+								</p>
+
+								<div class="commUserNameBox">
+									<sapn class="userName">wesely</sapn><span> 님</span>
 								</div>
 							</div>
 						</div>
-
-						<div class="communityItem">
-							<div class="commItemBox">
-								<img class="commImg" src="/images/exComm.png" alt="커뮤니티카드사진">
-								<div class="commTextArea">
-									<p class="commContent">
-										내 동네 커뮤니티가 아직 없습니다. 첫 글을 작성해보세요!
-									</p>
-
-									<div class="commUserNameBox">
-										<sapn class="userName">wesely</sapn><span> 님</span>
-									</div>
-								</div>
-							</div>
-						</div>
-
-
 					</div>
 				</div>
-				<button type="button" class="btnMoreView" onclick="location.href='/community/'">더보러가기</button>
-			</section>
-		</main>
+	</div>
+	<button type="button" class="btnMoreView" onclick="location.href='/community/'">더보러가기</button>
+	</section>
+	</main>
 
-		<footer>
-			<div class="btnSns">
-				<i class="fa-brands fa-instagram"></i>
-				<i class="fa-brands fa-facebook"></i>
-				<i class="fa-solid fa-comments"></i>
-			</div>
+	<footer>
+		<div class="btnSns">
+			<i class="fa-brands fa-instagram"></i>
+			<i class="fa-brands fa-facebook"></i>
+			<i class="fa-solid fa-comments"></i>
+		</div>
 
-			<div class="line"></div>
+		<div class="line"></div>
 
-			<div class="footerLayout">
-				<div class="footerLeft">
-					<ul class="footerLeftMain">
-						<li class="footerLeftMainItem">
-							<a href="">
-								회사소개
-							</a>
-						</li>
-						<li class="footerLeftMainItem">
-							<a href="">
-								인재채용
-							</a>
-						</li>
-						<li class="footerLeftMainItem">
-							<a href="">
-								제휴제안
-							</a>
-						</li>
-						<li class="footerLeftMainItem">
-							<a href="">
-								이용약관
-							</a>
-						</li>
-						<li class="footerLeftMainItem">
-							<a href="">
-								개인정보처리방침
-							</a>
-						</li>
-					</ul>
+		<div class="footerLayout">
+			<div class="footerLeft">
+				<ul class="footerLeftMain">
+					<li class="footerLeftMainItem">
+						<a href="">
+							회사소개
+						</a>
+					</li>
+					<li class="footerLeftMainItem">
+						<a href="">
+							인재채용
+						</a>
+					</li>
+					<li class="footerLeftMainItem">
+						<a href="">
+							제휴제안
+						</a>
+					</li>
+					<li class="footerLeftMainItem">
+						<a href="">
+							이용약관
+						</a>
+					</li>
+					<li class="footerLeftMainItem">
+						<a href="">
+							개인정보처리방침
+						</a>
+					</li>
+				</ul>
 
-					<div class="footerMainSubItem">
-						<div>
-							<span>대표 : 가나다</span>
-							<p>사업자등록번호 : 123-45-67890</p>
-						</div>
-						<p>사업장소재지 : 대전광역시 중구 대흥동 123번길 12 대흥타워1, 456층</p>
+				<div class="footerMainSubItem">
+					<div>
+						<span>대표 : 가나다</span>
+						<p>사업자등록번호 : 123-45-67890</p>
 					</div>
-				</div>
-
-				<div class="footerRight">
-					<p class="footerCall">고객센터 1234-4567</p>
-					<p>운영시간 평일 : 11:00 ~ 18:00 (토,일,공휴일 휴무)</p>
-					<p>점심시간 평일 : 13:00 ~ 14:00</p>
+					<p>사업장소재지 : 대전광역시 중구 대흥동 123번길 12 대흥타워1, 456층</p>
 				</div>
 			</div>
-		</footer>
+
+			<div class="footerRight">
+				<p class="footerCall">고객센터 1234-4567</p>
+				<p>운영시간 평일 : 11:00 ~ 18:00 (토,일,공휴일 휴무)</p>
+				<p>점심시간 평일 : 13:00 ~ 14:00</p>
+			</div>
+		</div>
+	</footer>
 	</div>
 
 </body>

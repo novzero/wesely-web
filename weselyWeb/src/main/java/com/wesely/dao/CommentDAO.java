@@ -1,5 +1,6 @@
 package com.wesely.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -58,4 +59,6 @@ public interface CommentDAO {
 	void deleteByRef(int ref);
 //	<!-- 7. 1개 얻기  -->
 	CommentVO selectById(int id);
+// 8. 수정하기 : 회원정보 수정
+	void updateName(HashMap<String, String> map);
 }
