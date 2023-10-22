@@ -14,7 +14,7 @@
 	
 	<!-- 수정 -->
 	<insert id="update" parameterType="MemberImgVO">
-		insert into 
+		update into 
 			MemberImg
 		values
 			(MemberImg_id_seq.nextval, #{ref},#{uuid},#{fileName},#{contentType})
