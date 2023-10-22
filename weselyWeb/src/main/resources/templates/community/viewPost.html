@@ -15,7 +15,6 @@
 	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
 	<script defer src="/js/comm/commSlide.js"></script>
 	<script th:inline="javascript">
-
 		$(function () {
 			$("#btnAddPost").click(function () {
 				//alert($(this).val)
@@ -45,7 +44,8 @@
 						.finally(function () { // 항상 실행되는 영역
 
 						});
-				} else if (buttonTitle == "댓글 수정") {
+				} else {
+					(buttonTitle == "댓글 수정")
 					// 입력 내용 얻기
 					let id = $("#id").val();
 					let content = $("#content").val();
@@ -67,11 +67,16 @@
 						.finally(function () { // 항상 실행되는 영역
 
 						});
-				} else if (buttonTitle == "댓글 삭제") {
-					// 입력 내용 얻기
-					let id = $("#id").val();
-					let form = new FormData(); // 폼을 만든다.
-
+				}
+			});
+		});
+		// 댓글 삭제버튼 누르기
+		$(function () {
+			$(".btnDelete").click(function () {
+				// 입력 내용 얻기
+				let id = $("#id").val();
+				let form = new FormData(); // 폼을 만든다.
+				if (confirm("댓글을 삭제하시겠습니까?") == true) {
 					// Ajax를 통해 데이터를 서버로 보내 저장을 수행한다.
 					axios.delete('/community/commentDelete?id=' + id)
 						.then(function (response) { // 성공 했을떄
@@ -84,17 +89,16 @@
 						.finally(function () { // 항상 실행되는 영역
 						});
 				}
-			});
-		});
+			})
+		})
 		function updateForm(id, name) {
 			$("#btnAddPost").val("댓글 수정");
 			$("#id").val(id);
 			$("#content").val($("#content" + id).html());
 
 		}
+
 		function deleteForm(id, name) {
-			// 취소 버튼을 보이게 한다.
-			$("#btnAddPost").val("댓글 삭제");
 			$("#id").val(id);
 			$("#content").val($("#content" + id).html());
 		}
@@ -161,9 +165,9 @@
 
 		$(document).ready(function () {
 			// 현재 게시글의 ID 가져옴
-			let postId = $("#postId").val(); 
+			let postId = $("#postId").val();
 			// 현재 로그인한 사용자의 닉네임 가져옴
-			let nickname2 = $("#nickname2").val(); 
+			let nickname2 = $("#nickname2").val();
 			// 댓글 작성자 닉네임 가져옴
 			let commentNickname = $("#cnickname2").val();
 			function setLikeState(heartBtn, isLiked) {
@@ -201,7 +205,7 @@
 				pushHeartBtn.click(function () {
 					//새로 폼 만들고
 					let form = new FormData();
-					
+
 					form.append("ref", postId);
 					form.append("nickname", nickname2);
 					// 좋아요 눌려있고
@@ -225,7 +229,7 @@
 							.catch(function (error) {
 								alert('에러 발생!! : ' + error);
 							});
-					// 좋아요 안눌러졌으면
+						// 좋아요 안눌러졌으면
 					} else {
 						// 좋아요 저장 해라
 						axios.post('/community/goodInsert', form)
@@ -256,7 +260,7 @@
 				axios.get('/community/commcountGood/' + commentID)
 					.then(response => {
 						// 댓글 좋아요 개수 출력
-						$("#clikeCount_" + commentID).text("좋아요 " + response.data + "개"); 
+						$("#clikeCount_" + commentID).text("좋아요 " + response.data + "개");
 
 						// 좋아요 상태도 업데이트
 						axios.get('/community/CommGoodCheck', {
@@ -268,7 +272,7 @@
 							.then(function (response) {
 								// 좋아요 수가0보다 크면 좋아요를 누른상태
 								const isLiked = response.data > 0;
-									
+
 								const pushHeartBtn = $(".btnCommentLike[data-comment-id='" + commentID + "']");
 								setLikeState(pushHeartBtn, isLiked);
 
@@ -311,7 +315,7 @@
 									alert("좋아요 취소!");
 									setLikeState(pushHeartBtn, false);
 									// 상태 업데이트 추가
-									updateCommentLikeCount(commentID, commentNickname); 
+									updateCommentLikeCount(commentID, commentNickname);
 								} else {
 									alert("좋아요를 누르지 않으셨습니다.");
 								}
