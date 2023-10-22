@@ -19,7 +19,8 @@ var geocoder = new kakao.maps.services.Geocoder();
 var callback = function(result, status) {
 	if (status === kakao.maps.services.Status.OK) {
 		loc = result[0].region_2depth_name + result[0].region_3depth_name;
-
+		slideLoc = result[0].region_2depth_name + result[0].region_3depth_name;
+		
 		// 현재 위치 표시 00시 00구 00동
 		document.getElementById('currentLocation').innerText =
 			result[0].region_1depth_name + " " +

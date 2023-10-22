@@ -20,7 +20,6 @@ if (navigator.geolocation) {
 
 					let imgElement = document.getElementById("weatherImage");
 
-					console.log(mi);
 					if (pm10 > 0 && pm10 <= 20) {
 						imgElement.src = great;
 						document.querySelector(".dust").textContent += "매우좋음";

@@ -5,7 +5,9 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Main</title>
+	<title>wesely</title>
+	<!-- favicon -->
+	<link rel="icon" href="/images/favicon-96x96.png">
 	<link rel="stylesheet" href="css/font.css" />
 	<link rel="stylesheet" href="css/header.css" />
 	<link rel="stylesheet" href="css/main.css" />
@@ -14,11 +16,14 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<!-- 아이콘 -->
 	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
-	<script defer src="js/main.js"></script>
-	<script defer src="js/mainSlide.js"></script>
+	<!-- kakaoMap service key -->
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
-	<script src="/js/locationApi.js"></script>
+	<script defer src="js/main.js"></script>
+	<script defer src="js/mainSlide.js"></script>
+	<script defer src="/js/locationApi.js"></script>
+
+
 </head>
 
 <body>
@@ -136,21 +141,26 @@
 								</div>
 							</div>
 						</li>
-						<!--
 
-						<li class="slide__item">
-							<a>
-								<img class="slide__image" src="/images/run.png" />
-							</a>
-							<div class="slideBoxText on">
-								<h2>나다운핏짐</h2>
-								<div class="slideBoxTextSub">
-									<p>평점 <span>4.7</span></p>
-									<p>중구 대흥동</p>
-								</div>
-							</div>
-						</li>
-                     -->
+
+						<!-- 만약 db에 저장되어있는 store개수가 5개 미만일 떄 -->
+						<!-- 기본 이미지 및 정보로 채워진 슬라이드로 대체 -->
+						<th:block th:if="${#lists.size(st) < 5}">
+							<th:block th:each="i : ${#numbers.sequence(1, 5 - #lists.size(st))}">
+								<li class="slide__item">
+									<a>
+										<img class="slide__image" src="/images/unpostImg.png" />
+									</a>
+									<div class="slideBoxText on">
+										<h2>서비스준비중입니다.</h2>
+										<div class="slideBoxTextSub">
+											<p>평점 <span>0</span></p>
+											<p>빠르게 찾아뵐게요</p>
+										</div>
+									</div>
+								</li>
+							</th:block>
+						</th:block>
 					</ul>
 				</div>
 			</section>
@@ -165,12 +175,12 @@
 					<div class="communityList">
 						<div class="communityItem" th:each="cc : ${cv}">
 							<div class="commItemBox">
-								<img class="slide__image"
+								<img class="commImg"
 									th:src="${cc.imgList != null and not #lists.isEmpty(cc.imgList) ? '/static/images/upload/' + cc.imgList[0].uuid + '_' + cc.imgList[0].fileName : '/images/exComm.png'}"
 									alt="커뮤니티카드사진" />
 								<div class="commTextArea">
 									<p class="commContent">
-										[[${cc.contents}]]dddddddddddddddddddddddddddddddddddddddddddddddddddd
+										[[${cc.contents}]]
 									</p>
 									<div class="commUserNameBox">
 										<sapn class="userName">[[${cc.nickname}]]</sapn><span> 님</span>
@@ -181,23 +191,14 @@
 
 						<div class="communityItem">
 							<div class="commItemBox">
-								<img src="/images/exComm.png" alt="커뮤니티카드사진">
+								<img class="commImg" src="/images/exComm.png" alt="커뮤니티카드사진">
 								<div class="commTextArea">
 									<p class="commContent">
-										Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus repudiandae,
-										obcaecati dolor
-										repellendus ipsum, voluptates labore acc
-										text ellipsis를 설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고
-										적어둔다.text ellipsis를
-										설정하기 위해 찾아본적이 정말 여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text
-										ellipsis를 설정하기 위해 찾아본적이 정말
-										여러번인데 이제는 그만 찾아보고 척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.text ellipsis를 설정하기 위해 찾아본적이
-										정말 여러번인데 이제는 그만 찾아보고
-										척척 쓸 때가 되지 않았나 해서 까먹지 않으려고 적어둔다.
+										내 동네 커뮤니티가 아직 없습니다. 첫 글을 작성해보세요!
 									</p>
 
 									<div class="commUserNameBox">
-										<sapn class="userName">Xxxzzz</sapn><span> 님</span>
+										<sapn class="userName">wesely</sapn><span> 님</span>
 									</div>
 								</div>
 							</div>
