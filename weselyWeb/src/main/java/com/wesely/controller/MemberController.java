@@ -241,18 +241,8 @@ public class MemberController {
 		}
 	}
 
-	// 프로필 사진 등록
-	@RequestMapping("/member/photoView.do")
-	public String getProfile(HttpSession session, HttpServletRequest request, Model model) {
-		// 로그인한 회원 정보 세션에서 가져오기
-		MemberVO dbVO = (MemberVO) session.getAttribute("dbVO");
-		if (dbVO != null) {
 
-		}
-		return "imageView";
-	}
-
-	@PostMapping("/upload-image")
+	@PostMapping(value = "/uploadImage")
 	public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile imageFile) {
 		try {
 			// 멤버 정보 객체 생성
