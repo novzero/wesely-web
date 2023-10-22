@@ -14,4 +14,6 @@ public interface MemberImgDAO {
 		// 삭제
 		void delete(MemberImgVO memberImgVO);
 		
+		int getLastInsertedIdx();
+		
 }
