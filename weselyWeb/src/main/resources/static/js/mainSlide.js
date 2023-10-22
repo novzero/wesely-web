@@ -28,7 +28,6 @@ const setTranslate = ({ index, reset }) => {
 	// 그 외 경우 (클릭 시  이동)
 	else {
 		list.style.transform = `translate(-${(index + 1) * 426}px, 0)`;
-		console.log(index);
 
 		activeDescription(index + 1);
 	}

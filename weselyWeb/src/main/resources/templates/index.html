@@ -5,7 +5,9 @@
 <head>
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Main</title>
+	<title>wesely</title>
+	<!-- favicon -->
+	<link rel="icon" href="/images/favicon-96x96.png">
 	<link rel="stylesheet" href="css/font.css" />
 	<link rel="stylesheet" href="css/header.css" />
 	<link rel="stylesheet" href="css/main.css" />
@@ -14,11 +16,14 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	<!-- 아이콘 -->
 	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
-	<script defer src="js/main.js"></script>
-	<script defer src="js/mainSlide.js"></script>
+	<!-- kakaoMap service key -->
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=04aea75b3d77e8dc37d083dd6b9d6eb4&libraries=services"></script>
-	<script src="/js/locationApi.js"></script>
+	<script defer src="js/main.js"></script>
+	<script defer src="js/mainSlide.js"></script>
+	<script defer src="/js/locationApi.js"></script>
+
+
 </head>
 
 <body>
@@ -136,21 +141,26 @@
 								</div>
 							</div>
 						</li>
-						<!--
 
-						<li class="slide__item">
-							<a>
-								<img class="slide__image" src="/images/run.png" />
-							</a>
-							<div class="slideBoxText on">
-								<h2>나다운핏짐</h2>
-								<div class="slideBoxTextSub">
-									<p>평점 <span>4.7</span></p>
-									<p>중구 대흥동</p>
-								</div>
-							</div>
-						</li>
-                     -->
+
+						<!-- 만약 db에 저장되어있는 store개수가 5개 미만일 떄 -->
+						<!-- 기본 이미지 및 정보로 채워진 슬라이드로 대체 -->
+						<th:block th:if="${#lists.size(st) < 5}">
+							<th:block th:each="i : ${#numbers.sequence(1, 5 - #lists.size(st))}">
+								<li class="slide__item">
+									<a>
+										<img class="slide__image" src="/images/unpostImg.png" />
+									</a>
+									<div class="slideBoxText on">
+										<h2>서비스준비중입니다.</h2>
+										<div class="slideBoxTextSub">
+											<p>평점 <span>0</span></p>
+											<p>빠르게 찾아뵐게요</p>
+										</div>
+									</div>
+								</li>
+							</th:block>
+						</th:block>
 					</ul>
 				</div>
 			</section>
@@ -162,85 +172,101 @@
 						<h3>우리 동네 사람들의 커뮤니티</h3>
 					</div>
 
-					<div class="communityList">				
+					<div class="communityList">
 						<div class="communityItem" th:each="cc : ${cv}">
 							<a th:href="@{/community/view?id={id}(id=${cc.id},mode=1)}">
-							<div class="commItemBox">
-								<img class="slide__image"
-									th:src="${cc.imgList != null and not #lists.isEmpty(cc.imgList) ? '/static/images/upload/' + cc.imgList[0].uuid + '_' + cc.imgList[0].fileName : '/images/exComm.png'}"
-									alt="커뮤니티카드사진" />
-								<div class="commTextArea">
-									<p class="commContent">
-										[[${cc.contents}]]
-									</p>
-									<div class="commUserNameBox">
-										<sapn class="userName">[[${cc.nickname}]]</sapn><span> 님</span>
+								<div class="commItemBox">
+									<img class="commImg"
+										th:src="${cc.imgList != null and not #lists.isEmpty(cc.imgList) ? '/static/images/upload/' + cc.imgList[0].uuid + '_' + cc.imgList[0].fileName : '/images/exComm.png'}"
+										alt="커뮤니티카드사진" />
+									<div class="commTextArea">
+										<p class="commContent">
+											[[${cc.contents}]]
+										</p>
+										<div class="commUserNameBox">
+											<sapn class="userName">[[${cc.nickname}]]</sapn><span> 님</span>
+										</div>
 									</div>
 								</div>
-							</div>
 							</a>
-						</div>						
-					</div>
-				</div>
-				<button type="button" class="btnMoreView" onclick="location.href='/community/'">더보러가기</button>
-			</section>
-		</main>
-
-		<footer>
-			<div class="btnSns">
-				<i class="fa-brands fa-instagram"></i>
-				<i class="fa-brands fa-facebook"></i>
-				<i class="fa-solid fa-comments"></i>
-			</div>
-
-			<div class="line"></div>
-
-			<div class="footerLayout">
-				<div class="footerLeft">
-					<ul class="footerLeftMain">
-						<li class="footerLeftMainItem">
-							<a href="">
-								회사소개
-							</a>
-						</li>
-						<li class="footerLeftMainItem">
-							<a href="">
-								인재채용
-							</a>
-						</li>
-						<li class="footerLeftMainItem">
-							<a href="">
-								제휴제안
-							</a>
-						</li>
-						<li class="footerLeftMainItem">
-							<a href="">
-								이용약관
-							</a>
-						</li>
-						<li class="footerLeftMainItem">
-							<a href="">
-								개인정보처리방침
-							</a>
-						</li>
-					</ul>
-
-					<div class="footerMainSubItem">
-						<div>
-							<span>대표 : 가나다</span>
-							<p>사업자등록번호 : 123-45-67890</p>
 						</div>
-						<p>사업장소재지 : 대전광역시 중구 대흥동 123번길 12 대흥타워1, 456층</p>
+					</div>
+
+					<div class="communityItem">
+						<div class="commItemBox">
+							<img class="commImg" src="/images/exComm.png" alt="커뮤니티카드사진">
+							<div class="commTextArea">
+								<p class="commContent">
+									내 동네 커뮤니티가 아직 없습니다. 첫 글을 작성해보세요!
+								</p>
+
+								<div class="commUserNameBox">
+									<sapn class="userName">wesely</sapn><span> 님</span>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
+	</div>
+	<button type="button" class="btnMoreView" onclick="location.href='/community/'">더보러가기</button>
+	</section>
+	</main>
 
-				<div class="footerRight">
-					<p class="footerCall">고객센터 1234-4567</p>
-					<p>운영시간 평일 : 11:00 ~ 18:00 (토,일,공휴일 휴무)</p>
-					<p>점심시간 평일 : 13:00 ~ 14:00</p>
+	<footer>
+		<div class="btnSns">
+			<i class="fa-brands fa-instagram"></i>
+			<i class="fa-brands fa-facebook"></i>
+			<i class="fa-solid fa-comments"></i>
+		</div>
+
+		<div class="line"></div>
+
+		<div class="footerLayout">
+			<div class="footerLeft">
+				<ul class="footerLeftMain">
+					<li class="footerLeftMainItem">
+						<a href="">
+							회사소개
+						</a>
+					</li>
+					<li class="footerLeftMainItem">
+						<a href="">
+							인재채용
+						</a>
+					</li>
+					<li class="footerLeftMainItem">
+						<a href="">
+							제휴제안
+						</a>
+					</li>
+					<li class="footerLeftMainItem">
+						<a href="">
+							이용약관
+						</a>
+					</li>
+					<li class="footerLeftMainItem">
+						<a href="">
+							개인정보처리방침
+						</a>
+					</li>
+				</ul>
+
+				<div class="footerMainSubItem">
+					<div>
+						<span>대표 : 가나다</span>
+						<p>사업자등록번호 : 123-45-67890</p>
+					</div>
+					<p>사업장소재지 : 대전광역시 중구 대흥동 123번길 12 대흥타워1, 456층</p>
 				</div>
 			</div>
-		</footer>
+
+			<div class="footerRight">
+				<p class="footerCall">고객센터 1234-4567</p>
+				<p>운영시간 평일 : 11:00 ~ 18:00 (토,일,공휴일 휴무)</p>
+				<p>점심시간 평일 : 13:00 ~ 14:00</p>
+			</div>
+		</div>
+	</footer>
 	</div>
 
 </body>

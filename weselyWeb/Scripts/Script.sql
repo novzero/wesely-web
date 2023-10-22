@@ -15,13 +15,15 @@ CREATE TABLE wmember (
 SELECT * FROM wmember;
 
 DELETE FROM wmember ;
+SELECT * FROM memberImg ;
 
 DROP TABLE WMEMBER ;
+DROP TABLE memberImg ;
 
 --===============================================================================
 -- 회원 프로필 사진 테이블
 CREATE SEQUENCE memberImg_id_seq;
-CREATE TAB LE memberImg(
+CREATE TABLE memberImg(
 	id NUMBER PRIMARY KEY,  -- 키필드
 	ref NUMBER NOT NULL, -- 원본글 번호
 	uuid varchar2(200) NOT NULL, -- 중복처리위한 키
