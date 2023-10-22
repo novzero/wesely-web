@@ -50,28 +50,41 @@ import com.wesely.vo.CommunityVO;
  * 
  * */
 import com.wesely.vo.MemberVO;
+import com.wesely.vo.StoreVO;
 
 @Mapper
 public interface CommunityDAO {
-//	   <!-- 1. 전체 개수 얻기  -->
-		int selectCount();
-//	   <!-- 2. 1개 얻기  -->
-		CommunityVO selectById(int id);
-//		<!-- 아이디로 찾기 -->
-		CommunityVO selectByUserid(String userid);
-//	   <!-- 3. 1페이지 얻기  -->
-		List<CommunityVO> selectList(HashMap<String, Integer>map);
-//	   <!-- 4. 저장하기  -->
-		void insert(CommunityVO communityVO);
-//	   <!-- 5. 수정하기  -->
-		void update(CommunityVO communityVO);
-//	   <!-- 6. 삭제하기  -->
-		void delete(int id);
-//		<!-- 회원탈퇴했을때 게시판 삭제 -->
-		void deleteNickname(String nickname);
-//	   <!-- 7. 조회수 증가하기  -->
-		void updateReadCount(int id);
-		// <!-- 수정하기 : 회원정보 수정 -->
-		void updateNickname(HashMap<String, String> map);
+	// 1. 전체 개수 얻기
+	int selectCount();
+
+	// 2. 1개 얻기
+	CommunityVO selectById(int id);
+
+	// 3.아이디로 찾기
+	CommunityVO selectByUserid(String userid);
+
+	// 4. 1페이지 얻기
+	List<CommunityVO> selectList(HashMap<String, Integer> map);
+
+	// 5. 저장하기
+	void insert(CommunityVO communityVO);
+
+	// 6. 수정하기
+	void update(CommunityVO communityVO);
+
+	// 7. 삭제하기
+	void delete(int id);
+
+	// 8. 회원탈퇴했을때 게시판 삭제
+	void deleteNickname(String nickname);
+
+	// 9. 조회수 증가하기
+	void updateReadCount(int id);
+
+	// 10. 수정하기 : 회원정보 수정
+	void updateNickname(HashMap<String, String> map);
+
+	// 11. 메인화면에서 사용할 6개 얻기
+	List<CommunityVO> selectCommList();
 
 }

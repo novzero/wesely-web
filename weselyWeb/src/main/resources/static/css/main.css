@@ -403,14 +403,15 @@ li {
 	padding: 14px;
 
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
 	align-items: center;
 }
+
 
 .commItemBox img {
 	width: 50%;
 	height: 94%;
-	object-fit: cover;
+	object-fit: contain;
 	margin-right: 12px;
 }
 
