@@ -79,12 +79,9 @@
 				<a href="/"><strong>고객센터</strong></a>
 			</nav>
 			<nav class="hello">
-				<th:block th:if="${session != null && session.mvo != null}">
-					<span>
-						<!-- 별명을 설정하지 않은 회원은 이름으로 표시된다. -->
-						<input type="text" th:value="${session.mvo.nickname}" disabled />
-						님 환영합니다.
-					</span>
+				<th:block th:if="${session.mvo != null}">
+					<!-- 별명을 설정하지 않은 회원은 아이디로 표시된다. -->
+					<span>[[${session.mvo.nickname}]] </span> 님 환영합니다.
 				</th:block>
 			</nav>
 
@@ -106,7 +103,7 @@
 				</th:block>
 			</nav>
 		</header>
-
+		
 		<!-- 👇여기부터 시설상세페이지 -->
 		<main>
 			<!-- 매장 슬라이드 이미지들 -->

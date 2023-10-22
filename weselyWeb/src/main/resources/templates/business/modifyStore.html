@@ -142,6 +142,13 @@
 				<a href="/community/"><strong>커뮤니티</strong></a>
 				<a href="/"><strong>고객센터</strong></a>
 			</nav>
+			<nav class="hello">
+				<th:block th:if="${session.mvo != null}">
+					<!-- 별명을 설정하지 않은 회원은 아이디로 표시된다. -->
+					<span>[[${session.mvo.nickname}]] </span> 님 환영합니다.
+				</th:block>
+			</nav>
+
 			<nav class="login">
 				<th:block th:if="${session.mvo == null}">
 					<a href="/member/login"><strong>로그인</strong></a>

@@ -1,7 +1,7 @@
 // ========================================================================================================
 // 프로필 사진
 // ========================================================================================================
-/*
+
 $(function() {
 	let photo_path = $('.profile-photo').attr('src');
 	let my_photo; // 사용자가 업로드할 이미지를 담는다.
@@ -27,46 +27,45 @@ $(function() {
 
 		reader.readAsDataURL(my_photo);
 	});
-})
-
-
-
-// 등록버튼 눌렀을 때
-$("#photo_submit").click(function() {
-	// 업로드한 이미지 여부 확인
-	if ($("#upload").val() == '') {
-		alert("프로필 사진을 선택해주세요.");
-		$(".profile-photo").attr("src", photo_path);
-		return;
-	}
-
-	//파일 전송
-	let form_data = new FormData();
-	form_data.append("image", my_photo); // 사용자가 업로드한 이미지
-
-	// Ajax 요청 보내기
-	$.ajax({
-		url: "/upload-image",
-		type: "POST",
-		data: form_data,
-		processData: false,
-		contentType: false,
-		success: function(response) {
-			// 성공적으로 요청 처리됨
-			console.log(response);
-
-			alert("이미지 업로드 성공");
-			closeModal();
-			location.reload();
-		},
-		error: function(xhr, status, error) {
-			// 요청 실패 상태 처리하기
-			console.error(error);
-			alert("이미지 업로드 실패");
+	
+	// 등록버튼 눌렀을 때
+	$("#photo_submit").click(function() {
+		// 업로드한 이미지 여부 확인
+		if ($("#upload").val() == '') {
+			alert("프로필 사진을 선택해주세요.");
+			$(".profile-photo").attr("src", photo_path);
+			return;
 		}
-	});
+
+		//파일 전송
+		let form_data = new FormData();
+		form_data.append("image", my_photo); // 사용자가 업로드한 이미지
+
+		// Ajax 요청 보내기
+		$.ajax("uploadImage", {
+			type: "POST",
+			data: form_data,
+			processData: false,
+			contentType: false,
+			success: function(response) {
+				// 성공적으로 요청 처리됨
+				console.log(response);
+
+				alert("이미지 업로드 성공");
+				closeModal();
+				location.reload();
+			},
+			error: function(error) {
+				// 요청 실패 상태 처리하기
+				console.error(error);
+				alert("이미지 업로드 실패");
+			}
+		});
+	})
 })
-*/
+
+
+
 
 // ========================================================================================================
 // 모달창
@@ -105,13 +104,13 @@ function closeModal() {
 closeButton.addEventListener("click", function() {
 	closeModal();
 })
-modal.addEventListener("click", function() {
+modal.addEventListener("click", function(e) {
 	const evTarget = e.target
 	if (evTarget.classList.contains("modal-overlay")) {
 		closeModal();
 	}
 })
-window.addEventListener("keyup", function() {
+window.addEventListener("keyup", function(e) {
 	if (isModalOn() && e.key === "Escape") {
 		closeModal();
 	}

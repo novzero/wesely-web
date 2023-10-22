@@ -70,5 +70,15 @@
    <select id="selectComment" resultType="int" >
    		select count(commentCount) from community
    </select>
+   <!-- 메인화면에서 사용할 6개 목록얻기 -->
+    <select id="selectCommList" resultType="CommunityVO">
+      select *
+        from (
+        select *
+        from community 
+        order by id desc
+    )
+        where <![CDATA[rownum <= 6]]>
+    </select>
    
  </mapper>
