@@ -36,7 +36,7 @@
 		update 
 			store
 		set
-			name=#{name}, address=#{address}, opening=#{opening}, tel=#{tel}, description=#{description}, hashTag=#{hashTag}
+			name=#{name}, address=#{address}, opening=#{opening}, tel=#{tel}, description=#{description}, hashTag=#{hashTag}, region=#{region}
 		where
 			id=#{id}
 	</update>

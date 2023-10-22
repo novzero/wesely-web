@@ -11,6 +11,26 @@
 	<link rel="stylesheet" href="/css/business/createStore.css" />
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script>
+		$(document).ready(function () {
+			var fullAddress = $('#address').val();
+			var addressParts = fullAddress.split(',');
+
+			// 팝업 주소 설정
+			if (addressParts.length > 0) {
+				$('#addressClick').val(addressParts[0]);
+			}
+
+			// 상세 주소 설정
+			if (addressParts.length > 1) {
+				$('#detailAddress').val(addressParts[1]);
+				$("#detailAddress").removeClass('not');
+				$("#detailAddress").removeAttr('disabled');
+			}
+		});
+	</script>
+
 	<script>
 		function deleteImage(inputId, labelId) {
 			// delList 필드에 삭제할 이미지의 ID를 추가합니다.
@@ -71,15 +91,22 @@
 			});
 
 			let value = $("#storeImges1").val();
-			if (value == null || value.trim().length == 0) { // 첫번째 이미지가 없다면
-				alert('첫번째 이미지는 필수등록입니다. 썸네일로 들어갈 이미지를 선택해주세요.'); // 경고
-				$(".label").removeClass('off');
-				$(".label").addClass('on');
-				return false;   // 전송 취소
-			} else if (value !== null) {
-				$(".label").removeClass('on');
-				$(".label").addClass('off');
+			let requiredImg = $('#img1').length > 0 ? $('#img1').attr('src') : null;
+			if (value == null || value.trim().length == 0) { // 첫번째 이미지 input val이 없을때
+				if (requiredImg && requiredImg.trim().length > 0) { // 첫번째 기존 이미지가 있다면
+					return true; //통과
+				}
+				else {
+					alert('첫번째 이미지는 필수등록입니다. 썸네일로 들어갈 이미지를 선택해주세요.'); // 경고
+					$(".label").first().removeClass('off');
+					$(".label").first().addClass('on');
+					return false;   // 전송 취소
+				}
+			} else if (value !== null || value.trim().length > 0) { //첫번째 이미지 input val 있을 때
+				$(".label").first().removeClass('on');
+				$(".label").first().addClass('off');
 			}
+
 			if (!isValid) {  // 만약 전체 폼의 유효성이 '무효'라면
 				alert('필수입력란을 확인해주세요.');  // 경고 메시지 출력
 				return false;  // 폼 제출 취소
@@ -88,15 +115,16 @@
 			return true;
 		}
 
-		function updateRegion() {
-			// 매장 주소 입력 필드에서 값 가져오기
-			var address = document.getElementById('address').value;
+		function updateAddress() {
+			// #popupAddress와 #detailAddress의 value를 가져온다.
+			var popupAddress = $('#addressClick').val();
+			var detailAddress = $('#detailAddress').val();
 
-			// 주소 분리
-			var addressParts = address.split(' ');
+			// 두 주소 값을 합친다.
+			var fullAddress = popupAddress + ', ' + detailAddress;
 
-			// 시설 위치 입력 필드에 값 설정
-			document.getElementById('region').value = addressParts[1] + ' ' + addressParts[2];
+			// 합친 주소 값을 #address에 설정한다.
+			$('#address').val(fullAddress);
 		}
 	</script>
 </head>
@@ -156,7 +184,7 @@
 
 								<div>
 									<img class="fileImg" th:id="'img' + ${num}"
-										th:src='|/static/images/upload/${img.uuid}_${img.fileName}|'>
+										th:src='|/static/images/upload/${img.uuid}_${img.fileName}|' alt="기존이미지">
 								</div>
 							</label>
 						</th:block>
@@ -173,21 +201,31 @@
 					</th:block>
 
 				</div>
-
+				<!-- 삭제할 이미지 -->
 				<input type="hidden" name="delList" id="delList" size="100" />
-				<input th:if="${session.mvo.nickname == null}" type="text" th:value="${session.mvo.username}"
-					disabled />
+				<!-- 유저 아이디 -->
 				<input id="userid" th:unless="${session.mvo.nickname == null}" th:value="${session.mvo.userid}"
 					type="hidden" name="userid" />
+				<!-- STORE 아이디 -->
 				<input id="id" th:value="${st.id}" type="hidden" name="id" />
+				<!-- 시설 위치 담기 -->
+				<input class="addText" id="region" type="hidden" name="region" th:value="${st.region}">
 
 				<p class="titleText required">매장 이름</p>
 				<input class="requiredData addText off" id="name" type="text" placeholder="매장이름" name="name"
 					th:value="${st.name}">
-				<p class="titleText required">매장 주소</p>
-				<input class="requiredData addText off" id="address" type="text" placeholder="매장주소" name="address"
+
+				<p class="titleText required">매장 주소<span class="wranText">(필수)</span></p>
+				<!-- hidden : 조합된 주소데이터 -->
+				<input class="requiredData addText off" id="address" type="hidden" name="address"
 					th:value="${st.address}">
-				<p class="titleText">해쉬태그</p>
+				<!-- 카카오우편주소 api 팝업버튼 -->
+				<input class="popupAddress off" type="button" id="addressClick" onclick="clickAddress()">
+				<!-- 상세주소 -->
+				<input class="requiredData off detailAddress not" id="detailAddress" type="text" name="detailAddress"
+					onchange="updateAddress()" disabled>
+
+				<p class="titleText required">해쉬태그</p>
 				<input class="requiredData addText off" id="hashTag" type="text" placeholder="해쉬태그" name="hashTag"
 					th:value="${st.hashTag}">
 				<p class="titleText">매장 운영시간</p>
@@ -196,7 +234,7 @@
 				<p class="titleText required">매장 전화번호</p>
 				<input class="requiredData addText off" id="tel" type="text" placeholder="매장전화번호" name="tel"
 					th:value="${st.tel}">
-				<p class="titleText">매장 소개(설명)</p>
+				<p class="titleText">매장 소개</p>
 				<input class="addTextDes off" id="dec" type="text" placeholder="매장설명" name="description"
 					th:value="${st.description}">
 				<div class="modalBtn">
@@ -205,6 +243,50 @@
 				</div>
 			</form>
 		</main>
+		<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+		<script>
+			function clickAddress() {
+				//팝업 위치를 지정(화면의 가운데 정렬)
+				var width = 500; //팝업의 너비
+				var height = 600; //팝업의 높이
+
+				new daum.Postcode({
+					width: width, //생성자에 크기 값을 명시적으로 지정해야 합니다.
+					height: height,
+					oncomplete: function (data) {
+						// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분입니다.
+						// 예제를 참고하여 다양한 활용법을 확인해 보세요.
+						var addr = ''; // 주소 변수
+						var extraAddr = ''; // 참고항목 변수
+						//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+						if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+							if (data.jibunAddress === "") { // 맵핑된 것들이 여러개여서 정확한 값을 가져오지 못한 경우
+								addr = data.autoJibunAddress; // 자동으로 들어가게 하기
+							} else {
+								addr = data.jibunAddress;
+							}
+						} else { // 사용자가 지번 주소를 선택했을 경우(J)
+							addr = data.jibunAddress;
+						}
+
+						var partAddr = addr.split(' ');
+						
+						$("#region").val(partAddr[1] + partAddr[2]);
+						// 주소 담기
+						$("#addressClick").val(addr);
+						// disabled 풀어주고 css 적용하기
+						$("#detailAddress").removeClass('not');
+						$("#detailAddress").removeAttr('disabled');
+						// 커서를 상세주소 필드로 이동한다.
+						$("#detailAddress").focus();
+						updateAddress();
+					}
+				}).open({
+					left: (window.screen.width / 2) - (width / 2),
+					top: (window.screen.height / 2) - (height / 2)
+				});
+			}
+		</script>
 </body>
 
 </html>
