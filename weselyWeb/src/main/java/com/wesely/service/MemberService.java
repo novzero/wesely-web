@@ -1,5 +1,7 @@
 package com.wesely.service;
 
+import org.springframework.core.io.Resource;
+
 import com.wesely.vo.MemberVO;
 
 public interface MemberService {
@@ -48,5 +50,8 @@ public interface MemberService {
 	
 	// 이미지 저장
 	void saveImage(MemberVO memberVO);
+	
+	// 이미지 경로조회
+	Resource loadMemberImage(String fileName);
 
 }

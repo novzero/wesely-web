@@ -1,6 +1,10 @@
 package com.wesely.service;
 
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -8,6 +12,8 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -267,7 +273,28 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 //==============================================================================================================
+	
+	// 이미지 경로조회
+	@Override
+    public Resource loadMemberImage(String fileName) {
+        // 실제 서버 디렉토리 경로 설정
+        String imagePath = "/static/images/";
 
+        try {
+            Path filePath = Paths.get(imagePath + fileName);
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() && resource.isReadable()) {
+                return resource;
+            } else {
+                throw new FileNotFoundException("이미지 파일을 찾을 수 없습니다: " + fileName);
+            }
+        } catch (MalformedURLException | FileNotFoundException e) {
+            throw new RuntimeException("이미지 파일 로딩 중 오류 발생", e);
+        }
+    }
+	
+	// 프로필 이미지 등록
 	@Override
 	public void saveImage(MemberVO memberVO) {
 		log.info("{}의 saveImage 호출 : {}", this.getClass().getName(), memberVO);
