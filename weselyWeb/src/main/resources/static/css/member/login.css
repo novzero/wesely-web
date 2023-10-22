@@ -1,14 +1,40 @@
+body {
+	width: 100%;
+	height: 100vh;
+}
+
+main {
+	position: relative;
+	width: 100%;
+	height: calc(100% - 60px);
+}
+
+
 #loginform {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
 	width: 400px;
-	margin-right: auto;
-	margin-left: auto;
-	margin-top: 50px;
-	padding: 50px;
+	
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	
+	height: fit-content;
 	text-align: center;
 	border: none;
 }
 
+form{
+	width: 100%;
+	margin-top: 20px;
+	padding: 0 40px;
+}
+
 #inputform {
+	width: 100%;
 	margin-top: 50px;
 }
 
@@ -23,7 +49,7 @@
 #loginform input {
 	display: block;
 	width: 100%;
-	height: 35px;
+	height: 38px;
 	margin-bottom: 15px;
 	border: 1px solid gainsboro;
 	border-radius: 7px;
@@ -64,4 +90,12 @@
 
 a:hover {
 	font-weight: bold;
+}
+
+.question {
+	margin-top: 20px;
+}
+
+.question a {
+	margin-top: 10px;
 }

@@ -1,5 +1,6 @@
 package com.wesely.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.wesely.vo.CGoodVO;
@@ -8,6 +9,7 @@ import com.wesely.vo.CommunityVO;
 import com.wesely.vo.GoodVO;
 import com.wesely.vo.MemberVO;
 import com.wesely.vo.Paging;
+import com.wesely.vo.StoreVO;
 
 public interface CommunityService {
 	// 목록보기
@@ -60,4 +62,7 @@ public interface CommunityService {
 	
 	//댓글 좋아요 개수 가져오기
 	int ccountGood(int ref);
+	
+	//메인화면에서 사용할 커뮤니티 6개 가져오기
+	List<CommunityVO> getAllComm();
 }

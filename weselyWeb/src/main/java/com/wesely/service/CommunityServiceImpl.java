@@ -22,6 +22,8 @@ import com.wesely.vo.CommunityVO;
 import com.wesely.vo.GoodVO;
 //github.com/novzero/wesely-web.git
 import com.wesely.vo.Paging;
+import com.wesely.vo.StoreImgVO;
+import com.wesely.vo.StoreVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -357,5 +359,32 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public int ccountGood(int ref) {
 		return cgoodDAO.CommCountGood(ref);
+	}
+
+	// 메인화면에서 사용할 6개 커뮤니티 가져오기
+	@Override
+	public List<CommunityVO> getAllComm() {
+		log.info("getAllComm 호출 {}");
+		List<CommunityVO> list = null;
+
+		try {
+			list = communityDAO.selectCommList();
+			if (list != null) {
+				for (CommunityVO commVO : list) {
+					// 반복중인 commVO ID에 해당하는 이미지를 가져온다.
+					List<CommunityImgVO> images = communityImgDAO.selectByRef(commVO.getId());
+
+					log.info("getAllComm 이미지 : {}", images);
+
+					// 가져온걸 이미지리스트에 집어넣는다.
+					commVO.setImgList(images);
+				}
+			}
+		} catch (Exception e) {
+			log.error("getAllComm 문제 발생 ", e);
+			e.printStackTrace();
+		}
+		log.info("getAllComm 리턴 {}", list);
+		return list;
 	}
 }
