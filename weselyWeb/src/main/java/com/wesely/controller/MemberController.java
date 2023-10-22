@@ -1,7 +1,15 @@
 package com.wesely.controller;
 
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -9,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +30,6 @@ import com.wesely.vo.MemberVO;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -239,6 +247,27 @@ public class MemberController {
 		} else {
 			return "redirect:/member/updateProfile";
 		}
+	}
+	
+	@GetMapping("/static/images/{fileName:.+}")
+	public ResponseEntity<Resource> getMemberImage(@PathVariable String fileName) {
+	    // 실제 서버 디렉토리 경로 설정
+	    String imagePath = "/static/images/";
+
+	    try {
+	        Path filePath = Paths.get(imagePath + fileName);
+	        Resource resource = new UrlResource(filePath.toUri());
+
+	        if (resource.exists() && resource.isReadable()) {
+	            return ResponseEntity.ok()
+	                    .contentType(MediaType.IMAGE_JPEG)
+	                    .body(resource);
+	        } else {
+	            throw new FileNotFoundException("이미지 파일을 찾을 수 없습니다: " + fileName);
+	        }
+	    } catch (MalformedURLException | FileNotFoundException e) {
+	        throw new RuntimeException("이미지 파일 로딩 중 오류 발생", e);
+	    }
 	}
 
 

@@ -22,7 +22,7 @@ $(function() {
 		let reader = new FileReader();
 
 		reader.onload = function() {
-			$(".profile-photo").attr("src", reader.result);
+			$(".modal-photo").attr("src", reader.result);
 		};
 
 		reader.readAsDataURL(my_photo);

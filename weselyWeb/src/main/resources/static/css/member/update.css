@@ -51,7 +51,6 @@ input::placeholder {
 /* ============== 여기까진 공통으로 적용 ================== */
 
 
-
 #update .nickName input:focus,
 #update .pw input:focus {
 	border-color: #4D54A5;
@@ -81,9 +80,10 @@ input::placeholder {
 }
 
 /* 회원수정, 비밀번호변경완료 버튼 */
-.btn{
+.btn {
 	margin-top: 20px;
 }
+
 #update .updateBtn,
 #update .updatePwBtn,
 #update .updatePasswordBtn {
@@ -97,6 +97,7 @@ input::placeholder {
 	cursor: pointer;
 	transition: all ease-out 250ms;
 }
+
 #update .updateBtn:hover,
 #update .updatePwBtn:hover,
 #update .updatePasswordBtn:hover {
@@ -174,16 +175,21 @@ input::placeholder {
 }
 
 /* 모달 이미지 미리보기 스타일 */
-.modal-photo{
-	width: 120px;
+.modal-photo {
+	width: 100px;
+	height: 100px;
 	cursor: pointer;
-	position: fixed;
-	top: 25%;
-	left: 35%;
+	position: absolute;
+	top: calc(50% - 20px);
+	left: 50%;
+	transform: translate(-50%, -50%);
+	border-radius: 50%;
+	overflow: hidden;
 }
 
+
 /* 등록, 취소 버튼 스타일 */
-.button{
+.button {
 	margin-top: 150px;
 }
 
