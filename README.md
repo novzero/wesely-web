@@ -13,6 +13,9 @@
     <li>
         <a href="#%EF%B8%8Fteam-members">Team Members</a>
     </li>
+   <li>
+      <a href="">project기간</a>
+   </li>
     <li>
       <a href="#about-the-project">About The Project</a>
       <ul>
@@ -25,17 +28,39 @@
 </details>
 
 ## 🙋‍♀️Team Members
+<!--
 <p align="center">
-  
-![KakaoTalk_20230927_115820007 1](https://github.com/guruma99/wesely-web/assets/121204952/aa01119e-ac4c-49e0-b464-ea8b437a1982(https://github.com/yuhaneur))
-
 <img src="https://github.com/guruma99/wesely-web/assets/121204952/27e51e99-71fc-49e1-86a4-e12283826b0d" width="150" height="150" align="center">
 <img src="https://github.com/guruma99/wesely-web/assets/121204952/4f53be13-dd69-487e-ba24-0f917522df24" width="140" height="160" align="center">
 <img src="https://github.com/guruma99/wesely-web/assets/121204952/c12a77e0-7e6b-4cf3-b172-4972cebe2f6f" width="160" height="160" align="center">
 </p>
-<p>guruma99</p>
-<p>cylee</p>
-<p>yuhaneur</p>
+-->
+
+<br>
+
+|members| <img src="https://github.com/guruma99/wesely-web/assets/121204952/27e51e99-71fc-49e1-86a4-e12283826b0d" width="150" height="150" align="center"> | <img src="https://github.com/guruma99/wesely-web/assets/121204952/4f53be13-dd69-487e-ba24-0f917522df24" width="140" height="160" align="center"> | <img src="https://github.com/guruma99/wesely-web/assets/121204952/c12a77e0-7e6b-4cf3-b172-4972cebe2f6f" width="160" height="160" align="center"> |
+| :----: | :----: | :----: | :----: |
+|Github| [guruma99](https://github.com/guruma99)  | [cylee](https://github.com/cylee)  |  [yuhaneur](https://github.com/yuhaneur)  |
+|팀내구성|  팀장  |  팀원   |  팀원   |
+|역할분담|  기획, 일정조정, 디자인, 퍼블리싱 총괄<br/>운동시설 PART, PPT & readMe작성 및 발표   |  로그인/회원가입/유저정보PART, 보고서작성   |  메인화면 api, 커뮤니티PART, 보고서작성  | 
+
+<br>
+
+## 📆 프로젝트 기간
+
+2023.09.11 ~ 2023.10.25
+
+| 기간                | 설명                                                          |
+| ------------------- | ------------------------------------------------------------  |
+| 9.11(월) ~ 9.12(화)  | 구상 단계 (벤치마킹, 세부일정협의, 요구사항정의서 작성)          |
+| 9.12(화) ~ 9.14(목) | 준비 기간 (메뉴구조설계, DB 설계)                               |
+| 9.14(목) ~ 9.18(월) | UI스타일링<br />화면설계(와이어프레임)<br />HTML, CSS 레이아웃 코딩|
+| 9.18(월) ~ 10.06(금) | 역할 분담대로 기능개발<br />                                  |
+| 10.10(화) ~ 10.16(월) | DB 스키마 최종 완료<br /> 피드백받아 세부적인 구현기능개발        |
+| 10.16(월) ~ 10.24(화) | 완성도 조정(로딩스피너, 및 css레이아웃)<br />테스트            |
+| 10.25(수) |       프로젝트 마무리                                             |
+
+<br><br>
 
 ## ❓about the project
 ![wesely의 사본](https://github.com/guruma99/wesely-web/assets/121204952/730db0cc-3b06-428f-9a0e-e970e01a6b9a)
