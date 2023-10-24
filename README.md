@@ -14,7 +14,7 @@
         <a href="#%EF%B8%8Fteam-members">Team Members</a>
     </li>
    <li>
-      <a href="">project기간</a>
+      <a href="#-project-schedule">Project schedule</a>
    </li>
     <li>
       <a href="#about-the-project">About The Project</a>
@@ -30,7 +30,7 @@
 ## 🙋‍♀️Team Members
 <!--
 <p align="center">
-<img src="https://github.com/guruma99/wesely-web/assets/121204952/27e51e99-71fc-49e1-86a4-e12283826b0d" width="150" height="150" align="center">
+<img src="https://github.com/guruma99/wesely-web/assets/121204952/6dc2503d-8af1-4fae-8b93-8df11d29f255" width="150" height="150" align="center">
 <img src="https://github.com/guruma99/wesely-web/assets/121204952/4f53be13-dd69-487e-ba24-0f917522df24" width="140" height="160" align="center">
 <img src="https://github.com/guruma99/wesely-web/assets/121204952/c12a77e0-7e6b-4cf3-b172-4972cebe2f6f" width="160" height="160" align="center">
 </p>
@@ -38,15 +38,15 @@
 
 <br>
 
-|members| <img src="https://github.com/guruma99/wesely-web/assets/121204952/27e51e99-71fc-49e1-86a4-e12283826b0d" width="150" height="150" align="center"> | <img src="https://github.com/guruma99/wesely-web/assets/121204952/4f53be13-dd69-487e-ba24-0f917522df24" width="140" height="160" align="center"> | <img src="https://github.com/guruma99/wesely-web/assets/121204952/c12a77e0-7e6b-4cf3-b172-4972cebe2f6f" width="160" height="160" align="center"> |
+|members| <img src="https://github.com/guruma99/wesely-web/assets/121204952/6dc2503d-8af1-4fae-8b93-8df11d29f255" width="220" height="220" align="center"> | <img src="https://github.com/guruma99/wesely-web/assets/121204952/4f53be13-dd69-487e-ba24-0f917522df24" width="140" height="160" align="center"> | <img src="https://github.com/guruma99/wesely-web/assets/121204952/cd5d7433-a782-4815-9454-ecc9f7443d2d" width="180" height="180" align="center"> |
 | :----: | :----: | :----: | :----: |
 |Github| [guruma99](https://github.com/guruma99)  | [novzero](https://github.com/novzero)  |  [yuhaneur](https://github.com/yuhaneur)  |
 |팀내구성|  팀장  |  팀원   |  팀원   |
-|역할분담|  기획, 일정조정, 디자인, 퍼블리싱 총괄<br/>운동시설 PART, PPT & readMe작성 및 발표   |  로그인/회원가입/유저정보PART, 보고서작성   |  메인화면 api, 커뮤니티PART, 보고서작성  | 
+|역할분담|  기획, 개발일정조정, 디자인, 퍼블리싱 총괄,<br/>운동시설 PART 개발,<br>PPT & readMe작성 및 발표   |  로그인/회원가입/유저정보PART 개발,<br>보고서작성   |  메인화면 api, 커뮤니티PART 개발,<br>보고서작성  | 
 
 <br>
 
-## 📆 프로젝트 기간
+## 📆 Project schedule
 
 2023.09.11 ~ 2023.10.25
 
