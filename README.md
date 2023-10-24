@@ -4,7 +4,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-        <a href="#team-members">Team Members</a>
+        <a href="#%EF%B8%8Fteam-members">Team Members</a>
     </li>
     <li>
       <a href="#about-the-project">About The Project</a>
