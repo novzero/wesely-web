@@ -76,8 +76,8 @@
 
 - ✔️ 로그인/ 회원가입/ 유저프로필 페이지
   
-<img src="https://github.com/guruma99/wesely-web/assets/121204952/6daff8d1-7802-49ca-8c6d-93b3153a9f38">
-<img src="https://github.com/guruma99/wesely-web/assets/121204952/00de6a28-c712-4b44-8aab-8d0e5cf019e8">
+<img src="https://github.com/guruma99/wesely-web/assets/121204952/6daff8d1-7802-49ca-8c6d-93b3153a9f38" width="400">
+<img src="https://github.com/guruma99/wesely-web/assets/121204952/00de6a28-c712-4b44-8aab-8d0e5cf019e8" width="400">
 <img src="https://github.com/guruma99/wesely-web/assets/121204952/1cbc0a8c-c235-47dd-bb0e-227533ec27e9">
 <img src="https://github.com/guruma99/wesely-web/assets/121204952/909ca7d4-aea6-42fa-8889-b3410b2fe492">
 
@@ -102,4 +102,5 @@
 
 ![스크린샷 2023-10-25 003222](https://github.com/guruma99/wesely-web/assets/121204952/c282bd70-ac4c-41e1-b347-c6898997ce6f)
 ![스크린샷 2023-10-25 003243](https://github.com/guruma99/wesely-web/assets/121204952/53f48379-6ad3-4473-be5b-ae5aa6b92379)
-![스크린샷 2023-10-25 003329](https://github.com/guruma99/wesely-web/assets/121204952/a8571432-caa4-4ff6-8021-c5178f3a72e9)
+<img src="https://github.com/guruma99/wesely-web/assets/121204952/c5c4b015-627a-4fc5-baf4-9e06c9958fae" width="400" height="600">
+<img src="https://github.com/guruma99/wesely-web/assets/121204952/a8571432-caa4-4ff6-8021-c5178f3a72e9" width="400" height="600">
