@@ -69,5 +69,28 @@
    - 커뮤니티를 통한 소통창구를 제공 및 비즈니스 계정을 통한 사업자의 운동시설 홍보를 돕는다.
 
 ## preview
-![Main - Chrome 2023-10-22 15-25-57 (1)](https://github.com/guruma99/wesely-web/assets/121204952/194d2c31-d529-4070-8f20-39f168193dff)
 
+- ✔️ 메인페이지
+
+![wesely - Chrome 2023-10-24 23-52-35](https://github.com/guruma99/wesely-web/assets/121204952/801ed2a1-e619-42e7-99d6-99e097aa63cb)
+
+- ✔️ 로그인/ 회원가입/ 유저프로필 페이지
+  
+<img src="https://github.com/guruma99/wesely-web/assets/121204952/6daff8d1-7802-49ca-8c6d-93b3153a9f38" width="500" height="700">
+<img src="https://github.com/guruma99/wesely-web/assets/121204952/00de6a28-c712-4b44-8aab-8d0e5cf019e8" width="500" height="700">
+<img src="https://github.com/guruma99/wesely-web/assets/121204952/1cbc0a8c-c235-47dd-bb0e-227533ec27e9">
+<img src="https://github.com/guruma99/wesely-web/assets/121204952/909ca7d4-aea6-42fa-8889-b3410b2fe492">
+
+- ✔️ 아이디 및 비밀번호 찾기 페이지
+  
+![스크린샷 2023-10-25 002825](https://github.com/guruma99/wesely-web/assets/121204952/3c6fd057-ed7d-47d6-8685-2abdd95fbb5a)
+![스크린샷 2023-10-25 002836](https://github.com/guruma99/wesely-web/assets/121204952/dcdcd76e-a777-43a8-880f-7d9d2e76ea8c)
+
+
+- ✔️ 내주변시설 목록보기/ 지도로 시설찾기 페이지
+
+- ✔️ 리뷰crud/ 비즈니스 계정 시설crud 페이지
+
+- ✔️ 커뮤니티 crud 페이지
+
+- ✔️ 댓글 crud 페이지
