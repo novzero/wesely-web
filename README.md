@@ -98,12 +98,8 @@
 ![스크린샷 2023-10-25 003905](https://github.com/guruma99/wesely-web/assets/121204952/dda2e6d0-0ef8-48d1-a0f1-a36e4d779aa9)
 ![스크린샷 2023-10-25 003822](https://github.com/guruma99/wesely-web/assets/121204952/c4cd9b65-7d3e-49bf-a8ac-0e922d4549d8)
 
-- ✔️ 커뮤니티 crud 페이지
+- ✔️ 커뮤니티 crud 페이지 /  댓글 crud 페이지
 
 ![스크린샷 2023-10-25 003222](https://github.com/guruma99/wesely-web/assets/121204952/c282bd70-ac4c-41e1-b347-c6898997ce6f)
 ![스크린샷 2023-10-25 003243](https://github.com/guruma99/wesely-web/assets/121204952/53f48379-6ad3-4473-be5b-ae5aa6b92379)
-
-- ✔️ 댓글 crud 페이지
-
-![스크린샷 2023-10-25 003322](https://github.com/guruma99/wesely-web/assets/121204952/9b202f90-cf6e-493a-84a1-caa8bef8fa52)
 ![스크린샷 2023-10-25 003329](https://github.com/guruma99/wesely-web/assets/121204952/a8571432-caa4-4ff6-8021-c5178f3a72e9)
