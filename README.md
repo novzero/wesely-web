@@ -7,7 +7,7 @@
         <a href="#%EF%B8%8Fteam-members">Team Members</a>
     </li>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#%EF%B8%8Fteam-members">About The Project</a>
       <ul>
         <li><a href="#preview">Preview</a></li>
         <li><a href="#Built-With">Built With</a></li>
