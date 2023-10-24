@@ -76,8 +76,8 @@
 
 - ✔️ 로그인/ 회원가입/ 유저프로필 페이지
   
-<img src="https://github.com/guruma99/wesely-web/assets/121204952/6daff8d1-7802-49ca-8c6d-93b3153a9f38" width="500" height="700">
-<img src="https://github.com/guruma99/wesely-web/assets/121204952/00de6a28-c712-4b44-8aab-8d0e5cf019e8" width="500" height="700">
+<img src="https://github.com/guruma99/wesely-web/assets/121204952/6daff8d1-7802-49ca-8c6d-93b3153a9f38">
+<img src="https://github.com/guruma99/wesely-web/assets/121204952/00de6a28-c712-4b44-8aab-8d0e5cf019e8">
 <img src="https://github.com/guruma99/wesely-web/assets/121204952/1cbc0a8c-c235-47dd-bb0e-227533ec27e9">
 <img src="https://github.com/guruma99/wesely-web/assets/121204952/909ca7d4-aea6-42fa-8889-b3410b2fe492">
 
