@@ -24,7 +24,6 @@
        <li><a href="#erd">Erd</a></li>
       </ul>
     </li>
-    <li><a href="#show-your-support">Support</a></li>
   </ol>
 </details>
 
