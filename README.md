@@ -8,7 +8,7 @@
 </p>
 
 <details open="open">
-  <summary>Contents</summary>
+  <summary>Table of Contents</summary>
   <ol>
     <li>
         <a href="#%EF%B8%8Fteam-members">Team Members</a>
