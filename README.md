@@ -108,28 +108,38 @@
 
 ### Built With
 
-##### Language
+##### Front
+
+-   core
+
+##### BackEnd
 
 -   java
+-   spring Boot
+  
+##### Language
+
 -   html
 -   css
 -   js
+-   java
 
 ##### IDE
 
--   spring boot
+-   Eclipse
 
+##### DB
+
+- oracle
 
 ##### Library
 
--   jQuery / ajax
+-   jQuery
 
 ##### API
 
 -   kakao map
--   YouTube Player API
-
-##### Etc
-
--   GSAP & ScrollToPlugin
--   Google Material Icons
+-   ajax / axios
+-   kakao 우편번호
+-   OpenWeather
+-   공공서비스포털 사업자등록번호 조회
