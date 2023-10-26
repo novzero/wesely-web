@@ -23,9 +23,9 @@ public class MemberVO {
 	private String phone;
 	private String authority;
 
-	// 이미지 파일 필드
-	private MultipartFile imageFile;
-
+	// 프로필 이미지 파일 필드
+	private MultipartFile ImageFile; // 프로필 이미지 파일]
+    
 	// 사업자 등록번호 관련 필드
 	private int ref;
 	private String bNum1; // 사업자등록번호(맨앞3자리)

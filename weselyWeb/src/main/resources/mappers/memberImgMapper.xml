@@ -25,5 +25,10 @@
 		delete from MemberImg where ref=#{ref}
 	</delete>
 	
+	<!-- 회원의 프로필 이미지 조회 -->
+	<select id="selectByRef" parameterType="int">
+		select * from memberImg where ref=#{ref}
+	</select>
+	
 	
 </mapper>
