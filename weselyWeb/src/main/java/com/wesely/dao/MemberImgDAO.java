@@ -16,4 +16,7 @@ public interface MemberImgDAO {
 		
 		int getLastInsertedIdx();
 		
+		
+		// 회원의 프로필 이미지 조회
+	    MemberImgVO selectByRef(int ref);
 }

@@ -1,19 +1,12 @@
 package com.wesely.service;
 
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -22,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +23,6 @@ import com.wesely.dao.CommentDAO;
 import com.wesely.dao.CommunityDAO;
 import com.wesely.dao.MemberDAO;
 import com.wesely.dao.MemberImgDAO;
-import com.wesely.vo.MemberImgVO;
 import com.wesely.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +39,7 @@ public class MemberServiceImpl implements MemberService {
 	CommunityDAO communityDAO;
 	@Autowired
 	CommentDAO commentDAO;
+	@Autowired
 	MemberImgDAO memberImgDAO;
 
 	// 일반회원정보 저장
@@ -97,7 +89,7 @@ public class MemberServiceImpl implements MemberService {
 			// 넘어온 아이디가 존재하는지 판단
 			MemberVO mvo = memberDAO.selectByUserid(vo.getUserid());
 			log.info("{}의 selectByUserid호출 : {}", this.getClass().getName(), vo);
-			
+
 			if (mvo != null) { // 지정 아이디의 회원이 있다면
 				if (mvo.getPassword().equals(vo.getPassword())) {
 					memberVO = mvo;
@@ -107,7 +99,7 @@ public class MemberServiceImpl implements MemberService {
 				}
 			} else {
 				// 아이디가 없다
-				 throw new Exception("아이디가 존재하지 않습니다.");
+				throw new Exception("아이디가 존재하지 않습니다.");
 			}
 		} catch (Exception e) {
 			log.error("로그인 실패: {}", e.getMessage());
@@ -215,13 +207,13 @@ public class MemberServiceImpl implements MemberService {
 		log.info("findPassword({}) 리턴 : {}", VO, memberVO);
 		return memberVO;
 	}
-	
+
 	// 아이디로 회원정보 조회
 	public MemberVO findUserById(String userId) {
-	    log.info("{}의 findUserById 호출 : {}", this.getClass().getName(), userId);
-	    MemberVO memberVO = memberDAO.selectByUserid(userId);
-	    log.info("{}의 findUserById 리턴 : {}", this.getClass().getName(), memberVO);
-	    return memberVO;
+		log.info("{}의 findUserById 호출 : {}", this.getClass().getName(), userId);
+		MemberVO memberVO = memberDAO.selectByUserid(userId);
+		log.info("{}의 findUserById 리턴 : {}", this.getClass().getName(), memberVO);
+		return memberVO;
 	}
 
 	// 닉네임 변경
@@ -278,46 +270,6 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 //==============================================================================================================
-	
-	// 이미지 경로조회
-	@Override
-    public Resource loadMemberImage(String fileName) {
-        // 실제 서버 디렉토리 경로 설정
-        String imagePath = "/static/images/";
-
-        try {
-            Path filePath = Paths.get(imagePath + fileName);
-            Resource resource = new UrlResource(filePath.toUri());
-
-            if (resource.exists() && resource.isReadable()) {
-                return resource;
-            } else {
-                throw new FileNotFoundException("이미지 파일을 찾을 수 없습니다: " + fileName);
-            }
-        } catch (MalformedURLException | FileNotFoundException e) {
-            throw new RuntimeException("이미지 파일 로딩 중 오류 발생", e);
-        }
-    }
-	
-	// 프로필 이미지 등록
-	@Override
-	public void saveImage(MemberVO memberVO) {
-		log.info("{}의 saveImage 호출 : {}", this.getClass().getName(), memberVO);
-
-		MultipartFile imageFile = memberVO.getImageFile();
-
-		// MemberImgVO 객체 생성 및 필드 설정
-		MemberImgVO memberImg = new MemberImgVO();
-		memberImg.setUuid(UUID.randomUUID().toString()); // UUID 생성 또는 다른 고유 식별자 사용 가능
-		memberImg.setFileName(imageFile.getOriginalFilename());
-		memberImg.setContentType(imageFile.getContentType());
-		
-		int idx = memberDAO.getLastInsertedIdx();
-		memberImg.setRef(idx);
-
-		// 데이터베이스에 이미지 정보 저장하기 위해 DAO 호출
-		memberImgDAO.insert(memberImg);
-	};
 
 //==============================================================================================================
 
@@ -350,8 +302,7 @@ public class MemberServiceImpl implements MemberService {
 			// RestTemplate 객체 생성
 			RestTemplate restTemplate = new RestTemplate();
 			// API 호출
-			ResponseEntity<String> responseEntity = 
-					restTemplate.exchange(new URI(url), HttpMethod.POST, requestEntity,
+			ResponseEntity<String> responseEntity = restTemplate.exchange(new URI(url), HttpMethod.POST, requestEntity,
 					String.class);
 
 			HttpStatus httpStatus = (HttpStatus) responseEntity.getStatusCode();

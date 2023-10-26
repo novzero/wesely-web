@@ -58,7 +58,6 @@ input::placeholder {
 	padding-left: 10px;
 }
 
-
 /* 비밀번호 보기/숨기기 아이콘 */
 #pwIcon,
 #pw1Icon {
@@ -93,6 +92,7 @@ input::placeholder {
 .Bno input::placeholder {
 	text-align: center;
 }
+
 .Store input::placeholder {
 	text-align: left;
 }
@@ -100,6 +100,7 @@ input::placeholder {
 .Bno input {
 	text-align: center;
 }
+
 .Bname input,
 .Store input {
 	text-align: left;

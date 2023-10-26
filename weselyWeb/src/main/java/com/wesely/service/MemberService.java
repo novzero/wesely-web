@@ -48,10 +48,5 @@ public interface MemberService {
 	// 아이디로 회원정보 찾기
 	MemberVO findUserById(String userId);
 	
-	// 이미지 저장
-	void saveImage(MemberVO memberVO);
-	
-	// 이미지 경로조회
-	Resource loadMemberImage(String fileName);
 
 }

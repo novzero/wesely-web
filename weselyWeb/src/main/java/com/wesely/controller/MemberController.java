@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.wesely.service.MemberService;
 import com.wesely.vo.CommVO;
@@ -59,9 +57,9 @@ public class MemberController {
 	public String joinOkPost(@ModelAttribute MemberVO memberVO, Model model) {
 		log.info("joinOkPost({})호출", memberVO);
 		if (memberVO != null) {
-			// 닉네임이 비어있을 경우
+
+			// 닉네임이 비어있을 경우 닉네임 자리에 아이디를 넣어준다.
 			if (memberVO.getNickname().equals("")) {
-				// 닉네임 자리에 아이디를 넣어준다.
 				memberVO.setNickname(memberVO.getUserid());
 			}
 			// 서비스를 호출하여 저장을 수행한다.
@@ -248,46 +246,23 @@ public class MemberController {
 			return "redirect:/member/updateProfile";
 		}
 	}
-	
+
 	@GetMapping("/static/images/{fileName:.+}")
 	public ResponseEntity<Resource> getMemberImage(@PathVariable String fileName) {
-	    // 실제 서버 디렉토리 경로 설정
-	    String imagePath = "/static/images/";
+		// 실제 서버 디렉토리 경로 설정
+		String imagePath = "/static/images/";
 
-	    try {
-	        Path filePath = Paths.get(imagePath + fileName);
-	        Resource resource = new UrlResource(filePath.toUri());
-
-	        if (resource.exists() && resource.isReadable()) {
-	            return ResponseEntity.ok()
-	                    .contentType(MediaType.IMAGE_JPEG)
-	                    .body(resource);
-	        } else {
-	            throw new FileNotFoundException("이미지 파일을 찾을 수 없습니다: " + fileName);
-	        }
-	    } catch (MalformedURLException | FileNotFoundException e) {
-	        throw new RuntimeException("이미지 파일 로딩 중 오류 발생", e);
-	    }
-	}
-
-
-	@PostMapping(value = "/uploadImage")
-	public ResponseEntity<String> uploadImage(@RequestParam("image") MultipartFile imageFile) {
 		try {
-			// 멤버 정보 객체 생성
-			MemberVO memberVO = new MemberVO();
-			memberVO.setImageFile(imageFile);
+			Path filePath = Paths.get(imagePath + fileName);
+			Resource resource = new UrlResource(filePath.toUri());
 
-			// 이미지 저장 로직 실행
-			memberService.saveImage(memberVO);
-
-			// 필요한 후속 작업 수행
-
-			return ResponseEntity.ok("이미지 업로드 성공");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이미지 업로드 실패");
+			if (resource.exists() && resource.isReadable()) {
+				return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(resource);
+			} else {
+				throw new FileNotFoundException("이미지 파일을 찾을 수 없습니다: " + fileName);
+			}
+		} catch (MalformedURLException | FileNotFoundException e) {
+			throw new RuntimeException("이미지 파일 로딩 중 오류 발생", e);
 		}
 	}
 
