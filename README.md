@@ -20,7 +20,7 @@
       <a href="#about-the-project">About The Project</a>
       <ul>
         <li><a href="#preview">Preview</a></li>
-        <li><a href="#Built-With">Built With</a></li>
+        <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
     <li><a href="#show-your-support">Support</a></li>
@@ -104,3 +104,32 @@
 ![스크린샷 2023-10-25 003243](https://github.com/guruma99/wesely-web/assets/121204952/53f48379-6ad3-4473-be5b-ae5aa6b92379)
 <img src="https://github.com/guruma99/wesely-web/assets/121204952/c5c4b015-627a-4fc5-baf4-9e06c9958fae" width="400" height="600">
 <img src="https://github.com/guruma99/wesely-web/assets/121204952/a8571432-caa4-4ff6-8021-c5178f3a72e9" width="400" height="600">
+
+
+### Built With
+
+##### Language
+
+-   java
+-   html
+-   css
+-   js
+
+##### IDE
+
+-   spring boot
+
+
+##### Library
+
+-   jQuery / ajax
+
+##### API
+
+-   kakao map
+-   YouTube Player API
+
+##### Etc
+
+-   GSAP & ScrollToPlugin
+-   Google Material Icons
