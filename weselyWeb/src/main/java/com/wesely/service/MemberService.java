@@ -1,13 +1,10 @@
 package com.wesely.service;
 
-import org.springframework.core.io.Resource;
-
 import com.wesely.vo.MemberVO;
 
 public interface MemberService {
 	// 회원가입
 	void insert(MemberVO memberVO);
-
 
 	// 비즈니스 계정 사업자번호 유효성 검사
 	int bnoCheck(String bno) throws Exception;
@@ -18,6 +15,9 @@ public interface MemberService {
 	// 비밀번호 변경
 	boolean updatePassword(MemberVO memberVO, String newPassword);
 
+	// 프로필사진 수정
+	public void saveImage(MemberVO memberVO, byte[] imageData);
+	
 	// 회원 탈퇴
 	boolean delete(MemberVO memberVO);
 

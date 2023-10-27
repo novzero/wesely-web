@@ -1,5 +1,8 @@
 package com.wesely.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +26,7 @@ import com.wesely.dao.CommentDAO;
 import com.wesely.dao.CommunityDAO;
 import com.wesely.dao.MemberDAO;
 import com.wesely.dao.MemberImgDAO;
+import com.wesely.vo.MemberImgVO;
 import com.wesely.vo.MemberVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -216,6 +220,7 @@ public class MemberServiceImpl implements MemberService {
 		return memberVO;
 	}
 
+//==============================================================================================================
 	// 닉네임 변경
 	public boolean updateNickname(MemberVO memberVO) {
 		boolean result = false;
@@ -251,6 +256,8 @@ public class MemberServiceImpl implements MemberService {
 
 	}
 
+//==============================================================================================================
+
 	// 비밀번호 변경
 	@Override
 	public boolean updatePassword(MemberVO memberVO, String newPassword) {
@@ -269,7 +276,39 @@ public class MemberServiceImpl implements MemberService {
 		return result;
 	}
 
-//==============================================================================================================
+// ==============================================================================================================
+	// 프로필 사진 수정
+	public void saveImage(MemberVO memberVO, byte[] imageData) {
+		// 이미지 저장 로직 구현
+		
+		// 저장할 이미지 파일 경로 설정
+		String imagePath = "/images/profiles/";
+		String filename = "profile_" + memberVO.getUserid() + ".png";
+		
+		try {
+	        // 이미지 파일을 저장할 경로와 파일명으로 파일 객체 생성
+	        File file = new File(imagePath + filename);
+	        
+	        // 이미지 데이터를 파일에 쓰기
+	        FileOutputStream fos = new FileOutputStream(file);
+	        fos.write(imageData);
+	        fos.close();
+	        
+	        // 파일 저장이 완료되면, DB에 이미지 정보를 업데이트하는 로직을 구현합니다.
+	        // 예시로서, MemberImgVO 객체를 생성하고 필요한 정보를 설정한 후, DB에 업데이트합니다.
+	        MemberImgVO memberImg = new MemberImgVO();
+	        memberImg.setRef(memberVO.getIdx());
+	        memberImg.setFileName(filename);
+	        memberImg.setContentType("image/png");
+	        
+	        memberImgDAO.insert(memberImg);
+	        
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        // 이미지 파일 저장 중 오류 발생 시 처리
+	    }
+	}
+// ==============================================================================================================
 
 //==============================================================================================================
 

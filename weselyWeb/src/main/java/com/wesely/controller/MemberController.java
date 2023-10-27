@@ -1,26 +1,21 @@
 package com.wesely.controller;
 
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.wesely.service.MemberService;
 import com.wesely.vo.CommVO;
@@ -247,24 +242,93 @@ public class MemberController {
 		}
 	}
 
-	@GetMapping("/static/images/{fileName:.+}")
-	public ResponseEntity<Resource> getMemberImage(@PathVariable String fileName) {
-		// 실제 서버 디렉토리 경로 설정
-		String imagePath = "/static/images/";
+//============================================================================================================
+	// 프로필 이미지 처리 로직
+	
+	@RequestMapping(value = "/member/photoView.do")
+	public String getProfile(HttpSession session, HttpServletRequest request, Model model) {
+		// 로그인한 회원 정보 세션에서 가져오기
+		MemberVO user = (MemberVO) session.getAttribute("user");
+		if (user == null) { // 로그인하지 않은 경우
+			// 현재서버 디렉토리에서 기본이미지를 불러온다.
+			byte[] readbyte = FileUtil.getBytes(request.getServletContext().getRealPath("/images/Profile.png"));
+			// 처리된 이미지 바이트 배열, 파일명 모델에 담기
+			model.addAttribute("imageFile", readbyte);
+			model.addAttribute("filename", "Profile.png");
+		} else { // 로그인한 경우
+			MemberVO memberVO = memberService.findUserById(user.getUserid());
+			// viewProfile 메소드에 전달
+			viewProfile(memberVO, request, model);
+		}
+		return "imageView";
+	}
 
-		try {
-			Path filePath = Paths.get(imagePath + fileName);
-			Resource resource = new UrlResource(filePath.toUri());
-
-			if (resource.exists() && resource.isReadable()) {
-				return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(resource);
-			} else {
-				throw new FileNotFoundException("이미지 파일을 찾을 수 없습니다: " + fileName);
-			}
-		} catch (MalformedURLException | FileNotFoundException e) {
-			throw new RuntimeException("이미지 파일 로딩 중 오류 발생", e);
+	public void viewProfile(MemberVO memberVO, HttpServletRequest request, Model model) {
+		if (memberVO == null) {
+			byte[] readbyte = FileUtil.getBytes(request.getServletContext().getRealPath("/image_bundle/default_img.png"));
+			model.addAttribute("imageFile", readbyte);
+			model.addAttribute("filename", "Profile.png");
+		} else {
+			model.addAttribute("imageFile", memberVO.getPhoto());
+			model.addAttribute("filename", memberVO.getFileName());
 		}
 	}
+
+	public class FileUtil {
+		public static byte[] getBytes(String path) {
+			FileInputStream fis = null;
+			ByteArrayOutputStream byteOs = null;
+			try {
+				// FileIS 생성
+				fis = new FileInputStream(path);
+				// byteArrayOS 생성
+				byteOs = new ByteArrayOutputStream();
+				// 바이트 하나씩 가져올 변수
+				int readFile = 0;
+				// 하나씩 꺼내서 읽는데 다 읽으면 -1을 리턴
+				while ((readFile = fis.read()) != -1) {
+					// 생성한 OS에 읽은 데이터 쓰기
+					byteOs.write(readFile);
+				}
+			} catch (IOException e) {
+				System.out.println(e.toString());
+			} finally {
+				if (fis != null) {
+					try {
+						fis.close();
+					} catch (IOException e) {
+					}
+				}
+			}
+			// OS에 쓴 데이터 byte[]로 리턴
+			return byteOs.toByteArray();
+		}
+		
+	}
+
+	@RequestMapping(value = "/updateImg")
+	public String updateImg(HttpServletRequest request, HttpSession session, @RequestParam("userid") String userid,
+			@RequestParam("image") MultipartFile profileImage) throws Exception {
+
+		log.info("updateImg 호출 - userid:{}", userid);
+		if (profileImage != null && !profileImage.isEmpty()) {
+			// 선택된 프로필 이미지가 있는 경우
+			try {
+				byte[] imageData = profileImage.getBytes();
+				MemberVO dbVO = memberService.findUserById(userid);
+				if (dbVO != null) {
+					memberService.saveImage(dbVO, imageData);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+				// 프로필 이미지 파일 저장 중 오류 발생 시 처리
+			}
+		}
+
+		return "redirect:/member/updateProfile";
+	}
+	
+//============================================================================================================
 
 	// 비밀번호변경 폼
 	@GetMapping(value = "/updatePassword")

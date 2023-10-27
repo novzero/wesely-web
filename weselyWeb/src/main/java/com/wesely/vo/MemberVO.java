@@ -1,7 +1,5 @@
 package com.wesely.vo;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import jakarta.xml.bind.annotation.XmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,8 +21,8 @@ public class MemberVO {
 	private String phone;
 	private String authority;
 
-	// 프로필 이미지 파일 필드
-	private MultipartFile ImageFile; // 프로필 이미지 파일]
+	private byte[] photo;
+	private String fileName; // 원본이름
     
 	// 사업자 등록번호 관련 필드
 	private int ref;
