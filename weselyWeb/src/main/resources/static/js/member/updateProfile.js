@@ -3,17 +3,17 @@
 // ========================================================================================================
 
 $(function() {
-	let photo_path = $('.profile-photo').attr('src');
+	let photo_path = $('.modal-photo').attr('src');
 	let my_photo; // 사용자가 업로드할 이미지를 담는다.
 	$("#upload").change(function() {
 		my_photo = this.files[0];
 		if (!my_photo) {
-			$(".profile-photo").attr("src", photo_path);
+			$(".modal-photo").attr("src", photo_path);
 			return;
 		}
 		if (my_photo.size > 1024 * 1024) {
 			alert(Math.round(my_photo.size / 1024 / 1024) + 'MB(1MB까지만 업로드 가능)');
-			$(".profile-photo").attr("src", photo_path);
+			$(".modal-photo").attr("src", photo_path);
 			$(this).val('');
 			return;
 		}
@@ -27,13 +27,13 @@ $(function() {
 
 		reader.readAsDataURL(my_photo);
 	});
-	
+
 	// 등록버튼 눌렀을 때
 	$("#photo_submit").click(function() {
 		// 업로드한 이미지 여부 확인
 		if ($("#upload").val() == '') {
 			alert("프로필 사진을 선택해주세요.");
-			$(".profile-photo").attr("src", photo_path);
+			$(".modal-photo").attr("src", photo_path);
 			return;
 		}
 
@@ -42,7 +42,7 @@ $(function() {
 		form_data.append("image", my_photo); // 사용자가 업로드한 이미지
 
 		// Ajax 요청 보내기
-		$.ajax("uploadImage", {
+		$.ajax("updateImg", {
 			type: "POST",
 			data: form_data,
 			processData: false,
@@ -61,7 +61,12 @@ $(function() {
 				alert("이미지 업로드 실패");
 			}
 		});
-	})
+	});
+
+	$('.close-button').click(function() {
+		$('.modal-photo').attr('src', photo_path);
+		$('#upload').val('');
+	});
 })
 
 

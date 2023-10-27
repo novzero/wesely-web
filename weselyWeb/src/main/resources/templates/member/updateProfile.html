@@ -55,14 +55,14 @@
 
 					<!-- 이미지 미리보기 버튼 : 클릭 시 모달 창 열림 -->
 					<div class="preview-button" id="preview-btn">
-						<img src="/images/Profile.png" alt="프로필 사진" id="profile-image" />
+						<img src="${pageContext.request.contextPath}/member/photoView.do" class = "profile-photo" alt="프로필 사진" />
 					</div>
 
 					<!-- 모달창 -->
 					<div class="modal-overlay" id="modal">
 						<div class="modal-window">
 							<div class="title">
-								프로필 사진 등록
+								프로필 사진 수정
 							</div>
 
 							<!-- 파일 선택 -->
@@ -83,7 +83,6 @@
 								<!-- 등록 버튼 -->
 								<input type="submit" id="photo_submit" value="등록" />
 							</div>
-
 						</div>
 					</div>
 				</div>
