@@ -1,5 +1,5 @@
 <p align="center">
-<h1 align="center">🙌 wesely_project</h1>
+<h1 align="center">🏋️‍♀️ wesely_project 🏄‍♀️</h1>
  <br />
 
    - 영어 `We` (우리)  와  `wisely` (슬기롭게,현명하게) 를 합쳐 만든 합성어로 wesely 서비스를 이용하는 유저들이 함께하는 운동생활로 슬기로운 하루를 보내길 바라는 뜻을 담았습니다.
@@ -21,7 +21,9 @@
       <ul>
         <li><a href="#preview">Preview</a></li>
         <li><a href="#built-with">Built With</a></li>
-       <li><a href="#erd">Erd</a></li>
+        <li><a href="#erd">Erd</a></li>
+        <li><a href="#figma">Figma</a></li>
+        <li><a href="#view-more">View more</a></li>
       </ul>
     </li>
   </ol>
@@ -148,4 +150,10 @@
 
 ![weselyERD2](https://github.com/guruma99/wesely-web/assets/121204952/6a29bb2d-2ef9-4e46-b420-738792d07cdd)
 
+### Figma
 
+![스크린샷 2023-10-27 223333](https://github.com/guruma99/wesely-web/assets/121204952/c8b48c53-812b-466b-9e6e-714af4afe811)
+
+### View more
+🙌 조금 더 자세히 보고싶다면 아래의 ppt를 참고하세요. 저희 프로젝트가 마음에 드셨다면 ⭐ 를 눌러주세요 ! 
+- [✔️ View PPT](https://www.canva.com/design/DAFtl3to_hY/seTay4CpMXFtRiM2msBbGA/view?utm_content=DAFtl3to_hY&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink)
