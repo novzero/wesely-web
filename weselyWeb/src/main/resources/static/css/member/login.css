@@ -64,6 +64,9 @@ form{
 	border-color: #4D54A5;
 	outline: none;
 }
+#loginform input.invalid {
+    border-color: red;
+}
 
 #loginform .loginBtn {
 	width: 100%;
@@ -92,10 +95,9 @@ a:hover {
 	font-weight: bold;
 }
 
-.question {
+.question1 {
 	margin-top: 20px;
 }
-
-.question a {
+.question2 {
 	margin-top: 10px;
 }

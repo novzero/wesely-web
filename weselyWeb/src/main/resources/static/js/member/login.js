@@ -24,8 +24,6 @@ function formCheck() {
 function shakeAndHighlight(element) {
 	element.classList.add("invalid");
 
-	var originalBorderColor = getComputedStyle(element).borderColor;
-
 	var animationKeyframes = [
 		{ transform: 'translateX(-5px)' },
 		{ transform: 'translateX(5px)' },
@@ -42,14 +40,8 @@ function shakeAndHighlight(element) {
 
 	element.animate(animationKeyframes, animationOptions);
 
-	setTimeout(function() {
-		element.style.borderColor = "red";
-	}, 0);
-
 	// 입력창에 텍스트가 변경될 때마다 원래 색으로 복원
 	element.addEventListener("input", function() {
 		element.classList.remove("invalid");
-		element.style.transform = "none";
-		element.style.borderColor = originalBorderColor;
 	});
 };

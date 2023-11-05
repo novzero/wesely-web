@@ -123,12 +123,6 @@ public class MemberController {
 		return "/member/login";
 	}
 
-	// 로그인 처리하기
-	@GetMapping(value = "/loginOk")
-	public String loginOk(Model model) {
-		return "redirect:/";
-	}
-
 	@PostMapping(value = "/loginOk")
 	public String loginOkPost(@ModelAttribute MemberVO memberVO, HttpServletResponse response, HttpSession session,
 			Model model) {
@@ -148,6 +142,7 @@ public class MemberController {
 				}
 
 			} else {// 로그인에 실패했다면 로그인 폼으로 다시 보낸다.
+				model.addAttribute("loginMessage", "아이디 혹은 비밀번호가 일치하지 않습니다!");
 				return "/member/login";
 			}
 		}
