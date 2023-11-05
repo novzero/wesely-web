@@ -76,12 +76,31 @@
 
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 
-						<!-- 아이디/비밀번호 찾기 링크 보이기 & 전송 폼  -->
-						<div class="question">
+
+						<!--  폼전송 & 로그인 실패 경고문구 & 회원가입창 이동  -->
+						<div class="question1">
 							<input type="submit" value="로그인" class="loginBtn" />
-							<a href="/member/findUserId">아이디를 잊으셨나요?</a><br />
+							<!-- <p th:text="${loginMessage}" style="color: red"></p> -->
+							<a href="/member/join">처음이신가요? 회원가입은 여기서 해주세요!</a><br />
+						</div>
+						
+						<script>
+							$(document).ready(function () {
+								let message = "[[${loginMessage}]]";
+								if (message != "") {
+									alert(message);
+								} else {
+								}
+							})
+						</script>
+
+						<!-- 아이디/비밀번호 찾기 링크 보이기 -->
+						<div class="question2">
+							<a href="/member/findUserId">아이디를 잊으셨나요?</a>
+							<span>&nbsp;</span>
 							<a href="/member/findPassword">비밀번호를 잊으셨나요?</a>
 						</div>
+
 					</div>
 
 				</form>

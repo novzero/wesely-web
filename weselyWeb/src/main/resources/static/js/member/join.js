@@ -13,8 +13,17 @@ $(function() {
 				$("#idMsg").html("아이디는 6~12자 이며, 영문 또는 숫자만 가능합니다.").css('color', 'red');
 				$(this).focus();
 				return false;
+			} else {
+				$("#idMsg").html(""); // 유효성검사를 만족한 경우 메시지 삭제
 			}
-			// 아이디 중복확인 : Ajax로 처리
+		} else {
+			$("#idMsg").html(""); // 1자 미만이면 메세지 삭제
+		}
+	}).on('blur', function() {	// 아이디필드를 벗어났을 때 db요청을 통해 중복체크를 한다	
+		var value = $(this).val();
+
+		if (value.length >= 1) {
+			// 아이디 중복확인, Ajax로 처리 | 아이디필드를 벗어나는 시점에 실행
 			$.ajax('idCheck', {
 				type: "GET",
 				data: {
@@ -31,8 +40,6 @@ $(function() {
 					alert("에러!!!");
 				}
 			});
-		} else {
-			$("#idMsg").html(""); // 1자 미만이면 메세지 삭제
 		}
 	});
 
@@ -96,8 +103,16 @@ $(function() {
 				$("#nickMsg").css('color', 'red').html("닉네임은 2~5자이며(공백X) 한글 또는 영문만 가능합니다.");
 				$(this).focus();
 				return false;
+			} else {
+				$("#nickMsg").html("");
 			}
-			// 별명 중복 확인, ajax로 처리
+		} else {
+			$("#nickMsg").html(""); // 1자 미만이면 메세지 삭제
+		}
+	}).on('blur', function() {
+		var value = $(this).val();
+		if (value.length >= 1) {
+			// 별명 중복 확인, ajax로 처리 | 닉네임필드를 벗어나는 시점에 실행
 			$.ajax('nicknameCheck', {
 				type: "GET",
 				data: {
@@ -114,10 +129,7 @@ $(function() {
 					alert("에러!!!");
 				}
 			});
-		} else {
-			$("#nickMsg").html(""); // 1자 미만이면 메세지 삭제
 		}
-
 	});
 
 
@@ -129,9 +141,16 @@ $(function() {
 			if (!regExp.test(email)) {
 				$("#emailMsg").css('color', 'red').html("이메일 형식에 맞지않습니다.");
 				return false;
+			} else {
+				$("#emailMsg").html("");
 			}
-
-			// 이메일 중복 확인, ajax로 처리
+		} else {
+			$("#emailMsg").html("");
+		}
+	}).on('blur', function() {
+		var email = $("#email").val();
+		if (email.length >= 1) {
+			// 이메일 중복 확인, ajax로 처리 || 이메일 입력필드를 벗어나는 시점에 실행
 			$.ajax('emailCheck', {
 				type: "GET",
 				data: {
@@ -148,44 +167,48 @@ $(function() {
 					alert("에러!!!");
 				}
 			});
-		} else {
-			$("#emailMsg").html("");
 		}
 	});
+	
+});
 
 
-	// 전화번호검사
-	$('#phone').keyup(function() {
-		var value = $(this).val();
-		var regphone = /^01([0|1|6|7|8|9])([0-9]{4})([0-9]{4})$/;
-		if (value != null && value.length >= 1) {
-			if (!regphone.test(value)) {
-				$("#phoneMsg").css('color', 'red').html("전화번호(11자리)가 올바르지 않습니다.");
-				$(this).focus();
-				return false;
-			}
-			// 전화번호 중복 확인, ajax로 처리
-			$.ajax('phoneCheck', {
-				type: "GET",
-				data: {
-					"phone": value
-				},
-				success: function(data) {
-					if (data * 1 >= 1) {
-						$("#phoneMsg").html("이미 존재하는 전화번호입니다.").css('color', 'red');
-					} else {
-						$("#phoneMsg").html("사용가능한 전화번호입니다.").css('color', 'green');
-					}
-				},
-				error: function() {
-					alert("에러!!!");
+// 전화번호검사
+$('#phone').keyup(function() {
+	var value = $(this).val();
+	var regphone = /^01([0|1|6|7|8|9])([0-9]{4})([0-9]{4})$/;
+	if (value != null && value.length >= 1) {
+		if (!regphone.test(value)) {
+			$("#phoneMsg").css('color', 'red').html("전화번호(11자리)가 올바르지 않습니다.");
+			$(this).focus();
+			return false;
+		} else {
+			$("#phoneMsg").html("");	// 유효성검사 조건을 만족할 경우 경고메세지 삭제
+		}
+	} else {
+		$("#phoneMsg").html("");
+	}
+}).on('blur', function() {
+	var value = $(this).val();
+	if (value.length >= 1) {
+		// 전화번호 중복 확인, ajax로 처리 || 전화번호 입력필드를 벗어나는 시점에 실행
+		$.ajax('phoneCheck', {
+			type: "GET",
+			data: {
+				"phone": value
+			},
+			success: function(data) {
+				if (data * 1 >= 1) {
+					$("#phoneMsg").html("이미 존재하는 전화번호입니다.").css('color', 'red');
+				} else {
+					$("#phoneMsg").html("사용가능한 전화번호입니다.").css('color', 'green');
 				}
-			});
-		} else {
-			$("#phoneMsg").html("");
-		}
-	});
-
+			},
+			error: function() {
+				alert("에러!!!");
+			}
+		});
+	}
 });
 
 //==========================================================
@@ -262,18 +285,18 @@ $(function() {
 	function setBusinessInputsReadonly(isReadonly) {
 		var bNumInputs = document.querySelectorAll('.bNumber');
 		for (var i = 0; i < bNumInputs.length; i++) {
-			bNumInputs[i].readOnly  = isReadonly;
+			bNumInputs[i].readOnly = isReadonly;
 			bNumInputs[i].style.backgroundColor = isReadonly ? '#F2F2F2' : '';
 			bNumInputs[i].style.color = isReadonly ? '#808080' : '';
 
 		}
 		var bnameField = document.querySelector('#bname');
-		bnameField.readOnly  = isReadonly;
+		bnameField.readOnly = isReadonly;
 		bnameField.style.backgroundColor = isReadonly ? '#F2F2F2' : '';
 		bnameField.style.color = isReadonly ? '#808080' : '';
 
 		var storeField = document.querySelector('#store');
-		storeField.readOnly  = isReadonly;
+		storeField.readOnly = isReadonly;
 		storeField.style.backgroundColor = isReadonly ? '#F2F2F2' : '';
 		storeField.style.color = isReadonly ? '#808080' : '';
 	}
@@ -307,7 +330,7 @@ $(function() {
 					setBusinessInputsReadonly(true);
 				} else if (data == 1) {
 					// 중복되는 사업자 번호가 존재할 때
-					alert("이미 존재하는 사업자 번호입니다."); 
+					alert("이미 존재하는 사업자 번호입니다.");
 					updateJoinButtonState();
 					$("#bNum1").val("");
 					$("#bNum1").focus();
