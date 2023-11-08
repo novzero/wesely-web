@@ -1,6 +1,28 @@
 // ========================================================================================================
 // 프로필 사진
 // ========================================================================================================
+// 프로필 사진 확인 함수
+function checkProfilePhoto() {
+	// Ajax 요청 보내기
+	$.ajax({
+		url: "checkProfilePhoto",
+		type: "GET",
+		success: function(response) {
+			if (response.hasProfilePhoto) {
+				// 프로필 사진이 등록되어 있는 경우
+				console.log("프로필 사진이 등록되어 있습니다.");
+			} else {
+				// 프로필 사진이 등록되어 있지 않은 경우
+				console.log("프로필 사진이 등록되어 있지 않습니다.");
+			}
+		},
+		error: function(error) {
+			console.error(error);
+			alert("프로필 사진 확인 중 오류가 발생했습니다.");
+		}
+	});
+}
+
 
 $(function() {
 	let photo_path = $('.modal-photo').attr('src');
@@ -28,7 +50,8 @@ $(function() {
 		reader.readAsDataURL(my_photo);
 	});
 
-	// 등록버튼 눌렀을 때
+
+	// 프로필사진 업로드 처리
 	$("#photo_submit").click(function() {
 		// 업로드한 이미지 여부 확인
 		if ($("#upload").val() == '') {
