@@ -55,8 +55,23 @@
 
 					<!-- 이미지 미리보기 버튼 : 클릭 시 모달 창 열림 -->
 					<div class="preview-button" id="preview-btn">
-						<img src="${pageContext.request.contextPath}/member/photoView.do" class = "profile-photo" alt="프로필 사진" />
+						<img src="" class="profile-photo"
+							alt="프로필 사진" />
 					</div>
+
+					<script>
+						var path = ""; // 경로를 저장할 변수
+
+						// 사용자가 등록한 프로필 사진이 있는지 확인
+						if (프로필_사진_존재_여부) {
+							path = "등록된_프로필_사진_경로";
+						} else {
+							path = "/images/Profile.png";
+						}
+
+						// 경로 설정
+						document.querySelector(".profile-photo").src = path;
+					</script>
 
 					<!-- 모달창 -->
 					<div class="modal-overlay" id="modal">
