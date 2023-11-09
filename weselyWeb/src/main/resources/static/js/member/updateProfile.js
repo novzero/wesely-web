@@ -155,34 +155,36 @@ window.addEventListener("keyup", function(e) {
 
 $(function() {
 
-	// 닉네임 검사 | 2글자 이상 5글자 이하로 작성
-	$("#nickname").keyup(function() {
+	// 닉네임 검사 | 2글자 이상 12글자 이하로 작성
+	$("#nickname").on("blur", function() {
 		var value = $(this).val();
-		var reg = /^[A-Za-z가-힣]{2,5}$/;
+		var reg = /^[A-Za-z가-힣]{2,12}$/;
 
 		if (value != null && value.length >= 1) {
 			if (!reg.test(value)) {
-				$("#nickmessage").css('color', 'red').html("공백제외 2~5자로 한글 또는 영문만 가능합니다.");
+				$("#nickmessage").css('color', 'red').html("&#9888; 2~12자리 한글 또는 영문만 입력가능합니다.");
 				$(this).focus();
 				return false;
-			}
-			// 별명 중복 확인, ajax로 처리
-			$.ajax('nicknameCheck', {
-				type: "GET",
-				data: {
-					"nickname": value
-				},
-				success: function(data) {
-					if (data * 1 >= 1) {
-						$("#nickmessage").html("이미 존재하는 닉네임입니다.").css('color', 'red');
-					} else {
-						$("#nickmessage").html("사용가능한 닉네임입니다.").css('color', 'green');
+			} else {
+				// 별명 중복 확인, ajax로 처리
+				$.ajax('nicknameCheck', {
+					type: "GET",
+					data: {
+						"nickname": value
+					},
+					success: function(data) {
+						if (data * 1 >= 1) {
+							$("#nickmessage").html("&#9888; 이미 존재하는 닉네임입니다.").css('color', 'red');
+						} else {
+							$("#nickmessage").html("&#10004; 사용가능한 닉네임입니다.").css('color', 'green');
+						}
+					},
+					error: function() {
+						alert("에러!!!");
 					}
-				},
-				error: function() {
-					alert("에러!!!");
-				}
-			});
+				});
+			}
+
 		} else {
 			$("#nickmessage").html(""); // 1자 미만이면 메세지 삭제
 		}
@@ -212,7 +214,7 @@ function formCheck() {
 };
 
 function deleteMember() {
-	if (window.confirm("wesely를 탈퇴하시겠습니까?")) {
+	if (window.confirm("정말로 wesely를 탈퇴하시겠습니까?")) {
 		location.href = "/member/delete";
 	} else {
 		location.href = "redirect:/member/updateProfile";

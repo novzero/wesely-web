@@ -7,55 +7,22 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>회원가입</title>
 
-	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
-	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
-
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
+	<link rel="stylesheet" href="/css/footer.css" />
 	<link rel="stylesheet" href="/css/member/join.css">
 	<script src="/js/member/join.js" defer></script>
-
+	<!-- 제이쿼리 -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<!-- 아이콘 -->
+	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
 	<div class="wrapper">
-		<header>
-			<div class="logo">
-				<a href="/">
-					<img src="/images/weLogo.png" alt="Logo" />
-				</a>
-			</div>
-			<nav class="bar">
-				<a href="/store/"><strong>운동시설검색</strong></a>
-				<a href="/community/"><strong>커뮤니티</strong></a>
-				<a href="/"><strong>고객센터</strong></a>
-			</nav>
-			<nav class="hello">
-				<th:block th:if="${session.mvo != null}">
-					<!-- 별명을 설정하지 않은 회원은 아이디로 표시된다. -->
-					<span>[[${session.mvo.nickname}]] </span> 님 환영합니다.
-				</th:block>
-			</nav>
-
-			<nav class="login">
-				<th:block th:if="${session.mvo == null}">
-					<a href="/member/login"><strong>로그인</strong></a>
-					<a href="/member/join"><strong>회원가입</strong></a>
-				</th:block>
-
-				<th:block th:if="${session.mvo != null && session.mvo.authority == '일반계정'}">
-					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
-					<a href="/member/logout"><strong>로그아웃</strong></a>
-				</th:block>
-
-				<th:block th:if="${session.mvo != null && session.mvo.authority == '비즈니스계정'}">
-					<a href="/member/updateProfile"><strong>회원정보수정</strong></a>
-					<a th:href="@{/store/view/b/{userId}(userId=${session.mvo.userid})}"><strong>매장관리</strong></a>
-					<a href="/member/logout"><strong>로그아웃</strong></a>
-				</th:block>
-			</nav>
-		</header>
+		<!-- 공통 header -->
+		<div th:replace="header :: header"></div>
 
 		<main>
 			<div id="joinform">
@@ -111,7 +78,7 @@
 
 						<div class="nickname">
 							<label for="nickname">닉네임</label>
-							<input type="text" id="nickname" name="nickname" placeholder="2~5자리 영문 또는 한글만 입력" />
+							<input type="text" id="nickname" name="nickname" placeholder="2~12자리 영문 또는 한글만 입력" />
 							<div class="message" id="nickMsg" />
 						</div>
 
@@ -166,6 +133,8 @@
 				</form>
 			</div>
 		</main>
+		<!-- 공통 footer -->
+		<div th:replace="footer :: footer"></div>
 	</div>
 </body>
 

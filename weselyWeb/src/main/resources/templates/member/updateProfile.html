@@ -6,57 +6,38 @@
 	<meta charset="UTF-8">
 	<title>회원정보수정 페이지</title>
 
-	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
-	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
+	<link rel="stylesheet" href="/css/footer.css" />
 	<link rel="stylesheet" href="/css/member/update.css">
 	<script src="/js/member/updateProfile.js" defer></script>
-
+	<!-- 제이쿼리 -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<!-- 아이콘 -->
+	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
 	<div class="wrapper">
-		<header>
-			<div class="logo">
-				<a href="/">
-					<img src="/images/weLogo.png" alt="Logo" />
-				</a>
-			</div>
-			<nav class="bar">
-				<a href="/store/"><strong>운동시설검색</strong></a>
-				<a href="/community/"><strong>커뮤니티</strong></a>
-				<a href="/"><strong>고객센터</strong></a>
-			</nav>
-			<nav class="login">
-				<th:block th:if="${session.mvo == null}">
-					<a href="/member/login"><strong>로그인</strong></a>
-					<a href="/member/join"><strong>회원가입</strong></a>
-				</th:block>
-				<th:block th:if="${session.mvo != null}">
-					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
-					<a href="/member/logout"><strong>로그아웃</strong></a>
-					<a href="/"><strong>비즈니스 계정</strong></a>
-				</th:block>
-			</nav>
-		</header>
+		<!-- 공통 header -->
+		<div th:replace="header :: header"></div>
 
 		<!-- 프로필 수정 메인폼 -->
 		<main>
 
 			<div id="update">
-				<div>
-					<div class="title">프로필 수정
-						<img src="/images/wesely_logo.png" alt="wesely로고" width="50px" style="float: right;">
-					</div>
+				<div class="title">
+					<img src="/images/wesely_logo.png" alt="wesely로고" width="50px">
+				</div>
+				<div class="subtitle">
+					<label style="font-size: 18px; font-weight: bold; color:  #4D54A5;">프로필 수정</label>
+					<hr>
 				</div>
 
 				<div>
-
 					<!-- 이미지 미리보기 버튼 : 클릭 시 모달 창 열림 -->
 					<div class="preview-button" id="preview-btn">
-						<img src="" class="profile-photo"
-							alt="프로필 사진" />
+						<img src="/images/Profile.png" class="profile-photo" alt="프로필 사진" />
 					</div>
 
 					<script>
@@ -112,7 +93,7 @@
 						<label for="nickname">닉네임</label>
 						<!-- 회원가입 시 닉네임을 설정하지 않았다면 아이디가 기본으로 보여진다!! -->
 						<input type="text" id="nickname" name="nickname" th:value="${session.mvo.nickname}" />
-						<span id="nickmessage" />
+						<span id="nickmessage" class="message"/>
 					</div>
 					<div class="username">
 						<label for="username">이름</label>
@@ -132,12 +113,13 @@
 						<input type="submit" class="updateBtn" value="수정 완료" />
 						<input type="button" class="updatePwBtn" onclick="location.href='/member/updatePassword'"
 							value="비밀번호 변경하기" style="margin-bottom: 20px;" />
-						<span class="deleteBtn" onclick="deleteMember();">회원탈퇴</span>
+						<span class="deleteBtn" onclick="deleteMember();" style="font-size: 13px;">wesely를 탈퇴하시겠습니까?</span>
 					</div>
 				</form>
 			</div>
 		</main>
-
+		<!-- 공통 footer -->
+		<div th:replace="footer :: footer"></div>
 	</div>
 </body>
 

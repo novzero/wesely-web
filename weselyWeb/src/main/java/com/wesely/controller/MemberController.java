@@ -165,8 +165,9 @@ public class MemberController {
 	public String findUserIdOkPost(@ModelAttribute MemberVO vo, Model model) {
 		// 사용자 이름과 전화번호 받음
 		MemberVO dbVO = memberService.findUserId(vo);
-		if (dbVO == null) {
-			return "redirect:/member/findUserId";
+		if (dbVO == null) {	// 사용자 정보가 없다면
+			model.addAttribute("findIdMessage", "입력하신 정보가 올바르지 않습니다!");
+			return "/member/findUserId";
 		}
 		model.addAttribute("vo", dbVO);
 		return "/member/viewUserId";
@@ -192,7 +193,8 @@ public class MemberController {
 		MemberVO dbVO = memberService.findPassword(vo);
 		if (dbVO == null) {
 			// 일치하지 않는다면
-			return "redirect:/member/findPassword";
+			model.addAttribute("findPwMessage", "입력하신 정보가 올바르지 않습니다!");
+			return "/member/findPassword";
 		}
 		// 일치하면 메일을 발송한다.
 		MimeMessage message = javaMailSender.createMimeMessage();
