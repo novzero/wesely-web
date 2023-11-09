@@ -1,4 +1,4 @@
-.wrap {
+#joinform {
 	width: 400px;
 	margin-right: auto;
 	margin-left: auto;
@@ -22,7 +22,7 @@ hr{
 	margin-top: 10px;
 }
 
-.wrap input {
+#joinform input {
 	width: 100%;
 	height: 35px;
 	border: 1px solid gainsboro;
@@ -33,7 +33,7 @@ hr{
 	font-size: 15px;
 }
 
-.wrap select {
+#joinform select {
 	width: 100%;
 	height: 35px;
 	border: 1px solid gainsboro;
@@ -47,13 +47,13 @@ input::placeholder {
 	font-size: 13px;
 }
 
-.wrap input:focus,
-.wrap select:focus {
+#joinform input:focus,
+#joinform select:focus {
 	border-color: #4D54A5;
 	outline: none;
 }
 
-.wrap label {
+#joinform label {
 	display: block;
 	font-size: 14px;
 	color: #333;
@@ -62,7 +62,7 @@ input::placeholder {
 	margin-bottom: 5px;
 }
 
-.wrap .message {
+#joinform .message {
 	font-size: 13px;
 	width: 100%;
 	margin-top: 5px;
@@ -85,7 +85,7 @@ span{
 
 /* 사업자 인증 버튼 */
 #confirmBtn,
-.wrap #joinBtn {
+#joinBtn {
 	width: 100%;
 	height: 40px;
 	margin-top: 20px;
@@ -95,6 +95,8 @@ span{
 	border-radius: 8px;
 	cursor: pointer;
 	transition: all ease-out 250ms;
+	font-size: 15px;
+	
 }
 
 
@@ -123,15 +125,15 @@ span{
 	text-align: left;
 }
 
-#bNum1 {
+.Bno #bNum1 {
 	width: 100px;
 }
 
-#bNum2 {
+.Bno #bNum2 {
 	width: 80px;
 }
 
-#bNum3 {
+.Bno #bNum3 {
 	width: 150px;
 }
 

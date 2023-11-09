@@ -218,6 +218,7 @@ $(function() {
 			$("#phoneMsg").html("");
 		}
 	});
+
 });
 
 //==========================================================
@@ -240,6 +241,33 @@ $(function() {
 			$("#bNum3").select();
 		}
 	});
+
+	$("#bNum1").on("blur", function() {
+		var value = $(this).val();
+
+		// 사업자번호 첫번째 입력필드에 1글자 이상 입력되었을 경우
+		if (value !== null && value.length >= 1) {
+			$("#bnoMsg").html("");
+		}
+	});
+
+	$("#bname").on("blur", function() {
+		var value = $(this).val();
+
+		// 대표자 성명이 1글자 이상 입력되었을 경우
+		if (value !== null && value.length >= 1) {
+			$("#bnameMsg").html("");
+		}
+	});
+
+	$("#store").on("blur", function() {
+		var value = $(this).val();
+
+		// 상호명이 1글자 이상 입력되었을 경우
+		if (value !== null && value.length >= 1) {
+			$("#storeMsg").html("");
+		}
+	});
 	//==========================================================
 
 
@@ -252,136 +280,24 @@ $(function() {
 	$("#authority").change(function() {
 		var selectedValue = $(this).val();	// 선택된 값 가져오기
 
-		if (selectedValue === "비즈니스계정") {
+		if (selectedValue == "business") {
 			// 비즈니스계정이 선택되었을 때 사업자정보 입력필드 활성화
 			enableBusinessInputs();
 		} else {
-			// 일반계정이 선택됐을 때 사업자정보 입력필드 비활성화
-			disableBusinessInputs();
+			// 비즈니스 계정이 선택되지 않았을 때
+			disableBusinessInputs();	// 사업자정보 입력필드 비활성화
 		}
 
 		updateJoinButtonState(); // select 값 변경시 회원가입버튼 상태변경
 	});
 
-	// 비즈니스 정보 입력 필드 활성화 함수
-	function enableBusinessInputs() {
-
-		document.querySelector('.Bno').style.display = "block"
-		document.querySelector('.Bname').style.display = "block"
-		document.querySelector('.Store').style.display = "block"
-
-		document.querySelector('#confirmBtn').style.display = "block"
-	}
-
-	// 비즈니스 정보 입력 필드 슴기기/보이기 함수
-	function disableBusinessInputs() {
-
-		// 해당 필드 초기화
-		var bNumInputs = document.querySelectorAll('.bNumber');
-		for (var i = 0; i < bNumInputs.length; i++) {
-			bNumInputs[i].value = '';
-		}
-		document.querySelector('#bname').value = '';
-		document.querySelector('#store').value = '';
-
-		// 비즈니스 정보입력필드를 숨긴다.
-		document.querySelector('.Bno').style.display = "none"
-		document.querySelector('.Bname').style.display = "none"
-		document.querySelector('.Store').style.display = "none"
-
-		document.getElementById('confirmBtn').style.display = "none"
-	}
-
-	// 비즈니스 정보 입력 필드 비활성화 설정 함수
-	function setBusinessInputsReadonly(isReadonly) {
-		var bNumInputs = document.querySelectorAll('.bNumber');
-		for (var i = 0; i < bNumInputs.length; i++) {
-			bNumInputs[i].readOnly = isReadonly;
-			bNumInputs[i].style.backgroundColor = isReadonly ? '#F2F2F2' : '';
-			bNumInputs[i].style.color = isReadonly ? '#808080' : '';
-
-		}
-		var bnameField = document.querySelector('#bname');
-		bnameField.readOnly = isReadonly;
-		bnameField.style.backgroundColor = isReadonly ? '#F2F2F2' : '';
-		bnameField.style.color = isReadonly ? '#808080' : '';
-
-		var storeField = document.querySelector('#store');
-		storeField.readOnly = isReadonly;
-		storeField.style.backgroundColor = isReadonly ? '#F2F2F2' : '';
-		storeField.style.color = isReadonly ? '#808080' : '';
-	}
-
-
-	// 사업자인증 버튼 클릭 이벤트 핸들러
-	$("#confirmBtn").click(function() {
-		var bno = $("#bNum1").val() + $("#bNum2").val() + $("#bNum3").val(); // 사업자등록번호 얻어오기
-		var bname = $("#bname").val();
-		var store = $("#store").val();
-
-		if (!$("#bNum1").val() || !$("#bNum2").val() || !$("#bNum3").val() || !bname || !store) {  // 사업자정보입력필드에 공란이 있다면
-			alert("사업자정보를 모두 입력해주세요");
-			return;  // 함수 실행 중단
-		}
-
-		isBusinessConfirmed = false;
-		updateJoinButtonState();
-
-		$.ajax('/bnoCheck', {
-			type: "GET",
-			data: {
-				"bno": bno
-			},
-			success: function(data) {
-				if (data == 0) {
-					// 사업자정보 유효성검사에 통과하였을 때
-					alert("사업자정보가 인증되었습니다.");
-					isBusinessConfirmed = true;
-					updateJoinButtonState();
-					setBusinessInputsReadonly(true);
-				} else if (data == 1) {
-					// 중복되는 사업자 번호가 존재할 때
-					alert("이미 존재하는 사업자 번호입니다.");
-					updateJoinButtonState();
-					$("#bNum1").val("");
-					$("#bNum1").focus();
-				} else if (data == 2) {
-					// 중복되는 사업자 번호가 존재할 때
-					alert("사업자 번호가 유효하지 않습니다.");
-					isBusinessConfirmed = false;
-					updateJoinButtonState();
-					$("#bNum1").val("");
-					$("#bNum1").focus();
-				} else if (data == -1) {
-					// api 호출 실패했을 때
-					alert("사업자 번호 유효성 체크 오류 발생");
-					isBusinessConfirmed = false;
-					updateJoinButtonState();
-					$("#bNum1").val("");
-					$("#bNum1").focus();
-				} else {
-					// 중복되는 사업자 번호가 존재할 때
-					alert("서버 오류 발생");
-					isBusinessConfirmed = false;
-					updateJoinButtonState();
-					$("#bNum1").val("");
-					$("#bNum1").focus();
-				}
-			},
-			error: function() {
-				alert("에러!!!");
-				isBusinessConfirmed = false;
-				updateJoinButtonState();
-			}
-		})
-	});
-
 	// 회원가입 버튼 상태 변경 함수
 	function updateJoinButtonState() {
 		//  비즈니스 계정일 경우에만
-		if ($("#authority").val() === '비즈니스계정') {
+		if ($("#authority").val() === 'business') {
 			// 회원가입버튼의 활성화 상태를 isBusinessConfirmed 값에 따라 결정
 			if (isBusinessConfirmed) {  // 인증완료 -> 사업자인증버튼 숨기기
+				$("#bnoMsg").html("");
 				$("#confirmBtn").css('display', 'none');
 				$("#joinBtn").css('display', 'block');  // 인증완료 -> 회원가입버튼 보여주기
 			} else {
@@ -395,6 +311,126 @@ $(function() {
 		}
 	};
 
+	// 비즈니스 정보 입력 필드 활성화 함수
+	function enableBusinessInputs() {
+		document.querySelector('.Bno').style.display = "block"
+		document.querySelector('.Bname').style.display = "block"
+		document.querySelector('.Store').style.display = "block"
+
+		document.querySelector('#confirmBtn').style.display = "block";
+	}
+
+	// 비즈니스 정보 입력 필드 슴기기/보이기 함수
+	function disableBusinessInputs() {
+
+		// 해당 필드 초기화
+		var bNumInputs = document.querySelectorAll('.bNumber');
+		for (var i = 0; i < bNumInputs.length; i++) {
+			bNumInputs[i].value = '';
+		}
+		document.querySelector('#bname').value = '';
+		document.querySelector('#store').value = '';
+
+		// 사업자 정보 입력필드를 숨긴다.
+		document.querySelector(".Bno").style.display = "none";
+		document.querySelector(".Bname").style.display = "none";
+		document.querySelector(".Store").style.display = "none";
+
+		document.getElementById('confirmBtn').style.display = "none";
+		setBusinessInputsReadonly(false);
+		isBusinessConfirmed = false;
+		$("#storeMsg").html("");
+		
+	}
+
+	// 비즈니스 정보 입력 필드 비활성화 설정 함수
+	function setBusinessInputsReadonly(isReadonly) {
+		var inputs = document.querySelectorAll('.bNumber, #bname, #store');
+		inputs.forEach(function(input) {
+			input.readOnly = isReadonly;
+			input.style.backgroundColor = isReadonly ? '#F2F2F2' : '';
+			input.style.color = isReadonly ? '#808080' : '';
+			input.style.pointerEvents = isReadonly ? 'none' : '';
+		})
+	};
+
+
+	// 사업자인증 버튼 클릭 이벤트 핸들러
+	$("#confirmBtn").click(function() {
+		var bno = $("#bNum1").val() + $("#bNum2").val() + $("#bNum3").val(); // 사업자등록번호 얻어오기
+		var bname = $("#bname").val();
+		var store = $("#store").val();
+
+		if (!$("#bNum1").val() || !$("#bNum2").val() || !$("#bNum3").val()) {  // 사업자정보입력필드에 공란이 있다면
+			$("#bnoMsg").html("&#9888; 잘못된 사업자번호를 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
+			$("#bNum1").focus();
+			return false;  // 함수 실행 중단
+		} else if (!bname) {
+			$("#bnameMsg").html("&#9888; 대표자성함을 입력해주세요.").css('color', 'red');
+			$("#bname").focus();
+			return false;
+		} else if (!store) {
+			$("#storeMsg").html("&#9888; 상호명을 입력해주세요.").css('color', 'red');
+			$("#store").focus();
+			return false;
+		} else {
+			isBusinessConfirmed = false;
+			updateJoinButtonState();
+
+			$.ajax('/bnoCheck', {
+				type: "GET",
+				data: {
+					"bno": bno
+				},
+				success: function(data) {
+					if (data == 0) {
+						// 사업자정보 유효성검사에 통과하였을 때
+						//alert("사업자정보가 인증되었습니다.");
+						$("#storeMsg").html("&#10004; 사업자 정보가 인증되었습니다.").css('color', 'green');
+						isBusinessConfirmed = true;
+						updateJoinButtonState();
+						setBusinessInputsReadonly(true);
+					} else if (data == 1) {
+						// 사업자번호가 중복일 경우
+						isBusinessConfirmed = false;
+						updateJoinButtonState();
+						$("#bNum1").focus();
+						$("#bnoMsg").html("&#9888; 해당 사업자번호로 가입된 계정이 있습니다. 다시 입력해주세요.").css('color', 'red');
+					} else if (data == 2) {
+						// 등록되지 않은 사업자 번호일 
+						isBusinessConfirmed = false;
+						updateJoinButtonState();
+						$("#bNum1").focus();
+						$("#bnoMsg").html("&#9888; 잘못된 사업자번호입니다. 다시 입력해주세요.").css('color', 'red');
+					} else if (data == -1) {
+						// api 호출 실패했을 때
+						alert("사업자 번호 유효성 체크 오류 발생");
+						isBusinessConfirmed = false;
+						updateJoinButtonState();
+						$("#bNum1").val("");
+						$("#bNum1").focus();
+					} else {
+						// 중복되는 사업자 번호가 존재할 때
+						alert("서버 오류 발생");
+						isBusinessConfirmed = false;
+						updateJoinButtonState();
+						$("#bNum1").val("");
+						$("#bNum1").focus();
+					}
+				},
+				error: function() {
+					alert("에러!!!");
+					isBusinessConfirmed = false;
+					updateJoinButtonState();
+				}
+			})
+		}
+
+
+	});
+
+
+
 });
 
 // ========================================================================================================
@@ -404,54 +440,41 @@ function formCheck() {
 
 	// 아이디 폼체크
 	if ($("#authority").val() == null) {
-		//alert("계정 유형을 선택해주세요.");
 		$("#authority").focus();
 		$("#authMsg").html("&#9888; 잘못된 계정유형입니다. 다시 선택해주세요.").css('color', 'red');
 		return false;
 	} else if ($("#userid").val() == null || $("#userid").val().trim().length == 0 || $("#idMsg").css('color') != 'rgb(0, 128, 0)') {
-		//alert("아이디는 반드시 입력해야 합니다.");
-		//$("#userid").val("");
 		$("#userid").focus();
 		$("#idMsg").html("&#9888; 잘못된 아이디를 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
 		return false;
 	} else if ($("#password").val() == null || $("#password").val().trim().length == 0 || $("#pwMsg").css('color') != 'rgb(0, 128, 0)') {
-		//alert("비밀번호는 반드시 입력해야 합니다.");
-		//$("#password").val("");
 		$("#password").focus();
 		$("#pwMsg").html("&#9888; 잘못된 비밀번호룰 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
 		return false;
 	} else if ($("#password1").val() == null || $("#password1").val().trim().length == 0 || $("#pw1Msg").css('color') != 'rgb(0, 128, 0)') {
-		//alert("비밀번호 확인은 반드시 입력해야 합니다.");
-		//$("#password1").val("");
 		$("#password1").focus();
 		$("#pw1Msg").html("&#9888; 잘못된 비밀번호룰 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
 		return false;
 	} else if ($("#username").val() == null || $("#username").val().trim().length == 0) {
-		//alert("사용자 이름은 반드시 입력해야 합니다.");
-		//$("#username").val("");
 		$("#username").focus();
 		$("#nameMsg").html("&#9888; 잘못된 이름을 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
 		return false;
-	} else if ($("#nickMsg").css('color') != 'rgb(255,0,0)'&& $("#nickMsg").text().trim().length != 0){
+	} else if ($("#nickMsg").css('color') != 'rgb(255,0,0)' && $("#nickMsg").text().trim().length != 0) {
 		$("#nickname").focus();
 		$("#nickMsg").html("&#9888; 잘못된 닉네임을 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
 		return false;
 	} else if ($("#email").val() == null || $("#email").val().trim().length == 0 || $("#emailMsg").css('color') != 'rgb(0, 128, 0)') {
-	//alert("이메일 주소는 반드시 입력해야 합니다.");
-	//$("#email").val("");
-	$("#email").focus();
-	$("#emailMsg").html("&#9888; 잘못된 이메일을 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
-	return false;
-} else if ($("#phone").val() == null || $("#phone").val().trim().length == 0 || $("#phoneMsg").css('color') != 'rgb(0, 128, 0)') {
-	//alert("전화번호는 반드시 입력해야 합니다.");
-	//$("#phone").val("");
-	$("#phone").focus();
-	$("#phoneMsg").html("&#9888; 잘못된 이메일을 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
-	return false;
-} else if (window.confirm("회원가입을 완료하시겠습니까?")) {
-	location.href = "/member/joinOk";
-} else {
-	return false;
-}
+		$("#email").focus();
+		$("#emailMsg").html("&#9888; 잘못된 이메일을 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
+		return false;
+	} else if ($("#phone").val() == null || $("#phone").val().trim().length == 0 || $("#phoneMsg").css('color') != 'rgb(0, 128, 0)') {
+		$("#phone").focus();
+		$("#phoneMsg").html("&#9888; 잘못된 전화번호를 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
+		return false;
+	} else if (window.confirm("회원가입을 완료하시겠습니까?")) {
+		location.href = "/member/joinOk";
+	} else {
+		return false;
+	}
 
 }
