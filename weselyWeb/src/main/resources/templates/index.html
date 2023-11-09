@@ -11,6 +11,7 @@
 	<link rel="stylesheet" href="css/font.css" />
 	<link rel="stylesheet" href="css/header.css" />
 	<link rel="stylesheet" href="css/main.css" />
+	<link rel="stylesheet" href="css/footer.css" />
 	<link rel="stylesheet" href="css/loadingSpinner.css" />
 	<!-- 제이쿼리 -->
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -34,45 +35,12 @@
 		<div class="dots"></div>
 	</div>
 	<div class="wrapper">
-		<header>
-			<div class="logo">
-				<a href="/">
-					<img src="/images/weLogo.png" alt="Logo" />
-				</a>
-			</div>
-			<nav class="bar">
-				<a href="/store/"><strong>운동시설검색</strong></a>
-				<a href="/community/"><strong>커뮤니티</strong></a>
-				<a href="/"><strong>고객센터</strong></a>
-			</nav>
-			<nav class="hello">
-				<th:block th:if="${session.mvo != null}">
-					<!-- 별명을 설정하지 않은 회원은 아이디로 표시된다. -->
-					<span>[[${session.mvo.nickname}]] </span> 님 환영합니다.
-				</th:block>
-			</nav>
-
-			<nav class="login">
-				<th:block th:if="${session.mvo == null}">
-					<a href="/member/login"><strong>로그인</strong></a>
-					<a href="/member/join"><strong>회원가입</strong></a>
-				</th:block>
-
-				<th:block th:if="${session.mvo != null && session.mvo.authority == '일반계정'}">
-					<a href="/member/updateProfile"><strong>마이페이지</strong></a>
-					<a href="/member/logout"><strong>로그아웃</strong></a>
-				</th:block>
-
-				<th:block th:if="${session.mvo != null && session.mvo.authority == '비즈니스계정'}">
-					<a href="/member/updateProfile"><strong>회원정보수정</strong></a>
-					<a th:href="@{/store/view/b/{userId}(userId=${session.mvo.userid})}"><strong>매장관리</strong></a>
-					<a href="/member/logout"><strong>로그아웃</strong></a>
-				</th:block>
-			</nav>
-		</header>
+		<!-- 공통 header -->
+		<div th:replace="header :: header"></div>
 
 		<main>
 			<section class="weatherCard">
+
 				<div class="weatherList">
 					<div class="weatherItemTop">
 						<img class="iconLocation" src="/images/ic.png" alt="위치마커" />
@@ -101,6 +69,12 @@
 
 				<!-- 날씨에 따른 인트로 문구 변경 -->
 				<div class="weatherItemBottom">
+					<div class="hello">
+						<th:block th:if="${session.mvo != null}">
+							<!-- 별명을 설정하지 않은 회원은 아이디로 표시된다. -->
+							[[${session.mvo.nickname}]] 님 환영합니다.
+						</th:block>
+					</div>
 					<div class="introText"></div>
 				</div>
 			</section>
@@ -219,61 +193,8 @@
 			</section>
 		</main>
 
-		<footer>
-			<div class="btnSns">
-				<i class="fa-brands fa-instagram"></i>
-				<i class="fa-brands fa-facebook"></i>
-				<i class="fa-solid fa-comments"></i>
-			</div>
-
-			<div class="line"></div>
-
-			<div class="footerLayout">
-				<div class="footerLeft">
-					<ul class="footerLeftMain">
-						<li class="footerLeftMainItem">
-							<a href="">
-								회사소개
-							</a>
-						</li>
-						<li class="footerLeftMainItem">
-							<a href="">
-								인재채용
-							</a>
-						</li>
-						<li class="footerLeftMainItem">
-							<a href="">
-								제휴제안
-							</a>
-						</li>
-						<li class="footerLeftMainItem">
-							<a href="">
-								이용약관
-							</a>
-						</li>
-						<li class="footerLeftMainItem">
-							<a href="">
-								개인정보처리방침
-							</a>
-						</li>
-					</ul>
-
-					<div class="footerMainSubItem">
-						<div>
-							<span>대표 : 가나다</span>
-							<p>사업자등록번호 : 123-45-67890</p>
-						</div>
-						<p>사업장소재지 : 대전광역시 중구 대흥동 123번길 12 대흥타워1, 456층</p>
-					</div>
-				</div>
-
-				<div class="footerRight">
-					<p class="footerCall">고객센터 1234-4567</p>
-					<p>운영시간 평일 : 11:00 ~ 18:00 (토,일,공휴일 휴무)</p>
-					<p>점심시간 평일 : 13:00 ~ 14:00</p>
-				</div>
-			</div>
-		</footer>
+		<!-- 공통 footer -->
+		<div th:replace="footer :: footer"></div>
 	</div>
 
 </body>

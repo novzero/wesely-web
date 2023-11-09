@@ -116,10 +116,10 @@ $(function() {
 		}
 	});
 
-	// 닉네임 검사 | 2글자 이상 5글자 이하로 작성
+	// 닉네임 검사 | 2글자 이상 12글자 이하로 작성
 	$("#nickname").on("blur", function() {
 		var value = $(this).val();
-		var reg = /^[A-Za-z가-힣]{2,5}$/;
+		var reg = /^[A-Za-z가-힣]{2,12}$/;
 
 		// 닉네임 입력필드에 1자 이상 입력되었을 경우
 		if (value != null && value.length >= 1) {

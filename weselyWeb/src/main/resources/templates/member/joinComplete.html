@@ -4,13 +4,17 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>회원가입 페이지</title>
-
-	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
-	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
+	<title>회원가입 완료!</title>
 
 	<link rel="stylesheet" href="/css/font.css" />
 	<link rel="stylesheet" href="/css/header.css" />
+	<link rel="stylesheet" href="/css/footer.css" />
+	<link rel="stylesheet" href="/css/style.css">
+	<!-- 제이쿼리 -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<!-- 아이콘 -->
+	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
+
 	<style type="text/css">
 		.info {
 			width: 400px;
@@ -55,61 +59,30 @@
 
 <body>
 
-	<header>
-		<div class="logo">
-			<a href="/">
-				<img src="/images/weLogo.png" alt="Logo" />
-			</a>
+	<!-- 공통 header -->
+	<div th:replace="header :: header"></div>
+	<main>
+		<div class="info">
+			<div class="image">
+				<img src="/images/wesely_logo.png" alt="wesely로고" width="50px">
+			</div>
+			<div class="content">
+				<h2>
+					<span style="color: #4D54A5;">
+						[[${username}]]
+					</span>
+					님 반갑습니다!
+				</h2>
+				<br />
+				<h4>회원가입이 완료되었습니다.</h4>
+			</div>
+			<div>
+				<input type="button" value="로그인" class="loginBtn" onclick="location.href='/member/login'" />
+			</div>
 		</div>
-		<nav class="bar">
-			<a href="/store/"><strong>운동시설검색</strong></a>
-			<a href="/community/"><strong>커뮤니티</strong></a>
-			<a href="/"><strong>고객센터</strong></a>
-		</nav>
-		<nav class="hello">
-			<th:block th:if="${session.mvo != null}">
-				<!-- 별명을 설정하지 않은 회원은 아이디로 표시된다. -->
-				<span>[[${session.mvo.nickname}]] </span> 님 환영합니다.
-			</th:block>
-		</nav>
-
-		<nav class="login">
-			<th:block th:if="${session.mvo == null}">
-				<a href="/member/login"><strong>로그인</strong></a>
-				<a href="/member/join"><strong>회원가입</strong></a>
-			</th:block>
-
-			<th:block th:if="${session.mvo != null && session.mvo.authority == '일반계정'}">
-				<a href="/member/updateProfile"><strong>마이페이지</strong></a>
-				<a href="/member/logout"><strong>로그아웃</strong></a>
-			</th:block>
-
-			<th:block th:if="${session.mvo != null && session.mvo.authority == '비즈니스계정'}">
-				<a href="/member/updateProfile"><strong>회원정보수정</strong></a>
-				<a th:href="@{/store/view/b/{userId}(userId=${session.mvo.userid})}"><strong>매장관리</strong></a>
-				<a href="/member/logout"><strong>로그아웃</strong></a>
-			</th:block>
-		</nav>
-	</header>
-
-	<div class="info">
-		<div class="image">
-			<img src="/images/wesely_logo.png" alt="wesely로고" width="50px">
-		</div>
-		<div class="content">
-			<h2>
-				<span style="color: #4D54A5;">
-					[[${username}]]
-				</span>
-				님 반갑습니다!
-			</h2>
-			<br />
-			<h4>회원가입이 완료되었습니다.</h4>
-		</div>
-		<div>
-			<input type="button" value="로그인" class="loginBtn" onclick="location.href='/member/login'" />
-		</div>
-	</div>
+	</main>
+	<!-- 공통 footer -->
+	<div th:replace="footer :: footer"></div>
 </body>
 
 </html>

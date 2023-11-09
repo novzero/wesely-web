@@ -5,12 +5,17 @@
 <head>
 	<meta charset="UTF-8">
 	<title>회원약관 페이지</title>
-	<link rel="stylesheet" href="/webjars/bootstrap/5.3.0/dist/css/bootstrap.min.css">
-	<script src="/webjars/jquery/3.6.4/dist/jquery.min.js"></script>
-	<script src="/webjars/bootstrap/5.3.0/dist/js/bootstrap.min.js"></script>
-	<script src="/webjars/axios/1.4.0/dist/axios.min.js"></script>
+
 	<link rel="stylesheet" href="/css/font.css" />
-	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/header.css" />
+	<link rel="stylesheet" href="/css/footer.css" />
+	<link rel="stylesheet" href="/css/member/view.css" />
+
+	<!-- 제이쿼리 -->
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<!-- 아이콘 -->
+	<script src="https://kit.fontawesome.com/a9ad5c8c5b.js" crossorigin="anonymous"></script>
+
 	<style type="text/css">
 		.agreementform {
 			width: 400px;
@@ -50,23 +55,26 @@
 </head>
 
 <body>
+	<!-- 공통 header -->
+	<div th:replace="header :: header"></div>
+	<main>
 
-	<form action="/member/joinOk" onsubmit="return send(this)">
+		<form action="/member/joinOk" onsubmit="return send(this)">
 
-		<table class="agreementform">
-			<tr>
-				<td>
-					<img src="/images/wesely_logo.png" alt="Logo" width="50px" />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<br />
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<textarea cols="60" rows="25" readonly>
+			<table class="agreementform">
+				<tr>
+					<td>
+						<img src="/images/wesely_logo.png" alt="Logo" width="50px" />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<br />
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<textarea cols="60" rows="25" readonly>
 Wesely 서비스약관 (2023. 9. 26 부터 유효)
 
 제1조(목적 등)
@@ -247,9 +255,9 @@ Wesely 서비스약관 (2023. 9. 26 부터 유효)
  
 본 약관은 2005. 7. 18. 부터 적용하고, 2004. 10. 11.부터 적용되던 종전의 약관은 본 약관으로 대체합니다. 
             </textarea>
-				</td>
-			</tr>
-			<!--
+					</td>
+				</tr>
+				<!--
 				<div class="agreebtn">
 					<input type="checkbox" name="agree" style="accent-color: #4D54A5;" /> 
 					<span>약관에 동의합니다.</span><br />
@@ -257,12 +265,15 @@ Wesely 서비스약관 (2023. 9. 26 부터 유효)
 					<input type="submit" class="joinBtn" value="회원가입" /> <br/>
 				</div>
 				-->
-			<tr>
-				<td>
-					<input type="button" value="회원가입으로 돌아가기" class="backBtn" onclick="javascript:history.back();" />
-				</td>
-			</tr>
-		</table>
-	</form>
+				<tr>
+					<td>
+						<input type="button" value="회원가입으로 돌아가기" class="backBtn" onclick="javascript:history.back();" />
+					</td>
+				</tr>
+			</table>
+		</form>
 
+	</main>
+	<!-- 공통 footer -->
+	<div th:replace="footer :: footer"></div>
 </body>
