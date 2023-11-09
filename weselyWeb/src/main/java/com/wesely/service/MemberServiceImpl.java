@@ -78,6 +78,7 @@ public class MemberServiceImpl implements MemberService {
 			if (dbVO.getPassword().equals(memberVO.getPassword())) {
 				// communityDAO.deleteNickname(dbVO.getNickname());
 				memberDAO.delete(memberVO); // 탈퇴
+				businessDAO.delete(memberVO);
 				result = true;
 			}
 		}

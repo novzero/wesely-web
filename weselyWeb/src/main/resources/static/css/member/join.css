@@ -9,6 +9,18 @@
 
 }
 
+.title{
+	margin-bottom: 30px;
+}
+.subtitle{
+	margin-bottom: 20px;
+}
+hr{
+	background: gainsboro;
+	height: 1px;
+	border: 0;
+	margin-top: 10px;
+}
 
 .wrap input {
 	width: 100%;
@@ -35,7 +47,8 @@ input::placeholder {
 	font-size: 13px;
 }
 
-.wrap input:focus {
+.wrap input:focus,
+.wrap select:focus {
 	border-color: #4D54A5;
 	outline: none;
 }
@@ -56,6 +69,10 @@ input::placeholder {
 	margin-bottom: 15px;
 	text-align: left;
 	padding-left: 10px;
+}
+
+span{
+	color: #4b4eba;
 }
 
 /* 비밀번호 보기/숨기기 아이콘 */
