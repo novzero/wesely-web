@@ -4,82 +4,94 @@
 // ========================================================================================================
 
 $(function() {
+	$("#authority").on("blur", function() {
+		var authority = $(this).val();
+
+		if (authority != null) {
+			$("#authMsg").html("");
+		} else {
+			$("#authMsg	").html("&#9888; 잘못된 계정유형입니다. 다시 선택해주세요.").css('color', 'red');
+			return false;
+		}
+	});
+
 	// 아이디 유효성검사 | 6-12자의 영문 또는 숫자 구성
-	$("#userid").on('input', function() {
+	$("#userid").on('blur', function() {
 		var value = $(this).val();
 		var reg = /^[A-Za-z0-9]{6,12}$/;
+
+		// 아이디 입력필드에 1글자 이상 입력되었을 경우
 		if (value != null && value.length >= 1) {
+			// 아이디조건을 만족하지 않는 경우
 			if (!reg.test(value)) {
-				$("#idMsg").html("아이디는 6~12자 이며, 영문 또는 숫자만 가능합니다.").css('color', 'red');
-				$(this).focus();
+				$("#idMsg").html("&#9888; 잘못된 아이디를 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
 				return false;
-			} else {
-				$("#idMsg").html(""); // 유효성검사를 만족한 경우 메시지 삭제
+			} else {	// 아이디조건을 만족했다면
+				// 아이디 중복확인, Ajax로 처리
+				$.ajax('idCheck', {
+					type: "GET",
+					data: {
+						"userid": value
+					},
+					success: function(data) {
+						if (data * 1 >= 1) {
+							$("#idMsg").html("&#9888; 이미 존재하는 아이디입니다.").css('color', 'red');
+						} else {
+							$("#idMsg").html("&#10004; 사용가능한 아이디입니다.").css('color', 'green');
+						}
+					},
+					error: function() {
+						alert("에러!!!");
+					}
+				});
 			}
 		} else {
 			$("#idMsg").html(""); // 1자 미만이면 메세지 삭제
 		}
-	}).on('blur', function() {	// 아이디필드를 벗어났을 때 db요청을 통해 중복체크를 한다	
-		var value = $(this).val();
-
-		if (value.length >= 1) {
-			// 아이디 중복확인, Ajax로 처리 | 아이디필드를 벗어나는 시점에 실행
-			$.ajax('idCheck', {
-				type: "GET",
-				data: {
-					"userid": value
-				},
-				success: function(data) {
-					if (data * 1 >= 1) {
-						$("#idMsg").html("이미 존재하는 아이디입니다.").css('color', 'red');
-					} else {
-						$("#idMsg").html("사용가능한 아이디입니다.").css('color', 'green');
-					}
-				},
-				error: function() {
-					alert("에러!!!");
-				}
-			});
-		}
 	});
 
 
-	// 비밀번호 유효성검사 | 영문/숫자/특수문자를 포함하여 8~20자
-	$("#password").on('input', function() {
+	// 비밀번호 유효성검사 | 영문/숫자/특수문자를 포함하여 8~20자	
+	$("#password").on('blur', function() {
 		var pw = $("#password").val();
-		var reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+		var reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/;
 
+		// 비밀번호가 1자 이상 입력되었을 경우
 		if (pw != null && pw.length >= 1) {
-			if (pw.length >= 8 && pw.length <= 20) {
-				if (!reg.test(pw)) {
-					$("#pwMsg").css('color', 'red').html("비밀번호는 영문/숫자/특수문자를 모두 포함해야합니다.");
-				} else {
-					$("#pwMsg").css('color', 'green').html("사용 가능한 비밀번호입니다.");
-				}
+			if (!reg.test(pw)) {
+				$("#pwMsg").css('color', 'red').html("&#9888; 잘못된 비밀번호를 입력하였습니다. 다시 입력해주세요.");
 			} else {
-				$("#pwMsg").css('color', 'red').html("비밀번호는 8자~20자로 작성해야합니다.");
+				$("#pwMsg").css('color', 'green').html("&#10004; 사용가능한 비밀번호입니다.");
 			}
 		} else {
 			$("#pwMsg").html(""); // 1자 미만이면 메세지 삭제
 		}
 	});
 
-	// 비밀번호 확인 검사 | 입력할 때마다 검사
-	$("#password1").on('input', function() {
+	// 비밀번호 확인 검사
+	$("#password1").on('blur', function() {
 		var pw = $("#password").val();
 		var pw1 = $("#password1").val();
+		var reg = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/;
 
-		if (pw !== "" && pw === pw1) {
-			$("#pw1Msg").css('color', 'green').html("비밀번호가 일치합니다.");
-		} else if (pw !== "" || pw1 !== "") {
-			$("#pw1Msg").css('color', 'red').html("비밀번호가 일치하지 않습니다.");
+		// 비밀번호 재입력필드에 1자 이상 입력되었을 경우
+		if (pw1 != null && pw1.length >= 1) {
+			// 비밀번호 조건에 만족하지 않을 경우
+			if (!reg.test(pw1)) {
+				$("#pw1Msg").css('color', 'red').html("&#9888; 잘못된 비밀번호를 입력하였습니다. 다시 입력해주세요.");
+			} else {	// 비밀번호 조건에 만족한다면
+				if (pw !== "" && pw === pw1) {
+					$("#pw1Msg").css('color', 'green').html("&#10004; 비밀번호가 일치합니다.");
+				} else {
+					$("#pw1Msg").css('color', 'red').html("&#9888; 잘못된 비밀번호를 입력하였습니다. 다시 입력해주세요.");
+				}
+			}
 		} else {
-			$("#pw1Msg").html(""); // 둘 다 없을 경우 메시지 삭제
+			$("#pw1Msg").html(""); // 1자 미만이면 메세지 삭제
 		}
 	});
 
-
-	// 비밀번호 및 비밀번호확인 보기/숨기기 구현
+	// 비밀번호 및 비밀번호확인 보기/숨기기 구현 | 눈 아이콘
 	$("#pwIcon, #pw1Icon").on("click", function() {
 		var targetInput = this.id === "pwIcon" ? "#password" : "#password1";
 
@@ -92,146 +104,145 @@ $(function() {
 		}
 	});
 
+	// 사용자 이름
+	$("#username").on("blur", function() {
+		var username = $(this).val();
 
+		if (username != null) {
+			$("#nameMsg").html("");
+		} else {
+			$("#nameMsg	").html("&#9888; 사용자 이름을 입력해주세요.").css('color', 'red');
+			return false;
+		}
+	});
 
 	// 닉네임 검사 | 2글자 이상 5글자 이하로 작성
-	$("#nickname").keyup(function() {
+	$("#nickname").on("blur", function() {
 		var value = $(this).val();
 		var reg = /^[A-Za-z가-힣]{2,5}$/;
+
+		// 닉네임 입력필드에 1자 이상 입력되었을 경우
 		if (value != null && value.length >= 1) {
+			// 닉네임 조건을 만족하지 않았을 경우
 			if (!reg.test(value)) {
-				$("#nickMsg").css('color', 'red').html("닉네임은 2~5자이며(공백X) 한글 또는 영문만 가능합니다.");
-				$(this).focus();
+				$("#nickMsg").css('color', 'red').html("&#9888; 잘못된 닉네임을 입력하였습니다. 다시 입력해주세요.");
 				return false;
-			} else {
-				$("#nickMsg").html("");
+			} else {	// 닉네임 조건을 만족했다면 별명 중복 확인, ajax로 처리 
+				$.ajax('nicknameCheck', {
+					type: "GET",
+					data: {
+						"nickname": value
+					},
+					success: function(data) {
+						if (data * 1 >= 1) {
+							$("#nickMsg").html("&#9888; 이미 존재하는 닉네임입니다.").css('color', 'red');
+						} else {
+							$("#nickMsg").html("&#10004; 사용가능한 닉네임입니다.").css('color', 'green');
+						}
+					},
+					error: function() {
+						alert("에러!!!");
+					}
+				});
 			}
 		} else {
 			$("#nickMsg").html(""); // 1자 미만이면 메세지 삭제
 		}
-	}).on('blur', function() {
-		var value = $(this).val();
-		if (value.length >= 1) {
-			// 별명 중복 확인, ajax로 처리 | 닉네임필드를 벗어나는 시점에 실행
-			$.ajax('nicknameCheck', {
-				type: "GET",
-				data: {
-					"nickname": value
-				},
-				success: function(data) {
-					if (data * 1 >= 1) {
-						$("#nickMsg").html("이미 존재하는 닉네임입니다.").css('color', 'red');
-					} else {
-						$("#nickMsg").html("사용가능한 닉네임입니다.").css('color', 'green');
-					}
-				},
-				error: function() {
-					alert("에러!!!");
-				}
-			});
-		}
 	});
 
-
 	// 이메일 유효성검사
-	$('#email').keyup(function() {
+	$('#email').on("blur", function() {
 		var email = $("#email").val();
 		var regExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+
+		// 이메일 입력필드에 1자 이상 입력되었을 경우
 		if (email != null && email.length >= 1) {
+			// 이메일 형식에 맞지 않는 경우
 			if (!regExp.test(email)) {
-				$("#emailMsg").css('color', 'red').html("이메일 형식에 맞지않습니다.");
+				$("#emailMsg").css('color', 'red').html("&#9888; 잘못된 이메일 주소를 입력하였습니다. 다시 입력해주세요.");
 				return false;
-			} else {
-				$("#emailMsg").html("");
+			} else {	// 이메일 형식이 올바르다면 중복체크 진행
+				$.ajax('emailCheck', {
+					type: "GET",
+					data: {
+						"email": email
+					},
+					success: function(data) {
+						if (data * 1 >= 1) {
+							$("#emailMsg").html("&#9888; 해당 이메일로 이미 가입된 계정이 있습니다.").css('color', 'red');
+						} else {
+							$("#emailMsg").html("&#10004; 사용가능한 이메일입니다.").css('color', 'green');
+						}
+					},
+					error: function() {
+						alert("에러!!!");
+					}
+				});
 			}
 		} else {
 			$("#emailMsg").html("");
 		}
-	}).on('blur', function() {
-		var email = $("#email").val();
-		if (email.length >= 1) {
-			// 이메일 중복 확인, ajax로 처리 || 이메일 입력필드를 벗어나는 시점에 실행
-			$.ajax('emailCheck', {
-				type: "GET",
-				data: {
-					"email": email
-				},
-				success: function(data) {
-					if (data * 1 >= 1) {
-						$("#emailMsg").html("해당 이메일로 이미 가입된 계정이 있습니다.").css('color', 'red');
-					} else {
-						$("#emailMsg").html("사용가능한 이메일입니다.").css('color', 'green');
+	});
+
+
+	// 전화번호검사
+	$('#phone').on("blur", function() {
+		var value = $(this).val();
+		var regphone = /^01([0|1|6|7|8|9])([0-9]{4})([0-9]{4})$/;
+
+		// 전화번호가 1글자 이상 입력되었을 경우
+		if (value != null && value.length >= 1) {
+			if (!regphone.test(value)) {
+				$("#phoneMsg").css('color', 'red').html("&#9888; 잘못된 전화번호를 입력하였습니다. 다시 입력해주세요.");
+				return false;
+			} else {
+				// 입력조건을 만족했다면 중복체크 | ajax
+				$.ajax('phoneCheck', {
+					type: "GET",
+					data: {
+						"phone": value
+					},
+					success: function(data) {
+						if (data * 1 >= 1) {
+							$("#phoneMsg").html("&#9888; 이미 존재하는 전화번호입니다.").css('color', 'red');
+						} else {
+							$("#phoneMsg").html("&#10004; 사용가능한 전화번호입니다.").css('color', 'green');
+						}
+					},
+					error: function() {
+						alert("에러!!!");
 					}
-				},
-				error: function() {
-					alert("에러!!!");
-				}
-			});
+				});
+			}
+		} else {
+			$("#phoneMsg").html("");
 		}
 	});
-	
-});
-
-
-// 전화번호검사
-$('#phone').keyup(function() {
-	var value = $(this).val();
-	var regphone = /^01([0|1|6|7|8|9])([0-9]{4})([0-9]{4})$/;
-	if (value != null && value.length >= 1) {
-		if (!regphone.test(value)) {
-			$("#phoneMsg").css('color', 'red').html("전화번호(11자리)가 올바르지 않습니다.");
-			$(this).focus();
-			return false;
-		} else {
-			$("#phoneMsg").html("");	// 유효성검사 조건을 만족할 경우 경고메세지 삭제
-		}
-	} else {
-		$("#phoneMsg").html("");
-	}
-}).on('blur', function() {
-	var value = $(this).val();
-	if (value.length >= 1) {
-		// 전화번호 중복 확인, ajax로 처리 || 전화번호 입력필드를 벗어나는 시점에 실행
-		$.ajax('phoneCheck', {
-			type: "GET",
-			data: {
-				"phone": value
-			},
-			success: function(data) {
-				if (data * 1 >= 1) {
-					$("#phoneMsg").html("이미 존재하는 전화번호입니다.").css('color', 'red');
-				} else {
-					$("#phoneMsg").html("사용가능한 전화번호입니다.").css('color', 'green');
-				}
-			},
-			error: function() {
-				alert("에러!!!");
-			}
-		});
-	}
 });
 
 //==========================================================
-// '사업자 등록번호' 입력하면 자동으로 다음필드로 이동
-//==========================================================
-$("#bNum1").on("keyup", function() {
-	var value = $(this).val().match(/[0-9]/g)
-	if (value != null && value.length == 3) {
-		$("#bNum2").focus();
-		$("#bNum2").select();
-	}
-});
-$("#bNum2").on("keyup", function() {
-	var value = $(this).val().match(/[0-9]/g)
-	if (value != null && value.length == 2) {
-		$("#bNum3").focus();
-		$("#bNum3").select();
-	}
-});
-
-//==========================================================
+// 사업자정보 필드 관련 js
 
 $(function() {
+	//==========================================================
+	// '사업자 등록번호' 입력하면 자동으로 다음필드로 이동
+	$("#bNum1").on("keyup", function() {
+		var value = $(this).val().match(/[0-9]/g)
+		if (value != null && value.length == 3) {
+			$("#bNum2").focus();
+			$("#bNum2").select();
+		}
+	});
+	$("#bNum2").on("keyup", function() {
+		var value = $(this).val().match(/[0-9]/g)
+		if (value != null && value.length == 2) {
+			$("#bNum3").focus();
+			$("#bNum3").select();
+		}
+	});
+	//==========================================================
+
+
 	// 사업자 인증 상태 변수 초기화
 	var isBusinessConfirmed = false;
 
@@ -382,10 +393,9 @@ $(function() {
 			// 일반 계정일 경우, 회원가입버튼은 항상 보여짐 
 			$("#joinBtn").css('display', 'block');
 		}
-	}
-})
+	};
 
-
+});
 
 // ========================================================================================================
 // 폼체크
@@ -393,69 +403,55 @@ $(function() {
 function formCheck() {
 
 	// 아이디 폼체크
-	if ($("#userid").val() == null || $("#userid").val().trim().length == 0) {
-		alert("아이디는 반드시 입력해야 합니다.");
-		$("#userid").val("");
+	if ($("#authority").val() == null) {
+		//alert("계정 유형을 선택해주세요.");
+		$("#authority").focus();
+		$("#authMsg").html("&#9888; 잘못된 계정유형입니다. 다시 선택해주세요.").css('color', 'red');
+		return false;
+	} else if ($("#userid").val() == null || $("#userid").val().trim().length == 0 || $("#idMsg").css('color') != 'rgb(0, 128, 0)') {
+		//alert("아이디는 반드시 입력해야 합니다.");
+		//$("#userid").val("");
 		$("#userid").focus();
+		$("#idMsg").html("&#9888; 잘못된 아이디를 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
 		return false;
-	} else if ($("#idMsg").css('color') != 'rgb(0, 128, 0)') {
-		alert("아이디를 확인해주세요.");
-		$("#userid").val("");
-		$("#userid").focus();
-		return false;
-	} else if ($("#password").val() == null || $("#password").val().trim().length == 0) {
-		alert("비밀번호는 반드시 입력해야 합니다.");
-		$("#password").val("");
+	} else if ($("#password").val() == null || $("#password").val().trim().length == 0 || $("#pwMsg").css('color') != 'rgb(0, 128, 0)') {
+		//alert("비밀번호는 반드시 입력해야 합니다.");
+		//$("#password").val("");
 		$("#password").focus();
+		$("#pwMsg").html("&#9888; 잘못된 비밀번호룰 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
 		return false;
-	} else if ($("#pwMsg").css('color') != 'rgb(0, 128, 0)') {
-		alert('비밀번호를 확인해주세요.');
-		$("#password").val("");
-		$("#password").focus();
-		return false;
-	} else if ($("#password1").val() == null || $("#password1").val().trim().length == 0) {
-		alert("비밀번호 확인은 반드시 입력해야 합니다.");
-		$("#password1").val("");
+	} else if ($("#password1").val() == null || $("#password1").val().trim().length == 0 || $("#pw1Msg").css('color') != 'rgb(0, 128, 0)') {
+		//alert("비밀번호 확인은 반드시 입력해야 합니다.");
+		//$("#password1").val("");
 		$("#password1").focus();
-		return false;
-	} else if ($("#pw1Msg").css('color') != 'rgb(0, 128, 0)') {
-		alert('비밀번호를 확인해주세요.');
-		$("#password1").val("");
-		$("#password1").focus();
+		$("#pw1Msg").html("&#9888; 잘못된 비밀번호룰 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
 		return false;
 	} else if ($("#username").val() == null || $("#username").val().trim().length == 0) {
-		alert("사용자 이름은 반드시 입력해야 합니다.");
-		$("#username").val("");
+		//alert("사용자 이름은 반드시 입력해야 합니다.");
+		//$("#username").val("");
 		$("#username").focus();
+		$("#nameMsg").html("&#9888; 잘못된 이름을 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
 		return false;
-	} else if ($("#authority").val() == null) {
-		alert("계정 유형을 선택해주세요.");
-		$("#authority").focus();
+	} else if ($("#nickMsg").css('color') != 'rgb(255,0,0)'&& $("#nickMsg").text().trim().length != 0){
+		$("#nickname").focus();
+		$("#nickMsg").html("&#9888; 잘못된 닉네임을 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
 		return false;
-	} else if ($("#email").val() == null || $("#email").val().trim().length == 0) {
-		alert("이메일 주소는 반드시 입력해야 합니다.");
-		$("#email").val("");
-		$("#email").focus();
-		return false;
-	} else if ($("#emailMsg").css('color') != 'rgb(0, 128, 0)') {
-		alert('이메일 주소를 다시 확인해주세요.');
-		$("#email").val("");
-		$("#email").focus();
-		return false;
-	} else if ($("#phone").val() == null || $("#phone").val().trim().length == 0) {
-		alert("전화번호는 반드시 입력해야 합니다.");
-		$("#phone").val("");
-		$("#phone").focus();
-		return false;
-	} else if ($("#phoneMsg").css('color') != 'rgb(0, 128, 0)') {
-		alert('전화번호를 다시 확인해주세요.');
-		$("#phone").val("");
-		$("#phone").focus();
-		return false;
-	} else if (window.confirm("회원가입을 완료하시겠습니까?")) {
-		location.href = "/member/joinOk";
-	} else {
-		return false;
-	}
+	} else if ($("#email").val() == null || $("#email").val().trim().length == 0 || $("#emailMsg").css('color') != 'rgb(0, 128, 0)') {
+	//alert("이메일 주소는 반드시 입력해야 합니다.");
+	//$("#email").val("");
+	$("#email").focus();
+	$("#emailMsg").html("&#9888; 잘못된 이메일을 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
+	return false;
+} else if ($("#phone").val() == null || $("#phone").val().trim().length == 0 || $("#phoneMsg").css('color') != 'rgb(0, 128, 0)') {
+	//alert("전화번호는 반드시 입력해야 합니다.");
+	//$("#phone").val("");
+	$("#phone").focus();
+	$("#phoneMsg").html("&#9888; 잘못된 이메일을 입력하였습니다. 다시 입력해주세요.").css('color', 'red');
+	return false;
+} else if (window.confirm("회원가입을 완료하시겠습니까?")) {
+	location.href = "/member/joinOk";
+} else {
+	return false;
+}
 
 }
