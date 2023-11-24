@@ -165,7 +165,7 @@ public class MemberController {
 	public String findUserIdOkPost(@ModelAttribute MemberVO vo, Model model) {
 		// 사용자 이름과 전화번호 받음
 		MemberVO dbVO = memberService.findUserId(vo);
-		if (dbVO == null) {	// 사용자 정보가 없다면
+		if (dbVO == null) { // 사용자 정보가 없다면
 			model.addAttribute("findIdMessage", "입력하신 정보가 올바르지 않습니다!");
 			return "/member/findUserId";
 		}
@@ -241,7 +241,7 @@ public class MemberController {
 
 //============================================================================================================
 	// 프로필 이미지 처리 로직
-	
+
 	@RequestMapping(value = "/member/photoView.do")
 	public String getProfile(HttpSession session, HttpServletRequest request, Model model) {
 		// 로그인한 회원 정보 세션에서 가져오기
@@ -262,7 +262,8 @@ public class MemberController {
 
 	public void viewProfile(MemberVO memberVO, HttpServletRequest request, Model model) {
 		if (memberVO == null) {
-			byte[] readbyte = FileUtil.getBytes(request.getServletContext().getRealPath("/image_bundle/default_img.png"));
+			byte[] readbyte = FileUtil
+					.getBytes(request.getServletContext().getRealPath("/image_bundle/default_img.png"));
 			model.addAttribute("imageFile", readbyte);
 			model.addAttribute("filename", "Profile.png");
 		} else {
@@ -300,7 +301,7 @@ public class MemberController {
 			// OS에 쓴 데이터 byte[]로 리턴
 			return byteOs.toByteArray();
 		}
-		
+
 	}
 
 	@RequestMapping(value = "/updateImg")
@@ -324,7 +325,7 @@ public class MemberController {
 
 		return "redirect:/member/updateProfile";
 	}
-	
+
 //============================================================================================================
 
 	// 비밀번호변경 폼
