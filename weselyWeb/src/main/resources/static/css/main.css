@@ -9,6 +9,17 @@ a {
 
 /* === 👇 main 날씨카드 부분 === */
 
+.hello{
+	width: fit-content;
+	margin-right: 20px;	
+}
+
+.hello span {
+	color: #494b7c;
+	font-size: 18px;
+	user-select: none;
+}
+
 .weatherCard {
 	position: relative;
 	width: 100%;
