@@ -1,4 +1,5 @@
 <header>
+	<!--
 	<div class="logo">
 		<a href="/">
 			<img src="/images/weLogo.png" alt="Logo" />
@@ -9,34 +10,6 @@
 		<a href="/community/"><strong>커뮤니티</strong></a>
 		<a href="/"><strong>고객센터</strong></a>
 	</nav>
-
-<!--
-	헤더바 재작성중 !!!!!!!!!
-	<div class="header_top">
-		<th:block th:if="${session.mvo == null}">
-			<ul class="loginbar">
-				<li class="loginItem">
-					<a href="/member/login">로그인</a>
-				</li>
-				<li class="loginItem">
-					<a href="/member/join">회원가입</a>
-				</li>
-			</ul>
-		</th:block>
-
-		<th:block th:if="${session.mvo != null && session.mvo.authority == 'general'}">
-			<a href="/member/updateProfile">마이페이지</a>
-			<a href="/member/logout">로그아웃</a>
-		</th:block>
-
-		<th:block th:if="${session.mvo != null && session.mvo.authority == 'business'}">
-			<a href="/member/updateProfile">회원정보수정</a>
-			<a th:href="@{/store/view/b/{userId}(userId=${session.mvo.userid})}">매장관리</a>
-			<a href="/member/logout">로그아웃</a>
-		</th:block>
-	</div>
--->
-
 	<nav class="login">
 		<th:block th:if="${session.mvo == null}">
 			<a href="/member/login"><strong>로그인</strong></a>
@@ -54,4 +27,86 @@
 			<a href="/member/logout"><strong>로그아웃</strong></a>
 		</th:block>
 	</nav>
+-->
+
+
+	<div class="header_fixed">
+		<div class="header_top">
+			<div class="header_topItem">
+				<th:block th:if="${session.mvo == null}">
+					<ul class="loginbar">
+						<li class="loginItem">
+							<a href="/member/login">로그인</a>
+						</li>
+						<li class="loginItem">
+							<a href="/member/join">회원가입</a>
+						</li>
+						<li class="loginItem">
+							<a href="/">고객센터</a>
+						</li>
+					</ul>
+				</th:block>
+
+				<th:block th:if="${session.mvo != null && session.mvo.authority == 'general'}">
+					<ul class="loginbar">
+						<li class="loginItem">
+							<a href="/member/updateProfile">마이페이지</a>
+						</li>
+						<li class="loginItem">
+							<a href="/member/logout">로그아웃</a>
+						</li>
+						<li class="loginItem">
+							<a href="/">고객센터</a>
+						</li>
+					</ul>
+				</th:block>
+
+				<th:block th:if="${session.mvo != null && session.mvo.authority == 'business'}">
+					<ul class="loginbar">
+						<li class="loginItem">
+							<a href="/member/updateProfile">마이페이지</a>
+						</li>
+						<li class="loginItem">
+							<a th:href="@{/store/view/b/{userId}(userId=${session.mvo.userid})}">매장관리</a>
+						</li>
+						<li class="loginItem">
+							<a href="/member/logout">로그아웃</a>
+						</li>
+						<li class="loginItem">
+							<a href="/">고객센터</a>
+						</li>
+					</ul>
+				</th:block>
+			</div>
+		</div>
+
+		<div class="header_main">
+			<div class="header_mainItem">
+				<div class="logo">
+					<a href="/">
+						<img src="/images/weLogo.png" alt="Logo" />
+					</a>
+				</div>
+				<div class="center"></div>
+				<div class="right">
+					<ul class="headerbar">
+						<li class="headerItem">
+							<a href="/" class="main_link">HOME</a>
+						</li>
+						<li class="headerItem">
+							<a href="/store/" class="main_link">SEARCH</a>
+						</li>
+						<li class="headerItem">
+							<a href="/community/" class="main_link">COMMUNITY</a>
+						</li>
+					</ul>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
 </header>
