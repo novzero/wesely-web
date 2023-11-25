@@ -69,13 +69,16 @@
 
 				<!-- 날씨에 따른 인트로 문구 변경 -->
 				<div class="weatherItemBottom">
-					<div class="hello">
-						<th:block th:if="${session.mvo != null}">
-							<!-- 별명을 설정하지 않은 회원은 아이디로 표시된다. -->
-							[[${session.mvo.nickname}]] 님 환영합니다.
-						</th:block>
+					<div class="bottomtext">
+						<div class="hello">
+							<th:block th:if="${session.mvo != null}">
+								<!-- 별명을 설정하지 않은 회원은 아이디로 표시된다. -->
+								[[${session.mvo.nickname}]] 님 환영합니다.
+							</th:block>
+						</div>
+						<div class="introText"></div>
 					</div>
-					<div class="introText"></div>
+
 				</div>
 			</section>
 
@@ -184,8 +187,6 @@
 								</div>
 							</th:block>
 						</th:block>
-
-
 
 					</div>
 				</div>
